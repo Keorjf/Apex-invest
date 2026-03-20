@@ -227,7 +227,7 @@ async function handleRegister(e) {
     email, password,
     options: {
       data: { full_name: `${firstName} ${lastName}`, level: selectedLevel },
-      emailRedirectTo: window.location.origin + '/pages/login.html'
+      emailRedirectTo: window.location.origin + url('/pages/login.html')
     }
   });
 
@@ -256,7 +256,7 @@ async function handleRegister(e) {
 async function registerGoogle() {
   await db.auth.signInWithOAuth({
     provider: 'google',
-    options: { redirectTo: window.location.origin + '/app.html', queryParams: { access_type: 'offline' } }
+    options: { redirectTo: window.location.origin + url('/app.html'), queryParams: { access_type: 'offline' } }
   });
 }
 </script>

@@ -15,11 +15,13 @@ const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 // GitHub Pages : /NOM-REPO/pages/login.html  →  base = /NOM-REPO
 // Local / domaine perso : /pages/login.html  →  base = ''
 function basePath() {
-  const segs = window.location.pathname.split('/');
-  // Si on est dans /pages/, le segment avant est soit le repo soit ''
+  const segs = window.location.pathname.split('/').filter(Boolean);
   const pagesIdx = segs.indexOf('pages');
-  if (pagesIdx > 1) return '/' + segs.slice(1, pagesIdx).join('/');
-  return '';
+  if (pagesIdx >= 0) return pagesIdx > 0 ? '/' + segs.slice(0, pagesIdx).join('/') : '';
+  // Depuis index.html — le premier segment est le nom du repo GitHub Pages
+  const lastSeg = segs[segs.length - 1] || '';
+  const base = lastSeg.includes('.') ? segs.slice(0, -1) : segs;
+  return base.length > 0 ? '/' + base.join('/') : '';
 }
 const BASE = basePath();
 
