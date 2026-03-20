@@ -38,7 +38,7 @@ async function requireAuth() {
 }
 async function requireGuest() {
   const { data: { session } } = await db.auth.getSession();
-  if (session) redirect('/app.html');
+  if (session) redirect('/pages/onboarding.html');
 }
 
 // ── Profil utilisateur ────────────────────────────────────────────────────────
