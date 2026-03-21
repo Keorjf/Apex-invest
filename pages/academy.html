@@ -115,8 +115,8 @@ input{font-family:'JetBrains Mono','Courier New',monospace,monospace;}
 .lvl-opt.active{color:var(--g);background:var(--gd);}
 .lvl-opt-e{font-size:.85rem;}
 
-.xp-bar{position:fixed;top:46px;left:0;right:0;height:2px;background:var(--ln);z-index:199;}
-.xp-fill{height:100%;background:linear-gradient(to right,var(--b),var(--g));transition:width .6s ease;width:0%;}
+.xp-bar{display:none;}
+.xp-fill{display:none;}
 
 /* TAB CONTENT */
 .tab{display:none;padding-top:48px;}
@@ -264,13 +264,15 @@ input{font-family:'JetBrains Mono','Courier New',monospace,monospace;}
 .map-tag{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--g);margin-bottom:1rem;}
 .map-title{font-family:'Bungee','Arial Black',impact,sans-serif;font-size:2.2rem;letter-spacing:.02em;line-height:1;}
 .map-sub{font-size:.8rem;color:var(--soft);margin-top:.3rem;}
-.track-blk{margin-bottom:3.5rem;}
-.track-hdr{display:flex;align-items:center;gap:.6rem;margin-bottom:2.2rem;}
+.track-blk{margin-bottom:5rem;}
+.track-hdr{display:flex;align-items:center;gap:.6rem;margin-bottom:.8rem;}
+.track-progress{height:3px;background:var(--ln2);border-radius:2px;overflow:hidden;margin-bottom:2rem;}
+.track-progress-fill{height:100%;background:linear-gradient(to right,var(--y),var(--g));border-radius:2px;transition:width .5s ease;}
 .track-emo{font-size:1.1rem;}
 .track-nm{font-family:'Bungee','Arial Black',impact,sans-serif;font-size:1.05rem;letter-spacing:.03em;}
 .track-dsc{font-size:.68rem;color:var(--muted);}
 .track-pg{margin-left:auto;font-size:.66rem;color:var(--g);}
-.lesson-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,260px));gap:1.5rem;justify-content:center;}
+.lesson-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,260px));gap:1rem;justify-content:center;}
 .lc{background:var(--bg2);border:1px solid var(--ln);border-radius:9px;padding:.85rem;cursor:pointer;transition:.22s;position:relative;overflow:hidden;}
 .lc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--g);transform:scaleX(0);transform-origin:left;transition:.3s;}
 .lc:hover{border-color:rgba(255,205,13,.26);transform:translateY(-2px);}
@@ -2415,11 +2417,13 @@ function showLessonMap(){
     </div>`;
   tracks.forEach(track=>{
     const doneTr=track.lessons.filter(l=>S.done.has(l.id)).length;
+    const pct=track.lessons.length?Math.round(doneTr/track.lessons.length*100):0;
     html+=`<div class="track-blk">
       <div class="track-hdr">
         <div style="flex:1"><div class="track-nm">${track.track.replace(/^\S+\s/,'')}</div></div>
         <span class="track-pg">${doneTr}/${track.lessons.length}</span>
       </div>
+      <div class="track-progress"><div class="track-progress-fill" style="width:${pct}%"></div></div>
       <div class="lesson-grid">
         ${track.lessons.map(l=>`
           <div class="lc${S.done.has(l.id)?' done':''}" onclick="openLesson('${l.id}')">
