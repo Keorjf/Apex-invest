@@ -288,21 +288,42 @@ input{font-family:'JetBrains Mono','Courier New',monospace,monospace;}
 .cc-mult{font-size:.65rem;color:var(--o);margin-left:.3rem;}
 .cc-btns{display:flex;gap:.7rem;justify-content:center;flex-wrap:wrap;}
 
-/* MAP */
-.lesson-map{padding:1.8rem 2.5rem;width:100%;max-width:1100px;margin:0 auto;}
-.map-hero{margin-bottom:3.5rem;text-align:left;}
-.map-tag{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--g);margin-bottom:1rem;}
-.map-title{font-family:'Bungee','Arial Black',impact,sans-serif;font-size:2.2rem;letter-spacing:.02em;line-height:1;}
+/* MAP / PARCOURS */
+.lesson-map{padding:1.8rem 2.5rem;width:100%;max-width:900px;margin:0 auto;}
+.map-hero{margin-bottom:2.5rem;text-align:center;}
+.map-title{font-family:'Bungee','Arial Black',impact,sans-serif;font-size:2rem;letter-spacing:.02em;line-height:1;}
 .map-sub{font-size:.8rem;color:var(--soft);margin-top:.3rem;}
-.track-blk{margin-bottom:5rem;}
-.track-hdr{display:flex;align-items:center;gap:.6rem;margin-bottom:.8rem;}
-.track-progress{height:3px;background:var(--ln2);border-radius:2px;overflow:hidden;margin-bottom:2rem;}
+
+/* PARCOURS — path layout */
+.parcours{display:flex;flex-direction:column;align-items:center;gap:0;position:relative;}
+.parcours::before{content:'';position:absolute;top:0;bottom:0;left:50%;width:2px;background:linear-gradient(to bottom,var(--y),rgba(78,194,218,.3));transform:translateX(-50%);z-index:0;}
+.parcours-step{width:100%;display:flex;align-items:flex-start;gap:1.2rem;position:relative;z-index:1;margin-bottom:0;}
+.parcours-step:nth-child(odd){flex-direction:row;}
+.parcours-step:nth-child(even){flex-direction:row-reverse;}
+.parcours-node{flex-shrink:0;width:64px;height:64px;border-radius:50%;border:3px solid var(--g);background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:1.6rem;position:relative;cursor:pointer;transition:.22s;box-shadow:0 0 0 6px rgba(255,205,13,.08);}
+.parcours-node.done{background:rgba(255,205,13,.15);border-color:var(--g);box-shadow:0 0 0 6px rgba(255,205,13,.15),0 0 20px rgba(255,205,13,.2);}
+.parcours-node.locked{border-color:var(--ln2);opacity:.5;}
+.parcours-node:hover:not(.locked){transform:scale(1.1);box-shadow:0 0 0 8px rgba(255,205,13,.2);}
+.parcours-connector{width:2px;height:48px;background:linear-gradient(to bottom,rgba(255,205,13,.4),rgba(78,194,218,.3));margin:0 auto;flex-shrink:0;}
+
+/* TRACK CARD */
+.track-card{flex:1;background:var(--bg2);border:1px solid var(--ln);border-radius:12px;padding:1rem 1.2rem;cursor:pointer;transition:.2s;max-width:calc(50% - 80px);}
+.track-card:hover{border-color:rgba(255,205,13,.3);background:var(--bg3);}
+.track-card.done{border-color:rgba(255,205,13,.2);}
+.track-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem;}
+.track-nm{font-family:'Bungee','Arial Black',impact,sans-serif;font-size:.9rem;letter-spacing:.02em;line-height:1.2;}
+.track-pg{font-size:.62rem;color:var(--g);font-family:'JetBrains Mono',monospace;}
+.track-progress{height:3px;background:var(--ln2);border-radius:2px;overflow:hidden;margin-bottom:.7rem;}
 .track-progress-fill{height:100%;background:linear-gradient(to right,var(--y),var(--g));border-radius:2px;transition:width .5s ease;}
-.track-emo{font-size:1.1rem;filter:sepia(1) hue-rotate(5deg) saturate(3) brightness(1.1);}
-.track-nm{font-family:'Bungee','Arial Black',impact,sans-serif;font-size:1.05rem;letter-spacing:.03em;}
-.track-dsc{font-size:.68rem;color:var(--muted);}
-.track-pg{margin-left:auto;font-size:.66rem;color:var(--g);}
+/* LESSONS INSIDE TRACK */
+.track-lessons{display:none;margin-top:.8rem;border-top:1px solid var(--ln);padding-top:.8rem;}
+.track-lessons.open{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.6rem;}
+.parcours-step-wrap{display:flex;flex-direction:column;align-items:center;width:100%;}
+
+/* keep old lc cards */
 .lesson-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,260px));gap:1rem;justify-content:center;}
+.track-emo{font-size:1.1rem;filter:sepia(1) hue-rotate(5deg) saturate(3) brightness(1.1);}
+.track-dsc{font-size:.68rem;color:var(--muted);}
 .lc{background:var(--bg2);border:1px solid var(--ln);border-radius:9px;padding:.85rem;cursor:pointer;transition:.22s;position:relative;overflow:hidden;}
 .lc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--g);transform:scaleX(0);transform-origin:left;transition:.3s;}
 .lc:hover{border-color:rgba(255,205,13,.26);transform:translateY(-2px);}
@@ -2515,6 +2536,14 @@ function toggleSidebarTrack(id, btn){
 }
 
 /* ══ LEARN MAP ══ */
+function toggleTrack(id){
+  const panel=document.getElementById(id);if(!panel)return;
+  const isOpen=panel.classList.contains('open');
+  // close all
+  document.querySelectorAll('.track-lessons.open').forEach(p=>p.classList.remove('open'));
+  if(!isOpen)panel.classList.add('open');
+}
+
 function showLessonMap(){
   S.currentLesson=null;buildLearnSidebar();
   const tracks=LESSONS[S.level]||[];
@@ -2522,28 +2551,46 @@ function showLessonMap(){
   const doneCount=all.filter(l=>S.done.has(l.id)).length;
   let html=`<div class="lesson-map">
     <div class="map-hero">
-      <div class="map-title">Choisissez une leçon</div>
-    </div>`;
-  tracks.forEach(track=>{
+      <div class="map-title">TON PARCOURS</div>
+    </div>
+    <div class="parcours">`;
+
+  tracks.forEach((track,idx)=>{
     const doneTr=track.lessons.filter(l=>S.done.has(l.id)).length;
     const pct=track.lessons.length?Math.round(doneTr/track.lessons.length*100):0;
-    html+=`<div class="track-blk">
-      <div class="track-hdr">
-        <div style="flex:1"><div class="track-nm">${track.track.replace(/^\S+\s/,'')}</div></div>
-        <span class="track-pg">${doneTr}/${track.lessons.length}</span>
+    const allDone=doneTr===track.lessons.length&&track.lessons.length>0;
+    const emo=track.track.match(/^\S+/)?.[0]||'📚';
+    const name=track.track.replace(/^\S+\s/,'');
+    const tid=`track_${idx}`;
+
+    const lessonsHtml=track.lessons.map(l=>`
+      <div class="lc${S.done.has(l.id)?' done':''}" onclick="openLesson('${l.id}')">
+        ${S.done.has(l.id)?'<div class="lc-check">✓</div>':''}
+        <span class="lc-e">${l.e}</span>
+        <div class="lc-n">${l.n}</div>
+      </div>`).join('');
+
+    html+=`<div class="parcours-step-wrap">
+      <div class="parcours-step">
+        <div class="parcours-node${allDone?' done':''}" onclick="toggleTrack('${tid}','${emo}',${idx})" title="${name}">${emo}</div>
+        <div class="track-card${allDone?' done':''}" onclick="toggleTrack('${tid}','${emo}',${idx})">
+          <div class="track-card-top">
+            <div class="track-nm">${name}</div>
+            <span class="track-pg">${doneTr}/${track.lessons.length}</span>
+          </div>
+          <div class="track-progress"><div class="track-progress-fill" style="width:${pct}%"></div></div>
+        </div>
       </div>
-      <div class="track-progress"><div class="track-progress-fill" style="width:${pct}%"></div></div>
-      <div class="lesson-grid">
-        ${track.lessons.map(l=>`
-          <div class="lc${S.done.has(l.id)?' done':''}" onclick="openLesson('${l.id}')">
-            ${S.done.has(l.id)?'<div class="lc-check">✓</div>':''}
-            <span class="lc-e">${l.e}</span>
-            <div class="lc-n">${l.n}</div>
-          </div>`).join('')}
+      <div class="track-lessons" id="${tid}">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.6rem;">
+          ${lessonsHtml}
+        </div>
       </div>
+      ${idx<tracks.length-1?'<div class="parcours-connector"></div>':''}
     </div>`;
   });
-  html+='</div>';
+
+  html+=`</div></div>`;
   el('learnMain').innerHTML=html;
 }
 
