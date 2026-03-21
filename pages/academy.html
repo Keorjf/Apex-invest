@@ -125,13 +125,22 @@ input{font-family:'JetBrains Mono','Courier New',monospace,monospace;}
 /* ═══════════════════════════════════
    LEARN TAB
 ═══════════════════════════════════ */
-.learn-layout{display:grid;grid-template-columns:210px 1fr;min-height:calc(100vh - 48px);}
-.learn-sidebar{border-right:1px solid var(--ln);padding:1rem 0;position:sticky;top:48px;height:calc(100vh - 48px);overflow-y:auto;}
+.learn-layout{display:grid;grid-template-columns:0px 1fr;min-height:calc(100vh - 48px);transition:grid-template-columns .3s ease;}
+.learn-layout.sidebar-open{grid-template-columns:280px 1fr;}
+.learn-sidebar{border-right:1px solid var(--ln);padding:1rem 0;position:sticky;top:48px;height:calc(100vh - 48px);overflow-y:auto;overflow-x:hidden;width:280px;transform:translateX(-100%);transition:transform .3s ease;}
+.learn-layout.sidebar-open .learn-sidebar{transform:translateX(0);}
+.sidebar-toggle{position:fixed;top:58px;left:8px;z-index:198;background:var(--bg3);border:1px solid var(--ln2);border-radius:6px;padding:.3rem .55rem;cursor:pointer;font-size:.75rem;color:var(--muted);transition:all .2s;}
+.sidebar-toggle:hover{color:var(--txt);border-color:var(--g);}
 .ls-section{font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);padding:.3rem .9rem .6rem;}
-.ls-track{margin-bottom:.3rem;}
-.ls-th{display:flex;align-items:center;gap:.45rem;padding:.42rem .9rem;font-size:.76rem;font-weight:700;color:var(--soft);cursor:pointer;}
+.ls-track{margin-bottom:0;border-bottom:1px solid var(--ln);}
+.ls-th{display:flex;align-items:center;gap:.45rem;padding:.65rem .9rem;font-size:.75rem;font-weight:400;color:var(--txt);cursor:pointer;border-radius:5px;transition:background .15s;line-height:1.4;font-family:'DotGothic16',sans-serif;}
+.ls-th:hover{background:rgba(255,255,255,.04);color:var(--txt);}
+.ls-lessons{display:none;}
+.ls-lessons.open{display:block;}
+.ls-th-arrow{margin-left:auto;font-size:.55rem;color:var(--muted);transition:transform .2s;}
+.ls-th.open .ls-th-arrow{transform:rotate(180deg);}
 .ls-th-e{font-size:.85rem;}
-.ls-th-pg{margin-left:auto;font-size:.58rem;color:var(--g);}
+.ls-th-pg{margin-left:auto;font-size:.62rem;color:var(--g);white-space:nowrap;padding-left:.4rem;}
 .ls-l{display:flex;align-items:center;gap:.55rem;padding:.35rem .9rem .35rem 1.7rem;font-size:.7rem;color:var(--muted);cursor:pointer;transition:.15s;border-left:2px solid transparent;}
 .ls-l:hover{color:var(--txt);background:rgba(255,255,255,.03);}
 .ls-l.active{color:var(--g);border-left-color:var(--g);background:var(--gd);}
@@ -139,7 +148,7 @@ input{font-family:'JetBrains Mono','Courier New',monospace,monospace;}
 .ls-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.1);flex-shrink:0;}
 .ls-l.done .ls-dot,.ls-l.active .ls-dot{background:var(--g);}
 .ls-l.active .ls-dot{box-shadow:0 0 5px var(--g);}
-.ls-lname{flex:1;line-height:1.3;}
+.ls-lname{flex:1;line-height:1.3;font-family:'JetBrains Mono','Courier New',monospace;}
 .ls-r{font-size:.56rem;color:var(--y);display:flex;align-items:center;gap:.15rem;}
 
 /* STREAK BADGE */
@@ -172,10 +181,10 @@ input{font-family:'JetBrains Mono','Courier New',monospace,monospace;}
 .mw-done-tag{font-size:.6rem;color:var(--g);flex-shrink:0;}
 
 /* LEARN MAIN */
-.learn-main{padding:2rem 2.5rem;max-width:720px;}
+.learn-main{padding:0;width:100%;display:flex;flex-direction:column;align-items:center;}
 
 /* LESSON HEADER */
-.lh-breadcrumb{font-size:.6rem;color:var(--muted);margin-bottom:.5rem;letter-spacing:.04em;}
+.lh-breadcrumb{font-size:.6rem;color:var(--muted);margin-bottom:.5rem;letter-spacing:.04em;font-family:'JetBrains Mono','Courier New',monospace;}
 .lh-tag{display:inline-flex;align-items:center;gap:.3rem;background:var(--gd);border:1px solid rgba(255,205,13,.2);padding:.18rem .65rem;border-radius:100px;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--g);margin-bottom:.5rem;}
 .lh-title{font-family:'Bungee','Arial Black',impact,sans-serif;font-size:2.2rem;letter-spacing:.02em;line-height:1;margin-bottom:.4rem;}
 .lh-meta{display:flex;align-items:center;gap:.9rem;font-size:.68rem;color:var(--muted);}
@@ -183,23 +192,23 @@ input{font-family:'JetBrains Mono','Courier New',monospace,monospace;}
 .lh-mult{color:var(--o);font-size:.65rem;}
 
 /* CONTENT BLOCKS */
-.block{margin-bottom:.9rem;border-radius:7px;overflow:hidden;}
-.b-hook{background:linear-gradient(135deg,rgba(255,205,13,.12),rgba(77,158,255,.04));border:1px solid rgba(255,205,13,.24);padding:1.1rem 1.3rem;}
-.b-hook .emo{font-size:1.6rem;margin-bottom:.4rem;display:block;}
-.b-hook p{font-size:.88rem;line-height:1.65;font-weight:500;}
+.block{margin-bottom:.55rem;border-radius:7px;overflow:hidden;}
+.b-hook{background:linear-gradient(135deg,rgba(255,205,13,.12),rgba(77,158,255,.04));border:1px solid rgba(255,205,13,.24);padding:.7rem .9rem;}
+.b-hook .emo{font-size:1.2rem;margin-bottom:.25rem;display:block;}
+.b-hook p{font-size:.82rem;line-height:1.55;font-weight:500;font-family:'JetBrains Mono','Courier New',monospace;}
 .b-hook strong{color:var(--g);}
-.b-content{background:var(--bg2);border:1px solid var(--ln);padding:1.1rem 1.3rem;}
-.b-content p{font-size:.82rem;line-height:1.8;color:var(--soft);}
+.b-content{background:var(--bg2);border:1px solid var(--ln);padding:.7rem .9rem;}
+.b-content p{font-size:.78rem;line-height:1.7;color:var(--soft);font-family:'JetBrains Mono','Courier New',monospace;}
 .b-content strong{color:var(--txt);font-weight:700;}
 .b-content em{color:var(--g);font-style:normal;font-weight:600;}
-.b-tip{background:var(--yd);border:1px solid rgba(78,194,218,.16);padding:.9rem 1.1rem;display:flex;gap:.7rem;align-items:flex-start;}
+.b-tip{background:var(--yd);border:1px solid rgba(78,194,218,.16);padding:.6rem .9rem;display:flex;gap:.6rem;align-items:flex-start;}
 .b-tip-icon{font-size:1.1rem;flex-shrink:0;}
 .b-tip-lbl{font-size:.56rem;letter-spacing:.13em;text-transform:uppercase;color:var(--y);margin-bottom:.2rem;}
-.b-tip-txt{font-size:.76rem;line-height:1.6;color:var(--soft);}
+.b-tip-txt{font-size:.76rem;line-height:1.6;color:var(--soft);font-family:'JetBrains Mono','Courier New',monospace;}
 .b-tip-txt strong{color:var(--y);}
 .b-info{background:var(--bd);border:1px solid rgba(77,158,255,.16);padding:.9rem 1.1rem;display:flex;gap:.7rem;align-items:flex-start;}
 .b-info-lbl{font-size:.56rem;letter-spacing:.13em;text-transform:uppercase;color:var(--b);margin-bottom:.2rem;}
-.b-info-txt{font-size:.76rem;line-height:1.6;color:var(--soft);}
+.b-info-txt{font-size:.76rem;line-height:1.6;color:var(--soft);font-family:'JetBrains Mono','Courier New',monospace;}
 .b-info-txt strong{color:var(--b);}
 .b-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:.6rem;}
 .bstat{background:var(--bg3);border:1px solid var(--ln);border-radius:7px;padding:.8rem;text-align:center;}
@@ -209,12 +218,12 @@ input{font-family:'JetBrains Mono','Courier New',monospace,monospace;}
 .b-real{background:var(--bg3);border:1px solid var(--ln);border-radius:7px;overflow:hidden;}
 .b-real-head{display:flex;align-items:center;gap:.4rem;padding:.5rem .9rem;background:rgba(255,255,255,.03);border-bottom:1px solid var(--ln);font-size:.6rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);}
 .b-real-dot{width:5px;height:5px;border-radius:50%;background:var(--g);}
-.b-real-body{padding:.9rem;font-size:.79rem;line-height:1.7;color:var(--soft);}
+.b-real-body{padding:.9rem;font-size:.79rem;line-height:1.7;color:var(--soft);font-family:'JetBrains Mono','Courier New',monospace;}
 .b-real-body strong{color:var(--txt);}
 .b-real-body em{color:var(--g);font-style:normal;}
-.b-trap{background:linear-gradient(135deg,rgba(255,59,92,.06),rgba(255,122,0,.04));border:1px solid rgba(255,59,92,.2);padding:1rem 1.2rem;}
+.b-trap{background:linear-gradient(135deg,rgba(255,59,92,.06),rgba(255,122,0,.04));border:1px solid rgba(255,59,92,.2);padding:.65rem .9rem;}
 .b-trap-lbl{font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--r);margin-bottom:.3rem;display:flex;align-items:center;gap:.3rem;}
-.b-trap p{font-size:.8rem;line-height:1.65;color:var(--soft);}
+.b-trap p{font-size:.8rem;line-height:1.65;color:var(--soft);font-family:'JetBrains Mono','Courier New',monospace;}
 
 /* QUIZ */
 .quiz-card{background:var(--bg2);border:1px solid rgba(255,205,13,.2);border-radius:9px;overflow:hidden;margin-top:1.4rem;}
@@ -250,18 +259,18 @@ input{font-family:'JetBrains Mono','Courier New',monospace,monospace;}
 .cc-btns{display:flex;gap:.7rem;justify-content:center;flex-wrap:wrap;}
 
 /* MAP */
-.lesson-map{padding:1.8rem 2.5rem;max-width:1100px;margin:0 auto;width:100%;}
-.map-hero{margin-bottom:2rem;text-align:left;}
+.lesson-map{padding:1.8rem 2.5rem;width:100%;max-width:1100px;margin:0 auto;}
+.map-hero{margin-bottom:3.5rem;text-align:left;}
 .map-tag{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--g);margin-bottom:1rem;}
 .map-title{font-family:'Bungee','Arial Black',impact,sans-serif;font-size:2.2rem;letter-spacing:.02em;line-height:1;}
 .map-sub{font-size:.8rem;color:var(--soft);margin-top:.3rem;}
-.track-blk{margin-bottom:1.8rem;}
-.track-hdr{display:flex;align-items:center;gap:.6rem;margin-bottom:.7rem;}
+.track-blk{margin-bottom:3.5rem;}
+.track-hdr{display:flex;align-items:center;gap:.6rem;margin-bottom:2.2rem;}
 .track-emo{font-size:1.1rem;}
 .track-nm{font-family:'Bungee','Arial Black',impact,sans-serif;font-size:1.05rem;letter-spacing:.03em;}
 .track-dsc{font-size:.68rem;color:var(--muted);}
 .track-pg{margin-left:auto;font-size:.66rem;color:var(--g);}
-.lesson-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,220px));gap:.75rem;justify-content:center;}
+.lesson-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,260px));gap:1.5rem;justify-content:center;}
 .lc{background:var(--bg2);border:1px solid var(--ln);border-radius:9px;padding:.85rem;cursor:pointer;transition:.22s;position:relative;overflow:hidden;}
 .lc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--g);transform:scaleX(0);transform-origin:left;transition:.3s;}
 .lc:hover{border-color:rgba(255,205,13,.26);transform:translateY(-2px);}
@@ -811,18 +820,20 @@ table.assets th{font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;co
 ═══════════════════════════════════ -->
 <div id="app">
   <nav class="topbar">
+    <button class="tb-btn" id="sidebarToggle" onclick="toggleSidebar()" style="font-size:.85rem;padding:.28rem .6rem;">☰</button>
+    <div class="tb-sep"></div>
     <span class="tb-brand">TACTIC</span>
     <div class="tb-sep"></div>
-    <button class="tb-btn active" id="navLearn"    onclick="switchTab('learn')">📚 Apprendre</button>
-    <button class="tb-btn" id="navMarket" onclick="switchTab('market')">📊 Marchés</button>
-    <button class="tb-btn" id="navMissions" onclick="switchTab('missions')">🎯 Missions</button>
-    <button class="tb-btn" id="navJournal" onclick="switchTab('journal')">📓 Journal</button>
-    <button class="tb-btn" id="navCorpus"  onclick="switchTab('corpus')">🧠 Corpus</button>
-    <button class="tb-btn" id="navProfil"  onclick="switchTab('profil')">👤 Profils</button>
+    <button class="tb-btn active" id="navLearn"    onclick="switchTab('learn')">Apprendre</button>
+    <button class="tb-btn" id="navMarket" onclick="switchTab('market')">Marchés</button>
+    <button class="tb-btn" id="navMissions" onclick="switchTab('missions')">Missions</button>
+    <button class="tb-btn" id="navJournal" onclick="switchTab('journal')">Journal</button>
+    <button class="tb-btn" id="navCorpus"  onclick="switchTab('corpus')" style="display:none">🧠 Corpus</button>
+    <button class="tb-btn" id="navProfil"  onclick="switchTab('profil')">Profils</button>
     <div class="tb-spacer"></div>
-    <div class="tb-streak" id="tbStreak" style="display:none">🔥 <span id="tbStreakDays">0</span></div>
+    <div class="tb-streak" id="tbStreak" style="display:none"></div>
     <div class="tb-wallet" id="tbWallet">🪙 500</div>
-    <div class="tb-xp" id="tbXP">⚡ 0 XP</div>
+    <div class="tb-xp" id="tbXP" style="display:none">⚡ 0 XP</div>
     <div class="tb-lvl" id="tbLvl" onclick="toggleLvlMenu(event)">
       <span id="tbLvlLabel">Débutant</span> ▾
       <div class="lvl-dropdown" id="lvlMenu">
@@ -837,8 +848,9 @@ table.assets th{font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;co
   <div class="xp-bar"><div class="xp-fill" id="xpFill"></div></div>
 
   <!-- LEARN -->
+
   <div class="tab active" id="tabLearn">
-    <div class="learn-layout">
+    <div class="learn-layout" id="learnLayout">
       <aside class="learn-sidebar" id="learnSidebar"></aside>
       <div class="learn-main" id="learnMain"></div>
     </div>
@@ -1811,6 +1823,142 @@ Intermédiaire: [
 
 ] // fin Intermédiaire
 
+,
+
+// ══════════════════════════════════════════════════════════════
+// 🔴 AVANCÉ — 8 leçons
+// ══════════════════════════════════════════════════════════════
+'Avancé': [
+
+  { track: '⚙️ Options & Dérivés', lessons: [
+
+    { id:'av1', e:'🎯', n:'Les options : calls, puts, strike & premium', t:'2 min', coins:200, xp:150, tag:'Options', blocks:[
+      { type:'hook', emo:'⚙️', text:'<strong>Une option, c\'est le droit — pas l\'obligation — d\'acheter ou vendre un actif à un prix fixé d\'avance.</strong> Tu paies une prime pour ce droit. Si le marché va dans ton sens, tu exerces. Sinon, tu perds juste la prime.' },
+      { type:'content', text:'<strong>Call</strong> = droit d\'acheter (tu parles à la hausse).<br><strong>Put</strong> = droit de vendre (tu te protèges ou tu parles à la baisse).<br><strong>Strike</strong> = prix d\'exercice fixé au contrat.<br><strong>Premium</strong> = ce que tu paies pour acheter l\'option.<br><strong>Expiration</strong> = date limite pour exercer ton droit.' },
+      { type:'tip', text:'<strong>Levier implicite :</strong> une option sur 100 actions coûte une fraction du prix de 100 actions. Gain potentiel élevé, perte limitée à la prime payée (pour l\'acheteur). Jamais de levier sans comprendre les Grecs.' }
+    ], quiz:{ q:'Que risque maximum un acheteur de call ?', opts:['La totalité de son capital','La prime payée uniquement','Le prix du sous-jacent','Rien si le marché monte'], correct:1, expl:'L\'acheteur d\'option <strong>ne peut perdre que la prime versée</strong>. Sa perte est donc plafonnée, contrairement au vendeur d\'option.' } },
+
+    { id:'av2', e:'🧮', n:'Les Grecs : Delta, Gamma, Theta, Vega', t:'2 min', coins:200, xp:150, tag:'Options', blocks:[
+      { type:'hook', emo:'🧮', text:'<strong>Les Grecs mesurent la sensibilité d\'une option à différents facteurs.</strong> Sans eux, tu trades à l\'aveugle. Avec eux, tu gères réellement ton risque.' },
+      { type:'content', text:'<strong>Delta (Δ)</strong> : variation du prix de l\'option pour +1€ sur le sous-jacent (0 à 1 pour un call).<br><strong>Gamma (Γ)</strong> : vitesse de variation du Delta. Élevé près du strike à l\'expiration.<br><strong>Theta (Θ)</strong> : perte de valeur temps chaque jour. L\'ennemi de l\'acheteur, l\'ami du vendeur.<br><strong>Vega (V)</strong> : sensibilité à la volatilité implicite. Une hausse de vol fait monter les primes.' },
+      { type:'trap', text:'<strong>Erreur classique :</strong> acheter des options à forte volatilité implicite. Si la vol redescend après (vol crush), l\'option perd de la valeur même si le sous-jacent va dans ton sens.' }
+    ], quiz:{ q:'Un Theta de -0,05 signifie :', opts:['L\'option gagne 5 cents par jour','L\'option perd 5 cents de valeur temps par jour','Le Delta varie de 0,05','La volatilité importe pour 5%'], correct:1, expl:'<strong>Theta = décroissance temporelle.</strong> Chaque jour qui passe, l\'option perd de la valeur temps. Theta est négatif pour les acheteurs.' } },
+
+    { id:'av3', e:'🛡️', n:'Stratégies : covered call, protective put, straddle', t:'2 min', coins:200, xp:150, tag:'Options', blocks:[
+      { type:'hook', emo:'🛡️', text:'<strong>Combiner options et actions ouvre des stratégies impossibles avec les actions seules</strong> : encaisser des revenus sur un portefeuille, se protéger d\'une chute, parier sur la volatilité sans direction.' },
+      { type:'content', text:'<strong>Covered Call</strong> : tu détiens l\'action + tu vends un call. Tu encaisses la prime, tu plafonnes ton upside.<br><strong>Protective Put</strong> : tu détiens l\'action + tu achètes un put. Assurance contre la chute.<br><strong>Straddle</strong> : tu achètes call + put même strike. Tu gagnes si le sous-jacent bouge fortement dans n\'importe quelle direction.<br><strong>Iron Condor</strong> : range défini, tu collectes des primes si le prix reste dans la fourchette.' },
+      { type:'tip', text:'Le <strong>covered call</strong> est la stratégie d\'options la plus utilisée par les investisseurs long terme pour générer des revenus complémentaires sur leur portefeuille.' }
+    ], quiz:{ q:'Un straddle est profitable quand :', opts:['Le marché monte uniquement','Le marché baisse uniquement','Le marché bouge fortement dans n\'importe quelle direction','Le marché reste stable'], correct:2, expl:'Le straddle (achat call + put même strike) <strong>bénéficie d\'une forte volatilité réalisée</strong>, quelle que soit la direction. On perd si le marché reste dans un range étroit.' } }
+
+  ]},
+
+  { track: '📊 Factor Investing', lessons: [
+
+    { id:'av4', e:'📊', n:'Les facteurs : Value, Momentum, Quality, Low Vol', t:'2 min', coins:200, xp:150, tag:'Factor', blocks:[
+      { type:'hook', emo:'📊', text:'<strong>Depuis les années 90, la recherche académique a identifié des "facteurs" qui expliquent la surperformance de certaines actions sur le long terme.</strong> Ce n\'est pas de la magie — c\'est de la prime de risque systématique.' },
+      { type:'content', text:'<strong>Value</strong> : acheter des actions bon marché (P/B, P/E faibles). Prime liée au risque de détresse.<br><strong>Momentum</strong> : les gagnants récents continuent de surperformer à court terme (3-12 mois).<br><strong>Quality</strong> : entreprises à forte rentabilité, faible dette, stable.<br><strong>Low Volatility</strong> : paradoxalement, les actions peu volatiles surperforment ajustées du risque.<br><strong>Size</strong> : les petites caps surperforment les grandes sur le long terme.' },
+      { type:'real', head:'Données académiques', body:'Fama & French ont montré que <em>Value et Size</em> expliquaient une grande partie de la surperformance historique. <strong>AQR Capital</strong> gère plus de 100Md$ en factor investing.' }
+    ], quiz:{ q:'Le facteur Momentum se base sur :', opts:['Les bénéfices futurs estimés','La performance passée récente (3-12 mois)','Le ratio P/E','La volatilité historique'], correct:1, expl:'<strong>Momentum = performance passée récente.</strong> Les actions ayant surperformé sur 3 à 12 mois ont tendance à continuer de surperformer à court terme.' } },
+
+    { id:'av5', e:'🔄', n:'Smart Beta : les ETF factoriels', t:'2 min', coins:200, xp:150, tag:'Factor', blocks:[
+      { type:'hook', emo:'🔄', text:'<strong>Les ETF Smart Beta te permettent d\'accéder aux primes de facteurs à faible coût</strong>, sans construire ton propre modèle quantitatif. Un mix entre gestion passive et gestion active systématique.' },
+      { type:'content', text:'<strong>Exemple concret :</strong><br>ETF MSCI World Quality → sélectionne les entreprises les plus profitables dans chaque pays.<br>ETF Momentum Europe → tourne son portefeuille tous les 6 mois pour garder les meilleurs performers.<br>ETF Minimum Volatility → réduit les drawdowns par rapport au MSCI World classique.' },
+      { type:'tip', text:'<strong>Attention au factor timing :</strong> aucun facteur ne surperforme en permanence. Value a sous-performé 10 ans. La diversification multi-facteurs (Quality + Momentum + Low Vol) lisse les cycles.' }
+    ], quiz:{ q:'Un ETF Smart Beta diffère d\'un ETF classique car :', opts:['Il est géré activement par un gérant','Il suit un indice pondéré par des facteurs, pas par la capitalisation','Il est plus cher qu\'un fonds actif','Il n\'existe que sur les marchés US'], correct:1, expl:'<strong>Smart Beta = règles systématiques basées sur des facteurs</strong> (value, quality…) plutôt que pondération par capitalisation. Coût intermédiaire entre ETF classique et fonds actif.' } }
+
+  ]},
+
+  { track: '📉 Analyse Technique Avancée', lessons: [
+
+    { id:'av6', e:'📉', n:'Support, résistance et niveaux de Fibonacci', t:'2 min', coins:200, xp:150, tag:'AT', blocks:[
+      { type:'hook', emo:'📉', text:'<strong>Les niveaux de prix où beaucoup d\'acheteurs ou vendeurs sont actifs créent des zones clés sur le graphique.</strong> Pas de magie — juste la psychologie collective des traders.' },
+      { type:'content', text:'<strong>Support</strong> : niveau où l\'offre se tarit et la demande reprend. Rebond historique. Si cassé, devient résistance.<br><strong>Résistance</strong> : niveau où les vendeurs dominent. Si cassé (breakout), devient support.<br><strong>Fibonacci</strong> : retracements à 23.6%, 38.2%, 50%, 61.8%, 78.6%. Zones de réaction dans une tendance. Utilisés en combinaison avec d\'autres signaux.' },
+      { type:'trap', text:'<strong>Erreur :</strong> trader les niveaux Fibonacci seuls. Ils sont auto-réalisateurs uniquement si assez de participants les regardent. Toujours confirmer avec volume et structure de marché.' }
+    ], quiz:{ q:'Un support cassé devient généralement :', opts:['Un nouveau support plus fort','Une résistance','Un signal d\'achat','Insignifiant'], correct:1, expl:'Principe de <strong>polarité des niveaux</strong> : un support cassé se transforme en résistance car les anciens acheteurs bloqués veulent sortir au prix d\'entrée.' } },
+
+    { id:'av7', e:'🌊', n:'Vagues d\'Elliott et cycles de marché', t:'2 min', coins:200, xp:150, tag:'AT', blocks:[
+      { type:'hook', emo:'🌊', text:'<strong>Ralph Nelson Elliott a observé dans les années 30 que les marchés se déplacent selon des vagues fractales répétitives</strong>, reflet de la psychologie humaine collective. Difficile à maîtriser, puissant quand bien utilisé.' },
+      { type:'content', text:'<strong>Structure de base :</strong> 5 vagues impulsives dans la direction de la tendance (1-2-3-4-5), suivies de 3 vagues correctives (A-B-C).<br>La vague 3 est généralement la plus longue et la plus puissante.<br>La vague 4 ne retrace jamais dans le territoire de la vague 1.<br>Applications : identifier dans quelle phase du cycle on se trouve pour calibrer son exposition.' },
+      { type:'tip', text:'<strong>Usage pratique :</strong> les traders Elliott combinent cette analyse avec les niveaux Fibonacci pour estimer des cibles de prix et des zones de retournement. La subjectivité reste le principal défaut de la méthode.' }
+    ], quiz:{ q:'Dans la théorie des vagues d\'Elliott, combien de vagues composent une impulsion complète ?', opts:['3 vagues','5 vagues impulsives + 3 correctives','7 vagues','Ça dépend du timeframe'], correct:1, expl:'<strong>5 vagues impulsives (1-2-3-4-5)</strong> dans la direction de la tendance, puis <strong>3 vagues correctives (A-B-C)</strong>. Soit 8 vagues au total pour un cycle complet.' } },
+
+    { id:'av8', e:'💹', n:'Orderflow, carnet d\'ordres et tape reading', t:'2 min', coins:200, xp:150, tag:'Orderflow', blocks:[
+      { type:'hook', emo:'💹', text:'<strong>L\'analyse technique classique regarde le passé. L\'orderflow regarde l\'intention en temps réel</strong> : qui achète, qui vend, à quelle quantité, et avec quelle agressivité.' },
+      { type:'content', text:'<strong>Carnet d\'ordres (DOM)</strong> : affiche les ordres limites en attente à chaque niveau de prix. Les "murs" d\'ordres signalent des zones défendues.<br><strong>Tape / Time & Sales</strong> : flux chronologique de toutes les transactions. Grosses transactions = acteurs institutionnels.<br><strong>Imbalances</strong> : zones où acheteurs ou vendeurs dominent massivement. Souvent revisitées.<br><strong>Volume Profile</strong> : distribution du volume par niveau de prix. Le POC (Point of Control) est le niveau le plus échangé.' },
+      { type:'real', head:'Utilisé par les pros', body:'Les traders institutionnels et <em>market makers</em> lisent l\'orderflow en permanence. <strong>Sur les marchés à terme</strong> (CME, Euronext), cette information est publique et accessible.' }
+    ], quiz:{ q:'Le POC (Point of Control) dans un Volume Profile représente :', opts:['Le point le plus haut du graphique','Le niveau de prix le plus échangé sur la période','Le premier ordre du carnet','Le prix d\'ouverture de session'], correct:1, expl:'<strong>POC = niveau avec le plus grand volume échangé.</strong> Il représente la zone de "valeur perçue" par les participants. Les prix ont tendance à y revenir.' } }
+
+  ]}
+
+], // fin Avancé
+
+// ══════════════════════════════════════════════════════════════
+// 🏛️ EXPERT CFA/AMF — 8 leçons
+// ══════════════════════════════════════════════════════════════
+'Expert CFA/AMF': [
+
+  { track: '🏛️ Risk Management Institutionnel', lessons: [
+
+    { id:'ex1', e:'📐', n:'VaR, CVaR et mesures de risque avancées', t:'3 min', coins:250, xp:200, tag:'Risk', blocks:[
+      { type:'hook', emo:'📐', text:'<strong>La Value at Risk (VaR) répond à une question précise : combien puis-je perdre au maximum avec X% de probabilité sur N jours ?</strong> C\'est le langage universel du risk management institutionnel.' },
+      { type:'content', text:'<strong>VaR 95% à 1 jour</strong> : perte maximale sur 1 jour avec 95% de confiance. Exemple : VaR de 1M€ → on perd plus de 1M€ seulement 5% des jours de trading.<br><strong>CVaR (Expected Shortfall)</strong> : espérance de perte dans le pire cas (5% restants). Meilleure mesure pour les queues de distribution.<br><strong>Méthodes de calcul :</strong> historique (simule le passé), variance-covariance (hypothèse gaussienne), Monte Carlo (simulations aléatoires).' },
+      { type:'trap', text:'<strong>Limite fatale de la VaR :</strong> elle suppose souvent une distribution normale. Les crises financières (2008, 2020) produisent des "black swans" que la VaR gaussienne sous-estime massivement. Basel III impose la CVaR.' }
+    ], quiz:{ q:'La CVaR (Expected Shortfall) est préférée à la VaR car :', opts:['Elle est plus simple à calculer','Elle capture la perte attendue dans les scénarios extrêmes dépassant la VaR','Elle est imposée par l\'AMF','Elle ignore les queues de distribution'], correct:1, expl:'<strong>CVaR = espérance conditionnelle de perte</strong> au-delà du seuil VaR. Elle mesure "combien on perd en moyenne dans les pires cas", là où la VaR dit juste "à partir de quand".' } },
+
+    { id:'ex2', e:'⚖️', n:'Bâle III : ratio CET1, LCR et NSFR', t:'3 min', coins:250, xp:200, tag:'Régulation', blocks:[
+      { type:'hook', emo:'⚖️', text:'<strong>Bâle III est le cadre réglementaire mondial qui définit combien de capital une banque doit détenir face à ses risques.</strong> Né après 2008, il a fondamentalement changé le système bancaire international.' },
+      { type:'content', text:'<strong>CET1 (Common Equity Tier 1)</strong> : capital de la meilleure qualité (actions ordinaires + bénéfices non distribués). Minimum : 4.5% des actifs pondérés du risque. Avec le coussin de conservation : 7%.<br><strong>LCR (Liquidity Coverage Ratio)</strong> : actifs liquides de haute qualité ≥ sorties nettes sur 30 jours de stress. Minimum : 100%.<br><strong>NSFR (Net Stable Funding Ratio)</strong> : financement stable disponible ≥ financement stable requis sur 1 an.' },
+      { type:'real', head:'Impact marché', body:'Les exigences Bâle III ont <em>réduit la liquidité obligataire</em> en contraignant les banques à moins tenir de titres en inventaire. <strong>Le bid-ask spread sur certaines obligations corporate s\'est élargi</strong> depuis 2013.' }
+    ], quiz:{ q:'Le ratio LCR mesure :', opts:['La rentabilité des fonds propres','La capacité à survivre 30 jours de stress de liquidité','Le levier total de la banque','La proportion de prêts non performants'], correct:1, expl:'<strong>LCR = Liquidity Coverage Ratio.</strong> Il impose qu\'une banque détienne suffisamment d\'actifs liquides pour couvrir ses sorties nettes de trésorerie pendant 30 jours de stress.' } },
+
+    { id:'ex3', e:'🔄', n:'Gestion ALM : actif-passif et immunisation', t:'3 min', coins:250, xp:200, tag:'ALM', blocks:[
+      { type:'hook', emo:'🔄', text:'<strong>L\'ALM (Asset-Liability Management) consiste à aligner la structure des actifs d\'une institution sur ses engagements futurs</strong>, en contrôlant le risque de taux, de liquidité et de durée.' },
+      { type:'content', text:'<strong>Duration matching</strong> : aligner la duration des actifs sur celle des passifs pour neutraliser le risque de taux.<br><strong>Immunisation</strong> : construire un portefeuille dont la valeur est insensible aux petits chocs de taux (duration + convexité).<br><strong>Cash Flow Matching</strong> : dédier des flux obligataires spécifiques à chaque échéance de passif (utilisé par les fonds de pension).<br><strong>Surplus ALM</strong> : gérer la différence Actifs - Passifs comme un portefeuille à optimiser.' },
+      { type:'tip', text:'Les <strong>fonds de pension</strong> et assureurs utilisent l\'ALM pour gérer des passifs à 30-50 ans. Un choc de taux de +100bp peut réduire la valeur d\'un passif de pension de 15-20%.' }
+    ], quiz:{ q:'L\'immunisation d\'un portefeuille obligataire vise à :', opts:['Maximiser le rendement','Rendre la valeur du portefeuille insensible aux variations de taux','Éliminer tout risque de crédit','Maximiser la duration'], correct:1, expl:'<strong>Immunisation = neutralisation du risque de taux</strong> en alignant duration et convexité des actifs sur les passifs. La valeur du portefeuille reste stable malgré les mouvements de taux.' } }
+
+  ]},
+
+  { track: '📈 Finance de Marché Avancée', lessons: [
+
+    { id:'ex4', e:'🔬', n:'Modèles de pricing : Black-Scholes et ses limites', t:'3 min', coins:250, xp:200, tag:'Pricing', blocks:[
+      { type:'hook', emo:'🔬', text:'<strong>Black-Scholes (1973) a révolutionné la finance en donnant une formule fermée pour valoriser les options européennes.</strong> Prix Nobel 1997. Encore utilisé partout — mais tout le monde connaît ses limites.' },
+      { type:'content', text:'<strong>Formule BS</strong> : C = S·N(d1) - K·e^(-rT)·N(d2)<br><strong>Hypothèses :</strong> volatilité constante, distribution log-normale des prix, marchés continus sans friction, taux sans risque constant, pas de dividendes.<br><strong>Le smile de volatilité :</strong> en pratique, la vol implicite varie selon le strike (plus élevée pour les puts OTM). BS ne l\'explique pas → modèles stochastiques de vol (Heston, SABR).' },
+      { type:'real', head:'Utilisation pratique', body:'Les traders utilisent BS pour calculer la <em>volatilité implicite</em> à partir des prix de marché des options. <strong>Cette vol implicite est le vrai prix d\'une option</strong> — le modèle sert d\'outil de conversion.' }
+    ], quiz:{ q:'Le "smile de volatilité" révèle que Black-Scholes :', opts:['Surestime toujours le prix des options','Suppose incorrectement une volatilité constante pour tous les strikes','Ne fonctionne que pour les options américaines','Calcule mal le Delta'], correct:1, expl:'<strong>Le smile montre que la vol implicite varie selon les strikes</strong>, contrairement à l\'hypothèse BS de vol constante. Les puts OTM ont typiquement une vol implicite plus élevée → skew négatif.' } },
+
+    { id:'ex5', e:'🏦', n:'Structured products : CDO, MBS et produits dérivés complexes', t:'3 min', coins:250, xp:200, tag:'Structured', blocks:[
+      { type:'hook', emo:'🏦', text:'<strong>La crise de 2008 a montré comment des produits structurés complexes peuvent concentrer et amplifier le risque systémique.</strong> Les comprendre, c\'est comprendre la mécanique des crises modernes.' },
+      { type:'content', text:'<strong>MBS (Mortgage-Backed Securities)</strong> : titrisation de prêts immobiliers en obligations. Risque de prépaiement inclus.<br><strong>CDO (Collateralized Debt Obligation)</strong> : découpage d\'un pool de dettes en tranches (Senior AAA, Mezzanine, Equity). La tranche senior est remboursée en premier.<br><strong>CDS (Credit Default Swap)</strong> : assurance contre le défaut d\'un émetteur. Acheteur paie une prime, reçoit le nominal en cas de défaut.' },
+      { type:'trap', text:'<strong>Corrélation sous-estimée en 2008 :</strong> les CDO étaient notés AAA en supposant une faible corrélation entre les défauts immobiliers. Quand la crise a frappé tous les marchés simultanément, la corrélation est montée à 1 et les modèles ont explosé.' }
+    ], quiz:{ q:'Dans un CDO, quelle tranche supporte les premières pertes ?', opts:['La tranche Senior (AAA)','La tranche Mezzanine','La tranche Equity (First Loss)','Toutes les tranches également'], correct:2, expl:'<strong>Tranche Equity = First Loss.</strong> Elle absorbe les premières pertes du pool. En échange, elle offre le rendement le plus élevé. La tranche Senior est la dernière touchée.' } },
+
+    { id:'ex6', e:'🌍', n:'Macro-économie pour investisseurs : cycles et allocation', t:'3 min', coins:250, xp:200, tag:'Macro', blocks:[
+      { type:'hook', emo:'🌍', text:'<strong>Les grands cycles économiques déterminent quelles classes d\'actifs surperforment.</strong> Comprendre le cycle, c\'est savoir où allouer avant les autres.' },
+      { type:'content', text:'<strong>Cycle économique en 4 phases :</strong><br>1. <strong>Expansion</strong> : actions (cycliques, émergents), matières premières.<br>2. <strong>Pic</strong> : matières premières, TIPS, commodities.<br>3. <strong>Contraction</strong> : obligations souveraines, or, défensives.<br>4. <strong>Creux / Relance</strong> : actions growth, immobilier, high yield.<br><strong>Indicateurs clés :</strong> ISM Manufacturing PMI, yield curve (2s10s), crédit spreads.' },
+      { type:'real', head:'Bridgewater All Weather', body:'Ray Dalio a construit le fonds <em>All Weather</em> en pondérant les actifs par leur <strong>contribution au risque</strong> dans chaque phase du cycle : 30% actions, 40% obligations long terme, 15% obligations intermédiaires, 7.5% or, 7.5% commodities.' }
+    ], quiz:{ q:'En phase de contraction économique, quels actifs surperforment généralement ?', opts:['Actions cycliques et émergents','Obligations souveraines et or','Matières premières et immobilier','Small caps et high yield'], correct:1, expl:'<strong>Phase de contraction</strong> = fuite vers la sécurité. <strong>Obligations souveraines</strong> (baisse des taux anticipée) et <strong>or</strong> (valeur refuge) surperforment. Les actions cycliques et le high yield souffrent.' } }
+
+  ]},
+
+  { track: '📋 Préparation CFA/AMF', lessons: [
+
+    { id:'ex7', e:'📋', n:'Code éthique CFA : Normes et Standards', t:'3 min', coins:250, xp:200, tag:'CFA', blocks:[
+      { type:'hook', emo:'📋', text:'<strong>Le CFA Institute impose un Code Éthique et des Normes Professionnelles que tout analyste CFA doit respecter.</strong> C\'est le socle de la confiance dans l\'industrie financière.' },
+      { type:'content', text:'<strong>7 Standards principaux :</strong><br>I. Professionnalisme (diligence, communication honnête).<br>II. Intégrité des marchés (pas d\'information privilégiée).<br>III. Devoirs envers clients (loyauté, priorité client).<br>IV. Devoirs envers employeurs.<br>V. Analyse et recommandations (base raisonnable).<br>VI. Conflits d\'intérêts (divulgation).<br>VII. Responsabilités CFA Member.' },
+      { type:'tip', text:'<strong>Pour l\'examen AMF :</strong> connaître les règles de déontologie financière françaises (abus de marché, manipulation de cours, insider trading) et les sanctions AMF (jusqu\'à 100M€ ou 10x le profit réalisé).' }
+    ], quiz:{ q:'Selon les Standards CFA, que doit faire un analyste qui reçoit une information non publique sur une entreprise ?', opts:['L\'utiliser rapidement avant les autres','S\'abstenir de trader et contacter le compliance officer','La partager avec ses clients sélectionnés','L\'ignorer et continuer normalement'], correct:1, expl:'<strong>Information non publique = mur chinois.</strong> L\'analyste doit s\'abstenir de toute transaction et consulter son département compliance. Utiliser cette information constitue un délit d\'initié.' } },
+
+    { id:'ex8', e:'🎯', n:'Construction de portefeuille CFA niveau III', t:'3 min', coins:250, xp:200, tag:'CFA', blocks:[
+      { type:'hook', emo:'🎯', text:'<strong>Le niveau III du CFA se concentre sur la gestion de portefeuille et la planification patrimoniale.</strong> C\'est l\'aboutissement : transformer toutes les connaissances en décisions d\'allocation concrètes.' },
+      { type:'content', text:'<strong>IPS (Investment Policy Statement)</strong> : document définissant les objectifs (rendement, risque) et contraintes (liquidité, horizon, fiscalité, réglementaire, spécifique) du client.<br><strong>Processus d\'allocation :</strong><br>1. Définir l\'IPS<br>2. Allocation stratégique (SAA) long terme<br>3. Allocation tactique (TAA) court terme<br>4. Sélection des véhicules (ETF, fonds, titres vifs)<br>5. Rééquilibrage périodique<br>6. Évaluation de la performance (GIPS).' },
+      { type:'real', head:'GIPS (Global Investment Performance Standards)', body:'Les standards GIPS imposent des règles précises de calcul et de présentation des performances. <strong>Utilisés par les gérants institutionnels pour comparer les performances</strong> de façon équitable et transparente.' }
+    ], quiz:{ q:'L\'IPS (Investment Policy Statement) définit principalement :', opts:['La liste des actions à acheter','Les objectifs et contraintes du portefeuille client','La performance historique du gérant','L\'allocation tactique court terme'], correct:1, expl:'<strong>L\'IPS est la pierre angulaire de la gestion de portefeuille CFA.</strong> Il formalise les objectifs de rendement et de risque, ainsi que toutes les contraintes (liquidité, horizon, fiscalité, spécificités) du client.' } }
+
+  ]}
+
+] // fin Expert CFA/AMF
+
 }; // fin LESSONS
 // ═══ LEÇONS SUPPLÉMENTAIRES — 38 leçons pour atteindre 100 ═══
 
@@ -2221,24 +2369,38 @@ function startClock(){
 function buildLearnSidebar(){
   const tracks=LESSONS[S.level]||[];
   let html='<div class="ls-section">Parcours '+S.level+'</div>';
-  tracks.forEach(track=>{
+  tracks.forEach((track,i)=>{
     const done=track.lessons.filter(l=>S.done.has(l.id)).length;
+    const isOpen=track.lessons.some(l=>S.currentLesson&&S.currentLesson.id===l.id);
+    const trackId='ls-track-'+i;
+    const name=track.track.replace(/^\S+\s/,'');
     html+=`<div class="ls-track">
-      <div class="ls-th">
-        <span class="ls-th-e">${track.track.split(' ')[0]}</span>
-        <span style="flex:1;font-size:.72rem">${track.track.replace(/^\S+\s/,'')}</span>
-        <span class="ls-th-pg">${done}/${track.lessons.length}</span>
+      <div class="ls-th${isOpen?' open':''}" onclick="toggleSidebarTrack('${trackId}',this)">
+        <span style="flex:1;font-size:.72rem">${name}</span>
+        <span class="ls-th-arrow">▼</span>
       </div>
-      ${track.lessons.map(l=>`
-        <div class="ls-l${S.currentLesson&&S.currentLesson.id===l.id?' active':''}${S.done.has(l.id)?' done':''}"
-             onclick="openLesson('${l.id}')">
-          <span class="ls-dot"></span>
-          <span class="ls-lname">${l.e} ${l.n}</span>
-          <span class="ls-r">🪙${l.coins}</span>
-        </div>`).join('')}
+      <div class="ls-lessons${isOpen?' open':''}" id="${trackId}">
+        ${track.lessons.map(l=>`
+          <div class="ls-l${S.currentLesson&&S.currentLesson.id===l.id?' active':''}${S.done.has(l.id)?' done':''}"
+               onclick="openLesson('${l.id}')">
+            <span class="ls-dot"></span>
+            <span class="ls-lname">${l.n}</span>
+          </div>`).join('')}
+      </div>
     </div>`;
   });
   el('learnSidebar').innerHTML=html;
+}
+function toggleSidebar(){
+  const layout = el('learnLayout');
+  const btn = el('sidebarToggle');
+  const open = layout.classList.toggle('sidebar-open');
+  btn.textContent = open ? '✕' : '☰';
+}
+function toggleSidebarTrack(id, btn){
+  const panel=document.getElementById(id);
+  const isOpen=panel.classList.toggle('open');
+  btn.classList.toggle('open', isOpen);
 }
 
 /* ══ LEARN MAP ══ */
@@ -2249,14 +2411,12 @@ function showLessonMap(){
   const doneCount=all.filter(l=>S.done.has(l.id)).length;
   let html=`<div class="lesson-map">
     <div class="map-hero">
-      <div class="map-tag">Niveau ${S.level}</div>
       <div class="map-title">Choisissez une leçon</div>
     </div>`;
   tracks.forEach(track=>{
     const doneTr=track.lessons.filter(l=>S.done.has(l.id)).length;
     html+=`<div class="track-blk">
       <div class="track-hdr">
-        <span class="track-emo">${track.track.split(' ')[0]}</span>
         <div style="flex:1"><div class="track-nm">${track.track.replace(/^\S+\s/,'')}</div></div>
         <span class="track-pg">${doneTr}/${track.lessons.length}</span>
       </div>
@@ -2299,14 +2459,11 @@ function openLesson(id){
   const q=lesson.quiz;
   const doneAlready=S.done.has(lesson.id);
   el('learnMain').innerHTML=`
-    <div style="padding:1.5rem 2rem 4rem">
+    <div style="padding:1.5rem 2rem 4rem;max-width:760px;margin:0 auto;width:100%">
       <button class="btn-ghost" onclick="showLessonMap()" style="margin-bottom:1rem;padding:.4rem .9rem;font-size:.72rem">← Carte</button>
       <div class="lh-tag">🏷️ ${lesson.tag}</div>
       <div class="lh-title">${lesson.e} ${lesson.n}</div>
       <div class="lh-meta">
-        <span>⏱ ${lesson.t}</span>
-        <span style="color:var(--y)">🪙 ${coins}${mult>1?` <span style="color:var(--o);font-size:.65rem">×${mult} 🔥</span>`:''}</span>
-        <span>⚡ ${lesson.xp} XP</span>
         ${doneAlready?'<span style="color:var(--g)">✓ Déjà complétée</span>':''}
       </div>
       <div style="margin:1.2rem 0">${blocks}</div>
