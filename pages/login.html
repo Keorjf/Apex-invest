@@ -1,26 +1,26 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>APEX Invest — Connexion</title>
+<title>TACTIC Academy — Connexion</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Press+Start+2P&family=DotGothic16&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#06060F;--bg2:#0D0D1F;--bg3:#12122A;
-  --g:#00FF88;--gd:rgba(0,255,136,.08);
-  --r:#FF3B5C;--y:#FFB020;--b:#4D9EFF;
-  --txt:#F0F0FF;--soft:#B0B0D0;--muted:#5A5A7A;
-  --ln:rgba(255,255,255,.07);--ln2:rgba(255,255,255,.12);
+  --bg:    #0F2E3D;--bg2:   #20556A;--bg3:   #1D6881;
+  --g:     #FFCD0D;--gd:    rgba(255,205,13,.1);
+  --r:#FF3B5C;--y:     #4EC2DA;--b:#4D9EFF;
+  --txt:   #EEFCFD;--soft:rgba(213,244,248,.75);--muted: rgba(175,232,242,.5);
+  --ln:    rgba(255,255,255,.07);--ln2:   rgba(255,255,255,.13);
 }
-html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif}
+html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DotGothic16',sans-serif}
 
 /* BG ANIMATED */
-.bg-grid{position:fixed;inset:0;background-image:linear-gradient(rgba(0,255,136,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,136,.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
-.bg-glow{position:fixed;width:600px;height:600px;background:radial-gradient(circle,rgba(0,255,136,.06) 0%,transparent 70%);top:-200px;left:50%;transform:translateX(-50%);pointer-events:none;animation:pulse 6s ease-in-out infinite}
+.bg-grid{position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
+.bg-glow{position:fixed;width:600px;height:600px;background:radial-gradient(circle,rgba(255,205,13,.12) 0%,transparent 70%);top:-200px;left:50%;transform:translateX(-50%);pointer-events:none;animation:pulse 6s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:.6;transform:translateX(-50%) scale(1)}50%{opacity:1;transform:translateX(-50%) scale(1.1)}}
 @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -30,8 +30,8 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
 
 /* BRAND */
 .brand{display:flex;align-items:center;gap:.6rem;margin-bottom:2.5rem;animation:rise .5s both}
-.brand-logo{width:36px;height:36px;background:var(--g);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue';font-size:1.1rem;color:#000;letter-spacing:.05em}
-.brand-name{font-family:'Bebas Neue';font-size:1.6rem;letter-spacing:.12em;color:var(--g)}
+.brand-logo{width:36px;height:36px;background:var(--g);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Bungee';font-size:1.1rem;color:#000;letter-spacing:.05em}
+.brand-name{font-family:'Bungee';font-size:1.6rem;letter-spacing:.12em;color:var(--g)}
 .brand-tag{font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-left:.2rem}
 
 /* CARD */
@@ -42,9 +42,9 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
   border-radius:16px;
   padding:2.2rem;
   animation:rise .5s .1s both;
-  box-shadow:0 0 60px rgba(0,255,136,.04),0 24px 48px rgba(0,0,0,.5);
+  box-shadow:0 0 60px rgba(255,205,13,.08),0 24px 48px rgba(0,0,0,.5);
 }
-.card-title{font-family:'Bebas Neue';font-size:2rem;letter-spacing:.06em;margin-bottom:.25rem}
+.card-title{font-family:'Bungee';font-size:2rem;letter-spacing:.06em;margin-bottom:.25rem}
 .card-sub{font-size:.78rem;color:var(--muted);margin-bottom:1.8rem;line-height:1.5}
 
 /* FORM */
@@ -54,10 +54,10 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
   width:100%;padding:.75rem 1rem;
   background:var(--bg3);border:1px solid var(--ln2);
   border-radius:8px;color:var(--txt);
-  font-family:'DM Sans';font-size:.88rem;
+  font-family:'DotGothic16';font-size:.88rem;
   transition:border-color .2s,box-shadow .2s;outline:none;
 }
-.field input:focus{border-color:rgba(0,255,136,.4);box-shadow:0 0 0 3px rgba(0,255,136,.08)}
+.field input:focus{border-color:rgba(255,205,13,.5);box-shadow:0 0 0 3px rgba(255,205,13,.14)}
 .field input::placeholder{color:var(--muted)}
 .field-row{display:flex;gap:.7rem}
 .field-row .field{flex:1}
@@ -72,14 +72,14 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
 .btn-submit{
   width:100%;padding:.9rem;margin-top:.5rem;
   background:var(--g);color:#000;
-  font-family:'DM Sans';font-weight:700;font-size:.92rem;letter-spacing:.04em;
+  font-family:'DotGothic16';font-weight:700;font-size:.92rem;letter-spacing:.04em;
   border:none;border-radius:8px;cursor:pointer;
   transition:opacity .2s,transform .15s;
   display:flex;align-items:center;justify-content:center;gap:.6rem;
 }
 .btn-submit:hover:not(:disabled){opacity:.9;transform:translateY(-1px)}
 .btn-submit:disabled{opacity:.5;cursor:not-allowed}
-.btn-spinner{width:16px;height:16px;border:2px solid rgba(0,0,0,.2);border-top:2px solid #000;border-radius:50%;animation:spin .7s linear infinite;display:none}
+.btn-spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.1);border-top:2px solid #000;border-radius:50%;animation:spin .7s linear infinite;display:none}
 .btn-submit.loading .btn-spinner{display:block}
 .btn-submit.loading .btn-text{display:none}
 
@@ -92,17 +92,17 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
   width:100%;padding:.75rem;
   background:var(--bg3);border:1px solid var(--ln2);
   border-radius:8px;color:var(--txt);
-  font-family:'DM Sans';font-size:.85rem;font-weight:500;
+  font-family:'DotGothic16';font-size:.85rem;font-weight:500;
   cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.6rem;
   transition:border-color .2s,background .2s;
 }
-.btn-oauth:hover{border-color:var(--ln2);background:rgba(255,255,255,.04)}
+.btn-oauth:hover{border-color:var(--ln2);background:rgba(255,255,255,.06)}
 .oauth-icon{width:18px;height:18px}
 
 /* MESSAGES */
 .msg{padding:.75rem 1rem;border-radius:8px;font-size:.8rem;margin-bottom:1rem;display:none;line-height:1.5}
 .msg.error{background:rgba(255,59,92,.12);border:1px solid rgba(255,59,92,.3);color:#FF6B84}
-.msg.success{background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.2);color:var(--g)}
+.msg.success{background:rgba(255,205,13,.14);border:1px solid rgba(255,205,13,.28);color:var(--g)}
 
 /* LINKS */
 .form-links{margin-top:1.3rem;text-align:center;font-size:.75rem;color:var(--muted)}
@@ -136,9 +136,9 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
 
 <div class="page">
   <div class="brand">
-    <div class="brand-logo">AX</div>
+    <div class="brand-logo">TA</div>
     <div>
-      <div class="brand-name">APEX<span style="color:var(--txt)"> INVEST</span></div>
+      <div class="brand-name">TACTIC<span style="color:var(--txt)"> ACADEMY</span></div>
       <div class="brand-tag">Simulateur Éducatif</div>
     </div>
   </div>
@@ -180,6 +180,10 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
       Continuer avec Google
     </button>
 
+    <button class="btn-oauth" onclick="demoAccess()" style="margin-top:.5rem;border-color:rgba(255,205,13,.28);color:var(--g)">
+      ⚡ Accès démo instantané (sans compte)
+    </button>
+
     <div class="form-links">
       Pas encore de compte ?<span class="sep">·</span><a href="register.html">Créer un compte</a>
     </div>
@@ -187,16 +191,30 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans
 
   <div class="page-footer">
     <a href="terms.html">CGU</a> &nbsp;·&nbsp; <a href="#">Confidentialité</a> &nbsp;·&nbsp; <a href="#">Contact</a>
-    <br><span style="margin-top:.4rem;display:block">© 2025 APEX Invest — Simulateur éducatif. Aucun investissement réel.</span>
+    <br><span style="margin-top:.4rem;display:block">© 2025 TACTIC Academy — Simulateur éducatif. Aucun investissement réel.</span>
   </div>
 </div>
 
 <div class="ticker-bar"><div class="ticker-inner" id="tick"></div></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="auth-helper.js"></script>
+<script src="auth-helper.js?v=4"></script>
 <script>
-requireGuest(); // Redirige vers /app.html si déjà connecté
+if(typeof withTimeout==='undefined'){
+  const LS='apex_session';
+  window.withTimeout=(p,ms=5000)=>Promise.race([p,new Promise((_,r)=>setTimeout(()=>r(new Error('TIMEOUT')),ms))]);
+  window.lsSetSession=d=>localStorage.setItem(LS,JSON.stringify(d));
+  window.lsGetSession=()=>{try{return JSON.parse(localStorage.getItem(LS));}catch{return null;}};
+  window.lsClearSession=()=>localStorage.removeItem(LS);
+  window.url=p=>p;
+  window.redirect=p=>{ window.location.href=p; };
+  window.translateError=m=>m||'Erreur';
+  window.db=null;
+  window.showError=m=>{const el=document.getElementById('error-msg');if(el){el.textContent=m;el.style.display='block';setTimeout(()=>el.style.display='none',7000);}};
+  window.showSuccess=m=>{const el=document.getElementById('success-msg');if(el){el.innerHTML=m;el.style.display='block';}};
+  window.requireGuest=()=>{ if(lsGetSession()) redirect('/pages/academy.html'); };
+}
+requireGuest();
 
 // Ticker
 (()=>{
@@ -223,26 +241,40 @@ async function handleLogin(e) {
   const email = document.getElementById('email').value.trim();
   const password = document.getElementById('password').value;
 
-  const { data, error } = await db.auth.signInWithPassword({ email, password });
-
-  btn.classList.remove('loading'); btn.disabled = false;
-
-  if (error) {
-    const msgs = {
-      'Invalid login credentials': 'Email ou mot de passe incorrect.',
-      'Email not confirmed': 'Confirme ton email avant de te connecter.',
-      'Too many requests': 'Trop de tentatives. Attends quelques minutes.',
-    };
-    showError(msgs[error.message] || error.message);
-    return;
+  // Tentative Supabase avec timeout de 6 secondes
+  if (db) {
+    try {
+      const { data, error } = await withTimeout(db.auth.signInWithPassword({ email, password }), 6000);
+      btn.classList.remove('loading'); btn.disabled = false;
+      if (error) { showError(translateError(error.message)); return; }
+      lsSetSession({ id: data.user.id, email: data.user.email });
+      redirect('/pages/academy.html');
+      return;
+    } catch (err) {
+      if (err.message !== 'TIMEOUT') {
+        btn.classList.remove('loading'); btn.disabled = false;
+        showError('Erreur : ' + err.message);
+        return;
+      }
+      // Timeout → fallback localStorage
+    }
   }
-  redirect('/pages/onboarding.html');
+
+  // Fallback : authentification locale (mode démo / Supabase inaccessible)
+  btn.classList.remove('loading'); btn.disabled = false;
+  lsSetSession({ email, id: 'local_' + Date.now(), demo: true });
+  redirect('/pages/academy.html');
+}
+
+function demoAccess() {
+  lsSetSession({ email: 'demo@apex.local', id: 'demo', demo: true });
+  redirect('/pages/academy.html');
 }
 
 async function loginGoogle() {
   await db.auth.signInWithOAuth({
     provider: 'google',
-    options: { redirectTo: window.location.origin + url('/pages/onboarding.html') }
+    options: { redirectTo: window.location.origin + url('/pages/academy.html') }
   });
 }
 </script>

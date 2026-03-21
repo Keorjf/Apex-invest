@@ -1,31 +1,31 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>APEX Invest — Créer un compte</title>
+<title>TACTIC Academy — Créer un compte</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Press+Start+2P&family=DotGothic16&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#06060F;--bg2:#0D0D1F;--bg3:#12122A;--g:#00FF88;--gd:rgba(0,255,136,.08);--r:#FF3B5C;--y:#FFB020;--b:#4D9EFF;--txt:#F0F0FF;--soft:#B0B0D0;--muted:#5A5A7A;--ln:rgba(255,255,255,.07);--ln2:rgba(255,255,255,.12)}
-html,body{min-height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif}
-.bg-grid{position:fixed;inset:0;background-image:linear-gradient(rgba(0,255,136,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,136,.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
+:root{--bg:    #0F2E3D;--bg2:   #20556A;--bg3:   #1D6881;--g:     #FFCD0D;--gd:    rgba(255,205,13,.1);--r:#FF3B5C;--y:     #4EC2DA;--b:#4D9EFF;--txt:   #EEFCFD;--soft:rgba(213,244,248,.75);--muted: rgba(175,232,242,.5);--ln:    rgba(255,255,255,.07);--ln2:   rgba(255,255,255,.13)}
+html,body{min-height:100%;background:var(--bg);color:var(--txt);font-family:'DotGothic16',sans-serif}
+.bg-grid{position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
 .bg-glow{position:fixed;width:600px;height:600px;background:radial-gradient(circle,rgba(77,158,255,.05) 0%,transparent 70%);top:-150px;right:-100px;pointer-events:none}
 @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 @keyframes spin{to{transform:rotate(360deg)}}
 .page{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1.5rem 4rem;position:relative;z-index:1}
 .brand{display:flex;align-items:center;gap:.6rem;margin-bottom:2rem;animation:rise .5s both}
-.brand-logo{width:36px;height:36px;background:var(--g);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue';font-size:1.1rem;color:#000}
-.brand-name{font-family:'Bebas Neue';font-size:1.6rem;letter-spacing:.12em;color:var(--g)}
+.brand-logo{width:36px;height:36px;background:var(--g);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Bungee';font-size:1.1rem;color:#000}
+.brand-name{font-family:'Bungee';font-size:1.6rem;letter-spacing:.12em;color:var(--g)}
 .brand-tag{font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-left:.2rem}
 .form-card{width:100%;max-width:460px;background:var(--bg2);border:1px solid var(--ln2);border-radius:16px;padding:2.2rem;animation:rise .5s .1s both;box-shadow:0 0 60px rgba(77,158,255,.04),0 24px 48px rgba(0,0,0,.5)}
-.card-title{font-family:'Bebas Neue';font-size:2rem;letter-spacing:.06em;margin-bottom:.25rem}
+.card-title{font-family:'Bungee';font-size:2rem;letter-spacing:.06em;margin-bottom:.25rem}
 .card-sub{font-size:.78rem;color:var(--muted);margin-bottom:1.8rem;line-height:1.5}
 .field{margin-bottom:1rem}
 .field label{display:block;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem;font-weight:600}
-.field input{width:100%;padding:.75rem 1rem;background:var(--bg3);border:1px solid var(--ln2);border-radius:8px;color:var(--txt);font-family:'DM Sans';font-size:.88rem;transition:border-color .2s,box-shadow .2s;outline:none}
-.field input:focus{border-color:rgba(0,255,136,.4);box-shadow:0 0 0 3px rgba(0,255,136,.08)}
+.field input{width:100%;padding:.75rem 1rem;background:var(--bg3);border:1px solid var(--ln2);border-radius:8px;color:var(--txt);font-family:'DotGothic16';font-size:.88rem;transition:border-color .2s,box-shadow .2s;outline:none}
+.field input:focus{border-color:rgba(255,205,13,.5);box-shadow:0 0 0 3px rgba(255,205,13,.14)}
 .field input::placeholder{color:var(--muted)}
 .field input.invalid{border-color:rgba(255,59,92,.5)}
 .field-row{display:flex;gap:.7rem}.field-row .field{flex:1}
@@ -41,30 +41,30 @@ html,body{min-height:100%;background:var(--bg);color:var(--txt);font-family:'DM 
 /* Level selector */
 .level-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:1rem}
 .level-card{padding:.65rem .8rem;background:var(--bg3);border:1px solid var(--ln2);border-radius:8px;cursor:pointer;transition:border-color .2s,background .2s;text-align:left}
-.level-card:hover{border-color:rgba(0,255,136,.3);background:rgba(0,255,136,.04)}
-.level-card.selected{border-color:var(--g);background:var(--gd);box-shadow:0 0 0 1px rgba(0,255,136,.2)}
+.level-card:hover{border-color:rgba(255,205,13,.38);background:rgba(255,205,13,.08)}
+.level-card.selected{border-color:var(--g);background:var(--gd);box-shadow:0 0 0 1px rgba(255,205,13,.28)}
 .level-card input{display:none}
 .lc-title{font-size:.78rem;font-weight:700;margin-bottom:.15rem}
 .lc-sub{font-size:.62rem;color:var(--muted)}
 /* CGU */
-.cgu-row{display:flex;align-items:flex-start;gap:.7rem;margin-bottom:1.2rem;padding:.9rem;background:rgba(255,255,255,.02);border:1px solid var(--ln);border-radius:8px}
+.cgu-row{display:flex;align-items:flex-start;gap:.7rem;margin-bottom:1.2rem;padding:.9rem;background:rgba(255,255,255,.03);border:1px solid var(--ln);border-radius:8px}
 .cgu-row input[type=checkbox]{width:16px;height:16px;min-width:16px;margin-top:.15rem;accent-color:var(--g);cursor:pointer}
 .cgu-row label{font-size:.75rem;color:var(--soft);line-height:1.6;cursor:pointer}
 .cgu-row a{color:var(--g);text-decoration:none}
 .cgu-row a:hover{text-decoration:underline}
-.btn-submit{width:100%;padding:.9rem;background:var(--g);color:#000;font-family:'DM Sans';font-weight:700;font-size:.92rem;letter-spacing:.04em;border:none;border-radius:8px;cursor:pointer;transition:opacity .2s,transform .15s;display:flex;align-items:center;justify-content:center;gap:.6rem}
+.btn-submit{width:100%;padding:.9rem;background:var(--g);color:#000;font-family:'DotGothic16';font-weight:700;font-size:.92rem;letter-spacing:.04em;border:none;border-radius:8px;cursor:pointer;transition:opacity .2s,transform .15s;display:flex;align-items:center;justify-content:center;gap:.6rem}
 .btn-submit:hover:not(:disabled){opacity:.9;transform:translateY(-1px)}
 .btn-submit:disabled{opacity:.5;cursor:not-allowed}
-.btn-spinner{width:16px;height:16px;border:2px solid rgba(0,0,0,.2);border-top:2px solid #000;border-radius:50%;animation:spin .7s linear infinite;display:none}
+.btn-spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.1);border-top:2px solid #000;border-radius:50%;animation:spin .7s linear infinite;display:none}
 .btn-submit.loading .btn-spinner{display:block}
 .btn-submit.loading .btn-text{display:none}
 .divider{display:flex;align-items:center;gap:.8rem;margin:1.2rem 0;color:var(--muted);font-size:.72rem}
 .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--ln2)}
-.btn-oauth{width:100%;padding:.75rem;background:var(--bg3);border:1px solid var(--ln2);border-radius:8px;color:var(--txt);font-family:'DM Sans';font-size:.85rem;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.6rem;transition:border-color .2s,background .2s;margin-bottom:.6rem}
-.btn-oauth:hover{background:rgba(255,255,255,.04)}
+.btn-oauth{width:100%;padding:.75rem;background:var(--bg3);border:1px solid var(--ln2);border-radius:8px;color:var(--txt);font-family:'DotGothic16';font-size:.85rem;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.6rem;transition:border-color .2s,background .2s;margin-bottom:.6rem}
+.btn-oauth:hover{background:rgba(255,255,255,.06)}
 .msg{padding:.75rem 1rem;border-radius:8px;font-size:.8rem;margin-bottom:1rem;display:none;line-height:1.5}
 .msg.error{background:rgba(255,59,92,.12);border:1px solid rgba(255,59,92,.3);color:#FF6B84}
-.msg.success{background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.2);color:var(--g)}
+.msg.success{background:rgba(255,205,13,.14);border:1px solid rgba(255,205,13,.28);color:var(--g)}
 .form-links{margin-top:1.3rem;text-align:center;font-size:.75rem;color:var(--muted)}
 .form-links a{color:var(--g);text-decoration:none;font-weight:600}
 .form-links a:hover{text-decoration:underline}
@@ -85,9 +85,9 @@ html,body{min-height:100%;background:var(--bg);color:var(--txt);font-family:'DM 
 
 <div class="page">
   <div class="brand">
-    <div class="brand-logo">AX</div>
+    <div class="brand-logo">TA</div>
     <div>
-      <div class="brand-name">APEX<span style="color:var(--txt)"> INVEST</span></div>
+      <div class="brand-name">TACTIC<span style="color:var(--txt)"> ACADEMY</span></div>
       <div class="brand-tag">Simulateur Éducatif</div>
     </div>
   </div>
@@ -97,7 +97,7 @@ html,body{min-height:100%;background:var(--bg);color:var(--txt);font-family:'DM 
     <div id="success-msg" class="msg success"></div>
 
     <div class="card-title">Créer un compte</div>
-    <div class="card-sub">Rejoins 10 000+ apprenants qui maîtrisent l'investissement avec APEX.</div>
+    <div class="card-sub">Rejoins 10 000+ apprenants qui maîtrisent l'investissement avec TACTIC Academy.</div>
 
     <form id="form" onsubmit="handleRegister(event)">
       <div class="field-row">
@@ -136,36 +136,10 @@ html,body{min-height:100%;background:var(--bg);color:var(--txt);font-family:'DM 
         </div>
       </div>
 
-      <div class="field">
-        <label>Ton niveau en investissement</label>
-        <div class="level-grid">
-          <label class="level-card selected" id="lc-Débutant" onclick="selectLevel('Débutant')">
-            <input type="radio" name="level" value="Débutant" checked>
-            <div class="lc-title">🌱 Débutant</div>
-            <div class="lc-sub">Je commence</div>
-          </label>
-          <label class="level-card" id="lc-Intermédiaire" onclick="selectLevel('Intermédiaire')">
-            <input type="radio" name="level" value="Intermédiaire">
-            <div class="lc-title">📊 Intermédiaire</div>
-            <div class="lc-sub">J'ai quelques bases</div>
-          </label>
-          <label class="level-card" id="lc-Avancé" onclick="selectLevel('Avancé')">
-            <input type="radio" name="level" value="Avancé">
-            <div class="lc-title">🚀 Avancé</div>
-            <div class="lc-sub">J'investis déjà</div>
-          </label>
-          <label class="level-card" id="lc-Expert" onclick="selectLevel('Expert')">
-            <input type="radio" name="level" value="Expert">
-            <div class="lc-title">⚡ Expert</div>
-            <div class="lc-sub">Finance pro</div>
-          </label>
-        </div>
-      </div>
-
       <div class="cgu-row">
         <input type="checkbox" id="cguCheck" required>
         <label for="cguCheck">
-          J'ai lu et j'accepte les <a href="terms.html" target="_blank">Conditions Générales d'Utilisation</a> et la <a href="#" target="_blank">Politique de Confidentialité</a>. Je comprends qu'APEX Invest est un <strong>simulateur éducatif</strong> — aucun argent réel n'est utilisé.
+          J'ai lu et j'accepte les <a href="terms.html" target="_blank">Conditions Générales d'Utilisation</a> et la <a href="#" target="_blank">Politique de Confidentialité</a>. Je comprends que TACTIC Academy est un <strong>simulateur éducatif</strong> — aucun argent réel n'est utilisé.
         </label>
       </div>
 
@@ -176,6 +150,9 @@ html,body{min-height:100%;background:var(--bg);color:var(--txt);font-family:'DM 
     </form>
 
     <div class="divider">ou</div>
+    <button class="btn-oauth" onclick="demoAccess()" style="margin-bottom:.5rem;border-color:rgba(255,205,13,.28);color:var(--g)">
+      ⚡ Accès démo instantané (sans compte)
+    </button>
     <button class="btn-oauth" onclick="registerGoogle()">
       <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
       Continuer avec Google
@@ -188,14 +165,31 @@ html,body{min-height:100%;background:var(--bg);color:var(--txt);font-family:'DM 
 
   <div class="page-footer">
     <a href="terms.html">CGU</a> &nbsp;·&nbsp; <a href="#">Confidentialité</a> &nbsp;·&nbsp; <a href="#">Contact</a><br>
-    <span style="margin-top:.4rem;display:block">© 2025 APEX Invest — Simulateur éducatif. Aucun investissement réel.</span>
+    <span style="margin-top:.4rem;display:block">© 2025 TACTIC Academy — Simulateur éducatif. Aucun investissement réel.</span>
   </div>
 </div>
 
 <div class="ticker-bar"><div class="ticker-inner" id="tick"></div></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="auth-helper.js"></script>
+<script src="auth-helper.js?v=4"></script>
+<script>
+// Fallback complet si auth-helper.js pas chargé ou en cache
+if(typeof withTimeout==='undefined'){
+  const LS='apex_session';
+  window.withTimeout=(p,ms=5000)=>Promise.race([p,new Promise((_,r)=>setTimeout(()=>r(new Error('TIMEOUT')),ms))]);
+  window.lsSetSession=d=>localStorage.setItem(LS,JSON.stringify(d));
+  window.lsGetSession=()=>{try{return JSON.parse(localStorage.getItem(LS));}catch{return null;}};
+  window.lsClearSession=()=>localStorage.removeItem(LS);
+  window.url=p=>p;
+  window.redirect=p=>{ window.location.href=p; };
+  window.translateError=m=>m||'Erreur';
+  window.db=null;
+  window.showError=m=>{const el=document.getElementById('error-msg');if(el){el.textContent=m;el.style.display='block';setTimeout(()=>el.style.display='none',7000);}};
+  window.showSuccess=m=>{const el=document.getElementById('success-msg');if(el){el.innerHTML=m;el.style.display='block';}};
+  window.requireGuest=()=>{ if(lsGetSession()) redirect('/pages/academy.html'); };
+}
+</script>
 <script>
 requireGuest();
 
@@ -254,42 +248,59 @@ async function handleRegister(e) {
 
   btn.classList.add('loading'); btn.disabled = true;
 
-  const { data, error } = await db.auth.signUp({
-    email, password,
-    options: {
-      data: { full_name: `${firstName} ${lastName}`, level: selectedLevel },
-      emailRedirectTo: window.location.origin + '/pages/login.html'
+  // Tentative Supabase avec timeout de 6 secondes
+  if (db) {
+    try {
+      const { data, error } = await withTimeout(db.auth.signUp({
+        email, password,
+        options: {
+          data: { full_name: `${firstName} ${lastName}`, level: selectedLevel },
+          emailRedirectTo: window.location.origin + url('/pages/login.html')
+        }
+      }), 6000);
+
+      btn.classList.remove('loading'); btn.disabled = false;
+      if (error) { showError(translateError(error.message)); return; }
+
+      if (data.session) {
+        lsSetSession({ id: data.user.id, email: data.user.email });
+        redirect('/pages/academy.html');
+        return;
+      }
+
+      document.getElementById('form').style.display = 'none';
+      showSuccess(`✅ <strong>Compte créé !</strong> Un email de confirmation a été envoyé à <strong>${email}</strong>. Clique sur le lien puis connecte-toi.`);
+      return;
+
+    } catch(err) {
+      if (err.message !== 'TIMEOUT') {
+        btn.classList.remove('loading'); btn.disabled = false;
+        showError('Erreur : ' + err.message);
+        return;
+      }
+      // Timeout → fallback local
     }
-  });
+  }
 
+  // Fallback local (Supabase inaccessible ou non configuré)
   btn.classList.remove('loading'); btn.disabled = false;
-
-  if (error) {
-    const msgs = {
-      'User already registered': 'Un compte existe déjà avec cet email.',
-      'Password should be at least 6 characters': 'Le mot de passe est trop court.',
-      'Unable to validate email address': 'Adresse email invalide.',
-    };
-    showError(msgs[error.message] || error.message);
-    return;
-  }
-
-  // Enregistrer acceptation CGU
-  if (data.user) {
-    await db.from('terms_acceptance').insert({ user_id: data.user.id, version: '1.0' });
-  }
-
-  document.getElementById('form').style.display = 'none';
-  const s = document.getElementById('success-msg');
-  s.innerHTML = `✅ <strong>Compte créé !</strong> Un email de confirmation a été envoyé à <strong>${email}</strong>. Clique sur le lien pour activer ton compte.`;
-  s.style.display = 'block';
+  lsSetSession({ email, firstName, lastName, level: selectedLevel, id: 'local_' + Date.now(), demo: true });
+  redirect('/pages/academy.html');
 }
 
 async function registerGoogle() {
-  await db.auth.signInWithOAuth({
-    provider: 'google',
-    options: { redirectTo: window.location.origin + '/app.html', queryParams: { access_type: 'offline' } }
-  });
+  if (!db) { demoAccess(); return; }
+  try {
+    await db.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: window.location.origin + url('/pages/academy.html') }
+    });
+  } catch(e) { demoAccess(); }
+}
+
+function demoAccess() {
+  lsSetSession({ email: 'demo@apex.local', id: 'demo', demo: true });
+  redirect('/pages/academy.html');
 }
 </script>
 </body>

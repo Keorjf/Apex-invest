@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mv \"c:/Users/ocean/Downloads/apex onboarding/apex-github/\"* \"c:/Users/ocean/Downloads/apex onboarding/\")",
+      "Bash(mv \"c:/Users/ocean/Downloads/apex onboarding/apex-github/\".* \"c:/Users/ocean/Downloads/apex onboarding/\")",
+      "Bash(git -C \"c:/Users/ocean/Downloads/apex onboarding\" rev-parse --show-toplevel)",
+      "Bash(gh auth:*)"
+    ]
+  }
+}
