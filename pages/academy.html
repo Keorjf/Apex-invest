@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>APEX — Trading Academy v3</title>
-<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Press+Start+2P&family=DotGothic16&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Press+Start+2P&family=VT323&family=DotGothic16&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
 /* ═══════════════════════════════════
    TOKENS
@@ -45,6 +45,37 @@ input{font-family:'JetBrains Mono','Courier New',monospace,monospace;}
 /* ═══════════════════════════════════
    SPLASH
 ═══════════════════════════════════ */
+/* ══ INTRO CINEMATIC ══ */
+#introOv{position:fixed;inset:0;z-index:9999;pointer-events:none;}
+.intro-slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;}
+/* Slide 1 — orange */
+#iSlide1{background:#FF6B00;}
+.i1-text{font-family:'Press Start 2P',monospace;font-size:clamp(2rem,7vw,5rem);color:#000;text-align:center;line-height:1.4;letter-spacing:.04em;}
+/* Slide 2 — noir + néon jaune */
+#iSlide2{background:#000;}
+.i2-text{font-family:'Press Start 2P',monospace;font-size:clamp(2.5rem,8vw,6rem);color:#FFCD0D;text-align:center;text-shadow:0 0 20px #FFCD0D,0 0 40px #FFCD0D,0 0 80px rgba(255,205,13,.5);}
+/* Slide 3 — noir + bordure fuchsia */
+#iSlide3{background:#000;box-shadow:inset 0 0 0 8px #FF2D78,inset 0 0 0 12px rgba(255,45,120,.3);}
+.i3-text{font-family:'VT323',monospace;font-size:clamp(3rem,9vw,7rem);color:#fff;text-align:center;line-height:1.2;letter-spacing:.06em;}
+.i3-text span{color:#FF2D78;text-shadow:0 0 16px #FF2D78,0 0 32px rgba(255,45,120,.6);}
+/* glitch effect */
+@keyframes glitch{
+  0%,100%{clip-path:none;transform:translate(0);}
+  20%{clip-path:inset(20% 0 60% 0);transform:translate(-4px,1px);color:#FF2D78;}
+  40%{clip-path:inset(60% 0 10% 0);transform:translate(4px,-1px);color:#4EC2DA;}
+  60%{clip-path:none;transform:translate(0);}
+  80%{clip-path:inset(40% 0 40% 0);transform:translate(-2px,2px);}
+}
+.glitch{animation:glitch .18s steps(1) infinite;}
+/* flicker for slide 2 */
+@keyframes flicker{0%,96%,100%{opacity:1;}97%{opacity:.3;}98%{opacity:1;}99%{opacity:.5;}}
+.i2-text{animation:flicker 2.5s infinite;}
+/* slide animations */
+@keyframes slideIn{from{opacity:0;transform:scale(1.04);}to{opacity:1;transform:scale(1);}}
+@keyframes slideOut{from{opacity:1;}to{opacity:0;}}
+.slide-in{animation:slideIn .18s ease both;}
+.slide-out{animation:slideOut .22s ease both;}
+
 #splash{
   min-height:100vh;display:flex;flex-direction:column;
   align-items:center;justify-content:center;
@@ -853,6 +884,19 @@ table.assets th{font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;c
 <!-- ═══════════════════════════════════
      SPLASH
 ═══════════════════════════════════ -->
+<!-- ══ INTRO CINEMATIC ══ -->
+<div id="introOv">
+  <div class="intro-slide" id="iSlide1">
+    <div class="i1-text">LE CONCEPT<br>EST SIMPLE...</div>
+  </div>
+  <div class="intro-slide" id="iSlide2">
+    <div class="i2-text glitch" data-text="TU APPRENDS.">TU APPRENDS.</div>
+  </div>
+  <div class="intro-slide" id="iSlide3">
+    <div class="i3-text">ENFIN... ON T'EXPLIQUE<br><span>COMMENT.</span></div>
+  </div>
+</div>
+
 <div id="splash">
   <div class="sp-ticker"><div class="sp-tinner" id="spTicker"></div></div>
   <div class="sp-logo">TACTIC ACADEMY</div>
@@ -3593,6 +3637,72 @@ function renderProfilPage(){
   }).join('');
 }
 
+/* ══ INTRO + SOUND ══ */
+function playTacticJingle(){
+  try{
+    const ac=new(window.AudioContext||window.webkitAudioContext)();
+    const notes=[
+      {f:220,t:0,d:.08},{f:330,t:.09,d:.08},{f:440,t:.18,d:.08},
+      {f:554,t:.27,d:.12},{f:440,t:.40,d:.06},{f:660,t:.47,d:.18}
+    ];
+    notes.forEach(n=>{
+      const osc=ac.createOscillator();const gain=ac.createGain();
+      osc.connect(gain);gain.connect(ac.destination);
+      osc.type='square';osc.frequency.value=n.f;
+      gain.gain.setValueAtTime(0,ac.currentTime+n.t);
+      gain.gain.linearRampToValueAtTime(.18,ac.currentTime+n.t+.01);
+      gain.gain.linearRampToValueAtTime(0,ac.currentTime+n.t+n.d);
+      osc.start(ac.currentTime+n.t);osc.stop(ac.currentTime+n.t+n.d+.01);
+    });
+    // chord finale
+    [440,554,660].forEach((f,i)=>{
+      const osc=ac.createOscillator();const gain=ac.createGain();
+      osc.connect(gain);gain.connect(ac.destination);
+      osc.type='sine';osc.frequency.value=f;
+      gain.gain.setValueAtTime(0,ac.currentTime+.68);
+      gain.gain.linearRampToValueAtTime(.12,ac.currentTime+.70);
+      gain.gain.linearRampToValueAtTime(0,ac.currentTime+1.1);
+      osc.start(ac.currentTime+.68);osc.stop(ac.currentTime+1.2);
+    });
+  }catch(e){}
+}
+
+function runIntro(){
+  const slides=[
+    {el:document.getElementById('iSlide1'),dur:900},
+    {el:document.getElementById('iSlide2'),dur:900},
+    {el:document.getElementById('iSlide3'),dur:1100}
+  ];
+  const ov=document.getElementById('introOv');
+  ov.style.pointerEvents='all';
+  playTacticJingle();
+  let i=0;
+  function showNext(){
+    if(i>=slides.length){
+      ov.style.opacity='0';ov.style.transition='opacity .4s';
+      setTimeout(()=>{ov.style.display='none';},400);
+      return;
+    }
+    const s=slides[i];
+    // hide all
+    slides.forEach(x=>{x.el.style.opacity='0';x.el.classList.remove('slide-in','slide-out');});
+    s.el.classList.add('slide-in');s.el.style.opacity='1';
+    i++;
+    setTimeout(()=>{
+      s.el.classList.remove('slide-in');s.el.classList.add('slide-out');
+      setTimeout(showNext,220);
+    },s.dur);
+  }
+  showNext();
+}
+
+// run on load
+if(!sessionStorage.getItem('tacticIntroSeen')){
+  sessionStorage.setItem('tacticIntroSeen','1');
+  document.addEventListener('DOMContentLoaded',()=>setTimeout(runIntro,200));
+}else{
+  document.getElementById('introOv').style.display='none';
+}
 </script>
 </body>
 </html>
