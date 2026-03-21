@@ -5,90 +5,110 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TACTIC Academy — Créer un compte</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Press+Start+2P&family=DotGothic16&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Nunito:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:    #0F2E3D;--bg2:   #20556A;--bg3:   #1D6881;--g:     #FFCD0D;--gd:    rgba(255,205,13,.1);--r:#FF3B5C;--y:     #4EC2DA;--b:#4D9EFF;--txt:   #EEFCFD;--soft:rgba(213,244,248,.75);--muted: rgba(175,232,242,.5);--ln:    rgba(255,255,255,.07);--ln2:   rgba(255,255,255,.13)}
-html,body{min-height:100%;background:var(--bg);color:var(--txt);font-family:'DotGothic16',sans-serif}
-.bg-grid{position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
-.bg-glow{position:fixed;width:600px;height:600px;background:radial-gradient(circle,rgba(77,158,255,.05) 0%,transparent 70%);top:-150px;right:-100px;pointer-events:none}
-@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+:root{
+  --bg:#0F2E3D;--bg1:#1F485A;--bg2:#20556A;--bg3:#1D6881;--bg4:#1C809E;
+  --g:#FFCD0D;--gd:rgba(255,205,13,.1);--gg:rgba(255,205,13,.18);
+  --r:#FF3B5C;--y:#4EC2DA;--b:#4D9EFF;
+  --txt:#E8F8FA;--soft:rgba(210,242,248,.88);--muted:rgba(160,220,235,.6);
+  --ln:rgba(255,255,255,.07);--ln2:rgba(255,255,255,.13);
+  --body-font:'Nunito','Segoe UI',sans-serif;
+}
+html,body{min-height:100%;background:var(--bg);color:var(--txt);font-family:var(--body-font);line-height:1.6;}
+.bg-grid{position:fixed;inset:0;background-image:linear-gradient(rgba(78,194,218,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(78,194,218,.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
+.bg-glow{position:fixed;width:700px;height:700px;background:radial-gradient(circle,rgba(78,194,218,.07) 0%,transparent 70%);top:-200px;right:-150px;pointer-events:none}
+.bg-glow2{position:fixed;width:500px;height:500px;background:radial-gradient(circle,rgba(255,205,13,.04) 0%,transparent 70%);bottom:-100px;left:-100px;pointer-events:none}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 @keyframes spin{to{transform:rotate(360deg)}}
+@keyframes shimmer{0%,100%{opacity:.7}50%{opacity:1}}
+
 .page{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1.5rem 4rem;position:relative;z-index:1}
-.brand{display:flex;align-items:center;gap:.6rem;margin-bottom:2rem;animation:rise .5s both}
-.brand-logo{width:36px;height:36px;background:var(--g);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Bungee';font-size:1.1rem;color:#000}
-.brand-name{font-family:'Bungee';font-size:1.6rem;letter-spacing:.12em;color:var(--g)}
-.brand-tag{font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-left:.2rem}
-.form-card{width:100%;max-width:460px;background:var(--bg2);border:1px solid var(--ln2);border-radius:16px;padding:2.2rem;animation:rise .5s .1s both;box-shadow:0 0 60px rgba(77,158,255,.04),0 24px 48px rgba(0,0,0,.5)}
-.card-title{font-family:'Bungee';font-size:2rem;letter-spacing:.06em;margin-bottom:.25rem}
-.card-sub{font-size:.78rem;color:var(--muted);margin-bottom:1.8rem;line-height:1.5}
-.field{margin-bottom:1rem}
-.field label{display:block;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem;font-weight:600}
-.field input{width:100%;padding:.75rem 1rem;background:var(--bg3);border:1px solid var(--ln2);border-radius:8px;color:var(--txt);font-family:'DotGothic16';font-size:.88rem;transition:border-color .2s,box-shadow .2s;outline:none}
-.field input:focus{border-color:rgba(255,205,13,.5);box-shadow:0 0 0 3px rgba(255,205,13,.14)}
-.field input::placeholder{color:var(--muted)}
-.field input.invalid{border-color:rgba(255,59,92,.5)}
+
+/* Brand */
+.brand{display:flex;align-items:center;gap:.8rem;margin-bottom:2.2rem;animation:rise .5s both}
+.brand-logo{width:42px;height:42px;background:linear-gradient(135deg,var(--g),#e6b800);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Bungee';font-size:1.15rem;color:#000;box-shadow:0 4px 18px rgba(255,205,13,.35)}
+.brand-name{font-family:'Bungee';font-size:1.7rem;letter-spacing:.1em;color:var(--g);line-height:1}
+.brand-sub{font-family:'Nunito';font-size:.6rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:.1rem}
+
+/* Card */
+.form-card{width:100%;max-width:460px;background:var(--bg1);border:1px solid rgba(78,194,218,.15);border-radius:20px;padding:2.4rem;animation:rise .5s .1s both;box-shadow:0 0 0 1px rgba(255,205,13,.04),0 32px 64px rgba(0,0,0,.55),0 0 80px rgba(78,194,218,.06)}
+.card-title{font-family:'Bungee';font-size:1.85rem;letter-spacing:.05em;margin-bottom:.3rem;color:var(--txt)}
+.card-sub{font-family:'Nunito';font-size:.82rem;font-weight:500;color:var(--muted);margin-bottom:2rem;line-height:1.6}
+
+/* Fields */
+.field{margin-bottom:1.1rem}
+.field label{display:block;font-family:'Nunito';font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:.45rem}
+.field input{width:100%;padding:.78rem 1rem;background:var(--bg2);border:1px solid rgba(78,194,218,.18);border-radius:10px;color:var(--txt);font-family:'Nunito';font-size:.9rem;font-weight:500;transition:border-color .2s,box-shadow .2s;outline:none}
+.field input:focus{border-color:rgba(255,205,13,.5);box-shadow:0 0 0 3px rgba(255,205,13,.12)}
+.field input::placeholder{color:var(--muted);font-weight:400}
+.field input.invalid{border-color:rgba(255,59,92,.5);box-shadow:0 0 0 3px rgba(255,59,92,.1)}
 .field-row{display:flex;gap:.7rem}.field-row .field{flex:1}
+
+/* Password */
 .pw-wrap{position:relative}
 .pw-wrap input{padding-right:2.8rem}
-.pw-toggle{position:absolute;right:.8rem;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer;font-size:1rem;padding:.2rem}
-.pw-toggle:hover{color:var(--txt)}
-/* Password strength */
-.pw-strength{margin-top:.45rem;display:flex;gap:.3rem;align-items:center}
-.ps-bar{flex:1;height:3px;background:var(--ln2);border-radius:2px;overflow:hidden}
-.ps-fill{height:100%;border-radius:2px;transition:width .3s,background .3s;width:0}
-.ps-label{font-size:.62rem;font-family:'JetBrains Mono';min-width:3rem;text-align:right}
-/* Level selector */
-.level-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:1rem}
-.level-card{padding:.65rem .8rem;background:var(--bg3);border:1px solid var(--ln2);border-radius:8px;cursor:pointer;transition:border-color .2s,background .2s;text-align:left}
-.level-card:hover{border-color:rgba(255,205,13,.38);background:rgba(255,205,13,.08)}
-.level-card.selected{border-color:var(--g);background:var(--gd);box-shadow:0 0 0 1px rgba(255,205,13,.28)}
-.level-card input{display:none}
-.lc-title{font-size:.78rem;font-weight:700;margin-bottom:.15rem}
-.lc-sub{font-size:.62rem;color:var(--muted)}
+.pw-toggle{position:absolute;right:.8rem;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer;font-size:1rem;padding:.2rem;transition:color .15s}
+.pw-toggle:hover{color:var(--y)}
+.pw-strength{margin-top:.5rem;display:flex;gap:.3rem;align-items:center}
+.ps-bar{flex:1;height:4px;background:var(--ln2);border-radius:2px;overflow:hidden}
+.ps-fill{height:100%;border-radius:2px;transition:width .35s,background .35s;width:0}
+.ps-label{font-family:'JetBrains Mono';font-size:.6rem;min-width:3.5rem;text-align:right}
+
 /* CGU */
-.cgu-row{display:flex;align-items:flex-start;gap:.7rem;margin-bottom:1.2rem;padding:.9rem;background:rgba(255,255,255,.03);border:1px solid var(--ln);border-radius:8px}
-.cgu-row input[type=checkbox]{width:16px;height:16px;min-width:16px;margin-top:.15rem;accent-color:var(--g);cursor:pointer}
-.cgu-row label{font-size:.75rem;color:var(--soft);line-height:1.6;cursor:pointer}
-.cgu-row a{color:var(--g);text-decoration:none}
+.cgu-row{display:flex;align-items:flex-start;gap:.75rem;margin-bottom:1.3rem;padding:1rem;background:rgba(78,194,218,.04);border:1px solid rgba(78,194,218,.12);border-radius:10px}
+.cgu-row input[type=checkbox]{width:16px;height:16px;min-width:16px;margin-top:.2rem;accent-color:var(--g);cursor:pointer}
+.cgu-row label{font-family:'Nunito';font-size:.78rem;font-weight:500;color:var(--soft);line-height:1.65;cursor:pointer}
+.cgu-row a{color:var(--g);text-decoration:none;font-weight:700}
 .cgu-row a:hover{text-decoration:underline}
-.btn-submit{width:100%;padding:.9rem;background:var(--g);color:#000;font-family:'DotGothic16';font-weight:700;font-size:.92rem;letter-spacing:.04em;border:none;border-radius:8px;cursor:pointer;transition:opacity .2s,transform .15s;display:flex;align-items:center;justify-content:center;gap:.6rem}
-.btn-submit:hover:not(:disabled){opacity:.9;transform:translateY(-1px)}
-.btn-submit:disabled{opacity:.5;cursor:not-allowed}
-.btn-spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.1);border-top:2px solid #000;border-radius:50%;animation:spin .7s linear infinite;display:none}
+
+/* Buttons */
+.btn-submit{width:100%;padding:.95rem;background:linear-gradient(135deg,var(--g),#e6b800);color:#000;font-family:'Nunito';font-weight:800;font-size:.95rem;letter-spacing:.03em;border:none;border-radius:10px;cursor:pointer;transition:opacity .2s,transform .15s,box-shadow .2s;display:flex;align-items:center;justify-content:center;gap:.6rem;box-shadow:0 4px 20px rgba(255,205,13,.3)}
+.btn-submit:hover:not(:disabled){opacity:.92;transform:translateY(-2px);box-shadow:0 8px 28px rgba(255,205,13,.4)}
+.btn-submit:disabled{opacity:.45;cursor:not-allowed}
+.btn-spinner{width:16px;height:16px;border:2px solid rgba(0,0,0,.15);border-top:2px solid #000;border-radius:50%;animation:spin .7s linear infinite;display:none}
 .btn-submit.loading .btn-spinner{display:block}
 .btn-submit.loading .btn-text{display:none}
-.divider{display:flex;align-items:center;gap:.8rem;margin:1.2rem 0;color:var(--muted);font-size:.72rem}
-.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--ln2)}
-.btn-oauth{width:100%;padding:.75rem;background:var(--bg3);border:1px solid var(--ln2);border-radius:8px;color:var(--txt);font-family:'DotGothic16';font-size:.85rem;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.6rem;transition:border-color .2s,background .2s;margin-bottom:.6rem}
-.btn-oauth:hover{background:rgba(255,255,255,.06)}
-.msg{padding:.75rem 1rem;border-radius:8px;font-size:.8rem;margin-bottom:1rem;display:none;line-height:1.5}
-.msg.error{background:rgba(255,59,92,.12);border:1px solid rgba(255,59,92,.3);color:#FF6B84}
-.msg.success{background:rgba(255,205,13,.14);border:1px solid rgba(255,205,13,.28);color:var(--g)}
-.form-links{margin-top:1.3rem;text-align:center;font-size:.75rem;color:var(--muted)}
-.form-links a{color:var(--g);text-decoration:none;font-weight:600}
+
+.divider{display:flex;align-items:center;gap:.8rem;margin:1.3rem 0;color:var(--muted);font-family:'Nunito';font-size:.72rem;font-weight:600}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(78,194,218,.15)}
+
+.btn-oauth{width:100%;padding:.8rem;background:var(--bg2);border:1px solid rgba(78,194,218,.18);border-radius:10px;color:var(--txt);font-family:'Nunito';font-size:.88rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.65rem;transition:border-color .2s,background .2s;margin-bottom:.6rem}
+.btn-oauth:hover{background:rgba(78,194,218,.08);border-color:rgba(78,194,218,.3)}
+
+.msg{padding:.8rem 1rem;border-radius:10px;font-family:'Nunito';font-size:.82rem;font-weight:500;margin-bottom:1rem;display:none;line-height:1.5}
+.msg.error{background:rgba(255,59,92,.1);border:1px solid rgba(255,59,92,.28);color:#FF6B84}
+.msg.success{background:rgba(255,205,13,.12);border:1px solid rgba(255,205,13,.28);color:var(--g)}
+
+.form-links{margin-top:1.4rem;text-align:center;font-family:'Nunito';font-size:.78rem;font-weight:500;color:var(--muted)}
+.form-links a{color:var(--g);text-decoration:none;font-weight:700}
 .form-links a:hover{text-decoration:underline}
 .sep{margin:0 .5rem;opacity:.4}
-.page-footer{margin-top:1.5rem;font-size:.65rem;color:var(--muted);text-align:center}
+
+.page-footer{margin-top:1.8rem;font-family:'Nunito';font-size:.65rem;color:var(--muted);text-align:center;line-height:1.8}
 .page-footer a{color:var(--muted);text-decoration:none}
+.page-footer a:hover{color:var(--soft)}
+
 /* Ticker */
-.ticker-bar{position:fixed;bottom:0;left:0;right:0;height:32px;background:var(--bg3);border-top:1px solid var(--ln);display:flex;align-items:center;overflow:hidden}
-.ticker-inner{display:flex;gap:2.5rem;white-space:nowrap;animation:ticker 25s linear infinite;font-family:'JetBrains Mono';font-size:.6rem}
+.ticker-bar{position:fixed;bottom:0;left:0;right:0;height:30px;background:var(--bg1);border-top:1px solid rgba(78,194,218,.12);display:flex;align-items:center;overflow:hidden}
+.ticker-inner{display:flex;gap:2.5rem;white-space:nowrap;animation:ticker 28s linear infinite;font-family:'JetBrains Mono';font-size:.58rem}
 @keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .ti{color:var(--muted)}.ti .up{color:var(--g)}.ti .dn{color:var(--r)}
-@media(max-width:480px){.form-card{padding:1.5rem;border-radius:12px}.field-row{flex-direction:column}}
+@media(max-width:480px){.form-card{padding:1.6rem;border-radius:14px}.field-row{flex-direction:column}}
 </style>
 </head>
 <body>
 <div class="bg-grid"></div>
 <div class="bg-glow"></div>
+<div class="bg-glow2"></div>
 
 <div class="page">
   <div class="brand">
     <div class="brand-logo">TA</div>
     <div>
-      <div class="brand-name">TACTIC<span style="color:var(--txt)"> ACADEMY</span></div>
-      <div class="brand-tag">Simulateur Éducatif</div>
+      <div class="brand-name">TACTIC<span style="color:var(--txt);font-family:'Bungee'"> ACADEMY</span></div>
+      <div class="brand-sub">Simulateur Éducatif</div>
     </div>
   </div>
 
