@@ -194,7 +194,7 @@ input{font-family:'JetBrains Mono','Courier New',monospace,monospace;}
 /* CONTENT BLOCKS */
 .block{margin-bottom:.55rem;border-radius:7px;overflow:hidden;}
 .b-hook{background:linear-gradient(135deg,rgba(255,205,13,.12),rgba(77,158,255,.04));border:1px solid rgba(255,205,13,.24);padding:.7rem .9rem;}
-.b-hook .emo{font-size:1.2rem;margin-bottom:.25rem;display:block;}
+.b-hook .emo{font-size:1.2rem;margin-bottom:.25rem;display:block;filter:sepia(1) hue-rotate(5deg) saturate(3) brightness(1.1);}
 .b-hook p{font-size:.82rem;line-height:1.55;font-weight:500;font-family:'JetBrains Mono','Courier New',monospace;}
 .b-hook strong{color:var(--g);}
 .b-content{background:var(--bg2);border:1px solid var(--ln);padding:.7rem .9rem;}
@@ -202,7 +202,7 @@ input{font-family:'JetBrains Mono','Courier New',monospace,monospace;}
 .b-content strong{color:var(--txt);font-weight:700;}
 .b-content em{color:var(--g);font-style:normal;font-weight:600;}
 .b-tip{background:var(--yd);border:1px solid rgba(78,194,218,.16);padding:.6rem .9rem;display:flex;gap:.6rem;align-items:flex-start;}
-.b-tip-icon{font-size:1.1rem;flex-shrink:0;}
+.b-tip-icon{font-size:1.1rem;flex-shrink:0;filter:sepia(1) hue-rotate(155deg) saturate(4) brightness(0.95);}
 .b-tip-lbl{font-size:.56rem;letter-spacing:.13em;text-transform:uppercase;color:var(--y);margin-bottom:.2rem;}
 .b-tip-txt{font-size:.76rem;line-height:1.6;color:var(--soft);font-family:'JetBrains Mono','Courier New',monospace;}
 .b-tip-txt strong{color:var(--y);}
@@ -251,7 +251,7 @@ input{font-family:'JetBrains Mono','Courier New',monospace,monospace;}
 .complete-card{background:linear-gradient(135deg,rgba(255,205,13,.12),rgba(77,158,255,.04));border:1px solid rgba(255,205,13,.26);border-radius:11px;padding:1.6rem;text-align:center;margin-top:1.4rem;display:none;}
 .complete-card.show{display:block;animation:popIn .38s cubic-bezier(.34,1.5,.64,1);}
 @keyframes popIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
-.cc-emo{font-size:2.2rem;margin-bottom:.4rem;}
+.cc-emo{font-size:2.2rem;margin-bottom:.4rem;filter:sepia(1) hue-rotate(5deg) saturate(3) brightness(1.1);}
 .cc-title{font-family:'Bungee','Arial Black',impact,sans-serif;font-size:1.7rem;letter-spacing:.04em;margin-bottom:.25rem;}
 .cc-sub{font-size:.8rem;color:var(--soft);margin-bottom:.7rem;}
 .cc-reward{display:inline-flex;align-items:center;gap:.4rem;background:var(--yd);border:1px solid rgba(78,194,218,.22);padding:.4rem 1.1rem;border-radius:100px;font-size:.88rem;font-weight:700;color:var(--y);margin-bottom:1.1rem;}
@@ -268,7 +268,7 @@ input{font-family:'JetBrains Mono','Courier New',monospace,monospace;}
 .track-hdr{display:flex;align-items:center;gap:.6rem;margin-bottom:.8rem;}
 .track-progress{height:3px;background:var(--ln2);border-radius:2px;overflow:hidden;margin-bottom:2rem;}
 .track-progress-fill{height:100%;background:linear-gradient(to right,var(--y),var(--g));border-radius:2px;transition:width .5s ease;}
-.track-emo{font-size:1.1rem;}
+.track-emo{font-size:1.1rem;filter:sepia(1) hue-rotate(5deg) saturate(3) brightness(1.1);}
 .track-nm{font-family:'Bungee','Arial Black',impact,sans-serif;font-size:1.05rem;letter-spacing:.03em;}
 .track-dsc{font-size:.68rem;color:var(--muted);}
 .track-pg{margin-left:auto;font-size:.66rem;color:var(--g);}
@@ -281,7 +281,7 @@ input{font-family:'JetBrains Mono','Courier New',monospace,monospace;}
 .lc.done::before{transform:scaleX(1);opacity:.35;}
 .lc.locked{opacity:.4;cursor:not-allowed;}
 .lc.locked:hover{transform:none;}
-.lc-e{font-size:1.1rem;display:block;margin-bottom:.45rem;}
+.lc-e{font-size:1.1rem;display:block;margin-bottom:.45rem;filter:sepia(1) hue-rotate(5deg) saturate(3) brightness(1.1);}
 .lc-n{font-size:.76rem;font-weight:700;line-height:1.3;margin-bottom:.35rem;}
 .lc-foot{display:flex;align-items:center;justify-content:space-between;}
 .lc-t{font-size:.58rem;color:var(--muted);}
@@ -310,24 +310,47 @@ input{font-family:'JetBrains Mono','Courier New',monospace,monospace;}
 .mkt-time{margin-left:auto;font-family:'JetBrains Mono','Courier New',monospace;font-size:.7rem;color:var(--muted);}
 .mkt-align-score{
   display:flex;align-items:center;gap:.35rem;
-  background:var(--bg3);border:1px solid var(--ln);
-  padding:.22rem .7rem;border-radius:100px;
-  font-size:.66rem;cursor:pointer;transition:.18s;
+  background:linear-gradient(135deg,rgba(255,205,13,.18),rgba(78,194,218,.12));
+  border:1px solid rgba(255,205,13,.45);
+  padding:.3rem .85rem;border-radius:100px;
+  font-size:.68rem;cursor:pointer;transition:.18s;
+  color:var(--g);font-weight:700;
+  box-shadow:0 0 10px rgba(255,205,13,.2);
 }
-.mkt-align-score:hover{border-color:var(--ln2);}
-.mas-val{font-family:'JetBrains Mono','Courier New',monospace;font-weight:700;}
+.mkt-align-score:hover{border-color:rgba(255,205,13,.8);box-shadow:0 0 16px rgba(255,205,13,.35);}
+.mas-val{font-family:'JetBrains Mono','Courier New',monospace;font-weight:700;color:var(--y);}
+
+/* CAT DROPDOWN */
+.cat-th-wrap{display:inline-flex;align-items:center;gap:.3rem;cursor:pointer;user-select:none;position:relative;}
+.cat-th-wrap:hover .cat-th-arrow{color:var(--g);}
+.cat-th-arrow{font-size:.6rem;color:var(--muted);transition:.15s;}
+.cat-dropdown{display:none;position:fixed;background:var(--bg1);border:1px solid rgba(255,205,13,.25);border-radius:8px;min-width:140px;z-index:500;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.5);}
+.cat-dropdown.open{display:block;}
+.cat-opt{padding:.45rem .8rem;font-family:'DotGothic16';font-size:.62rem;cursor:pointer;color:var(--muted);transition:.12s;}
+.cat-opt:hover{background:rgba(255,255,255,.05);color:var(--txt);}
+.cat-opt.active{background:rgba(255,205,13,.1);color:var(--g);}
 
 /* ASSET TABLE */
 .asset-wrap{flex:0 0 auto;overflow-y:auto;max-height:40%;border-bottom:1px solid var(--ln);}
 table.assets{width:100%;border-collapse:collapse;}
-table.assets th{font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:.45rem .8rem;text-align:left;position:sticky;top:0;background:var(--bg1);border-bottom:1px solid var(--ln);}
-.arow{cursor:pointer;transition:background .13s;border-bottom:1px solid rgba(255,255,255,.04);}
-.arow:hover{background:rgba(255,255,255,.04);}
-.arow.sel{background:rgba(255,205,13,.08);}
-.arow td{padding:.5rem .8rem;font-family:'JetBrains Mono','Courier New',monospace;font-size:.73rem;}
-.td-name{font-family:'DotGothic16' !important;font-weight:700;font-size:.78rem !important;}
-.td-cat{font-size:.56rem !important;padding:.12rem .38rem;border-radius:3px;border:1px solid var(--ln);color:var(--muted);font-family:'DotGothic16' !important;}
+table.assets th{font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:.6rem 1rem;text-align:left;position:sticky;top:0;background:var(--bg1);border-bottom:1px solid var(--ln);font-family:'DotGothic16';z-index:10;}
+.arow{cursor:pointer;transition:background .15s;border-bottom:1px solid rgba(255,255,255,.05);}
+.arow:hover{background:rgba(78,194,218,.06);}
+.arow.sel{background:rgba(255,205,13,.08);border-left:2px solid var(--g);}
+.arow td{padding:.75rem 1rem;font-family:'JetBrains Mono','Courier New',monospace;font-size:.78rem;vertical-align:middle;}
+.td-name{font-family:'DotGothic16' !important;font-weight:700;font-size:.84rem !important;display:flex;align-items:center;gap:.5rem;}
+.td-cat{font-size:.58rem !important;padding:.18rem .55rem;border-radius:4px;border:1px solid transparent;font-family:'DotGothic16' !important;white-space:nowrap;font-weight:700;}
+.td-cat[data-cat="ETF"]{color:#FFCD0D;background:rgba(255,205,13,.12);border-color:rgba(255,205,13,.3);}
+.td-cat[data-cat="ETF Thém."]{color:#E040FB;background:rgba(224,64,251,.1);border-color:rgba(224,64,251,.3);}
+.td-cat[data-cat="Indice"]{color:#4D9EFF;background:rgba(77,158,255,.1);border-color:rgba(77,158,255,.3);}
+.td-cat[data-cat="Action"]{color:#4EC2DA;background:rgba(78,194,218,.1);border-color:rgba(78,194,218,.3);}
+.td-cat[data-cat="Matière 1re"]{color:#FFB300;background:rgba(255,179,0,.1);border-color:rgba(255,179,0,.3);}
+.td-cat[data-cat="Obligation"]{color:#76FF03;background:rgba(118,255,3,.08);border-color:rgba(118,255,3,.25);}
+.td-cat[data-cat="Crypto"]{color:#FF9800;background:rgba(255,152,0,.1);border-color:rgba(255,152,0,.3);}
+.td-cat[data-cat="Immobilier"]{color:#FF7A00;background:rgba(255,122,0,.1);border-color:rgba(255,122,0,.3);}
+.td-chg{font-weight:700;font-size:.8rem;}
 .td-chg.up{color:var(--g);}.td-chg.dn{color:var(--r);}.td-chg.flat{color:var(--muted);}
+.td-price{font-weight:600;font-size:.82rem;}
 .td-lock{color:var(--muted);font-size:.65rem;font-family:'DotGothic16' !important;}
 .spark-cv{display:block;}
 
@@ -460,7 +483,14 @@ table.assets th{font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;co
 .align-fill{height:100%;background:linear-gradient(to right,var(--r),var(--y),var(--g));border-radius:2px;transition:width .7s ease;}
 
 /* ALLOCATION PROPOSALS */
-.alloc-panel{padding:.6rem .8rem;border-top:1px solid var(--ln);flex-shrink:0;}
+.alloc-panel{display:none;}
+.alloc-modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:900;align-items:center;justify-content:center;}
+.alloc-modal-ov.show{display:flex;}
+.alloc-modal{background:var(--bg1);border:1px solid rgba(255,205,13,.2);border-radius:14px;padding:1.5rem;width:90%;max-width:480px;max-height:80vh;overflow-y:auto;position:relative;}
+.alloc-modal-close{position:absolute;top:.8rem;right:.9rem;background:transparent;border:none;color:var(--muted);font-size:1.1rem;cursor:pointer;line-height:1;}
+.alloc-modal-close:hover{color:var(--txt);}
+.ap-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;gap:.5rem;flex-wrap:wrap;}
+.ap-title{font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;color:var(--g);}
 .ap-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem;}
 .ap-title{font-size:.56rem;letter-spacing:.13em;text-transform:uppercase;color:var(--g);}
 .ap-profile{font-size:.63rem;font-weight:700;}
@@ -561,17 +591,30 @@ table.assets th{font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;co
 ═══════════════════════════════════ */
 .overlay{
   display:none;position:fixed;inset:0;z-index:400;
-  background:rgba(6,6,15,.97);overflow-y:auto;
+  background:var(--bg);overflow-y:auto;
 }
 .overlay.show{display:flex;flex-direction:column;}
 
 /* DIAG OVERLAY */
-#diagOv .ov-topbar{display:flex;align-items:center;justify-content:space-between;padding:.7rem 1.2rem;border-bottom:1px solid var(--ln);flex-shrink:0;}
+#diagOv .ov-topbar{display:flex;align-items:center;justify-content:space-between;padding:.8rem 1.4rem;border-bottom:1px solid var(--ln);flex-shrink:0;background:var(--bg1);}
 #diagOv .ov-brand{font-family:'Bungee','Arial Black',impact,sans-serif;font-size:.95rem;letter-spacing:.14em;color:var(--g);}
-#diagOv .ov-prog-text{font-size:.68rem;color:var(--muted);}
-.ov-prog-bar{height:2px;background:var(--ln);}
-.ov-prog-fill{height:100%;background:var(--g);transition:width .4s ease;width:0%;}
-.ov-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1.2rem;}
+#diagOv .ov-prog-text{font-size:.65rem;color:var(--muted);font-family:'DotGothic16';}
+.ov-prog-bar{height:3px;background:var(--ln);}
+.ov-prog-fill{height:100%;background:linear-gradient(to right,var(--y),var(--g));transition:width .4s ease;width:0%;}
+.ov-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2.5rem 1.5rem;}
+/* DIAG QUESTION */
+.dq-cat{font-family:'DotGothic16';font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--y);margin-bottom:.8rem;display:flex;align-items:center;gap:.4rem;}
+.dq-q{font-family:'Bungee','Arial Black',impact,sans-serif;font-size:1.6rem;letter-spacing:.02em;line-height:1.15;color:var(--txt);margin-bottom:.6rem;text-align:center;max-width:560px;}
+.dq-hint{font-family:'DotGothic16';font-size:.7rem;color:var(--muted);margin-bottom:1.6rem;text-align:center;max-width:480px;line-height:1.6;}
+.dq-opts{display:flex;flex-direction:column;gap:.55rem;width:100%;max-width:520px;margin-bottom:1.8rem;}
+.dq-opt{display:flex;align-items:center;gap:.9rem;background:var(--bg2);border:1px solid var(--ln);border-radius:10px;padding:.75rem 1rem;cursor:pointer;transition:.18s;}
+.dq-opt:hover{border-color:rgba(78,194,218,.35);background:rgba(78,194,218,.06);}
+.dq-opt.selected{border-color:rgba(255,205,13,.5);background:rgba(255,205,13,.1);}
+.dq-key{font-family:'Bungee';font-size:.75rem;color:var(--y);background:var(--bg3);border:1px solid var(--ln2);border-radius:5px;width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.dq-opt.selected .dq-key{background:rgba(255,205,13,.2);border-color:rgba(255,205,13,.5);color:var(--g);}
+.dq-ol{font-family:'DotGothic16';font-size:.78rem;color:var(--txt);line-height:1.3;}
+.dq-od{font-family:'DotGothic16';font-size:.63rem;color:var(--muted);margin-top:.15rem;}
+.dq-nav{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:520px;}
 
 /* DEBRIEF OVERLAY */
 #debriefOv{background:rgba(6,6,15,.95);}
@@ -863,7 +906,7 @@ table.assets th{font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;co
     <div class="market-layout">
       <div class="mkt-left">
         <div class="mkt-topbar">
-          <span class="mkt-title">SALLE DES MARCHÉS</span>
+
           <div class="mkt-live"><div class="live-dot"></div>Live simulé</div>
           <div class="mkt-align-score" id="alignScoreBtn" onclick="showAlignDetails()" title="Score d'alignement profil">
             📐 Alignement : <span class="mas-val" id="alignVal">—</span>
@@ -872,7 +915,27 @@ table.assets th{font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;co
         </div>
         <div class="asset-wrap">
           <table class="assets">
-            <thead><tr><th>Actif</th><th>Cat.</th><th>Prix</th><th>24h</th><th>7j Spark</th><th>Cap.</th></tr></thead>
+            <thead><tr>
+              <th>Actif</th>
+              <th>
+                <div class="cat-th-wrap">
+                  <span id="catThLabel" onclick="toggleCatDd()">Cat.</span>
+                  <span class="cat-th-arrow" onclick="toggleCatDd()">▾</span>
+                  <div class="cat-dropdown" id="catDropdown">
+                    <div class="cat-opt active" onclick="filterCatDd(this,'Tous')">Toutes</div>
+                    <div class="cat-opt" onclick="filterCatDd(this,'ETF')" style="color:#FFCD0D">ETF</div>
+                    <div class="cat-opt" onclick="filterCatDd(this,'ETF Thém.')" style="color:#E040FB">ETF Thém.</div>
+                    <div class="cat-opt" onclick="filterCatDd(this,'Indice')" style="color:#4D9EFF">Indice</div>
+                    <div class="cat-opt" onclick="filterCatDd(this,'Action')" style="color:#4EC2DA">Action</div>
+                    <div class="cat-opt" onclick="filterCatDd(this,'Crypto')" style="color:#FF9800">Crypto</div>
+                    <div class="cat-opt" onclick="filterCatDd(this,'Matière 1re')" style="color:#FFB300">Matière 1re</div>
+                    <div class="cat-opt" onclick="filterCatDd(this,'Obligation')" style="color:#76FF03">Obligation</div>
+                    <div class="cat-opt" onclick="filterCatDd(this,'Immobilier')" style="color:#FF7A00">Immobilier</div>
+                  </div>
+                </div>
+              </th>
+              <th>Prix</th><th>24h</th><th>7j Spark</th><th>Cap.</th>
+            </tr></thead>
             <tbody id="assetBody"></tbody>
           </table>
         </div>
@@ -958,13 +1021,18 @@ table.assets th{font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;co
           <div id="posList"></div>
         </div>
 
-        <div class="alloc-panel" id="allocPanel" style="display:none">
-          <div class="ap-hdr">
-            <span class="ap-title">📐 Allocation conseillée</span>
-            <span class="ap-profile" id="apProfile">—</span>
-            <button class="ap-retry" onclick="openDiag()">Refaire ↺</button>
+        <div class="alloc-panel" id="allocPanel"></div>
+        <!-- ALLOC MODAL -->
+        <div class="alloc-modal-ov" id="allocModalOv" onclick="if(event.target===this)closeAllocModal()">
+          <div class="alloc-modal">
+            <button class="alloc-modal-close" onclick="closeAllocModal()">✕</button>
+            <div class="ap-hdr">
+              <span class="ap-title">📐 Allocation conseillée</span>
+              <span class="ap-profile" id="apProfile">—</span>
+              <button class="ap-retry" onclick="openDiag()">Refaire ↺</button>
+            </div>
+            <div id="proposalList"></div>
           </div>
-          <div id="proposalList"></div>
         </div>
       </div>
     </div>
@@ -2538,15 +2606,39 @@ function completeLesson(id){
 function streakMult(){return S.streak>=7?2:S.streak>=3?1.5:1;}
 
 /* ══ MARKET TABLE ══ */
+let _catFilter='Tous';
+function toggleCatDd(){
+  const dd=el('catDropdown');
+  const lbl=el('catThLabel');
+  if(!dd.classList.contains('open')){
+    const r=lbl.getBoundingClientRect();
+    dd.style.top=(r.bottom+4)+'px';
+    dd.style.left=r.left+'px';
+  }
+  dd.classList.toggle('open');
+}
+function filterCatDd(opt,cat){
+  _catFilter=cat;
+  document.querySelectorAll('.cat-opt').forEach(o=>o.classList.remove('active'));
+  opt.classList.add('active');
+  el('catThLabel').textContent=cat==='Tous'?'Cat.':cat;
+  el('catDropdown').classList.remove('open');
+  buildMarketTable();
+}
+document.addEventListener('click',e=>{
+  const dd=el('catDropdown');
+  if(dd&&!dd.closest('th').contains(e.target))dd.classList.remove('open');
+});
 function buildMarketTable(){
   const tbody=el('assetBody');if(!tbody)return;
-  tbody.innerHTML=ASSETS.map(a=>`
+  const list=_catFilter==='Tous'?ASSETS:ASSETS.filter(a=>a.cat===_catFilter);
+  tbody.innerHTML=list.map(a=>`
     <tr class="asset-row${a.id===S.selectedAsset?' selected':''}" id="row_${a.id}" onclick="selectAsset('${a.id}')">
-      <td><span style="margin-right:.35rem">${a.emoji}</span>${a.name}</td>
-      <td><span class="td-cat">${a.cat}</span></td>
+      <td><div class="td-name"><span style="font-size:1.1rem">${a.emoji}</span>${a.name}</div></td>
+      <td><span class="td-cat" data-cat="${a.cat}">${a.cat}</span></td>
       <td class="td-price" id="price_${a.id}">${fmtP(a.base)}</td>
       <td class="td-chg flat" id="chg_${a.id}">—</td>
-      <td><canvas class="spark-canvas" id="spark_${a.id}" width="70" height="28"></canvas></td>
+      <td><canvas class="spark-canvas" id="spark_${a.id}" width="80" height="32"></canvas></td>
       <td class="td-chg flat" id="sess_${a.id}">—</td>
     </tr>`).join('');
 }
@@ -2616,27 +2708,66 @@ function drawSparkline(cid,data){
 function drawMainChart(){
   const a=ASSETS.find(x=>x.id===S.selectedAsset);if(!a)return;
   const canvas=el('mainChart');if(!canvas)return;
-  const ctx=canvas.getContext('2d');
+  const dpr=window.devicePixelRatio||1;
+  const W=canvas.offsetWidth||600,H=canvas.offsetHeight||220;
+  canvas.width=W*dpr;canvas.height=H*dpr;
+  const ctx=canvas.getContext('2d');ctx.scale(dpr,dpr);
   const hist=S.history[a.id]||[];
   const data=S.currentTF==='1J'?hist.slice(-80):S.currentTF==='1S'?hist.slice(-160):hist;
   if(data.length<2)return;
-  const w=canvas.width,h=canvas.height;
-  ctx.clearRect(0,0,w,h);
-  const min=Math.min(...data),max=Math.max(...data),range=max-min||1;
-  const pad={t:10,b:20,l:10,r:10};
+  ctx.clearRect(0,0,W,H);
+  const min=Math.min(...data)*0.999,max=Math.max(...data)*1.001,range=max-min||1;
+  const pad={t:20,b:36,l:68,r:16};
+  const iW=W-pad.l-pad.r,iH=H-pad.t-pad.b;
   const up=data[data.length-1]>=data[0];
   const color=up?'#FFCD0D':'#FF3B5C';
-  const grad=ctx.createLinearGradient(0,pad.t,0,h-pad.b);
-  grad.addColorStop(0,up?'rgba(255,205,13,0.15)':'rgba(255,59,92,0.15)');
-  grad.addColorStop(1,'rgba(0,0,0,0)');
+  const colorAlpha=up?'rgba(255,205,13,':'rgba(255,59,92,';
+  // grid
+  const steps=4;
+  for(let i=0;i<=steps;i++){
+    const y=pad.t+iH*(i/steps);
+    const val=max-range*(i/steps);
+    ctx.strokeStyle='rgba(255,255,255,0.06)';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(W-pad.r,y);ctx.stroke();
+    ctx.fillStyle='rgba(255,255,255,0.28)';
+    ctx.font=`10px 'JetBrains Mono',monospace`;ctx.textAlign='right';
+    ctx.fillText(fmtP(val),pad.l-8,y+4);
+  }
+  // points
   const pts=data.map((v,i)=>({
-    x:pad.l+(i/(data.length-1))*(w-pad.l-pad.r),
-    y:pad.t+(1-(v-min)/range)*(h-pad.t-pad.b),
+    x:pad.l+(i/(data.length-1))*iW,
+    y:pad.t+(1-(v-min)/range)*iH
   }));
-  ctx.beginPath();pts.forEach((pt,i)=>i===0?ctx.moveTo(pt.x,pt.y):ctx.lineTo(pt.x,pt.y));
-  ctx.strokeStyle=color;ctx.lineWidth=2;ctx.stroke();
-  ctx.lineTo(pts[pts.length-1].x,h-pad.b);ctx.lineTo(pts[0].x,h-pad.b);
+  // gradient fill
+  const grad=ctx.createLinearGradient(0,pad.t,0,pad.t+iH);
+  grad.addColorStop(0,colorAlpha+'0.22)');
+  grad.addColorStop(0.6,colorAlpha+'0.06)');
+  grad.addColorStop(1,colorAlpha+'0)');
+  // smooth bezier path
+  function smoothPath(){
+    ctx.moveTo(pts[0].x,pts[0].y);
+    for(let i=1;i<pts.length-1;i++){
+      const mx=(pts[i].x+pts[i+1].x)/2,my=(pts[i].y+pts[i+1].y)/2;
+      ctx.quadraticCurveTo(pts[i].x,pts[i].y,mx,my);
+    }
+    ctx.lineTo(pts[pts.length-1].x,pts[pts.length-1].y);
+  }
+  // glow pass
+  ctx.save();ctx.shadowColor=color;ctx.shadowBlur=8;
+  ctx.beginPath();smoothPath();
+  ctx.strokeStyle=color;ctx.lineWidth=2.5;ctx.lineJoin='round';ctx.stroke();
+  ctx.restore();
+  // fill
+  ctx.beginPath();smoothPath();
+  ctx.lineTo(pts[pts.length-1].x,pad.t+iH);ctx.lineTo(pts[0].x,pad.t+iH);
   ctx.closePath();ctx.fillStyle=grad;ctx.fill();
+  // last price dot
+  const last=pts[pts.length-1];
+  ctx.save();ctx.shadowColor=color;ctx.shadowBlur=12;
+  ctx.beginPath();ctx.arc(last.x,last.y,4.5,0,Math.PI*2);
+  ctx.fillStyle=color;ctx.fill();ctx.restore();
+  ctx.beginPath();ctx.arc(last.x,last.y,4.5,0,Math.PI*2);
+  ctx.strokeStyle='rgba(0,0,0,0.5)';ctx.lineWidth=1.5;ctx.stroke();
 }
 function setTF(btn,tf){
   document.querySelectorAll('.tf').forEach(b=>b.classList.remove('active'));
@@ -2872,7 +3003,15 @@ function updateAlignScore(){
   if(fEl)fEl.style.width=score+'%';
   if(wEl)wEl.style.display='block';
 }
-function showAlignDetails(){}
+function showAlignDetails(){
+  const ov=el('allocModalOv');
+  if(!ov)return;
+  ov.classList.add('show');
+}
+function closeAllocModal(){
+  const ov=el('allocModalOv');
+  if(ov)ov.classList.remove('show');
+}
 
 /* ══ DIAGNOSTIC ══ */
 function openDiag(){
@@ -2897,7 +3036,7 @@ function renderDiagStep(){
           <div><div class="dq-ol">${o.l}</div><div class="dq-od">${o.d}</div></div>
         </div>`).join('')}
     </div>
-    <div style="display:flex;justify-content:space-between;margin-top:1.5rem;gap:.8rem">
+    <div class="dq-nav">
       ${S.diagStep>0?'<button class="btn-ghost" onclick="diagBack()">← Retour</button>':'<div></div>'}
       <button class="btn-g" id="dqNext" onclick="diagNext()" disabled>Suivant →</button>
     </div>`;
