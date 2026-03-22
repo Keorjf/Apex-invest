@@ -769,9 +769,14 @@ table.assets th{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;col
 .overlay.show{display:flex;flex-direction:column;}
 
 /* DIAG OVERLAY */
-#diagOv .ov-topbar{display:flex;align-items:center;justify-content:space-between;padding:.8rem 1.4rem;border-bottom:1px solid var(--ln);flex-shrink:0;background:var(--bg1);}
-#diagOv .ov-brand{font-family:'Bungee','Arial Black',impact,sans-serif;font-size:.95rem;letter-spacing:.14em;color:var(--g);}
-#diagOv .ov-prog-text{font-size:.65rem;color:var(--muted);font-family:'Nunito';}
+#diagOv .ov-topbar{display:flex;align-items:center;gap:.7rem;padding:.55rem 1.2rem;border-bottom:1px solid var(--ln);flex-shrink:0;background:var(--bg1);}
+#diagOv .ov-nav-logo{font-family:'Bungee','Arial Black',impact,sans-serif;font-size:1rem;letter-spacing:.12em;color:var(--y);white-space:nowrap;}
+#diagOv .ov-nav-sep{width:1px;height:18px;background:var(--ln);flex-shrink:0;}
+#diagOv .ov-nav-steps{display:flex;gap:.3rem;align-items:center;flex:1;}
+#diagOv .ov-nav-step{font-size:.6rem;color:var(--muted);padding:.25rem .55rem;border-radius:20px;border:1px solid transparent;white-space:nowrap;transition:.2s;letter-spacing:.04em;}
+#diagOv .ov-nav-step.active{color:var(--y);border-color:rgba(255,205,13,.35);background:rgba(255,205,13,.08);font-weight:700;}
+#diagOv .ov-nav-step.done{color:var(--g);border-color:rgba(0,210,120,.25);}
+#diagOv .ov-prog-text{font-size:.6rem;color:var(--muted);font-family:'Nunito';margin-left:auto;white-space:nowrap;}
 .ov-prog-bar{height:3px;background:var(--ln);}
 .ov-prog-fill{height:100%;background:linear-gradient(to right,var(--y),var(--g));transition:width .4s ease;width:0%;}
 .ov-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2.5rem 1.5rem;}
@@ -1410,8 +1415,10 @@ table.assets th{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;col
 ═══════════════════════════════════ -->
 <div class="overlay" id="diagOv">
   <div class="ov-topbar">
-    <span class="ov-brand">APEX — DIAGNOSTIC INVESTISSEUR</span>
-    <span class="ov-prog-text" id="diagProgTxt">Configuration du profil</span>
+    <span class="ov-nav-logo">TACTIC</span>
+    <div class="ov-nav-sep"></div>
+    <nav class="ov-nav-steps" id="diagNavSteps"></nav>
+    <span class="ov-prog-text" id="diagProgTxt"></span>
   </div>
   <div class="ov-prog-bar"><div class="ov-prog-fill" id="diagProgFill"></div></div>
   <div class="ov-body" id="diagBody"></div>
@@ -3640,7 +3647,12 @@ function renderDiagStep(){
   const q=DIAG_Q[S.diagStep];
   const pct=S.diagStep/DIAG_Q.length*100;
   el('diagProgFill').style.width=pct+'%';
-  el('diagProgTxt').textContent=(S.diagStep+1)+'/'+DIAG_Q.length+' · '+q.cat;
+  el('diagProgTxt').textContent='';
+  const nav=el('diagNavSteps');
+  if(nav){nav.innerHTML=DIAG_Q.map((dq,i)=>{
+    const cls=i<S.diagStep?'done':i===S.diagStep?'active':'';
+    return `<span class="ov-nav-step ${cls}">${dq.emoji} ${dq.cat}</span>`;
+  }).join('');};
   el('diagBody').innerHTML=`
     <div class="dq-cat">${q.emoji} ${q.cat}</div>
     <div class="dq-q">${q.text}</div>
