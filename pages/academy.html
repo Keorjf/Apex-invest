@@ -163,6 +163,30 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 .sidebar-toggle{position:fixed;top:58px;left:8px;z-index:198;background:var(--bg3);border:1px solid var(--ln2);border-radius:6px;padding:.3rem .55rem;cursor:pointer;font-size:.75rem;color:var(--muted);transition:all .2s;}
 .sidebar-toggle:hover{color:var(--txt);border-color:var(--g);}
 .ls-section{font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);padding:.3rem .9rem .6rem;}
+.ls-tabs{display:flex;border-bottom:1px solid var(--ln);margin-bottom:.3rem;}
+.ls-tab{flex:1;padding:.5rem;font-size:.62rem;font-weight:700;text-align:center;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;transition:.15s;letter-spacing:.05em;text-transform:uppercase;}
+.ls-tab.active{color:var(--g);border-bottom-color:var(--g);}
+.sp-profile{padding:.8rem .9rem;}
+.sp-hero{text-align:center;padding:.8rem 0 1rem;}
+.sp-emo{font-size:3rem;display:block;margin-bottom:.4rem;}
+.sp-name{font-family:'Bungee',sans-serif;font-size:.95rem;letter-spacing:.03em;margin-bottom:.2rem;}
+.sp-badge{display:inline-block;font-size:.58rem;padding:.15rem .6rem;border-radius:100px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;}
+.sp-stat-row{display:flex;align-items:center;gap:.5rem;padding:.5rem .4rem;border-bottom:1px solid var(--ln);font-size:.72rem;border-radius:5px;}
+.sp-stat-row:last-child{border-bottom:none;}
+.sp-stat-icon{font-size:.9rem;flex-shrink:0;width:20px;text-align:center;}
+.sp-stat-lbl{color:#9bbfcc;flex:1;font-size:.78rem;font-weight:600;}
+.sp-stat-val{font-weight:700;color:var(--txt);font-size:.82rem;}
+.sp-section-title{font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;font-weight:900;color:#ffffff;background:rgba(255,255,255,.06);border-left:none;border-radius:7px;margin:1.8rem 0 .8rem;padding:.65rem 1rem;text-align:center;border:1px solid rgba(255,255,255,.08);}
+.sp-tag{display:inline-block;font-size:.6rem;padding:.15rem .5rem;border-radius:4px;margin:.18rem .1rem;font-weight:600;}
+.sp-tag.force{background:rgba(78,194,218,.12);color:#4EC2DA;border:1px solid rgba(78,194,218,.3);}
+.sp-tag.faiblesse{background:rgba(255,59,92,.1);color:#FF3B5C;border:1px solid rgba(255,59,92,.25);}
+.sp-advice-box{background:rgba(255,205,13,.06);border:1px solid rgba(255,205,13,.2);border-radius:7px;padding:.6rem .75rem;font-size:.68rem;color:var(--soft);line-height:1.55;margin-top:.6rem;}
+.sp-alloc-bar{display:flex;height:8px;border-radius:4px;overflow:hidden;margin:.5rem 0;}
+.sp-risk-meter{margin:.4rem 0 .6rem;}
+.sp-risk-track{height:6px;background:var(--ln2);border-radius:3px;overflow:hidden;margin-top:.25rem;}
+.sp-risk-fill{height:100%;border-radius:3px;transition:width .6s ease;}
+.sp-no-profil{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.75rem;line-height:1.7;}
+.sp-diag-btn{width:100%;margin-top:.8rem;padding:.6rem;background:var(--g);color:#000;border:none;border-radius:7px;font-size:.75rem;font-weight:800;cursor:pointer;}
 .ls-track{margin-bottom:0;border-bottom:1px solid var(--ln);}
 .ls-th{display:flex;align-items:center;gap:.45rem;padding:.65rem .9rem;font-size:.75rem;font-weight:400;color:var(--txt);cursor:pointer;border-radius:5px;transition:background .15s;line-height:1.4;font-family:'Nunito',sans-serif;}
 .ls-th:hover{background:rgba(255,255,255,.04);color:var(--txt);}
@@ -262,9 +286,20 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 .quiz-lbl{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--g);display:flex;align-items:center;gap:.35rem;}
 .quiz-calc-btn{background:none;border:1px solid var(--ln2);border-radius:6px;font-size:.9rem;padding:.18rem .45rem;cursor:pointer;transition:.18s;line-height:1;}
 .quiz-calc-btn:hover{border-color:rgba(255,205,13,.4);transform:scale(1.1);}
+.quiz-help-btn{background:none;border:1px solid rgba(167,139,250,.4);border-radius:6px;font-size:.68rem;font-weight:700;padding:.22rem .6rem;cursor:pointer;color:#A78BFA;transition:.18s;line-height:1;letter-spacing:.02em;}
+.quiz-help-btn:hover{background:rgba(167,139,250,.1);border-color:rgba(167,139,250,.7);}
+.quiz-head-right{display:flex;align-items:center;gap:.4rem;}
+.quiz-help-panel{display:none;position:absolute;right:1.1rem;top:2.8rem;z-index:51;background:var(--bg1);border:1px solid rgba(167,139,250,.35);border-radius:10px;padding:.8rem;box-shadow:0 8px 28px rgba(0,0,0,.45);width:280px;max-height:400px;overflow-y:auto;}
+.quiz-help-panel.open{display:block;animation:popIn .2s cubic-bezier(.34,1.5,.64,1);}
+.qh-title{font-family:'Bungee',sans-serif;font-size:.7rem;letter-spacing:.06em;color:#A78BFA;margin-bottom:.65rem;display:flex;align-items:center;gap:.4rem;}
+.qh-block{background:var(--bg3);border-left:3px solid rgba(167,139,250,.5);border-radius:0 6px 6px 0;padding:.5rem .65rem;margin-bottom:.5rem;}
+.qh-block:last-child{margin-bottom:0;}
+.qh-label{font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:#A78BFA;font-weight:700;margin-bottom:.25rem;}
+.qh-formula{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--g);background:rgba(255,205,13,.07);border-radius:4px;padding:.2rem .4rem;margin-bottom:.25rem;display:block;}
+.qh-tip{font-size:.68rem;color:var(--soft);line-height:1.5;}
 .quiz-calc-panel{display:none;position:absolute;right:1.1rem;top:2.8rem;z-index:50;background:var(--bg1);border:1px solid rgba(255,205,13,.3);border-radius:10px;padding:.7rem;box-shadow:0 8px 28px rgba(0,0,0,.45);width:180px;}
 .quiz-calc-panel.open{display:block;animation:popIn .2s cubic-bezier(.34,1.5,.64,1);}
-.qc-screen{background:var(--bg);border:1px solid var(--ln);border-radius:5px;padding:.35rem .6rem;font-family:'JetBrains Mono',monospace;font-size:.85rem;text-align:right;margin-bottom:.5rem;min-height:2rem;color:var(--txt);word-break:break-all;}
+.qc-screen{background:var(--bg);border:1px solid var(--ln);border-radius:5px;padding:.45rem .7rem;font-family:'JetBrains Mono',monospace;font-size:.82rem;text-align:right;margin-bottom:.5rem;min-height:2.4rem;color:var(--txt);word-break:break-all;line-height:1.5;}
 .qc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.3rem;}
 .qc-btn{background:var(--bg3);border:1px solid var(--ln);border-radius:5px;padding:.4rem 0;font-size:.72rem;font-weight:600;cursor:pointer;color:var(--txt);transition:.13s;text-align:center;}
 .qc-btn:hover{background:var(--ln2);border-color:rgba(255,205,13,.3);}
@@ -307,14 +342,14 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 .map-title{font-family:'Bungee','Arial Black',impact,sans-serif;font-size:1.6rem;letter-spacing:.04em;}
 
 /* ORGANIC MAP CANVAS */
-.path-canvas-wrap{position:relative;flex:1;overflow-y:auto;overflow-x:hidden;}
+.path-canvas-wrap{position:relative;flex:1;overflow-y:auto;overflow-x:hidden;padding-bottom:120px;}
 .path-svg{position:absolute;top:0;left:0;width:100%;pointer-events:none;z-index:0;}
 .pnode{position:absolute;display:flex;flex-direction:column;align-items:center;gap:.3rem;cursor:pointer;z-index:2;transform:translate(-50%,-50%);}
 .pnode-bubble{width:140px;height:140px;border-radius:50%;border:4px solid rgba(255,205,13,.5);background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:3.8rem;transition:.25s;box-shadow:0 8px 32px rgba(0,0,0,.45),0 0 0 10px rgba(255,205,13,.07);}
 .pnode-bubble.done{border-color:var(--g);background:rgba(255,205,13,.14);box-shadow:0 8px 32px rgba(255,205,13,.35),0 0 0 14px rgba(255,205,13,.1);}
 .pnode:hover .pnode-bubble{transform:scale(1.08) translateY(-6px);box-shadow:0 16px 48px rgba(255,205,13,.45),0 0 0 16px rgba(255,205,13,.15);}
 .pnode-label{font-family:'Nunito';font-size:.82rem;font-weight:600;color:var(--soft);text-align:center;width:150px;line-height:1.35;margin-top:.3rem;}
-.pnode-pg{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--g);}
+.pnode-pg{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--g);letter-spacing:.05em;}
 
 /* MINI BANNER (clic noeud parcours) */
 .mini-banner{
@@ -560,7 +595,30 @@ table.assets th{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;col
 
 /* POSITIONS */
 .positions-panel{flex:1;overflow-y:auto;padding:0 .8rem .8rem;}
-.pp-hdr{position:sticky;top:0;background:rgba(11,11,24,.96);backdrop-filter:blur(8px);padding:.6rem 0 .4rem;font-size:.55rem;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--ln);margin-bottom:.5rem;}
+.pp-hdr{position:sticky;top:0;background:rgba(11,11,24,.96);backdrop-filter:blur(8px);padding:.6rem .5rem .4rem;font-size:.7rem;letter-spacing:.13em;text-transform:uppercase;color:var(--y);border-bottom:1px solid rgba(255,205,13,.35);margin-bottom:.5rem;cursor:pointer;display:flex;align-items:center;gap:.4rem;border-radius:6px 6px 0 0;transition:.2s;}
+.pp-hdr:hover{background:rgba(255,205,13,.08);color:#fff;box-shadow:0 0 12px rgba(255,205,13,.25);}
+.pp-hdr .pp-hdr-arrow{margin-left:auto;font-size:.65rem;opacity:.6;}
+/* PORTFOLIO MODAL */
+.port-modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1100;align-items:center;justify-content:center;}
+.port-modal-ov.show{display:flex;}
+.port-modal{background:var(--bg1);border:1px solid rgba(255,205,13,.25);border-radius:14px;padding:1.4rem 1.2rem 1.2rem;width:92%;max-width:460px;max-height:82vh;overflow-y:auto;position:relative;}
+.pm-close{position:absolute;top:.75rem;right:.85rem;background:none;border:none;color:var(--muted);font-size:1.1rem;cursor:pointer;}
+.pm-close:hover{color:var(--txt);}
+.pm-title{font-size:1rem;font-weight:700;color:var(--y);margin-bottom:1rem;display:flex;align-items:center;gap:.4rem;}
+.pm-summary{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:1rem;}
+.pm-sc{background:var(--bg3);border:1px solid var(--ln);border-radius:7px;padding:.6rem .8rem;}
+.pm-sl{font-size:.55rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.2rem;}
+.pm-sv{font-family:'JetBrains Mono','Courier New',monospace;font-size:.95rem;font-weight:700;}
+.pm-list{display:flex;flex-direction:column;gap:.5rem;}
+.pm-item{background:var(--bg3);border:1px solid var(--ln);border-radius:8px;padding:.65rem .8rem;display:flex;align-items:center;gap:.6rem;}
+.pm-emo{font-size:1.3rem;}
+.pm-info{flex:1;}
+.pm-name{font-size:.8rem;font-weight:600;color:var(--txt);}
+.pm-sub{font-size:.62rem;color:var(--muted);margin-top:.1rem;}
+.pm-right{text-align:right;}
+.pm-val{font-family:'JetBrains Mono','Courier New',monospace;font-size:.82rem;font-weight:700;color:var(--txt);}
+.pm-pnl{font-size:.65rem;margin-top:.15rem;}
+.pm-empty{text-align:center;padding:2rem;color:var(--muted);font-size:.78rem;font-style:italic;}
 .port-summary{display:grid;grid-template-columns:1fr 1fr;gap:.45rem;margin-bottom:.7rem;}
 .ps-card{background:var(--bg3);border:1px solid var(--ln);border-radius:5px;padding:.55rem .7rem;}
 .ps-lbl{font-size:.55rem;color:var(--muted);margin-bottom:.18rem;text-transform:uppercase;letter-spacing:.07em;}
@@ -1165,7 +1223,7 @@ table.assets th{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;col
         </div>
 
         <div class="positions-panel">
-          <div class="pp-hdr">Portefeuille</div>
+          <div class="pp-hdr" onclick="openPortfolioModal()">💼 Portefeuille <span class="pp-hdr-arrow">↗</span></div>
           <div class="port-summary" id="portSummary"></div>
           <div class="align-bar-wrap" id="alignBarWrap" style="display:none">
             <div class="ab-lbl"><span>Alignement profil</span><span id="alignPct">0%</span></div>
@@ -1188,6 +1246,16 @@ table.assets th{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;col
           </div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- PORTFOLIO MODAL -->
+  <div class="port-modal-ov" id="portModalOv" onclick="if(event.target===this)closePortfolioModal()">
+    <div class="port-modal">
+      <button class="pm-close" onclick="closePortfolioModal()">✕</button>
+      <div class="pm-title">💼 Portefeuille</div>
+      <div class="pm-summary" id="pmSummary"></div>
+      <div class="pm-list" id="pmList"></div>
     </div>
   </div>
 
@@ -2589,7 +2657,9 @@ function startClock(){
 }
 
 /* ══ LEARN SIDEBAR ══ */
+let _sidebarTab='parcours';
 function buildLearnSidebar(){
+  el('learnSidebar').innerHTML=buildSidebarProfile();return;
   const tracks=LESSONS[S.level]||[];
   let html='<div class="ls-section">Parcours '+S.level+'</div>';
   tracks.forEach((track,i)=>{
@@ -2614,11 +2684,101 @@ function buildLearnSidebar(){
   });
   el('learnSidebar').innerHTML=html;
 }
+const PROFILE_META={
+  ultraConservateur:{
+    horizon:'Court / Moyen terme (< 5 ans)',risque:15,
+    forces:['Capital protégé','Peu de stress','Sommeil tranquille','Stabilité'],
+    faiblesses:['Rendement limité','Inflation dévore les gains','Pas de croissance long terme'],
+    aversion:'Très élevée — tu préfères zéro gain plutôt que de risquer une perte.',
+    style:'Défensif'
+  },
+  conservateur:{
+    horizon:'Moyen terme (5-10 ans)',risque:35,
+    forces:['Équilibre rendement/risque','Résiste aux krachs','Diversification solide'],
+    faiblesses:['Sous-performe en période de hausse','Croissance modérée'],
+    aversion:'Élevée — tu acceptes de petites pertes temporaires mais détestes les grosses chutes.',
+    style:'Prudent'
+  },
+  modere:{
+    horizon:'Moyen / Long terme (7-15 ans)',risque:55,
+    forces:['Bon rapport risque/rendement','Diversification efficace','Croissance régulière'],
+    faiblesses:['Volatilité modérée','Discipline de rééquilibrage nécessaire'],
+    aversion:'Modérée — tu acceptes -20% temporaire si la thèse long terme tient.',
+    style:'Équilibré'
+  },
+  dynamique:{
+    horizon:'Long terme (10-20 ans)',risque:75,
+    forces:['Forte croissance long terme','Exposition aux meilleurs actifs','Potentiel élevé'],
+    faiblesses:['Volatilité forte','-40% possibles en crise','Discipline émotionnelle requise'],
+    aversion:'Faible — tu vois les krachs comme des opportunités d\'achat.',
+    style:'Offensif'
+  },
+  offensif:{
+    horizon:'Très long terme (15+ ans)',risque:95,
+    forces:['Rendement maximum potentiel','Accès aux actifs les plus performants','Mindset de chasseur'],
+    faiblesses:['Très haute volatilité','Risque de perte > 50%','Exige sang-froid absolu'],
+    aversion:'Très faible — tu ignores la volatilité et penses en décennies.',
+    style:'Agressif'
+  }
+};
+function buildSidebarProfile(){
+  if(!S.diagDone||!S.diagProfile){
+    return `<div class="sp-no-profil">
+      <div style="font-size:2.5rem;margin-bottom:.6rem">🧩</div>
+      <div>Ton profil investisseur n'est pas encore défini.</div>
+      <button class="sp-diag-btn" onclick="switchTab('market')">Faire le diagnostic →</button>
+    </div>`;
+  }
+  const p=PROFILES[S.diagProfile];
+  const m=PROFILE_META[S.diagProfile];
+  const allLessons=(LESSONS[S.level]||[]).flatMap(t=>t.lessons);
+  const doneLessons=allLessons.filter(l=>S.done.has(l.id)).length;
+  const allocBar=p.alloc.map(a=>`<div style="flex:${a.pct};background:${a.color}" title="${a.name} ${a.pct}%"></div>`).join('');
+  return `<div class="sp-profile">
+    <div class="sp-hero">
+      <span class="sp-emo">${p.emoji}</span>
+      <div class="sp-name">${p.name}</div>
+      <span class="sp-badge" style="background:${p.color}22;color:${p.color};border:1px solid ${p.color}44">${m.style}</span>
+    </div>
+    <div class="sp-section-title">📊 Statistiques</div>
+    <div style="display:flex;flex-direction:column;gap:.3rem;margin-bottom:.5rem">
+      <div class="sp-stat-row"><span class="sp-stat-icon">🔥</span><span class="sp-stat-lbl">Streak</span><span class="sp-stat-val" style="color:#fff;font-size:.78rem">${S.streak} jour${S.streak>1?'s':''}</span></div>
+      <div class="sp-stat-row"><span class="sp-stat-icon">🪙</span><span class="sp-stat-lbl">Tacoins</span><span class="sp-stat-val" style="color:#fff;font-size:.78rem">${Math.floor(S.coins).toLocaleString('fr-FR')} 🪙</span></div>
+    </div>
+
+    <div class="sp-section-title">🎯 Aversion au risque</div>
+    <div style="margin-bottom:.5rem">
+      <div style="display:flex;justify-content:space-between;font-size:.62rem;color:#c8e8f0;margin-bottom:.35rem;font-weight:600"><span>Faible</span><span>Élevée</span></div>
+      <div class="sp-risk-track"><div class="sp-risk-fill" style="width:${100-m.risque}%;background:linear-gradient(to right,var(--g),var(--r))"></div></div>
+      <div style="font-size:.78rem;color:#dff0f5;line-height:1.6;margin-top:.5rem">${m.aversion}</div>
+    </div>
+
+    <div class="sp-section-title">⏳ Horizon d'investissement</div>
+    <div style="font-size:.78rem;font-weight:700;color:#fff;background:rgba(255,205,13,.1);border-radius:6px;padding:.5rem .8rem;letter-spacing:.02em;margin-bottom:.5rem">${m.horizon}</div>
+
+    <div class="sp-section-title">💪 Forces</div>
+    <div style="margin-bottom:.5rem">${m.forces.map(f=>`<span class="sp-tag force" style="font-size:.65rem;color:#7de8ff">✓ ${f}</span>`).join('')}</div>
+
+    <div class="sp-section-title">⚠️ Faiblesses</div>
+    <div style="margin-bottom:.5rem">${m.faiblesses.map(f=>`<span class="sp-tag faiblesse" style="font-size:.65rem;color:#ff7090">✗ ${f}</span>`).join('')}</div>
+
+    <div class="sp-section-title">📐 Allocation cible</div>
+    <div class="sp-alloc-bar" style="margin-bottom:.5rem">${allocBar}</div>
+    <div style="display:flex;flex-direction:column;gap:.35rem;margin-bottom:.6rem">
+      ${p.alloc.map(a=>`<div style="display:flex;align-items:center;gap:.5rem;font-size:.78rem"><span style="width:9px;height:9px;border-radius:50%;background:${a.color};flex-shrink:0"></span><span style="flex:1;color:#c8e8f0">${a.name}</span><span style="color:${a.color};font-weight:800">${a.pct}%</span></div>`).join('')}
+    </div>
+
+    <div class="sp-advice-box" style="font-size:.8rem;color:#dff0f5;line-height:1.65">💡 ${p.advice}</div>
+    <button onclick="openDiag()" style="width:100%;margin-top:1rem;padding:.6rem;background:transparent;border:1px solid var(--ln2);border-radius:7px;font-size:.75rem;color:#9bbfcc;cursor:pointer;letter-spacing:.04em">↺ Refaire le diagnostic</button>
+  </div>`;
+}
 function toggleSidebar(){
   const layout = el('learnLayout');
   const btn = el('sidebarToggle');
   const open = layout.classList.toggle('sidebar-open');
   btn.textContent = open ? '✕' : '☰';
+  // Redessine le SVG après la fin de la transition CSS (300ms)
+  setTimeout(()=>{ const svg=el('pathSvg'); if(svg&&window._lastMapPts) renderPathSvg(window._lastMapPts,window._lastMapH); },320);
 }
 function toggleSidebarTrack(id, btn){
   const panel=document.getElementById(id);
@@ -2692,7 +2852,20 @@ function openTrackDrawer(idx){
     btn.textContent=doneTr>0?'Continuer →':'Commencer →';
     btn.onclick=()=>{closeMb();openLesson(firstUnlocked.id);};
   } else {
-    btn.textContent='✓ Terminé';btn.disabled=true;
+    // Cherche le module en cours (partiellement commencé) sinon le premier non commencé
+    const allTracks=LESSONS[S.level]||[];
+    let targetIdx=allTracks.findIndex(t=>{
+      const d=t.lessons.filter(l=>S.done.has(l.id)).length;
+      return d>0&&d<t.lessons.length;
+    });
+    if(targetIdx===-1)targetIdx=allTracks.findIndex(t=>t.lessons.length>0&&t.lessons.every(l=>!S.done.has(l.id)));
+    if(targetIdx!==-1){
+      const nName=allTracks[targetIdx].track.replace(/^\S+\s/,'');
+      btn.textContent='→ '+nName;btn.disabled=false;
+      btn.onclick=()=>{closeMb();openTrackDrawer(targetIdx);};
+    } else {
+      btn.textContent='✓ Tout terminé';btn.disabled=true;
+    }
   }
   el('mbDetailBtn').onclick=()=>{closeMb();openTrackDetail(idx);};
   // Barre réduite
@@ -2783,7 +2956,7 @@ function showLessonMap(){
         <span style="filter:sepia(1) hue-rotate(5deg) saturate(3) brightness(1.1)">${emo}</span>
       </div>
       <div class="pnode-label">${name}</div>
-      <div class="pnode-pg">${doneTr}/${track.lessons.length}</div>
+      <div class="pnode-pg">${doneTr} / ${track.lessons.length}</div>
     </div>`;
   });
 
@@ -2799,7 +2972,19 @@ function showLessonMap(){
     </div>
   </div>`;
   el('learnMain').innerHTML=html;
-  requestAnimationFrame(()=>renderPathSvg(pts,totalH));
+  window._lastMapPts=pts; window._lastMapH=totalH;
+  requestAnimationFrame(()=>{
+    renderPathSvg(pts,totalH);
+    // ResizeObserver : redessine le chemin si le conteneur change de taille
+    const canvas=document.querySelector('.path-canvas-wrap');
+    if(canvas&&window.ResizeObserver){
+      if(window._mapResizeObs) window._mapResizeObs.disconnect();
+      window._mapResizeObs=new ResizeObserver(()=>{
+        if(window._lastMapPts) renderPathSvg(window._lastMapPts,window._lastMapH);
+      });
+      window._mapResizeObs.observe(canvas);
+    }
+  });
 }
 
 /* ══ LESSON VIEW ══ */
@@ -2838,12 +3023,17 @@ function openLesson(id){
       <div class="quiz-card">
         <div class="quiz-head">
           <span class="quiz-lbl">🧠 Quiz</span>
-          <button class="quiz-calc-btn" onclick="toggleCalc()" title="Calculatrice">🧮</button>
+          <div class="quiz-head-right">
+            <button class="quiz-help-btn" onclick="toggleHelp('${lesson.tag}')" title="Aide calculs">💡 Aide</button>
+            <button class="quiz-calc-btn" onclick="toggleCalc()" title="Calculatrice">🧮</button>
+          </div>
         </div>
+        <div class="quiz-help-panel" id="quizHelpPanel"></div>
         <div class="quiz-calc-panel" id="quizCalcPanel">
           <div class="qc-screen" id="qcScreen">0</div>
           <div class="qc-grid">
-            <button class="qc-btn clr" onclick="qcInput('C')" style="grid-column:span 2">C</button>
+            <button class="qc-btn clr" onclick="qcInput('C')">C</button>
+            <button class="qc-btn clr" onclick="qcInput('DEL')" style="color:var(--r)">⌫</button>
             <button class="qc-btn op" onclick="qcInput('%')">%</button>
             <button class="qc-btn op" onclick="qcInput('/')">÷</button>
             <button class="qc-btn" onclick="qcInput('7')">7</button>
@@ -3246,6 +3436,41 @@ function updatePortSummary(val,pnl){
     <div class="ps-card" style="margin-top:.4rem"><div class="ps-lbl">PnL total</div><div class="ps-val ${pnl>=0?'g':'r'}">${pnl>=0?'+':''}${fmt(pnl)} 🪙</div></div>`;
 }
 
+/* ══ PORTFOLIO MODAL ══ */
+function openPortfolioModal(){
+  const active=ASSETS.filter(a=>S.positions[a.id]&&S.positions[a.id].qty>0.00001);
+  let totalVal=0,totalPnl=0;
+  const pmList=el('pmList');
+  const pmSummary=el('pmSummary');
+  if(!pmList||!pmSummary)return;
+  if(!active.length){
+    pmSummary.innerHTML='';
+    pmList.innerHTML='<div class="pm-empty">Aucune position ouverte pour le moment.</div>';
+  } else {
+    pmList.innerHTML=active.map(a=>{
+      const pos=S.positions[a.id],p=S.prices[a.id],val=pos.qty*p,pnl=(p-pos.avgPrice)*pos.qty;
+      const pct=(p-pos.avgPrice)/pos.avgPrice*100;
+      totalVal+=val;totalPnl+=pnl;
+      return `<div class="pm-item">
+        <span class="pm-emo">${a.emoji}</span>
+        <div class="pm-info">
+          <div class="pm-name">${a.name}</div>
+          <div class="pm-sub">${pos.qty.toFixed(4)} u. · PRU ${fmtP(pos.avgPrice)}</div>
+        </div>
+        <div class="pm-right">
+          <div class="pm-val">${fmt(val)} 🪙</div>
+          <div class="pm-pnl" style="color:${pnl>=0?'var(--g)':'var(--r)'}">${pnl>=0?'+':''}${fmt(pnl)} (${pnl>=0?'+':''}${pct.toFixed(1)}%)</div>
+        </div>
+      </div>`;
+    }).join('');
+    pmSummary.innerHTML=`
+      <div class="pm-sc"><div class="pm-sl">Valeur totale</div><div class="pm-sv" style="color:var(--y)">${fmt(totalVal)} 🪙</div></div>
+      <div class="pm-sc"><div class="pm-sl">PnL total</div><div class="pm-sv" style="color:${totalPnl>=0?'var(--g)':'var(--r)'}">${totalPnl>=0?'+':''}${fmt(totalPnl)} 🪙</div></div>`;
+  }
+  el('portModalOv').classList.add('show');
+}
+function closePortfolioModal(){el('portModalOv').classList.remove('show');}
+
 /* ══ ÉVÉNEMENTS ══ */
 function triggerEvent(){
   const ev=EVENTS[Math.floor(Math.random()*EVENTS.length)];S.lastEvent=ev;
@@ -3547,28 +3772,101 @@ function checkMissions(){
 }
 
 /* ══ CALCULATRICE QUIZ ══ */
+/* ══ AIDE QUIZ ══ */
+const QUIZ_HELP={
+  'Fiscalité':[
+    {label:'Flat tax (PFU)',formula:'Gain × 30%',tip:'Ex : 10 000€ de gain → 10 000 × 0,30 = 3 000€ d\'impôt'},
+    {label:'Prélèvements sociaux seuls (PEA > 5 ans)',formula:'Gain × 17,2%',tip:'Ex : 10 000€ → 10 000 × 0,172 = 1 720€. Économie vs CTO : 1 280€'},
+    {label:'Abattement AV (> 8 ans)',formula:'(Gain − 4 600€) × 17,2%',tip:'4 600€ abattus par an (couple : 9 200€). Sur 10 000€ de gain : (10 000 − 4 600) × 17,2% = 928€'},
+  ],
+  'ETF':[
+    {label:'Rendement annualisé (TCAC)',formula:'(Valeur finale / Valeur initiale)^(1/n) − 1',tip:'Ex : 1 000€ → 2 000€ en 7 ans : (2000/1000)^(1/7) − 1 = 10,4%/an'},
+    {label:'Frais sur performance (drag)',formula:'Capital × (1 − frais)^n',tip:'Ex : 10 000€ à 7%/an, frais 0,2% vs 1,5% sur 30 ans → différence = 20 000€+'},
+    {label:'DCA : prix moyen',formula:'Total investi / Total unités achetées',tip:'Ex : 3 achats de 100€ à 10€, 8€, 12€ → 300€ / 35,8 u = 8,38€/unité'},
+  ],
+  'Macro':[
+    {label:'Taux réel',formula:'Taux nominal − Inflation',tip:'Ex : obligation à 4%, inflation 2,5% → taux réel = 1,5%'},
+    {label:'PER (Price-Earnings Ratio)',formula:'Prix action / Bénéfice par action',tip:'Ex : action à 150€, BPA 10€ → PER = 15. Le marché paie 15× les bénéfices'},
+    {label:'Rendement obligataire',formula:'Coupon annuel / Prix du marché',tip:'Ex : obligation 1 000€, coupon 40€, prix 950€ → rendement = 40/950 = 4,2%'},
+  ],
+  'Analyse':[
+    {label:'Marge nette',formula:'Bénéfice net / Chiffre d\'affaires × 100',tip:'Ex : CA 500M€, bénéfice 50M€ → marge = 10%'},
+    {label:'ROE (Return on Equity)',formula:'Bénéfice net / Capitaux propres × 100',tip:'Ex : bénéfice 20M€, capitaux 100M€ → ROE = 20%. Au-dessus de 15% = solide'},
+    {label:'Free Cash Flow Yield',formula:'FCF par action / Prix action × 100',tip:'Ex : FCF/action 8€, prix 100€ → FCF yield = 8%. Indique la « vraie » rentabilité'},
+  ],
+  'Retraite':[
+    {label:'Intérêts composés',formula:'Capital × (1 + taux)^années',tip:'Ex : 10 000€ à 7%/an sur 25 ans → 10 000 × (1,07)^25 = 54 274€'},
+    {label:'Règle des 72 (doublement)',formula:'72 / Taux annuel = années pour doubler',tip:'Ex : à 7%/an → 72/7 ≈ 10 ans pour doubler. À 4%/an → 18 ans'},
+    {label:'Taux de retrait sécurisé (règle des 4%)',formula:'Capital nécessaire = Dépenses annuelles / 4%',tip:'Ex : 30 000€/an de dépenses → 30 000 / 0,04 = 750 000€ de capital'},
+  ],
+  'Crypto':[
+    {label:'Plus/moins-value',formula:'(Prix vente − Prix achat) × Quantité',tip:'Ex : acheté 2 BTC à 30 000€, vendu à 45 000€ → (45 000 − 30 000) × 2 = 30 000€ de gain'},
+    {label:'Volatilité approximative',formula:'(Haut − Bas) / Bas × 100',tip:'Ex : BTC entre 60 000€ et 42 000€ → (60 000 − 42 000)/42 000 × 100 = 42,8%'},
+  ],
+  'Risk':[
+    {label:'VaR simplifiée (1 jour)',formula:'Position × Volatilité journalière × z',tip:'z = 1,65 pour 95% de confiance. Ex : 10 000€, vol 2% → VaR = 10 000 × 0,02 × 1,65 = 330€'},
+    {label:'Ratio de Sharpe',formula:'(Rendement − Taux sans risque) / Volatilité',tip:'Ex : fonds 10%/an, taux sans risque 3%, vol 12% → Sharpe = (10−3)/12 = 0,58. > 1 = bon'},
+  ],
+  'Options':[
+    {label:'Valeur intrinsèque (Call)',formula:'Max(0 , Prix actuel − Strike)',tip:'Ex : action à 105€, strike 100€ → valeur intrinsèque = 5€'},
+    {label:'Levier d\'une option',formula:'Delta × Prix actif / Prime option',tip:'Ex : Delta 0,6, actif 100€, prime 3€ → levier = 0,6 × 100/3 = 20×'},
+    {label:'Seuil de rentabilité (Call)',formula:'Strike + Prime payée',tip:'Ex : Call strike 50€, prime 3€ → rentable si l\'actif dépasse 53€'},
+  ],
+  'Immo':[
+    {label:'Rendement brut locatif',formula:'Loyer annuel / Prix d\'achat × 100',tip:'Ex : loyer 700€/mois, achat 140 000€ → 8 400/140 000 × 100 = 6%'},
+    {label:'Rendement net',formula:'(Loyer − Charges − Taxe) / Prix × 100',tip:'Ex : 8 400€ − 2 000€ charges = 6 400€ net → 6 400/140 000 = 4,6%'},
+    {label:'Effet de levier crédit',formula:'Rendement net / Apport × 100',tip:'Ex : 4,6% sur 140 000€ avec apport 30 000€ → levier = 4,6% × 140 000/30 000 = 21,5%/an sur l\'apport'},
+  ],
+  'default':[
+    {label:'Variation en %',formula:'(Nouvelle valeur − Ancienne) / Ancienne × 100',tip:'Ex : 80€ → 100€ : (100−80)/80 × 100 = +25%'},
+    {label:'Montant d\'une variation',formula:'Valeur initiale × (1 + taux)',tip:'Ex : 1 000€ × 1,07 = 1 070€ après +7%'},
+    {label:'Trouver le taux',formula:'(Valeur finale / Valeur initiale − 1) × 100',tip:'Ex : 1 200€ / 1 000€ − 1 = 0,20 → +20%'},
+  ]
+};
+function toggleHelp(tag){
+  const p=el('quizHelpPanel');if(!p)return;
+  if(p.classList.contains('open')){p.classList.remove('open');return;}
+  const items=QUIZ_HELP[tag]||QUIZ_HELP['default'];
+  p.innerHTML=`<div class="qh-title">💡 Méthodes de calcul · ${tag||'Général'}</div>`+
+    items.map(h=>`<div class="qh-block">
+      <div class="qh-label">${h.label}</div>
+      <span class="qh-formula">${h.formula}</span>
+      <div class="qh-tip">${h.tip}</div>
+    </div>`).join('');
+  p.classList.add('open');
+}
+
 let _calcExpr='';
 function toggleCalc(){
   const p=el('quizCalcPanel');if(!p)return;
   p.classList.toggle('open');
 }
+function _calcFormat(expr){
+  // Formate chaque nombre dans l'expression avec des espaces (ex: 1 000 000)
+  return expr.replace(/(\d+\.?\d*)/g,n=>{
+    const parts=n.split('.');
+    parts[0]=parts[0].replace(/\B(?=(\d{3})+(?!\d))/g,' ');
+    return parts.join(',');
+  }).replace(/\*/g,' ×').replace(/\//g,' ÷').replace(/\+/g,' + ').replace(/-/g,' − ');
+}
 function qcInput(v){
   const scr=el('qcScreen');if(!scr)return;
   if(v==='C'){_calcExpr='';scr.textContent='0';return;}
+  if(v==='DEL'){_calcExpr=_calcExpr.slice(0,-1);scr.textContent=_calcExpr?_calcFormat(_calcExpr):'0';return;}
   if(v==='='){
     try{
       let expr=_calcExpr.replace(/×/g,'*').replace(/÷/g,'/').replace(/−/g,'-');
-      // handle %
       expr=expr.replace(/(\d+\.?\d*)%/g,'($1/100)');
       const res=Function('"use strict";return ('+expr+')')();
-      scr.textContent=parseFloat(res.toFixed(8)).toString();
-      _calcExpr=scr.textContent;
+      const formatted=parseFloat(res.toFixed(8)).toString();
+      _calcExpr=formatted;
+      scr.textContent=_calcFormat(formatted);
     }catch{scr.textContent='Erreur';_calcExpr='';}
     return;
   }
   if(_calcExpr===''&&(v==='+'||v==='-'||v==='*'||v==='/')){return;}
   _calcExpr+=v;
-  scr.textContent=_calcExpr;
+  scr.textContent=_calcFormat(_calcExpr);
 }
 
 function claimMission(key,reward,btnEl){
