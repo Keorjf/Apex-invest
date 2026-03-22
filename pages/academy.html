@@ -156,7 +156,7 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 /* ═══════════════════════════════════
    LEARN TAB
 ═══════════════════════════════════ */
-.learn-layout{display:grid;grid-template-columns:0px 1fr;min-height:calc(100vh - 46px - 172px);transition:grid-template-columns .3s ease;}
+.learn-layout{display:grid;grid-template-columns:0px 1fr;min-height:calc(100vh - 48px);transition:grid-template-columns .3s ease;}
 .learn-layout.sidebar-open{grid-template-columns:280px 1fr;}
 .learn-sidebar{border-right:1px solid var(--ln);padding:1rem 0;position:sticky;top:48px;height:calc(100vh - 48px);overflow-y:auto;overflow-x:hidden;width:280px;transform:translateX(-100%);transition:transform .3s ease;}
 .learn-layout.sidebar-open .learn-sidebar{transform:translateX(0);}
@@ -289,46 +289,18 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 .cc-mult{font-size:.65rem;color:var(--o);margin-left:.3rem;}
 .cc-btns{display:flex;gap:.7rem;justify-content:center;flex-wrap:wrap;}
 
-/* PARCOURS BANNER */
-.parcours-banner-wrap{
-  position:sticky;top:46px;z-index:100;
-  background:linear-gradient(180deg,var(--bg1) 0%,rgba(15,46,61,.97) 100%);
-  border-bottom:2px solid rgba(255,205,13,.18);
-  box-shadow:0 6px 28px rgba(0,0,0,.45);
-  overflow-x:auto;overflow-y:hidden;height:172px;flex-shrink:0;
-}
-.parcours-banner-wrap::-webkit-scrollbar{height:3px;}
-.parcours-banner-wrap::-webkit-scrollbar-thumb{background:rgba(255,205,13,.35);border-radius:2px;}
-.pb-inner{position:relative;height:172px;display:inline-block;min-width:100%;}
-.pb-svg{position:absolute;top:0;left:0;pointer-events:none;z-index:0;}
-.pb-node{
-  position:absolute;display:flex;flex-direction:column;align-items:center;
-  gap:.2rem;cursor:pointer;z-index:1;transform:translate(-50%,-50%);
-  transition:.18s;
-}
-.pb-bubble{
-  width:78px;height:78px;border-radius:50%;
-  border:3px solid rgba(255,205,13,.45);background:var(--bg2);
-  display:flex;align-items:center;justify-content:center;
-  font-size:2.1rem;transition:.22s;
-  box-shadow:0 4px 16px rgba(0,0,0,.45),0 0 0 6px rgba(255,205,13,.06);
-}
-.pb-bubble.done{border-color:var(--g);background:rgba(255,205,13,.13);box-shadow:0 4px 18px rgba(255,205,13,.3),0 0 0 8px rgba(255,205,13,.08);}
-.pb-bubble.cur{border-color:var(--y);border-width:4px;box-shadow:0 4px 22px rgba(78,194,218,.5),0 0 0 9px rgba(78,194,218,.12);}
-.pb-node:hover .pb-bubble{transform:scale(1.13) translateY(-5px);}
-.pb-label{font-family:'Nunito';font-size:.6rem;font-weight:700;color:var(--soft);text-align:center;width:90px;line-height:1.2;}
-.pb-pg{font-family:'JetBrains Mono',monospace;font-size:.55rem;color:var(--g);}
-
-/* MAP / PARCOURS (legacy vertical — kept for compatibility) */
+/* MAP / PARCOURS */
 .lesson-map{padding:0;width:100%;display:flex;flex-direction:column;height:100%;}
 .map-hero{padding:1rem 1.5rem .5rem;text-align:center;flex-shrink:0;}
 .map-title{font-family:'Bungee','Arial Black',impact,sans-serif;font-size:1.6rem;letter-spacing:.04em;}
+
+/* ORGANIC MAP CANVAS */
 .path-canvas-wrap{position:relative;flex:1;overflow-y:auto;overflow-x:hidden;}
 .path-svg{position:absolute;top:0;left:0;width:100%;pointer-events:none;z-index:0;}
 .pnode{position:absolute;display:flex;flex-direction:column;align-items:center;gap:.3rem;cursor:pointer;z-index:2;transform:translate(-50%,-50%);}
 .pnode-bubble{width:140px;height:140px;border-radius:50%;border:4px solid rgba(255,205,13,.5);background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:3.8rem;transition:.25s;box-shadow:0 8px 32px rgba(0,0,0,.45),0 0 0 10px rgba(255,205,13,.07);}
-.pnode-bubble.done{border-color:var(--g);background:rgba(255,205,13,.14);}
-.pnode:hover .pnode-bubble{transform:scale(1.08) translateY(-6px);}
+.pnode-bubble.done{border-color:var(--g);background:rgba(255,205,13,.14);box-shadow:0 8px 32px rgba(255,205,13,.35),0 0 0 14px rgba(255,205,13,.1);}
+.pnode:hover .pnode-bubble{transform:scale(1.08) translateY(-6px);box-shadow:0 16px 48px rgba(255,205,13,.45),0 0 0 16px rgba(255,205,13,.15);}
 .pnode-label{font-family:'Nunito';font-size:.82rem;font-weight:600;color:var(--soft);text-align:center;width:150px;line-height:1.35;margin-top:.3rem;}
 .pnode-pg{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--g);}
 
@@ -978,18 +950,12 @@ table.assets th{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;col
   <div class="xp-bar"><div class="xp-fill" id="xpFill"></div></div>
 
   <!-- LEARN -->
+
   <div class="tab active" id="tabLearn">
-    <div class="parcours-banner-wrap" id="parcoursBannerWrap">
-      <div id="parcoursBanner"></div>
-    </div>
     <div class="learn-layout" id="learnLayout">
       <aside class="learn-sidebar" id="learnSidebar"></aside>
       <div class="learn-main" id="learnMain"></div>
     </div>
-  </div>
-  <div class="track-drawer" id="trackDrawer">
-    <div class="drawer-handle"></div>
-    <div id="drawerContent"></div>
   </div>
 
   <!-- MARKET -->
@@ -2440,7 +2406,7 @@ function boot(level){
   el('app').style.display='flex';
   el('tbLvlLabel').textContent=level;
   updateWalletUI();updateXPUI();updateStreakUI();
-  buildLearnSidebar();buildParcoursBanner();showLessonMap();
+  buildLearnSidebar();showLessonMap();
   buildMarketTable();selectAsset('msci');
   startMarketSim();startClock();renderMissions();renderLimitQueue();
   if(S.diagDone&&S.diagProfile)showAllocPanel();
@@ -2458,7 +2424,6 @@ function switchLevel(lvl, optEl){
   document.querySelectorAll('.lvl-opt').forEach(o=>o.classList.remove('active'));
   optEl.classList.add('active');
   boot(lvl);
-  buildParcoursBanner();
 }
 document.addEventListener('click',()=>{ const m=el('lvlMenu'); if(m) m.classList.remove('open'); });
 
@@ -2565,53 +2530,26 @@ function toggleSidebarTrack(id, btn){
   btn.classList.toggle('open', isOpen);
 }
 
-/* ══ PARCOURS BANNER ══ */
-function buildParcoursBanner(){
-  const tracks=LESSONS[S.level]||[];
-  if(!tracks.length)return;
-  const SPACING=138;
-  const MID=86;
-  const AMP=26;
-  const W=tracks.length*SPACING+80;
-  const H=172;
-  const pts=tracks.map((_,i)=>({
-    x:40+i*SPACING,
-    y:MID+Math.sin(i*1.15)*AMP
-  }));
-  let d=`M ${pts[0].x} ${pts[0].y}`;
-  for(let i=1;i<pts.length;i++){
-    const p=pts[i-1],c=pts[i],dx=(c.x-p.x)*.45;
-    d+=` C ${p.x+dx} ${p.y}, ${c.x-dx} ${c.y}, ${c.x} ${c.y}`;
+/* ══ LEARN MAP ══ */
+function renderPathSvg(pts,H){
+  const svg=document.getElementById('pathSvg');if(!svg)return;
+  const W=svg.parentElement.offsetWidth||600;
+  svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+  const abs=pts.map(p=>({x:p.x/100*W,y:p.y}));
+  let d=`M ${abs[0].x} ${abs[0].y}`;
+  for(let i=1;i<abs.length;i++){
+    const prev=abs[i-1],cur=abs[i];
+    const dy=(cur.y-prev.y)*.55;
+    d+=` C ${prev.x} ${prev.y+dy}, ${cur.x} ${cur.y-dy}, ${cur.x} ${cur.y}`;
   }
-  let nodesHtml='';
-  tracks.forEach((track,i)=>{
-    const doneTr=track.lessons.filter(l=>S.done.has(l.id)).length;
-    const allDone=doneTr===track.lessons.length&&track.lessons.length>0;
-    const isCur=S.currentLesson&&track.lessons.some(l=>l.id===S.currentLesson.id);
-    const emo=track.track.match(/^\S+/)?.[0]||'📚';
-    const name=track.track.replace(/^\S+\s/,'');
-    const cls=allDone?' done':isCur?' cur':'';
-    nodesHtml+=`<div class="pb-node" style="left:${pts[i].x}px;top:${pts[i].y}px" onclick="openTrackDrawer(${i})">
-      <div class="pb-bubble${cls}"><span style="filter:sepia(1) hue-rotate(5deg) saturate(3) brightness(1.1)">${emo}</span></div>
-      <div class="pb-label">${name}</div>
-      <div class="pb-pg">${doneTr}/${track.lessons.length}</div>
-    </div>`;
-  });
-  const banner=document.getElementById('parcoursBanner');
-  if(!banner)return;
-  banner.innerHTML=`<div class="pb-inner" style="width:${W}px">
-    <svg class="pb-svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
-      <defs>
-        <linearGradient id="pbGrad" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stop-color="#FFCD0D" stop-opacity=".85"/>
-          <stop offset="100%" stop-color="#4EC2DA" stop-opacity=".55"/>
-        </linearGradient>
-      </defs>
-      <path d="${d}" fill="none" stroke="rgba(255,205,13,.08)" stroke-width="30" stroke-linecap="round"/>
-      <path d="${d}" fill="none" stroke="url(#pbGrad)" stroke-width="6" stroke-linecap="round" stroke-dasharray="13 8" opacity=".92"/>
-    </svg>
-    ${nodesHtml}
-  </div>`;
+  svg.innerHTML=`<defs>
+    <linearGradient id="pg2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFCD0D" stop-opacity=".8"/>
+      <stop offset="100%" stop-color="#4EC2DA" stop-opacity=".4"/>
+    </linearGradient>
+  </defs>
+  <path d="${d}" fill="none" stroke="rgba(255,205,13,.09)" stroke-width="32" stroke-linecap="round"/>
+  <path d="${d}" fill="none" stroke="url(#pg2)" stroke-width="7" stroke-linecap="round" stroke-dasharray="14 8" opacity=".9"/>`;
 }
 
 function openTrackDrawer(idx){
@@ -2668,7 +2606,7 @@ function showLessonMap(){
 function openLesson(id){
   const all=(LESSONS[S.level]||[]).flatMap(t=>t.lessons);
   const lesson=all.find(l=>l.id===id);if(!lesson)return;
-  S.currentLesson=lesson;buildLearnSidebar();buildParcoursBanner();window._quizDone=false;
+  S.currentLesson=lesson;buildLearnSidebar();window._quizDone=false;
   const mult=streakMult();
   const coins=Math.round(lesson.coins*mult);
   let blocks='';
@@ -2690,6 +2628,7 @@ function openLesson(id){
   const doneAlready=S.done.has(lesson.id);
   el('learnMain').innerHTML=`
     <div style="padding:1.5rem 2rem 4rem;max-width:760px;margin:0 auto;width:100%">
+      <button class="btn-ghost" onclick="showLessonMap()" style="margin-bottom:1rem;padding:.4rem .9rem;font-size:.72rem">← Carte</button>
       <div class="lh-tag">🏷️ ${lesson.tag}</div>
       <div class="lh-title">${lesson.e} ${lesson.n}</div>
       <div class="lh-meta">
@@ -2754,7 +2693,7 @@ function completeLesson(id){
     let btns='';
     if(nextAll.length>0)btns+=`<button class="btn-g" onclick="openLesson('${nextAll[0].id}')">Leçon suivante →</button>`;
     btns+=`<button class="btn-ghost" onclick="switchTab('market')">📊 Investir</button>`;
-    btns+=`<button class="btn-ghost" onclick="closeTrackDrawer();showLessonMap()">↩ Parcours</button>`;
+    btns+=`<button class="btn-ghost" onclick="showLessonMap()">↩ Carte</button>`;
     el('ccBtns').innerHTML=btns;
   }
   buildLearnSidebar();checkMissions();saveState();
