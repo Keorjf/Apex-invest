@@ -504,30 +504,28 @@ table.assets th{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;col
 #mainChart{display:block;width:100%;height:100%;}
 
 /* EVENT BANNER */
+/* EVENT NOTIFICATION (bottom of screen) */
 .ev-banner{
-  position:absolute;top:.5rem;left:.5rem;right:.5rem;z-index:20;
-  background:rgba(6,6,15,.94);border:1px solid var(--ln2);border-radius:7px;
-  padding:.6rem .9rem;display:flex;align-items:center;gap:.7rem;
-  transform:translateY(-55px);opacity:0;transition:all .45s cubic-bezier(.34,1.2,.64,1);
+  position:fixed;bottom:1.2rem;left:50%;transform:translateX(-50%) translateY(120px);
+  z-index:800;width:min(520px,90vw);
+  background:rgba(8,14,28,.97);border:1px solid var(--ln2);border-radius:12px;
+  padding:.75rem 1rem;display:flex;align-items:center;gap:.8rem;
+  box-shadow:0 8px 32px rgba(0,0,0,.6);
+  opacity:0;transition:transform .45s cubic-bezier(.34,1.2,.64,1),opacity .35s ease;
+  cursor:pointer;
 }
-.ev-banner.show{transform:translateY(0);opacity:1;}
-.ev-impact{font-size:.66rem;font-weight:700;padding:.18rem .55rem;border-radius:3px;flex-shrink:0;}
-.ev-impact.bad{background:var(--rd);color:var(--r);border:1px solid rgba(255,59,92,.22);}
-.ev-impact.good{background:var(--gd);color:var(--g);border:1px solid rgba(255,205,13,.3);}
-.ev-impact.neutral{background:var(--yd);color:var(--y);border:1px solid rgba(78,194,218,.22);}
-.ev-txt{flex:1;}
-.ev-title{font-size:.78rem;font-weight:700;margin-bottom:.08rem;}
-.ev-desc{font-size:.66rem;color:var(--muted);}
-.ev-close{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:.75rem;padding:.2rem;}
+.ev-banner.show{transform:translateX(-50%) translateY(0);opacity:1;}
+.ev-banner:hover{border-color:var(--ln2);background:rgba(12,20,38,.98);}
+.ev-impact{font-size:1.4rem;flex-shrink:0;}
+.ev-txt{flex:1;min-width:0;}
+.ev-title{font-size:.82rem;font-weight:700;color:var(--txt);margin-bottom:.12rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ev-desc{font-size:.65rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ev-cta{font-size:.6rem;color:var(--y);border:1px solid rgba(255,205,13,.3);background:rgba(255,205,13,.07);padding:.2rem .55rem;border-radius:20px;white-space:nowrap;flex-shrink:0;}
+.ev-close{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:.85rem;padding:.2rem;flex-shrink:0;transition:.15s;}
+.ev-close:hover{color:var(--r);}
 
 /* EVENT DEBRIEF */
-.ev-debrief-btn{
-  font-size:.62rem;color:var(--b);background:var(--bd);
-  border:1px solid rgba(77,158,255,.18);padding:.15rem .5rem;
-  border-radius:3px;cursor:pointer;flex-shrink:0;
-  transition:.15s;
-}
-.ev-debrief-btn:hover{background:rgba(77,158,255,.16);}
+.ev-debrief-btn{display:none;}
 
 /* EVENTS TICKER */
 .events-ticker{padding:.4rem .8rem;border-top:1px solid var(--ln);background:var(--bg1);flex-shrink:0;}
@@ -1213,18 +1211,15 @@ table.assets th{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;col
           </div>
           <div class="chart-wrap">
             <canvas id="mainChart"></canvas>
-            <div class="ev-banner" id="evBanner">
+            <div class="ev-banner" id="evBanner" onclick="openDebriefFromBanner(event)">
               <div class="ev-impact" id="evImpact">—</div>
               <div class="ev-txt"><div class="ev-title" id="evTitle">—</div><div class="ev-desc" id="evDesc">—</div></div>
-              <button class="ev-debrief-btn" id="evDebriefBtn" onclick="openDebrief()">Débrief →</button>
-              <button class="ev-close" onclick="closeEvBanner()">✕</button>
+              <span class="ev-cta">Voir le détail →</span>
+              <button class="ev-close" onclick="event.stopPropagation();closeEvBanner()">✕</button>
             </div>
           </div>
         </div>
-        <div class="events-ticker">
-          <div class="et-lbl">Flux économique</div>
-          <div class="et-items" id="etItems"></div>
-        </div>
+        <div id="etItems" style="display:none"></div>
       </div>
 
       <div class="mkt-right" id="mktRight">
@@ -3612,27 +3607,25 @@ function openPortfolioModal(){
 function closePortfolioModal(){el('portModalOv').classList.remove('show');}
 
 /* ══ ÉVÉNEMENTS ══ */
+function _showEvBanner(ev){
+  const banner=el('evBanner');if(!banner)return;
+  el('evImpact').textContent=ev.impact==='good'?'📈':'📉';
+  el('evTitle').textContent=ev.title;
+  el('evDesc').textContent=ev.desc;
+  banner.classList.add('show');
+  clearTimeout(banner._autoHide);
+  banner._autoHide=setTimeout(()=>closeEvBanner(),12000);
+}
 function triggerEvent(){
   const ev=EVENTS[Math.floor(Math.random()*EVENTS.length)];S.lastEvent=ev;
-  const banner=el('evBanner');
-  if(banner){
-    banner.style.display='flex';
-    el('evImpact').textContent=ev.impact==='good'?'📈':'📉';
-    el('evTitle').textContent=ev.title;
-    el('evDesc').textContent=ev.desc;
-  }
+  _showEvBanner(ev);
   Object.entries(ev.effects).forEach(([id,delta])=>{
     if(S.prices[id]!==undefined){S.prices[id]*=(1+delta);S.history[id].push(S.prices[id]);}
   });
-  const feed=el('etItems');
-  if(feed){
-    const item=document.createElement('div');
-    item.className='et-item '+ev.impact;item.textContent=ev.title;
-    feed.prepend(item);if(feed.children.length>10)feed.lastChild.remove();
-  }
   refreshMarketUI();
 }
-function closeEvBanner(){const b=el('evBanner');if(b)b.style.display='none';}
+function closeEvBanner(){const b=el('evBanner');if(b)b.classList.remove('show');}
+function openDebriefFromBanner(e){if(e.target.classList.contains('ev-close'))return;openDebrief();}
 
 /* ══ ECO EVENTS PANEL ══ */
 let _ecoHistory=[];
@@ -3665,11 +3658,8 @@ function renderEcoPanel(){
 function simulateEvent(evId){
   const ev=EVENTS.find(e=>e.id===evId);if(!ev)return;
   S.lastEvent=ev;
-  const banner=el('evBanner');
-  if(banner){banner.style.display='flex';el('evImpact').textContent=ev.impact==='good'?'📈':'📉';el('evTitle').textContent=ev.title;el('evDesc').textContent=ev.desc;}
+  _showEvBanner(ev);
   Object.entries(ev.effects).forEach(([id,delta])=>{if(S.prices[id]!==undefined){S.prices[id]*=(1+delta);S.history[id].push(S.prices[id]);}});
-  const feed=el('etItems');
-  if(feed){const item=document.createElement('div');item.className='et-item '+ev.impact;item.textContent=ev.title;feed.prepend(item);if(feed.children.length>10)feed.lastChild.remove();}
   _ecoHistory.push({title:ev.title.replace(/^\S+\s*/,''),impact:ev.impact});
   if(_ecoHistory.length>8)_ecoHistory.shift();
   refreshMarketUI();renderEcoPanel();
