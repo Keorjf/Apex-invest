@@ -3642,7 +3642,7 @@ function closeAllocModal(){
 /* ══ DIAGNOSTIC ══ */
 function openDiag(){
   S.diagAnswers={};S.diagStep=0;
-  el('diagOv').style.display='flex';renderDiagStep();
+  const ov=el('diagOv');ov.style.display='flex';ov.style.flexDirection='column';renderDiagStep();
 }
 function closeDiag(){el('diagOv').style.display='none';}
 function renderDiagStep(){
