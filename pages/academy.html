@@ -2587,21 +2587,6 @@ function closeTrackDrawer(){
   if(d)d.classList.remove('open');
 }
 
-function showLessonMap(){
-  S.currentLesson=null;
-  buildLearnSidebar();
-  buildParcoursBanner();
-  const tracks=LESSONS[S.level]||[];
-  const all=tracks.flatMap(t=>t.lessons);
-  const done=all.filter(l=>S.done.has(l.id)).length;
-  el('learnMain').innerHTML=`<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:40vh;text-align:center;padding:3rem 2rem;gap:1rem">
-    <div style="font-size:2.5rem">↑</div>
-    <div style="font-family:'Bungee',sans-serif;font-size:1.3rem;letter-spacing:.04em;color:var(--g)">TON PARCOURS</div>
-    <div style="font-size:.82rem;color:var(--muted);max-width:340px;line-height:1.7">Choisis une thématique dans le parcours ci-dessus pour commencer une leçon.</div>
-    <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--y);background:var(--yd);padding:.4rem 1.2rem;border-radius:100px;border:1px solid rgba(78,194,218,.2)">${done} / ${all.length} leçons complétées</div>
-  </div>`;
-}
-
 /* ══ LESSON VIEW ══ */
 function openLesson(id){
   const all=(LESSONS[S.level]||[]).flatMap(t=>t.lessons);
