@@ -698,6 +698,19 @@ table.assets th.clickable:hover{color:var(--y);}
 .reb-btn-all:disabled{opacity:.4;cursor:not-allowed;transform:none;}
 .align-bar-wrap{cursor:pointer;transition:.18s;}
 .align-bar-wrap:hover{background:rgba(255,255,255,.03);border-radius:7px;}
+/* CASH RESERVE */
+.reb-cash{background:var(--bg3);border:1px solid rgba(78,194,218,.2);border-radius:9px;padding:.7rem .85rem;margin-bottom:1rem;}
+.reb-cash-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem;}
+.reb-cash-lbl{font-size:.65rem;font-weight:700;color:var(--soft);text-transform:uppercase;letter-spacing:.08em;}
+.reb-cash-val{font-family:'JetBrains Mono','Courier New',monospace;font-size:.82rem;font-weight:700;color:var(--y);}
+.reb-cash-row{display:flex;align-items:center;gap:.5rem;}
+.reb-cash-input{flex:1;background:var(--bg1);border:1px solid var(--ln);border-radius:6px;padding:.38rem .6rem;color:var(--txt);font-size:.78rem;outline:none;transition:border-color .18s;font-family:'JetBrains Mono','Courier New',monospace;}
+.reb-cash-input:focus{border-color:rgba(78,194,218,.4);}
+.reb-cash-unit{font-size:.68rem;color:var(--muted);}
+.reb-cash-pills{display:flex;gap:.3rem;margin-top:.4rem;}
+.reb-cash-pill{flex:1;font-size:.58rem;padding:.22rem;border-radius:4px;border:1px solid var(--ln);background:transparent;color:var(--muted);cursor:pointer;transition:.14s;text-align:center;}
+.reb-cash-pill:hover,.reb-cash-pill.active{border-color:rgba(78,194,218,.4);color:var(--b);background:rgba(78,194,218,.08);}
+.reb-cash-hint{font-size:.6rem;color:var(--muted);margin-top:.4rem;font-style:italic;}
 .port-summary{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.75rem;}
 .ps-card{background:linear-gradient(135deg,var(--bg3),rgba(255,255,255,.02));border:1px solid var(--ln2);border-radius:10px;padding:.7rem .85rem;position:relative;overflow:hidden;}
 .ps-card::before{content:'';position:absolute;inset:0;border-radius:10px;opacity:0;transition:.2s;}
@@ -1364,6 +1377,24 @@ table.assets th.clickable:hover{color:var(--y);}
       <div class="reb-title">⚖️ Rééquilibrage du portefeuille</div>
       <div class="reb-sub" id="rebSub"></div>
       <div class="reb-score" id="rebScore"></div>
+      <div class="reb-cash">
+        <div class="reb-cash-hdr">
+          <span class="reb-cash-lbl">🏦 Réserve de cash</span>
+          <span class="reb-cash-val" id="rebCashDisplay">0 🪙</span>
+        </div>
+        <div class="reb-cash-row">
+          <input class="reb-cash-input" id="rebCashPct" type="number" min="0" max="80" value="0" placeholder="0" oninput="updateRebCash()">
+          <span class="reb-cash-unit">% du portefeuille</span>
+        </div>
+        <div class="reb-cash-pills">
+          <button class="reb-cash-pill active" onclick="setRebCash(0)">0%</button>
+          <button class="reb-cash-pill" onclick="setRebCash(5)">5%</button>
+          <button class="reb-cash-pill" onclick="setRebCash(10)">10%</button>
+          <button class="reb-cash-pill" onclick="setRebCash(20)">20%</button>
+          <button class="reb-cash-pill" onclick="setRebCash(30)">30%</button>
+        </div>
+        <div class="reb-cash-hint">Le cash réservé ne sera pas investi lors du rééquilibrage.</div>
+      </div>
       <div class="reb-list" id="rebList"></div>
       <button class="reb-btn-all" id="rebBtnAll" onclick="executeRebalance()">⚡ Rééquilibrer automatiquement</button>
     </div>
@@ -3903,6 +3934,63 @@ function showAlignDetails(){
   const p=PROFILES[S.diagProfile];if(p){_renderAllocList(p);}
   ov.classList.add('show');
 }
+function _rebCashAmt(){
+  const pct=Math.min(80,Math.max(0,parseFloat(el('rebCashPct')?.value)||0));
+  const total=ASSETS.reduce((s,a)=>s+(S.positions[a.id]?.qty||0)*S.prices[a.id],0)+S.coins;
+  return Math.floor(total*pct/100);
+}
+function updateRebCash(){
+  const amt=_rebCashAmt();
+  const disp=el('rebCashDisplay');if(disp)disp.textContent=fmt(amt)+' 🪙';
+  document.querySelectorAll('.reb-cash-pill').forEach(b=>b.classList.remove('active'));
+  _renderRebList();
+}
+function setRebCash(pct){
+  const inp=el('rebCashPct');if(inp){inp.value=pct;}
+  document.querySelectorAll('.reb-cash-pill').forEach(b=>b.classList.toggle('active',parseInt(b.textContent)===pct));
+  updateRebCash();
+}
+function _renderRebList(){
+  const p=PROFILES[S.diagProfile];if(!p)return;
+  const totalPortfolio=ASSETS.reduce((s,a)=>s+(S.positions[a.id]?.qty||0)*S.prices[a.id],0)+S.coins;
+  const cashReserve=_rebCashAmt();
+  const investable=totalPortfolio-cashReserve;
+  let anyAction=false;
+  const rows=p.alloc.map(slot=>{
+    const asset=slot.assetId?ASSETS.find(x=>x.id===slot.assetId):null;
+    const curVal=asset?(S.positions[slot.assetId]?.qty||0)*S.prices[slot.assetId]:0;
+    const curPct=totalPortfolio>0?curVal/totalPortfolio*100:0;
+    const targetVal=investable*slot.pct/100;
+    const diff=targetVal-curVal;
+    const aligned=Math.abs(diff)<2;
+    const needBuy=diff>1&&slot.assetId;
+    const needSell=diff<-1&&slot.assetId&&curVal>0;
+    if(needBuy||needSell)anyAction=true;
+    const actionHtml=aligned
+      ?`<span class="reb-action ok">✓ Aligné</span>`
+      :needBuy?`<span class="reb-action buy">▲ Acheter ${fmt(Math.abs(diff))} 🪙</span>`
+      :needSell?`<span class="reb-action sell">▼ Vendre ${fmt(Math.abs(diff))} 🪙</span>`
+      :`<span class="reb-action ok">≈ OK</span>`;
+    const targetPct=investable>0?targetVal/totalPortfolio*100:0;
+    const barPct=Math.min(100,curPct/Math.max(targetPct,0.1)*100);
+    const targetLeft=Math.min(98,targetPct/Math.max(slot.pct,1)*100);
+    return `<div class="reb-item">
+      <div class="reb-item-top">
+        <span class="reb-emo">${asset?asset.emoji:'💼'}</span>
+        <span class="reb-name">${slot.name}</span>
+        ${actionHtml}
+      </div>
+      <div class="reb-bar-wrap">
+        <div class="reb-bar-cur" style="width:${barPct}%;background:${slot.color}"></div>
+        <div class="reb-bar-target" style="left:${targetLeft}%"></div>
+      </div>
+      <div class="reb-pcts"><span>${curPct.toFixed(1)}% actuel</span><span>cible ${(targetVal/totalPortfolio*100).toFixed(1)}%</span></div>
+    </div>`;
+  }).join('');
+  const listEl=el('rebList');if(listEl)listEl.innerHTML=rows;
+  const btn=el('rebBtnAll');
+  if(btn){btn.disabled=!anyAction;btn.textContent=anyAction?'⚡ Rééquilibrer automatiquement':'✓ Portefeuille déjà équilibré';}
+}
 function openRebalanceModal(){
   if(!S.diagProfile)return;
   const p=PROFILES[S.diagProfile];if(!p)return;
@@ -3918,56 +4006,24 @@ function openRebalanceModal(){
       <div class="reb-score-lbl">Profil</div>
       <div style="font-size:.85rem;font-weight:700;color:var(--soft)">${p.emoji} ${p.name}</div>
     </div>`;
-  el('rebSub').textContent=`Voici les ajustements nécessaires pour atteindre l'allocation cible de ton profil ${p.name}.`;
-  let anyAction=false;
-  const rows=p.alloc.map(slot=>{
-    const asset=slot.assetId?ASSETS.find(x=>x.id===slot.assetId):null;
-    const curVal=asset?(S.positions[slot.assetId]?.qty||0)*S.prices[slot.assetId]:0;
-    const curPct=totalPortfolio>0?curVal/totalPortfolio*100:0;
-    const targetVal=totalPortfolio*slot.pct/100;
-    const diff=targetVal-curVal;
-    const diffPct=curPct-slot.pct;
-    const aligned=Math.abs(diffPct)<3;
-    const needBuy=diff>1&&slot.assetId;
-    const needSell=diff<-1&&slot.assetId&&curVal>0;
-    if(needBuy||needSell)anyAction=true;
-    const actionHtml=aligned
-      ?`<span class="reb-action ok">✓ Aligné</span>`
-      :needBuy?`<span class="reb-action buy">▲ Acheter ${fmt(Math.abs(diff))} 🪙</span>`
-      :needSell?`<span class="reb-action sell">▼ Vendre ${fmt(Math.abs(diff))} 🪙</span>`
-      :`<span class="reb-action ok">≈ OK</span>`;
-    const barPct=Math.min(100,curPct/Math.max(slot.pct,1)*100);
-    const targetLeft=Math.min(98,slot.pct/Math.max(slot.pct,1)*100);
-    return `<div class="reb-item">
-      <div class="reb-item-top">
-        <span class="reb-emo">${asset?asset.emoji:'💼'}</span>
-        <span class="reb-name">${slot.name}</span>
-        ${actionHtml}
-      </div>
-      <div class="reb-bar-wrap">
-        <div class="reb-bar-cur" style="width:${barPct}%;background:${slot.color}"></div>
-        <div class="reb-bar-target" style="left:${targetLeft}%"></div>
-      </div>
-      <div class="reb-pcts"><span>${curPct.toFixed(1)}% actuel</span><span>cible ${slot.pct}%</span></div>
-    </div>`;
-  }).join('');
-  el('rebList').innerHTML=rows;
-  const btn=el('rebBtnAll');
-  if(btn)btn.disabled=!anyAction;
-  if(!anyAction&&btn)btn.textContent='✓ Portefeuille déjà équilibré';
-  else if(btn)btn.textContent='⚡ Rééquilibrer automatiquement';
+  el('rebSub').textContent=`Ajustements pour atteindre l'allocation cible de ton profil ${p.name}.`;
+  const cashInp=el('rebCashPct');if(cashInp&&cashInp.value==='')cashInp.value='0';
+  updateRebCash();
+  _renderRebList();
   el('rebModalOv').classList.add('show');
 }
 function closeRebalanceModal(){el('rebModalOv').classList.remove('show');}
 function executeRebalance(){
   const p=PROFILES[S.diagProfile];if(!p)return;
   const totalPortfolio=ASSETS.reduce((s,a)=>s+(S.positions[a.id]?.qty||0)*S.prices[a.id],0)+S.coins;
+  const cashReserve=_rebCashAmt();
+  const investable=totalPortfolio-cashReserve;
   let ops=0;
   p.alloc.forEach(slot=>{
     if(!slot.assetId)return;
     const a=ASSETS.find(x=>x.id===slot.assetId);if(!a)return;
     const curVal=(S.positions[a.id]?.qty||0)*S.prices[a.id];
-    const targetVal=totalPortfolio*slot.pct/100;
+    const targetVal=investable*slot.pct/100;
     const diff=targetVal-curVal;
     if(diff>1){// acheter
       const amt=Math.floor(Math.min(diff,S.coins));if(amt<=0)return;
