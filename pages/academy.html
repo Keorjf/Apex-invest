@@ -461,6 +461,20 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 .asset-wrap{flex:0 0 auto;overflow-y:auto;max-height:40%;border-bottom:1px solid var(--ln);}
 table.assets{width:100%;border-collapse:collapse;}
 table.assets th{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:.6rem 1rem;text-align:left;position:sticky;top:0;background:var(--bg1);border-bottom:1px solid var(--ln);font-family:'Nunito';font-weight:700;z-index:10;}
+table.assets th.clickable{cursor:pointer;transition:.15s;}
+table.assets th.clickable:hover{color:var(--y);}
+/* COL TOOLTIP */
+.col-tip-ov{display:none;position:fixed;inset:0;z-index:900;background:rgba(0,0,0,.5);align-items:center;justify-content:center;}
+.col-tip-ov.show{display:flex;}
+.col-tip{background:var(--bg1);border:1px solid rgba(255,205,13,.2);border-radius:14px;padding:1.4rem 1.3rem 1.2rem;width:92%;max-width:400px;position:relative;}
+.col-tip-close{position:absolute;top:.75rem;right:.85rem;background:none;border:none;color:var(--muted);font-size:1rem;cursor:pointer;}
+.col-tip-close:hover{color:var(--r);}
+.col-tip-ico{font-size:2rem;margin-bottom:.5rem;}
+.col-tip-title{font-size:1rem;font-weight:700;color:var(--y);margin-bottom:.6rem;font-family:'Bungee','Arial Black',impact,sans-serif;letter-spacing:.03em;}
+.col-tip-body{font-size:.78rem;color:var(--soft);line-height:1.65;}
+.col-tip-body strong{color:var(--txt);}
+.col-tip-formula{background:var(--bg3);border:1px solid var(--ln);border-radius:7px;padding:.55rem .8rem;margin-top:.75rem;font-family:'JetBrains Mono','Courier New',monospace;font-size:.72rem;color:var(--y);}
+.col-tip-tag{display:inline-block;background:rgba(255,205,13,.1);border:1px solid rgba(255,205,13,.25);border-radius:20px;padding:.18rem .55rem;font-size:.6rem;color:var(--y);margin-top:.6rem;letter-spacing:.04em;}
 .arow{cursor:pointer;transition:background .15s;border-bottom:1px solid rgba(255,255,255,.05);}
 .arow:hover{background:rgba(78,194,218,.06);}
 .arow.sel{background:rgba(255,205,13,.08);border-left:2px solid var(--g);}
@@ -1172,7 +1186,7 @@ table.assets th{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;col
         <div class="asset-wrap">
           <table class="assets">
             <thead><tr>
-              <th>Actif</th>
+              <th class="clickable" onclick="showColTip('actif')">Actif ℹ</th>
               <th>
                 <div class="cat-th-wrap">
                   <span id="catThLabel" onclick="toggleCatDd()">Cat.</span>
@@ -1190,7 +1204,10 @@ table.assets th{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;col
                   </div>
                 </div>
               </th>
-              <th>Prix</th><th>24h</th><th>7j Spark</th><th>Cap.</th>
+              <th class="clickable" onclick="showColTip('prix')">Prix ℹ</th>
+              <th class="clickable" onclick="showColTip('24h')">24h ℹ</th>
+              <th class="clickable" onclick="showColTip('spark')">7j Spark ℹ</th>
+              <th class="clickable" onclick="showColTip('cap')">Cap. ℹ</th>
             </tr></thead>
             <tbody id="assetBody"></tbody>
           </table>
@@ -1308,6 +1325,16 @@ table.assets th{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;col
           </div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- COL TIP MODAL -->
+  <div class="col-tip-ov" id="colTipOv" onclick="if(event.target===this)closeColTip()">
+    <div class="col-tip">
+      <button class="col-tip-close" onclick="closeColTip()">✕</button>
+      <div class="col-tip-ico" id="colTipIco"></div>
+      <div class="col-tip-title" id="colTipTitle"></div>
+      <div class="col-tip-body" id="colTipBody"></div>
     </div>
   </div>
 
@@ -3626,6 +3653,48 @@ function triggerEvent(){
 }
 function closeEvBanner(){const b=el('evBanner');if(b)b.classList.remove('show');}
 function openDebriefFromBanner(e){if(e.target.classList.contains('ev-close'))return;openDebrief();}
+
+/* ══ COL TIP ══ */
+const COL_TIPS={
+  actif:{ico:'📦',title:'C\'est quoi un actif ?',body:`Un <strong>actif financier</strong> est quelque chose que tu peux acheter dans l'espoir qu'il prenne de la valeur ou génère des revenus.<br><br>
+    Exemples : une action Apple, un ETF MSCI World, de l'Or, du Bitcoin, une obligation d'État.<br><br>
+    Chaque actif a ses propres <strong>caractéristiques de risque et de rendement</strong>. Un actif volatile peut rapporter beaucoup mais aussi beaucoup perdre.
+    <div class="col-tip-tag">🏗️ Base de tout portefeuille</div>`},
+  prix:{ico:'💰',title:'Le prix, comment ça marche ?',body:`Le <strong>prix d'un actif</strong> reflète ce que les acheteurs et vendeurs acceptent d'échanger à un instant T.<br><br>
+    Il est déterminé par <strong>l'offre et la demande</strong> : si plus de gens veulent acheter que vendre → prix monte. Inverse → prix baisse.<br><br>
+    Des facteurs l'influencent : résultats d'entreprise, taux d'intérêt, inflation, événements géopolitiques, sentiment de marché.
+    <div class="col-tip-formula">Prix = Offre ↔ Demande</div>
+    <div class="col-tip-tag">📊 Surveiller le prix en contexte</div>`},
+  '24h':{ico:'⏱️',title:'La variation 24h, pourquoi c\'est utile ?',body:`La <strong>variation sur 24h</strong> montre la performance de l'actif depuis hier à la même heure.<br><br>
+    ✅ <strong>Positif</strong> = l'actif a monté (acheteurs dominants)<br>
+    ❌ <strong>Négatif</strong> = l'actif a baissé (vendeurs dominants)<br><br>
+    Attention : une variation de +3% sur 24h ne signifie pas que l'actif est bon à long terme. C'est un indicateur <strong>court terme</strong> — à ne pas utiliser seul pour décider.
+    <div class="col-tip-formula">(Prix actuel − Prix hier) ÷ Prix hier × 100</div>
+    <div class="col-tip-tag">⚠️ Court terme uniquement</div>`},
+  spark:{ico:'📈',title:'Le graphique 7 jours (Spark)',body:`Le <strong>sparkline</strong> est un mini-graphique qui résume l'évolution du prix sur les 7 derniers jours.<br><br>
+    Il te donne une vue rapide de la <strong>tendance récente</strong> sans avoir à cliquer sur le graphe complet :<br><br>
+    📈 Ligne qui monte = tendance haussière sur la semaine<br>
+    📉 Ligne qui descend = tendance baissière<br>
+    〰️ Ligne plate = actif stable, peu volatile<br><br>
+    Utile pour comparer plusieurs actifs d'un coup d'œil.
+    <div class="col-tip-tag">🔭 Tendance de court-moyen terme</div>`},
+  cap:{ico:'🏛️',title:'La capitalisation, c\'est quoi ?',body:`La <strong>capitalisation boursière</strong> (ou "cap") mesure la valeur totale d'un actif sur le marché.<br><br>
+    Pour une action :<br>
+    <div class="col-tip-formula">Cap = Prix × Nombre total d'actions</div>
+    Pour une crypto :<br>
+    <div class="col-tip-formula">Cap = Prix × Tokens en circulation</div><br>
+    Une <strong>grande cap</strong> (Apple, MSCI World) = actif stable, liquide, moins risqué.<br>
+    Une <strong>petite cap</strong> = actif plus volatile, plus risqué mais potentiel plus élevé.
+    <div class="col-tip-tag">📏 Indicateur de taille et de risque</div>`}
+};
+function showColTip(key){
+  const d=COL_TIPS[key];if(!d)return;
+  el('colTipIco').textContent=d.ico;
+  el('colTipTitle').textContent=d.title;
+  el('colTipBody').innerHTML=d.body;
+  el('colTipOv').classList.add('show');
+}
+function closeColTip(){el('colTipOv').classList.remove('show');}
 
 /* ══ ECO EVENTS PANEL ══ */
 let _ecoHistory=[];
