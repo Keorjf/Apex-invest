@@ -3537,7 +3537,7 @@ function _renderAllocList(p){
     const fillW=Math.min(100,currentPct/slot.pct*100);
     const targetAmt=Math.floor(S.coins*slot.pct/100);
     const aligned=Math.abs(currentPct-slot.pct)<5;
-    const canBuy=slot.assetId&&targetAmt>0;
+    const canBuy=slot.assetId&&targetAmt>0&&(targetAmt*1.001)<=S.coins;
     let btnHtml='';
     if(slot.assetId){
       if(aligned) btnHtml=`<span class="pi-ok">✓ Aligné</span>`;
@@ -3576,7 +3576,7 @@ function quickBuy(assetId,pct,amt){
   S.totalBuys++;
   addJournal({type:'buy',emoji:a.emoji,asset:a.name,note:`Allocation ${pct}% · ${amt.toFixed(0)} 🪙`});
   showToast('buy','▲',`${a.emoji} ${a.name} acheté`,`Allocation ${pct}% · ${amt.toFixed(0)} 🪙`);
-  updateWalletUI();checkMissions();buildMarketTable();updateAlignScore();
+  updateWalletUI();renderPositions();checkMissions();buildMarketTable();updateAlignScore();saveState();
   const pr=PROFILES[S.diagProfile];if(pr)_renderAllocList(pr);
 }
 function quickBuyAll(){
@@ -3596,7 +3596,7 @@ function quickBuyAll(){
   });
   if(total>0){
     showToast('buy','📐','Allocation appliquée !',`${total.toFixed(0)} 🪙 investis selon ton profil ${pr.emoji}`);
-    updateWalletUI();checkMissions();buildMarketTable();updateAlignScore();
+    updateWalletUI();renderPositions();checkMissions();buildMarketTable();updateAlignScore();saveState();
     _renderAllocList(pr);
   }else{
     showToast('warn','⚠️','Impossible','Fonds insuffisants pour allouer.');
