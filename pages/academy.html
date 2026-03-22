@@ -595,9 +595,10 @@ table.assets th{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;col
 
 /* POSITIONS */
 .positions-panel{flex:1;overflow-y:auto;padding:0 .8rem .8rem;}
-.pp-hdr{position:sticky;top:0;background:rgba(11,11,24,.96);backdrop-filter:blur(8px);padding:.6rem .5rem .4rem;font-size:.7rem;letter-spacing:.13em;text-transform:uppercase;color:var(--y);border-bottom:1px solid rgba(255,205,13,.35);margin-bottom:.5rem;cursor:pointer;display:flex;align-items:center;gap:.4rem;border-radius:6px 6px 0 0;transition:.2s;}
-.pp-hdr:hover{background:rgba(255,205,13,.08);color:#fff;box-shadow:0 0 12px rgba(255,205,13,.25);}
-.pp-hdr .pp-hdr-arrow{margin-left:auto;font-size:.65rem;opacity:.6;}
+.pp-hdr{position:sticky;top:0;background:rgba(11,11,24,.97);backdrop-filter:blur(12px);padding:.65rem .7rem;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--y);border:1px solid rgba(255,205,13,.2);border-radius:10px;margin-bottom:.6rem;cursor:pointer;display:flex;align-items:center;gap:.5rem;transition:.2s;box-shadow:0 2px 12px rgba(0,0,0,.3);}
+.pp-hdr:hover{background:rgba(255,205,13,.07);color:#fff;border-color:rgba(255,205,13,.4);box-shadow:0 0 18px rgba(255,205,13,.15);}
+.pp-hdr .pp-hdr-arrow{margin-left:auto;font-size:.7rem;opacity:.5;transition:.2s;}
+.pp-hdr:hover .pp-hdr-arrow{opacity:1;}
 /* PORTFOLIO MODAL */
 .port-modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1100;align-items:center;justify-content:center;}
 .port-modal-ov.show{display:flex;}
@@ -619,11 +620,15 @@ table.assets th{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;col
 .pm-val{font-family:'JetBrains Mono','Courier New',monospace;font-size:.82rem;font-weight:700;color:var(--txt);}
 .pm-pnl{font-size:.65rem;margin-top:.15rem;}
 .pm-empty{text-align:center;padding:2rem;color:var(--muted);font-size:.78rem;font-style:italic;}
-.port-summary{display:grid;grid-template-columns:1fr 1fr;gap:.45rem;margin-bottom:.7rem;}
-.ps-card{background:var(--bg3);border:1px solid var(--ln);border-radius:5px;padding:.55rem .7rem;}
-.ps-lbl{font-size:.55rem;color:var(--muted);margin-bottom:.18rem;text-transform:uppercase;letter-spacing:.07em;}
-.ps-val{font-family:'JetBrains Mono','Courier New',monospace;font-size:.9rem;font-weight:700;}
+.port-summary{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.75rem;}
+.ps-card{background:linear-gradient(135deg,var(--bg3),rgba(255,255,255,.02));border:1px solid var(--ln2);border-radius:10px;padding:.7rem .85rem;position:relative;overflow:hidden;}
+.ps-card::before{content:'';position:absolute;inset:0;border-radius:10px;opacity:0;transition:.2s;}
+.ps-card:first-child::before{background:linear-gradient(135deg,rgba(78,194,218,.06),transparent);}
+.ps-card:last-child::before{background:linear-gradient(135deg,rgba(0,210,120,.06),transparent);}
+.ps-lbl{font-size:.5rem;color:var(--muted);margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.1em;}
+.ps-val{font-family:'JetBrains Mono','Courier New',monospace;font-size:.95rem;font-weight:700;display:flex;align-items:center;gap:.3rem;}
 .ps-val.g{color:var(--g);}.ps-val.y{color:var(--y);}.ps-val.r{color:var(--r);}
+.ps-coin{font-size:.85rem;}
 
 /* ALIGNMENT SCORE BAR */
 .align-bar-wrap{background:var(--bg3);border:1px solid var(--ln);border-radius:5px;padding:.55rem .7rem;margin-bottom:.7rem;}
@@ -3493,8 +3498,14 @@ function renderPositions(){
 function updatePortSummary(val,pnl){
   const e=el('portSummary');if(!e)return;
   e.innerHTML=`
-    <div class="ps-card"><div class="ps-lbl">Positions</div><div class="ps-val y">${fmt(val)} 🪙</div></div>
-    <div class="ps-card" style="margin-top:.4rem"><div class="ps-lbl">PnL total</div><div class="ps-val ${pnl>=0?'g':'r'}">${pnl>=0?'+':''}${fmt(pnl)} 🪙</div></div>`;
+    <div class="ps-card">
+      <div class="ps-lbl">📊 Valeur positions</div>
+      <div class="ps-val y">${fmt(val)} <span class="ps-coin">🪙</span></div>
+    </div>
+    <div class="ps-card">
+      <div class="ps-lbl">${pnl>=0?'📈':'📉'} PnL total</div>
+      <div class="ps-val ${pnl>=0?'g':'r'}">${pnl>=0?'+':''}${fmt(pnl)} <span class="ps-coin">🪙</span></div>
+    </div>`;
 }
 
 /* ══ PORTFOLIO MODAL ══ */
