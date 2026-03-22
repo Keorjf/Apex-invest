@@ -2552,6 +2552,30 @@ function renderPathSvg(pts,H){
   <path d="${d}" fill="none" stroke="url(#pg2)" stroke-width="7" stroke-linecap="round" stroke-dasharray="14 8" opacity=".9"/>`;
 }
 
+const TRACK_DESC={
+  'Ton argent bosse (ou pas)':"Comprends la différence entre actifs et passifs — et comment faire travailler ton argent pendant que tu dors.",
+  'Psychologie : ton pire ennemi':"Les biais cognitifs qui ruinent les investisseurs. Connais-toi toi-même avant d'attaquer les marchés.",
+  'Vocabulaire de base':"Les termes essentiels de l'investissement expliqués sans jargon — parle le même langage que les pros.",
+  'Passer à l\'action':"Stop à la théorie. Voici les premières étapes concrètes pour commencer à investir maintenant.",
+  'Immobilier : mythe ou réalité ?':"Locatif, SCPI, effet de levier : tout ce que personne ne te dit sur l'investissement immobilier.",
+  'Crypto : ce qu\'il faut vraiment savoir':"Bitcoin, Ethereum, blockchain : investir dans la crypto sans se faire brûler les doigts.",
+  'ETF : le game changer':"L'arme secrète des meilleurs portefeuilles. Simple, diversifié, performant — et accessible à tous.",
+  'Fiscalité : garde ton argent':"PEA, assurance-vie, CTO : optimise ta fiscalité pour garder le maximum de tes gains.",
+  'Analyser une action':"Lis un bilan, évalue une entreprise, détecte les actions sous-cotées avant les autres.",
+  'Macro & Marchés':"Inflation, taux, cycles économiques : comprends la big picture pour anticiper les marchés.",
+  'Options & Dérivés':"Calls, puts, leviers : maîtrise les instruments dérivés pour amplifier tes stratégies.",
+  'Factor Investing':"Value, momentum, quality : investis avec les facteurs qui surperforment à long terme.",
+  'Analyse Technique Avancée':"Figures chartistes, indicateurs, price action : lis les marchés comme un trader professionnel.",
+  'Risk Management Institutionnel':"VaR, stress tests, corrélations : gère le risque comme les grands fonds d'investissement.",
+  'Finance de Marché Avancée':"Modèles de pricing, arbitrage, stratégies quant pour aller au-delà du retail.",
+  'Préparation CFA/AMF':"Entraîne-toi sur les concepts clés des certifications CFA et AMF. Théorie et pratique.",
+  'Retraite & Long terme':"PERP, épargne retraite, stratégie long terme : construis ta liberté financière dans la durée.",
+  'Stratégies avancées':"Combine les outils appris pour construire des stratégies d'investissement robustes et rentables.",
+  'Niveau Expert':"Analyse quantitative, programmation financière et stratégies de niveau institutionnel.",
+  'Gérer son argent au quotidien':"Budget, épargne, credit scoring : les bases incontournables pour une santé financière solide.",
+  'Aller plus loin':"Backtesting, construction de portefeuille systématique et ressources avancées.",
+};
+
 function openTrackDrawer(idx){
   const tracks=LESSONS[S.level]||[];
   const track=tracks[idx];if(!track)return;
@@ -2559,32 +2583,92 @@ function openTrackDrawer(idx){
   const pct=track.lessons.length?Math.round(doneTr/track.lessons.length*100):0;
   const emo=track.track.match(/^\S+/)?.[0]||'📚';
   const name=track.track.replace(/^\S+\s/,'');
+  const desc=TRACK_DESC[name]||'Explore les leçons de cette thématique pour progresser dans ton parcours.';
+  const firstUnlocked=track.lessons.find(l=>!S.done.has(l.id));
   const lessonsHtml=track.lessons.map(l=>`
-    <div class="lc${S.done.has(l.id)?' done':''}" onclick="closeTrackDrawer();openLesson('${l.id}')">
+    <div class="lc${S.done.has(l.id)?' done':''}" onclick="openLesson('${l.id}')">
       ${S.done.has(l.id)?'<div class="lc-check">✓</div>':''}
       <span class="lc-e">${l.e}</span>
       <div class="lc-n">${l.n}</div>
+      <div class="lc-foot"><span class="lc-t">${l.tag||''}</span><span class="lc-r">+${l.coins||20} 💰</span></div>
     </div>`).join('');
-  const dc=document.getElementById('drawerContent');
-  if(dc)dc.innerHTML=`
-    <div class="drawer-header">
-      <div style="display:flex;align-items:center;gap:.6rem">
-        <span style="font-size:1.5rem;filter:sepia(1) hue-rotate(5deg) saturate(3) brightness(1.1)">${emo}</span>
-        <span class="track-nm">${name}</span>
+  el('learnMain').innerHTML=`
+    <div style="width:100%;max-width:860px;margin:0 auto;padding:2rem 1.5rem 4rem">
+      <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:1.8rem">
+        <button class="btn-ghost" onclick="showLessonMap()" style="padding:.35rem .8rem;font-size:.72rem">← Parcours</button>
       </div>
-      <div style="display:flex;align-items:center;gap:.8rem">
-        <span class="track-pg">${doneTr}/${track.lessons.length}</span>
-        <button onclick="closeTrackDrawer()" style="background:none;border:none;color:var(--muted);font-size:1rem;cursor:pointer">✕</button>
+      <div style="display:flex;align-items:flex-start;gap:1.5rem;margin-bottom:2rem;flex-wrap:wrap">
+        <div style="font-size:4rem;filter:sepia(1) hue-rotate(5deg) saturate(3) brightness(1.1);line-height:1">${emo}</div>
+        <div style="flex:1;min-width:200px">
+          <div style="font-family:'Bungee',sans-serif;font-size:1.7rem;letter-spacing:.03em;line-height:1.1;margin-bottom:.6rem">${name}</div>
+          <div style="font-size:.88rem;color:var(--soft);line-height:1.7;max-width:560px">${desc}</div>
+        </div>
       </div>
-    </div>
-    <div class="track-progress"><div class="track-progress-fill" style="width:${pct}%"></div></div>
-    <div class="drawer-grid">${lessonsHtml}</div>`;
-  const drawer=document.getElementById('trackDrawer');
-  if(drawer)drawer.classList.add('open');
+      <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.6rem;flex-wrap:wrap">
+        <div style="flex:1;min-width:160px">
+          <div style="display:flex;justify-content:space-between;font-size:.65rem;color:var(--muted);margin-bottom:.35rem">
+            <span>Progression</span>
+            <span style="color:var(--g);font-family:'JetBrains Mono',monospace">${doneTr} / ${track.lessons.length}</span>
+          </div>
+          <div style="height:6px;background:var(--ln2);border-radius:3px;overflow:hidden">
+            <div style="height:100%;width:${pct}%;background:linear-gradient(to right,var(--y),var(--g));border-radius:3px;transition:width .6s ease"></div>
+          </div>
+        </div>
+        ${firstUnlocked?`<button class="btn-g" onclick="openLesson('${firstUnlocked.id}')" style="flex-shrink:0">
+          ${doneTr>0?'Continuer →':'Commencer →'}
+        </button>`:'<span style="color:var(--g);font-size:.8rem;font-weight:700">✓ Thématique terminée !</span>'}
+      </div>
+      <div class="lesson-grid">${lessonsHtml}</div>
+    </div>`;
+  buildParcoursBanner();
 }
 function closeTrackDrawer(){
   const d=document.getElementById('trackDrawer');
   if(d)d.classList.remove('open');
+}
+
+function showLessonMap(){
+  S.currentLesson=null;buildLearnSidebar();
+  const tracks=LESSONS[S.level]||[];
+  const all=tracks.flatMap(t=>t.lessons);
+  const doneCount=all.filter(l=>S.done.has(l.id)).length;
+  // X positions (%) — sinusoidal, always 18%–82% to stay in bounds
+  const xPcts=[50,76,80,65,35,20,24,42,72,78,60,28,18,38,68,74,55,25];
+  const NODE_H=240;
+  const totalH=tracks.length*NODE_H+100;
+  let nodesHtml='';
+  const pts=[];
+
+  tracks.forEach((track,idx)=>{
+    const doneTr=track.lessons.filter(l=>S.done.has(l.id)).length;
+    const allDone=doneTr===track.lessons.length&&track.lessons.length>0;
+    const emo=track.track.match(/^\S+/)?.[0]||'📚';
+    const name=track.track.replace(/^\S+\s/,'');
+    const xp=xPcts[idx%xPcts.length];
+    const yp=70+idx*NODE_H;
+    pts.push({x:xp,y:yp});
+    nodesHtml+=`<div class="pnode" style="left:${xp}%;top:${yp}px" onclick="openTrackDrawer(${idx})">
+      <div class="pnode-bubble${allDone?' done':''}">
+        <span style="filter:sepia(1) hue-rotate(5deg) saturate(3) brightness(1.1)">${emo}</span>
+      </div>
+      <div class="pnode-label">${name}</div>
+      <div class="pnode-pg">${doneTr}/${track.lessons.length}</div>
+    </div>`;
+  });
+
+  let html=`<div class="lesson-map">
+    <div class="map-hero"><div class="map-title">TON PARCOURS</div></div>
+    <div class="path-canvas-wrap" style="min-height:${totalH}px">
+      <svg class="path-svg" id="pathSvg" style="height:${totalH}px;width:100%"></svg>
+      ${nodesHtml}
+    </div>
+    <div class="track-drawer" id="trackDrawer">
+      <div class="drawer-handle"></div>
+      <div id="drawerContent"></div>
+    </div>
+  </div>`;
+  el('learnMain').innerHTML=html;
+  requestAnimationFrame(()=>renderPathSvg(pts,totalH));
 }
 
 /* ══ LESSON VIEW ══ */
