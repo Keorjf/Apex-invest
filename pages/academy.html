@@ -541,8 +541,19 @@ table.assets th{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;col
 .mkt-right{display:flex;flex-direction:column;overflow:hidden;}
 
 /* ORDER PANEL */
-.order-panel{padding:.8rem;border-bottom:1px solid var(--ln);flex-shrink:0;}
-.op-title{font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem;}
+.order-panel{border-bottom:1px solid var(--ln);flex-shrink:0;}
+.op-toggle{display:flex;align-items:center;justify-content:space-between;padding:.6rem .8rem;cursor:pointer;user-select:none;transition:.18s;gap:.5rem;}
+.op-toggle:hover{background:rgba(255,205,13,.05);}
+.op-toggle-label{display:flex;align-items:center;gap:.5rem;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--y);font-weight:700;}
+.op-toggle-sides{display:flex;gap:.35rem;}
+.op-side-pill{font-size:.58rem;padding:.18rem .55rem;border-radius:20px;border:1px solid var(--ln);color:var(--muted);cursor:pointer;transition:.15s;}
+.op-side-pill.buy.active{border-color:rgba(255,205,13,.4);color:var(--y);background:rgba(255,205,13,.1);}
+.op-side-pill.sell.active{border-color:rgba(255,59,92,.35);color:var(--r);background:rgba(255,59,92,.08);}
+.op-toggle-arrow{font-size:.7rem;color:var(--muted);transition:transform .25s;}
+.op-toggle-arrow.open{transform:rotate(180deg);}
+.op-body{overflow:hidden;max-height:0;transition:max-height .3s ease,padding .3s ease;padding:0 .8rem;}
+.op-body.open{max-height:400px;padding:.1rem .8rem .8rem;}
+.op-title{display:none;}
 .wallet-row{display:flex;align-items:center;justify-content:space-between;padding:.4rem 0;margin-bottom:.5rem;font-size:.7rem;color:var(--muted);}
 .wr-coins{display:flex;align-items:center;gap:.28rem;font-weight:700;color:var(--y);font-family:'JetBrains Mono','Courier New',monospace;font-size:.77rem;}
 .order-tabs{display:flex;gap:.35rem;margin-bottom:.6rem;}
@@ -1194,39 +1205,48 @@ table.assets th{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;col
 
       <div class="mkt-right" id="mktRight">
         <div class="order-panel">
-          <div class="op-title">Passer un ordre</div>
-          <div class="wallet-row">
-            <span>Disponible</span>
-            <span class="wr-coins">🪙 <span id="opWallet">500</span></span>
+          <div class="op-toggle" onclick="toggleOrderPanel()">
+            <span class="op-toggle-label">📋 Passer un ordre</span>
+            <div class="op-toggle-sides">
+              <span class="op-side-pill buy active" id="oBuyPill" onclick="event.stopPropagation();setOrderSide('buy');openOrderPanel()">▲ Acheter</span>
+              <span class="op-side-pill sell" id="oSellPill" onclick="event.stopPropagation();setOrderSide('sell');openOrderPanel()">▼ Vendre</span>
+            </div>
+            <span class="op-toggle-arrow" id="opArrow">▼</span>
           </div>
-          <div class="order-tabs">
-            <button class="otab buy active" id="oBuy" onclick="setOrderSide('buy')">▲ ACHETER</button>
-            <button class="otab sell"       id="oSell" onclick="setOrderSide('sell')">▼ VENDRE</button>
+          <div class="op-body" id="opBody">
+            <div class="wallet-row">
+              <span>Disponible</span>
+              <span class="wr-coins">🪙 <span id="opWallet">500</span></span>
+            </div>
+            <div class="order-tabs" style="display:none">
+              <button class="otab buy active" id="oBuy" onclick="setOrderSide('buy')">▲ ACHETER</button>
+              <button class="otab sell"       id="oSell" onclick="setOrderSide('sell')">▼ VENDRE</button>
+            </div>
+            <div class="oai"><span class="oai-nm" id="oaiNm">Sélectionne un actif</span><span class="oai-pr" id="oaiPr">—</span></div>
+            <div class="of-lbl">Montant (Tacoins) <span id="ofBal"></span></div>
+            <input class="of-input" type="number" id="orderAmt" placeholder="0" min="1" oninput="updateOS()">
+            <div class="of-quick">
+              <button class="qpct" onclick="setPct(25)">25%</button>
+              <button class="qpct" onclick="setPct(50)">50%</button>
+              <button class="qpct" onclick="setPct(75)">75%</button>
+              <button class="qpct" onclick="setPct(100)">MAX</button>
+            </div>
+            <div class="order-type-row">
+              <button class="ot-btn active" id="otMkt" onclick="setOrderType('market')">Au marché</button>
+              <button class="ot-btn"        id="otLmt" onclick="setOrderType('limit')">Ordre limite</button>
+            </div>
+            <div class="limit-price-row" id="limitPriceRow">
+              <div class="of-lbl">Prix limite cible</div>
+              <input class="of-input" type="number" id="limitPrice" placeholder="ex: 490.00" step="0.01" oninput="updateOS()">
+            </div>
+            <div class="os">
+              <div class="os-row"><span>Prix unitaire</span><span id="osPrice">—</span></div>
+              <div class="os-row"><span>Quantité</span><span id="osQty">—</span></div>
+              <div class="os-row"><span>Frais (0.1%)</span><span id="osFee">—</span></div>
+              <div class="os-row total"><span>Total</span><span id="osTotal">—</span></div>
+            </div>
+            <button class="order-btn buy-btn" id="orderBtn" onclick="executeOrder()">ACHETER</button>
           </div>
-          <div class="oai"><span class="oai-nm" id="oaiNm">Sélectionne un actif</span><span class="oai-pr" id="oaiPr">—</span></div>
-          <div class="of-lbl">Montant (Tacoins) <span id="ofBal"></span></div>
-          <input class="of-input" type="number" id="orderAmt" placeholder="0" min="1" oninput="updateOS()">
-          <div class="of-quick">
-            <button class="qpct" onclick="setPct(25)">25%</button>
-            <button class="qpct" onclick="setPct(50)">50%</button>
-            <button class="qpct" onclick="setPct(75)">75%</button>
-            <button class="qpct" onclick="setPct(100)">MAX</button>
-          </div>
-          <div class="order-type-row">
-            <button class="ot-btn active" id="otMkt" onclick="setOrderType('market')">Au marché</button>
-            <button class="ot-btn"        id="otLmt" onclick="setOrderType('limit')">Ordre limite</button>
-          </div>
-          <div class="limit-price-row" id="limitPriceRow">
-            <div class="of-lbl">Prix limite cible</div>
-            <input class="of-input" type="number" id="limitPrice" placeholder="ex: 490.00" step="0.01" oninput="updateOS()">
-          </div>
-          <div class="os">
-            <div class="os-row"><span>Prix unitaire</span><span id="osPrice">—</span></div>
-            <div class="os-row"><span>Quantité</span><span id="osQty">—</span></div>
-            <div class="os-row"><span>Frais (0.1%)</span><span id="osFee">—</span></div>
-            <div class="os-row total"><span>Total</span><span id="osTotal">—</span></div>
-          </div>
-          <button class="order-btn buy-btn" id="orderBtn" onclick="executeOrder()">ACHETER</button>
         </div>
 
         <div class="limit-queue" id="limitQueue">
@@ -3362,10 +3382,23 @@ function selectAsset(id){
 }
 
 /* ══ ORDER PANEL ══ */
+function toggleOrderPanel(){
+  const body=el('opBody'),arrow=el('opArrow');
+  if(!body)return;
+  const open=body.classList.toggle('open');
+  if(arrow)arrow.classList.toggle('open',open);
+}
+function openOrderPanel(){
+  const body=el('opBody'),arrow=el('opArrow');
+  if(body&&!body.classList.contains('open')){body.classList.add('open');if(arrow)arrow.classList.add('open');}
+}
 function setOrderSide(side){
   S.orderSide=side;
   el('oBuy').classList.toggle('active',side==='buy');
   el('oSell').classList.toggle('active',side==='sell');
+  const bp=el('oBuyPill'),sp=el('oSellPill');
+  if(bp)bp.classList.toggle('active',side==='buy');
+  if(sp)sp.classList.toggle('active',side==='sell');
   const btn=el('orderBtn');
   if(btn){btn.textContent=side==='buy'?'ACHETER':'VENDRE';btn.className='order-btn '+(side==='buy'?'buy-btn':'sell-btn');}
   updateOrderSummary();
