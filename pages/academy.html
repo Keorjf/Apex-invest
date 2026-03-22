@@ -534,6 +534,32 @@ table.assets th{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;col
 .et-lbl{font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.25rem;}
 .et-items{display:flex;gap:1.2rem;overflow:hidden;white-space:nowrap;}
 .et-item{display:inline-flex;align-items:center;gap:.35rem;font-size:.66rem;color:var(--soft);flex-shrink:0;}
+/* EVENTS PANEL */
+.eco-panel{border-top:1px solid var(--ln);flex-shrink:0;}
+.eco-toggle{display:flex;align-items:center;gap:.5rem;padding:.6rem .8rem;cursor:pointer;transition:.18s;user-select:none;}
+.eco-toggle:hover{background:rgba(78,194,218,.05);}
+.eco-toggle-label{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);font-weight:700;flex:1;}
+.eco-toggle-arrow{font-size:.65rem;color:var(--muted);transition:transform .25s;}
+.eco-toggle-arrow.open{transform:rotate(180deg);}
+.eco-body{overflow:hidden;max-height:0;transition:max-height .35s ease;}
+.eco-body.open{max-height:600px;}
+.eco-inner{padding:.3rem .8rem .8rem;display:flex;flex-direction:column;gap:.4rem;}
+.eco-ev{background:var(--bg3);border:1px solid var(--ln);border-radius:8px;padding:.55rem .7rem;display:flex;align-items:center;gap:.6rem;transition:.18s;}
+.eco-ev:hover{border-color:var(--ln2);}
+.eco-ev-ico{font-size:1.1rem;flex-shrink:0;}
+.eco-ev-info{flex:1;min-width:0;}
+.eco-ev-title{font-size:.72rem;font-weight:600;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.eco-ev-desc{font-size:.58rem;color:var(--muted);margin-top:.1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.eco-ev-badge{font-size:.52rem;padding:.15rem .45rem;border-radius:20px;font-weight:700;flex-shrink:0;}
+.eco-ev-badge.good{background:rgba(0,210,120,.12);color:var(--g);border:1px solid rgba(0,210,120,.25);}
+.eco-ev-badge.bad{background:rgba(255,59,92,.1);color:var(--r);border:1px solid rgba(255,59,92,.22);}
+.eco-sim-btn{font-size:.58rem;padding:.2rem .5rem;border-radius:5px;border:1px solid var(--ln2);background:transparent;color:var(--muted);cursor:pointer;flex-shrink:0;transition:.15s;}
+.eco-sim-btn:hover{border-color:var(--y);color:var(--y);}
+.eco-history{margin-top:.5rem;border-top:1px solid var(--ln);padding-top:.5rem;}
+.eco-hist-lbl{font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem;}
+.eco-hist-item{display:flex;align-items:center;gap:.4rem;font-size:.62rem;color:var(--soft);padding:.18rem 0;border-bottom:1px solid rgba(255,255,255,.04);}
+.eco-hist-item.good{color:var(--g);}.eco-hist-item.bad{color:var(--r);}
+.eco-hist-empty{font-size:.62rem;color:var(--muted);font-style:italic;}
 .et-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
 .et-dot.good{background:var(--g);}.et-dot.bad{background:var(--r);}.et-dot.neutral{background:var(--y);}
 
@@ -1260,6 +1286,17 @@ table.assets th{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;col
             <div class="align-bar"><div class="align-fill" id="alignFill" style="width:0%"></div></div>
           </div>
           <div id="posList"></div>
+        </div>
+
+        <!-- EVENTS PANEL -->
+        <div class="eco-panel">
+          <div class="eco-toggle" onclick="toggleEcoPanel()">
+            <span class="eco-toggle-label">🌍 Événements économiques</span>
+            <span class="eco-toggle-arrow" id="ecoArrow">▼</span>
+          </div>
+          <div class="eco-body" id="ecoBody">
+            <div class="eco-inner" id="ecoInner"></div>
+          </div>
         </div>
 
         <div class="alloc-panel" id="allocPanel"></div>
@@ -3596,6 +3633,47 @@ function triggerEvent(){
   refreshMarketUI();
 }
 function closeEvBanner(){const b=el('evBanner');if(b)b.style.display='none';}
+
+/* ══ ECO EVENTS PANEL ══ */
+let _ecoHistory=[];
+function toggleEcoPanel(){
+  const body=el('ecoBody'),arrow=el('ecoArrow');if(!body)return;
+  const open=body.classList.toggle('open');
+  if(arrow)arrow.classList.toggle('open',open);
+  if(open)renderEcoPanel();
+}
+function renderEcoPanel(){
+  const inner=el('ecoInner');if(!inner)return;
+  const evRows=EVENTS.map(ev=>{
+    const ico=ev.title.match(/^(\S+)/)?.[1]||'🌐';
+    const titleClean=ev.title.replace(/^\S+\s*/,'');
+    return `<div class="eco-ev">
+      <span class="eco-ev-ico">${ico}</span>
+      <div class="eco-ev-info">
+        <div class="eco-ev-title">${titleClean}</div>
+        <div class="eco-ev-desc">${ev.desc}</div>
+      </div>
+      <span class="eco-ev-badge ${ev.impact}">${ev.impact==='good'?'📈 Haussier':'📉 Baissier'}</span>
+      <button class="eco-sim-btn" onclick="simulateEvent('${ev.id}')">▶ Sim.</button>
+    </div>`;
+  }).join('');
+  const histHtml=_ecoHistory.length
+    ?_ecoHistory.slice().reverse().map(h=>`<div class="eco-hist-item ${h.impact}">${h.impact==='good'?'▲':'▼'} ${h.title}</div>`).join('')
+    :'<div class="eco-hist-empty">Aucun événement déclenché</div>';
+  inner.innerHTML=evRows+`<div class="eco-history"><div class="eco-hist-lbl">Historique session</div>${histHtml}</div>`;
+}
+function simulateEvent(evId){
+  const ev=EVENTS.find(e=>e.id===evId);if(!ev)return;
+  S.lastEvent=ev;
+  const banner=el('evBanner');
+  if(banner){banner.style.display='flex';el('evImpact').textContent=ev.impact==='good'?'📈':'📉';el('evTitle').textContent=ev.title;el('evDesc').textContent=ev.desc;}
+  Object.entries(ev.effects).forEach(([id,delta])=>{if(S.prices[id]!==undefined){S.prices[id]*=(1+delta);S.history[id].push(S.prices[id]);}});
+  const feed=el('etItems');
+  if(feed){const item=document.createElement('div');item.className='et-item '+ev.impact;item.textContent=ev.title;feed.prepend(item);if(feed.children.length>10)feed.lastChild.remove();}
+  _ecoHistory.push({title:ev.title.replace(/^\S+\s*/,''),impact:ev.impact});
+  if(_ecoHistory.length>8)_ecoHistory.shift();
+  refreshMarketUI();renderEcoPanel();
+}
 function openDebrief(){
   if(!S.lastEvent||!S.lastEvent.debrief)return;
   const d=S.lastEvent.debrief,e=el('debriefInner');if(!e)return;
