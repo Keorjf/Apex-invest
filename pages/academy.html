@@ -257,13 +257,25 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 .b-trap p{font-size:.8rem;line-height:1.65;color:var(--soft);font-family:'JetBrains Mono','Courier New',monospace;}
 
 /* QUIZ */
-.quiz-card{background:var(--bg2);border:1px solid rgba(255,205,13,.2);border-radius:9px;overflow:hidden;margin-top:1.4rem;}
+.quiz-card{background:var(--bg2);border:1px solid rgba(255,205,13,.2);border-radius:9px;overflow:visible;margin-top:1.4rem;position:relative;}
 .quiz-head{display:flex;align-items:center;justify-content:space-between;padding:.7rem 1.1rem;background:rgba(255,205,13,.08);border-bottom:1px solid var(--ln);}
 .quiz-lbl{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--g);display:flex;align-items:center;gap:.35rem;}
+.quiz-calc-btn{background:none;border:1px solid var(--ln2);border-radius:6px;font-size:.9rem;padding:.18rem .45rem;cursor:pointer;transition:.18s;line-height:1;}
+.quiz-calc-btn:hover{border-color:rgba(255,205,13,.4);transform:scale(1.1);}
+.quiz-calc-panel{display:none;position:absolute;right:1.1rem;top:2.8rem;z-index:50;background:var(--bg1);border:1px solid rgba(255,205,13,.3);border-radius:10px;padding:.7rem;box-shadow:0 8px 28px rgba(0,0,0,.45);width:180px;}
+.quiz-calc-panel.open{display:block;animation:popIn .2s cubic-bezier(.34,1.5,.64,1);}
+.qc-screen{background:var(--bg);border:1px solid var(--ln);border-radius:5px;padding:.35rem .6rem;font-family:'JetBrains Mono',monospace;font-size:.85rem;text-align:right;margin-bottom:.5rem;min-height:2rem;color:var(--txt);word-break:break-all;}
+.qc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.3rem;}
+.qc-btn{background:var(--bg3);border:1px solid var(--ln);border-radius:5px;padding:.4rem 0;font-size:.72rem;font-weight:600;cursor:pointer;color:var(--txt);transition:.13s;text-align:center;}
+.qc-btn:hover{background:var(--ln2);border-color:rgba(255,205,13,.3);}
+.qc-btn.op{color:var(--g);}
+.qc-btn.eq{background:var(--g);color:#000;border-color:var(--g);}
+.qc-btn.eq:hover{box-shadow:0 3px 10px rgba(255,205,13,.35);}
+.qc-btn.clr{color:var(--r);}
 .quiz-pts{font-size:.66rem;color:var(--y);font-weight:700;display:flex;align-items:center;gap:.25rem;}
 .quiz-q{padding:1.1rem;font-size:.88rem;font-weight:600;line-height:1.4;}
 .quiz-opts{padding:0 1.1rem 1.1rem;display:grid;gap:.45rem;}
-.qo{background:var(--bg3);border:1px solid var(--ln);border-radius:7px;padding:.7rem .95rem;font-size:.76rem;cursor:pointer;transition:.18s;text-align:left;display:flex;align-items:center;gap:.65rem;}
+.qo{background:var(--bg3);border:1px solid var(--ln);border-radius:7px;padding:.7rem .95rem;font-size:.76rem;cursor:pointer;transition:.18s;text-align:left;display:flex;align-items:center;gap:.65rem;color:#ffffff !important;-webkit-text-fill-color:#ffffff !important;}
 .qo:hover:not(.dis){border-color:rgba(255,205,13,.35);background:var(--gd);}
 .qo-k{width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.07);border:1px solid var(--ln);display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;flex-shrink:0;transition:.18s;}
 .qo.ok{border-color:var(--g);background:var(--gd);}
@@ -328,6 +340,16 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 .mb-actions{display:flex;gap:.6rem;align-items:center;}
 .mb-close{background:none;border:1px solid var(--ln2);border-radius:7px;color:var(--muted);font-size:.8rem;padding:.4rem .8rem;cursor:pointer;transition:.15s;}
 .mb-close:hover{color:var(--txt);border-color:var(--ln2);}
+.mb-minimize{position:absolute;top:.55rem;right:.9rem;background:none;border:1px solid var(--ln2);border-radius:6px;color:var(--muted);font-size:.7rem;padding:.2rem .5rem;cursor:pointer;transition:.15s;line-height:1;}
+.mb-minimize:hover{color:var(--txt);border-color:var(--ln2);}
+.mini-banner.collapsed .mb-row{display:none;}
+.mini-banner.collapsed{padding:.45rem 1.4rem;}
+.mb-collapsed-bar{display:none;align-items:center;gap:.8rem;}
+.mini-banner.collapsed .mb-collapsed-bar{display:flex;}
+.mb-col-emo{font-size:1.2rem;filter:sepia(1) hue-rotate(5deg) saturate(3) brightness(1.1);}
+.mb-col-title{font-family:'Bungee',sans-serif;font-size:.78rem;letter-spacing:.02em;flex:1;}
+.mb-col-prog{flex:1;max-width:160px;height:4px;background:var(--ln2);border-radius:2px;overflow:hidden;}
+.mb-col-fill{height:100%;background:linear-gradient(to right,var(--y),var(--g));border-radius:2px;}
 
 /* LESSONS DRAWER (legacy) */
 .track-drawer{display:none;}
@@ -642,6 +664,29 @@ table.assets th{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;col
 .mission-card:hover{border-color:var(--ln2);}
 .mission-card.done{border-color:rgba(255,205,13,.22);background:rgba(78,194,218,.04);}
 .mission-card.claimed{opacity:.5;}
+.mission-card.daily{
+  background:linear-gradient(135deg,rgba(255,205,13,.08) 0%,rgba(255,160,0,.05) 100%);
+  border:1.5px solid rgba(255,205,13,.45);
+  border-radius:11px;
+  box-shadow:0 0 18px rgba(255,205,13,.12),0 4px 18px rgba(0,0,0,.25);
+  position:relative;overflow:hidden;
+}
+.mission-card.daily::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(to right,var(--y),#ff9800,var(--y));
+  border-radius:2px 2px 0 0;
+}
+.mission-card.daily:hover{border-color:rgba(255,205,13,.75);box-shadow:0 0 28px rgba(255,205,13,.22),0 6px 22px rgba(0,0,0,.3);}
+.mission-card.daily.done{border-color:rgba(78,194,218,.4);background:linear-gradient(135deg,rgba(78,194,218,.07) 0%,rgba(255,205,13,.05) 100%);}
+.mc-daily-badge{font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;color:var(--y);font-weight:800;background:rgba(255,205,13,.12);border:1px solid rgba(255,205,13,.3);border-radius:4px;padding:.15rem .45rem;display:inline-block;margin-bottom:.35rem;}
+.mission-card.daily .mc-icon{display:inline-block;filter:drop-shadow(0 0 6px rgba(255,205,13,.7));animation:iconGlow 2.2s ease-in-out infinite;}
+@keyframes iconGlow{0%,100%{filter:drop-shadow(0 0 5px rgba(255,205,13,.6));transform:scale(1);}50%{filter:drop-shadow(0 0 18px rgba(255,205,13,1)) drop-shadow(0 0 36px rgba(255,160,0,.55));transform:scale(1.13);}}
+.mission-card.daily.done .mc-icon{animation:none;filter:drop-shadow(0 0 4px rgba(78,194,218,.5));}
+.mc-claim-btn{background:linear-gradient(135deg,var(--y),#ff9800);color:#000;border:none;border-radius:7px;padding:.42rem 1rem;font-size:.72rem;font-weight:800;cursor:pointer;letter-spacing:.02em;box-shadow:0 0 14px rgba(255,205,13,.4);animation:claimPulse 1.4s ease-in-out infinite;white-space:nowrap;}
+@keyframes claimPulse{0%,100%{box-shadow:0 0 10px rgba(255,205,13,.35);transform:scale(1);}50%{box-shadow:0 0 22px rgba(255,205,13,.7);transform:scale(1.04);}}
+.mc-claim-btn:active{transform:scale(.96);}
+.coin-fly{position:fixed;pointer-events:none;z-index:9999;font-size:1.5rem;transition:none;will-change:transform,opacity;}
+@keyframes flyToWallet{0%{transform:translate(0,0) scale(1);opacity:1;}80%{opacity:1;}100%{transform:translate(var(--fx),var(--fy)) scale(.4);opacity:0;}}
 .mc-icon{font-size:1.5rem;flex-shrink:0;margin-top:.1rem;}
 .mc-content{flex:1;}
 .mc-name{font-size:.88rem;font-weight:700;margin-bottom:.2rem;}
@@ -982,7 +1027,15 @@ table.assets th{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;col
     </div>
   </div>
 
-  <div class="mini-banner" id="miniBanner">
+  <div class="mini-banner" id="miniBanner" style="position:fixed;bottom:0;left:0;right:0;">
+    <button class="mb-minimize" id="mbMinBtn" onclick="toggleMbCollapse()">▼</button>
+    <button class="mb-minimize" onclick="closeMb()" style="right:2.8rem;">✕</button>
+    <div class="mb-collapsed-bar">
+      <span class="mb-col-emo" id="mbColEmo"></span>
+      <span class="mb-col-title" id="mbColTitle"></span>
+      <div class="mb-col-prog"><div class="mb-col-fill" id="mbColFill"></div></div>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--g)" id="mbColLbl"></span>
+    </div>
     <div class="mb-row">
       <div class="mb-emo" id="mbEmo"></div>
       <div class="mb-body">
@@ -994,6 +1047,7 @@ table.assets th{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;col
         </div>
         <div class="mb-actions">
           <button class="btn-g" id="mbStartBtn" style="font-size:.78rem;padding:.5rem 1.1rem"></button>
+          <button class="btn-ghost" id="mbDetailBtn" style="font-size:.78rem;padding:.5rem 1.1rem">📋 Voir les leçons</button>
           <button class="mb-close" onclick="closeMb()">✕ Fermer</button>
         </div>
       </div>
@@ -1080,7 +1134,7 @@ table.assets th{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;col
             <button class="otab sell"       id="oSell" onclick="setOrderSide('sell')">▼ VENDRE</button>
           </div>
           <div class="oai"><span class="oai-nm" id="oaiNm">Sélectionne un actif</span><span class="oai-pr" id="oaiPr">—</span></div>
-          <div class="of-lbl">Montant (ApexCoins) <span id="ofBal"></span></div>
+          <div class="of-lbl">Montant (Tacoins) <span id="ofBal"></span></div>
           <input class="of-input" type="number" id="orderAmt" placeholder="0" min="1" oninput="updateOS()">
           <div class="of-quick">
             <button class="qpct" onclick="setPct(25)">25%</button>
@@ -1142,10 +1196,10 @@ table.assets th{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;col
     <div class="missions-wrap">
       <div class="mis-header">
         <div class="mis-title">Missions</div>
-        <div class="mis-sub">Complète des objectifs pour gagner des ApexCoins bonus.</div>
+        <div class="mis-sub">Complète des objectifs pour gagner des Tacoins bonus.</div>
       </div>
       <div class="mis-section">
-        <div class="mis-sec-title">🌅 Missions du jour (se renouvellent chaque session)</div>
+        <div class="mis-sec-title">🌅 3 Missions du jour · se renouvellent chaque session</div>
         <div id="dailyMissions"></div>
       </div>
       <div class="mis-section">
@@ -1522,7 +1576,7 @@ const DAILY_MISSION_POOL=[
 
 const PERM_MISSIONS=[
   {id:'pm_first_buy',name:'Premier investissement',desc:'Passe ton premier ordre d\'achat.',icon:'🚀',target:1,type:'total_buys',reward:200},
-  {id:'pm_10k',name:'Capitalist en herbe',desc:'Accumule 1 000 ApexCoins de valeur totale (wallet + positions).',icon:'🌱',target:1000,type:'total_value',reward:300},
+  {id:'pm_10k',name:'Capitalist en herbe',desc:'Accumule 1 000 Tacoins de valeur totale (wallet + positions).',icon:'🌱',target:1000,type:'total_value',reward:300},
   {id:'pm_50k',name:'Portefeuille solide',desc:'Atteins 5 000 AC de valeur totale.',icon:'💼',target:5000,type:'total_value',reward:500},
   {id:'pm_3prof',name:'Diversification maîtrisée',desc:'Détiens simultanément 4 actifs différents.',icon:'🌍',target:4,type:'positions_count',reward:250},
   {id:'pm_5lessons',name:'Studieux',desc:'Complète 5 leçons au total.',icon:'🎓',target:5,type:'total_lessons',reward:400},
@@ -2640,12 +2694,69 @@ function openTrackDrawer(idx){
   } else {
     btn.textContent='✓ Terminé';btn.disabled=true;
   }
+  el('mbDetailBtn').onclick=()=>{closeMb();openTrackDetail(idx);};
+  // Barre réduite
+  el('mbColEmo').textContent=emo;
+  el('mbColTitle').textContent=name;
+  el('mbColFill').style.width=pct+'%';
+  el('mbColLbl').textContent=doneTr+'/'+track.lessons.length;
+  el('miniBanner').classList.remove('collapsed');
+  el('mbMinBtn').textContent='▼';
   el('miniBanner').classList.add('open');
 }
 function closeMb(){
   el('miniBanner').classList.remove('open');
+  el('miniBanner').classList.remove('collapsed');
+}
+function toggleMbCollapse(){
+  const mb=el('miniBanner');
+  const collapsed=mb.classList.toggle('collapsed');
+  el('mbMinBtn').textContent=collapsed?'▲':'▼';
 }
 function closeTrackDrawer(){closeMb();}
+
+function openTrackDetail(idx){
+  const tracks=LESSONS[S.level]||[];
+  const track=tracks[idx];if(!track)return;
+  S.currentLesson=null;buildLearnSidebar();
+  const doneTr=track.lessons.filter(l=>S.done.has(l.id)).length;
+  const pct=track.lessons.length?Math.round(doneTr/track.lessons.length*100):0;
+  const emo=track.track.match(/^\S+/)?.[0]||'📚';
+  const name=track.track.replace(/^\S+\s/,'');
+  const desc=TRACK_DESC[name]||'Explore les leçons de cette thématique pour progresser dans ton parcours.';
+  const lessonsHtml=track.lessons.map(l=>{
+    const isDone=S.done.has(l.id);
+    return `<div class="lc${isDone?' done':''}" onclick="openLesson('${l.id}')">
+      ${isDone?'<div class="lc-check">✓</div>':''}
+      <span class="lc-e">${l.e}</span>
+      <div class="lc-n">${l.n}</div>
+      <div class="lc-foot">
+        <span class="lc-t">${l.tag||''}</span>
+        <span class="lc-r">🪙 ${l.coins}</span>
+      </div>
+    </div>`;
+  }).join('');
+  el('learnMain').innerHTML=`
+    <div style="padding:1.5rem 2rem 4rem;max-width:900px;margin:0 auto;width:100%">
+      <button class="btn-ghost" onclick="showLessonMap()" style="margin-bottom:1.5rem;padding:.4rem .9rem;font-size:.72rem">← Parcours</button>
+      <div style="display:flex;align-items:center;gap:1.2rem;margin-bottom:1.2rem">
+        <span style="font-size:3rem;filter:sepia(1) hue-rotate(5deg) saturate(3) brightness(1.1)">${emo}</span>
+        <div>
+          <div style="font-family:'Bungee',sans-serif;font-size:1.3rem;letter-spacing:.03em">${name}</div>
+          <div style="font-size:.78rem;color:var(--soft);margin-top:.3rem;line-height:1.5">${desc}</div>
+        </div>
+      </div>
+      <div style="margin-bottom:1.8rem">
+        <div style="display:flex;align-items:center;gap:.8rem;margin-bottom:.35rem">
+          <div style="flex:1;height:6px;background:var(--ln2);border-radius:3px;overflow:hidden">
+            <div style="width:${pct}%;height:100%;background:linear-gradient(to right,var(--y),var(--g));border-radius:3px;transition:width .5s ease"></div>
+          </div>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--g);white-space:nowrap">${doneTr} / ${track.lessons.length} leçons</span>
+        </div>
+      </div>
+      <div class="lesson-grid">${lessonsHtml}</div>
+    </div>`;
+}
 
 function showLessonMap(){
   S.currentLesson=null;buildLearnSidebar();
@@ -2727,24 +2838,47 @@ function openLesson(id){
       <div class="quiz-card">
         <div class="quiz-head">
           <span class="quiz-lbl">🧠 Quiz</span>
-          <span class="quiz-pts">+${lesson.xp} XP</span>
+          <button class="quiz-calc-btn" onclick="toggleCalc()" title="Calculatrice">🧮</button>
+        </div>
+        <div class="quiz-calc-panel" id="quizCalcPanel">
+          <div class="qc-screen" id="qcScreen">0</div>
+          <div class="qc-grid">
+            <button class="qc-btn clr" onclick="qcInput('C')" style="grid-column:span 2">C</button>
+            <button class="qc-btn op" onclick="qcInput('%')">%</button>
+            <button class="qc-btn op" onclick="qcInput('/')">÷</button>
+            <button class="qc-btn" onclick="qcInput('7')">7</button>
+            <button class="qc-btn" onclick="qcInput('8')">8</button>
+            <button class="qc-btn" onclick="qcInput('9')">9</button>
+            <button class="qc-btn op" onclick="qcInput('*')">×</button>
+            <button class="qc-btn" onclick="qcInput('4')">4</button>
+            <button class="qc-btn" onclick="qcInput('5')">5</button>
+            <button class="qc-btn" onclick="qcInput('6')">6</button>
+            <button class="qc-btn op" onclick="qcInput('-')">−</button>
+            <button class="qc-btn" onclick="qcInput('1')">1</button>
+            <button class="qc-btn" onclick="qcInput('2')">2</button>
+            <button class="qc-btn" onclick="qcInput('3')">3</button>
+            <button class="qc-btn op" onclick="qcInput('+')">+</button>
+            <button class="qc-btn" onclick="qcInput('0')" style="grid-column:span 2">0</button>
+            <button class="qc-btn" onclick="qcInput('.')">.</button>
+            <button class="qc-btn eq" onclick="qcInput('=')">=</button>
+          </div>
         </div>
         <div class="quiz-q">${q.q}</div>
         <div class="quiz-opts">
-          ${q.opts.map((o,i)=>`<button class="qo" id="qo${i}" onclick="answerQuiz(${i},${q.correct})">
-            <span class="qo-k">${'ABCD'[i]}</span>${o}
+          ${q.opts.map((o,i)=>`<button class="qo" id="qo${i}" onclick="answerQuiz(${i},${q.correct})" style="color:#fff;-webkit-text-fill-color:#fff">
+            <span class="qo-k">${'ABCD'[i]}</span><span style="color:#fff;-webkit-text-fill-color:#fff;opacity:1">${o}</span>
           </button>`).join('')}
         </div>
         <div class="quiz-expl" id="quizExpl">${q.expl}</div>
         <button class="quiz-cta" id="quizCta" onclick="completeLesson('${lesson.id}')">
-          🪙 Récupérer mes ${coins} ApexCoins →
+          🪙 Récupérer mes ${coins} Tacoins →
         </button>
       </div>
       <div class="complete-card" id="completeCard">
         <div class="cc-emo">🎉</div>
         <div class="cc-title">Leçon terminée !</div>
         <div class="cc-sub">"${lesson.n}"</div>
-        <div class="cc-reward">+${coins} 🪙 · +${lesson.xp} XP${mult>1?`<span class="cc-mult">×${mult} streak</span>`:''}</div>
+        <div class="cc-reward">+${coins} 🪙</div>
         <div class="cc-btns" id="ccBtns"></div>
       </div>
     </div>`;
@@ -3163,13 +3297,83 @@ function showAllocPanel(){
   const p=PROFILES[S.diagProfile];if(!p)return;
   const panel=el('allocPanel');if(panel)panel.style.display='block';
   const apEl=el('apProfile');if(apEl)apEl.textContent=p.emoji+' '+p.name;
-  const pl=el('proposalList');
-  if(pl)pl.innerHTML=p.alloc.map(a=>`
-    <div style="display:flex;align-items:center;gap:.5rem;padding:.3rem 0;font-size:.75rem">
-      <span style="width:8px;height:8px;border-radius:50%;background:${a.color};flex-shrink:0"></span>
-      <span style="flex:1;color:var(--soft)">${a.name}</span>
-      <span style="color:${a.color};font-weight:700">${a.pct}%</span>
-    </div>`).join('');
+  _renderAllocList(p);
+}
+function _renderAllocList(p){
+  const pl=el('proposalList');if(!pl)return;
+  const totalPortfolio=ASSETS.reduce((s,a)=>s+(S.positions[a.id]?.qty||0)*S.prices[a.id],0)+S.coins;
+  const rows=p.alloc.map(slot=>{
+    const asset=slot.assetId?ASSETS.find(x=>x.id===slot.assetId):null;
+    const emo=asset?asset.emoji:'💼';
+    const currentVal=asset?(S.positions[slot.assetId]?.qty||0)*S.prices[slot.assetId]:0;
+    const currentPct=totalPortfolio>0?currentVal/totalPortfolio*100:0;
+    const fillW=Math.min(100,currentPct/slot.pct*100);
+    const targetAmt=Math.floor(S.coins*slot.pct/100);
+    const aligned=Math.abs(currentPct-slot.pct)<5;
+    const canBuy=slot.assetId&&targetAmt>0;
+    let btnHtml='';
+    if(slot.assetId){
+      if(aligned) btnHtml=`<span class="pi-ok">✓ Aligné</span>`;
+      else if(canBuy) btnHtml=`<button class="pi-btn" onclick="quickBuy('${slot.assetId}',${slot.pct},${targetAmt})">Acheter · ${targetAmt} 🪙</button>`;
+      else btnHtml=`<span style="font-size:.58rem;color:var(--muted)">Fonds insuffisants</span>`;
+    }
+    return `<div class="proposal-item${aligned?' done':''}">
+      <div class="pi-top">
+        <span class="pi-emo">${emo}</span>
+        <div class="pi-info">
+          <div class="pi-name">${slot.name}</div>
+          <div class="pi-ticker">${slot.ticker}</div>
+        </div>
+        <span class="pi-pct" style="color:${slot.color}">${slot.pct}%</span>
+      </div>
+      <div class="pi-track"><div class="pi-fill" style="width:${fillW}%;background:${slot.color}"></div></div>
+      <div class="pi-bottom">
+        <span class="pi-hint">${currentPct.toFixed(0)}% actuel → ${slot.pct}% cible</span>
+        ${btnHtml}
+      </div>
+    </div>`;
+  }).join('');
+  const anyBuyable=p.alloc.some(slot=>slot.assetId&&Math.floor(S.coins*slot.pct/100)>0);
+  const allBtn=anyBuyable?`<button onclick="quickBuyAll()" style="width:100%;margin-top:.8rem;padding:.65rem;background:linear-gradient(135deg,var(--y),#ff9800);color:#000;border:none;border-radius:8px;font-size:.78rem;font-weight:800;cursor:pointer;letter-spacing:.02em;box-shadow:0 4px 16px rgba(255,205,13,.3)">⚡ Tout allouer selon mon profil</button>`:'';
+  pl.innerHTML=rows+allBtn;
+}
+function quickBuy(assetId,pct,amt){
+  const a=ASSETS.find(x=>x.id===assetId);if(!a)return;
+  if(amt<=0){showToast('warn','⚠️','Fonds insuffisants','Pas assez de 🪙 disponibles.');return;}
+  const fee=amt*0.001,tot=amt+fee;
+  if(tot>S.coins){showToast('warn','⚠️','Fonds insuffisants',`Il te faut ${tot.toFixed(0)} 🪙`);return;}
+  const p=S.prices[a.id],qty=amt/p;
+  S.coins-=tot;
+  const pos=S.positions[a.id];
+  pos.avgPrice=(pos.qty*pos.avgPrice+qty*p)/(pos.qty+qty);pos.qty+=qty;
+  S.totalBuys++;
+  addJournal({type:'buy',emoji:a.emoji,asset:a.name,note:`Allocation ${pct}% · ${amt.toFixed(0)} 🪙`});
+  showToast('buy','▲',`${a.emoji} ${a.name} acheté`,`Allocation ${pct}% · ${amt.toFixed(0)} 🪙`);
+  updateWalletUI();checkMissions();buildMarketTable();updateAlignScore();
+  const pr=PROFILES[S.diagProfile];if(pr)_renderAllocList(pr);
+}
+function quickBuyAll(){
+  const pr=PROFILES[S.diagProfile];if(!pr)return;
+  const snapshot=S.coins;let total=0;
+  pr.alloc.forEach(slot=>{
+    if(!slot.assetId)return;
+    const a=ASSETS.find(x=>x.id===slot.assetId);if(!a)return;
+    const amt=Math.floor(snapshot*slot.pct/100);if(amt<=0)return;
+    const fee=amt*0.001,tot=amt+fee;if(tot>S.coins)return;
+    const p=S.prices[a.id],qty=amt/p;
+    S.coins-=tot;
+    const pos=S.positions[a.id];
+    pos.avgPrice=(pos.qty*pos.avgPrice+qty*p)/(pos.qty+qty);pos.qty+=qty;
+    S.totalBuys++;total+=amt;
+    addJournal({type:'buy',emoji:a.emoji,asset:a.name,note:`Allocation ${slot.pct}% · ${amt.toFixed(0)} 🪙`});
+  });
+  if(total>0){
+    showToast('buy','📐','Allocation appliquée !',`${total.toFixed(0)} 🪙 investis selon ton profil ${pr.emoji}`);
+    updateWalletUI();checkMissions();buildMarketTable();updateAlignScore();
+    _renderAllocList(pr);
+  }else{
+    showToast('warn','⚠️','Impossible','Fonds insuffisants pour allouer.');
+  }
 }
 function updateAlignScore(){
   if(!S.diagProfile)return;const p=PROFILES[S.diagProfile];if(!p)return;
@@ -3189,8 +3393,8 @@ function updateAlignScore(){
   if(wEl)wEl.style.display='block';
 }
 function showAlignDetails(){
-  const ov=el('allocModalOv');
-  if(!ov)return;
+  const ov=el('allocModalOv');if(!ov)return;
+  const p=PROFILES[S.diagProfile];if(p){_renderAllocList(p);}
   ov.classList.add('show');
 }
 function closeAllocModal(){
@@ -3262,18 +3466,32 @@ function computeDiag(){
 
 /* ══ MISSIONS ══ */
 function renderMissions(){
+  // Sélectionner 3 missions du jour stables par session (seed basé sur la date)
+  if(!S._dailyPick){
+    const seed=new Date().toDateString();
+    let h=0;for(let c of seed){h=(h*31+c.charCodeAt(0))&0xffff;}
+    const pool=[...DAILY_MISSION_POOL];
+    const picked=[];
+    for(let i=0;i<3;i++){const idx=(h+i*7)%pool.length;picked.push(pool.splice(idx%pool.length,1)[0]);}
+    S._dailyPick=picked;
+  }
   const daily=el('dailyMissions');
-  if(daily)daily.innerHTML=DAILY_MISSION_POOL.map(m=>{
-    const done=!!S.missions['d_'+m.id];
-    return `<div class="mission-card${done?' done':''}">
+  if(daily)daily.innerHTML=S._dailyPick.map(m=>{
+    const state=S.missions['d_'+m.id]; // undefined | 'ready' | 'claimed'
+    const claimed=state==='claimed';
+    const ready=state==='ready';
+    let rewardHtml;
+    if(claimed) rewardHtml='<span class="mc-done-tag">✅ Récupéré</span>';
+    else if(ready) rewardHtml=`<button class="mc-claim-btn" onclick="claimMission('d_${m.id}',${m.reward},this)">🪙 Collecter +${m.reward}</button>`;
+    else rewardHtml=`<span class="mc-coins">+${m.reward} 🪙</span>`;
+    return `<div class="mission-card daily${claimed?' done':''}">
       <span class="mc-icon">${m.icon}</span>
       <div class="mc-content">
+        <div class="mc-daily-badge">⚡ Aujourd'hui</div>
         <div class="mc-name">${m.name}</div>
         <div class="mc-desc">${m.desc}</div>
       </div>
-      <div class="mc-reward">
-        ${done?'<span class="mc-done-tag">✅ Fait</span>':`<span class="mc-coins">+${m.reward} 🪙</span>`}
-      </div>
+      <div class="mc-reward">${rewardHtml}</div>
     </div>`;
   }).join('');
   const perm=el('permMissions');
@@ -3296,11 +3514,10 @@ function checkMissions(){
   const nPos=Object.values(S.positions).filter(p=>p.qty>0).length;
   const totalVal=ASSETS.reduce((s,a)=>s+(S.positions[a.id]?.qty||0)*S.prices[a.id],0)+S.coins;
   const allLessons=(LESSONS[S.level]||[]).flatMap(t=>t.lessons);
+  const metFor=t=>({buy_different:nPos>=3,complete_lesson:S.totalLessons>=2,place_limit:S.limitExecuted>=1,read_debrief:S.debriefRead>=2,market_orders:S.totalBuys>=5,profit_sell:false,hold_crisis:false,alignment:false}[t]||false);
+  const dailyChecks=(S._dailyPick||[]).map(m=>({key:'d_'+m.id,met:metFor(m.type)}));
   const checks=[
-    {key:'d_'+DAILY_MISSION_POOL[0].id, met:nPos>=3},
-    {key:'d_'+DAILY_MISSION_POOL[2].id, met:S.totalLessons>=2},
-    {key:'d_'+DAILY_MISSION_POOL[4].id, met:S.limitExecuted>=1},
-    {key:'d_'+DAILY_MISSION_POOL[7].id, met:S.debriefRead>=2},
+    ...dailyChecks,
     {key:'p_'+PERM_MISSIONS[0].id,      met:S.totalBuys>=1},
     {key:'p_'+PERM_MISSIONS[1].id,      met:totalVal>=1000},
     {key:'p_'+PERM_MISSIONS[2].id,      met:totalVal>=5000},
@@ -3313,15 +3530,76 @@ function checkMissions(){
   ];
   checks.forEach(c=>{
     if(!S.missions[c.key]&&c.met){
-      S.missions[c.key]=true;
       const isDaily=c.key.startsWith('d_');
-      const mId=c.key.replace(/^[dp]_/,'');
-      const pool=isDaily?DAILY_MISSION_POOL:PERM_MISSIONS;
-      const m=pool.find(x=>x.id===mId);
-      if(m){addCoins(m.reward);showToast('reward',isDaily?'🎯':'🏆','Mission accomplie !',m.name+' · +'+m.reward+' 🪙');}
+      if(isDaily){
+        // Mission du jour → attente de collecte manuelle
+        S.missions[c.key]='ready';
+        showToast('reward','🎯','Mission débloquée !','Clique sur Collecter pour récupérer tes pièces !');
+      } else {
+        S.missions[c.key]=true;
+        const mId=c.key.replace(/^p_/,'');
+        const m=PERM_MISSIONS.find(x=>x.id===mId);
+        if(m){addCoins(m.reward);showToast('reward','🏆','Mission accomplie !',m.name+' · +'+m.reward+' 🪙');}
+      }
     }
   });
   renderMissions();saveState();
+}
+
+/* ══ CALCULATRICE QUIZ ══ */
+let _calcExpr='';
+function toggleCalc(){
+  const p=el('quizCalcPanel');if(!p)return;
+  p.classList.toggle('open');
+}
+function qcInput(v){
+  const scr=el('qcScreen');if(!scr)return;
+  if(v==='C'){_calcExpr='';scr.textContent='0';return;}
+  if(v==='='){
+    try{
+      let expr=_calcExpr.replace(/×/g,'*').replace(/÷/g,'/').replace(/−/g,'-');
+      // handle %
+      expr=expr.replace(/(\d+\.?\d*)%/g,'($1/100)');
+      const res=Function('"use strict";return ('+expr+')')();
+      scr.textContent=parseFloat(res.toFixed(8)).toString();
+      _calcExpr=scr.textContent;
+    }catch{scr.textContent='Erreur';_calcExpr='';}
+    return;
+  }
+  if(_calcExpr===''&&(v==='+'||v==='-'||v==='*'||v==='/')){return;}
+  _calcExpr+=v;
+  scr.textContent=_calcExpr;
+}
+
+function claimMission(key,reward,btnEl){
+  if(S.missions[key]!=='ready')return;
+  S.missions[key]='claimed';
+  renderMissions();
+  // Calcule trajectoire bouton → wallet
+  const fromR=btnEl.getBoundingClientRect();
+  const wallet=el('tbWallet');
+  const toR=wallet.getBoundingClientRect();
+  const fx=(toR.left+toR.width/2)-(fromR.left+fromR.width/2);
+  const fy=(toR.top+toR.height/2)-(fromR.top+fromR.height/2);
+  const count=6;
+  for(let i=0;i<count;i++){
+    setTimeout(()=>{
+      const coin=document.createElement('div');
+      coin.className='coin-fly';
+      coin.textContent='🪙';
+      const ox=(Math.random()-.5)*40;
+      const oy=(Math.random()-.5)*20;
+      coin.style.cssText=`left:${fromR.left+fromR.width/2+ox}px;top:${fromR.top+fromR.height/2+oy}px;--fx:${fx-ox}px;--fy:${fy-oy}px;`;
+      coin.style.animation='flyToWallet .75s cubic-bezier(.4,0,.6,1) both';
+      document.body.appendChild(coin);
+      setTimeout(()=>coin.remove(),800);
+    },i*80);
+  }
+  setTimeout(()=>{
+    addCoins(reward);
+    showToast('reward','🪙','Pièces collectées !','+'+reward+' Tacoins dans ta cagnotte');
+    saveState();
+  },count*80+200);
 }
 
 /* ══ JOURNAL ══ */
