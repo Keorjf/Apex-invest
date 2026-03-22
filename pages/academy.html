@@ -794,7 +794,7 @@ table.assets th{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;col
 .dq-opt.selected .dq-key{background:rgba(255,205,13,.2);border-color:rgba(255,205,13,.5);color:var(--g);}
 .dq-ol{font-family:'Nunito';font-size:.82rem;font-weight:600;color:#ffffff;line-height:1.3;}
 .dq-od{font-family:'Nunito';font-size:.68rem;color:var(--muted);margin-top:.15rem;}
-.dq-nav{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:520px;}
+.dq-nav{display:flex;align-items:center;justify-content:center;gap:1rem;width:100%;max-width:520px;}
 
 /* DEBRIEF OVERLAY */
 #debriefOv{background:rgba(6,6,15,.95);}
@@ -3668,7 +3668,7 @@ function renderDiagStep(){
         </div>`).join('')}
     </div>
     <div class="dq-nav">
-      ${S.diagStep>0?'<button class="btn-ghost" onclick="diagBack()">← Retour</button>':'<div></div>'}
+      ${S.diagStep>0?'<button class="btn-ghost" onclick="diagBack()">← Retour</button>':''}
       <button class="btn-g" id="dqNext" onclick="diagNext()" disabled>Suivant →</button>
     </div>`;
   if(S.diagAnswers[q.id]){
