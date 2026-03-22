@@ -2570,6 +2570,51 @@ function loadState(){
   }catch(e){}
 }
 
+/* ══ RECOVERY ══ */
+function recoverPositionsFromJournal(){
+  const rec={};
+  ASSETS.forEach(a=>{rec[a.id]={qty:0,cost:0};});
+  S.journal.forEach(e=>{
+    const asset=ASSETS.find(a=>a.name===e.asset);if(!asset)return;
+    const id=asset.id;
+    if(e.type==='buy'||e.type==='limit'){
+      const buyM=e.note.match(/Achat ([\d.]+) ×/)||e.note.match(/Limite ACHAT exécuté à ([\d\s.,]+)/);
+      const allocM=e.note.match(/Allocation \d+% · ([\d\s]+) 🪙/);
+      if(buyM&&(e.type==='buy')){
+        const qty=parseFloat(buyM[1]);
+        const amtM=e.note.match(/= ([\d\s]+) 🪙/);
+        const amt=amtM?parseFloat(amtM[1].replace(/\s/g,'')):qty*S.prices[id];
+        rec[id].qty+=qty;rec[id].cost+=amt;
+      } else if(allocM){
+        const amt=parseFloat(allocM[1].replace(/\s/g,''));
+        const qty=amt/S.prices[id];
+        rec[id].qty+=qty;rec[id].cost+=amt;
+      } else if(e.type==='limit'){
+        const priceM=e.note.match(/exécuté à ([\d\s.,]+)/);
+        if(priceM){
+          const p=parseFloat(priceM[1].replace(/\s/g,'').replace(',','.'));
+          const amtM2=e.note.match(/· ([\d\s]+) 🪙/);
+          const amt=amtM2?parseFloat(amtM2[1].replace(/\s/g,'')):0;
+          if(p>0&&amt>0){const qty=amt/p;rec[id].qty+=qty;rec[id].cost+=amt;}
+        }
+      }
+    } else if(e.type==='sell'){
+      const sellM=e.note.match(/Vente ([\d.]+) ×/);
+      if(sellM){const qty=parseFloat(sellM[1]);rec[id].qty=Math.max(0,rec[id].qty-qty);}
+    }
+  });
+  let count=0;
+  ASSETS.forEach(a=>{
+    const r=rec[a.id];
+    if(r.qty>0.00001){
+      S.positions[a.id].qty=r.qty;
+      S.positions[a.id].avgPrice=r.qty>0?r.cost/r.qty:S.prices[a.id];
+      count++;
+    }
+  });
+  return count;
+}
+
 /* ══ BOOT ══ */
 function boot(level){
   S.level=level;
@@ -2578,6 +2623,10 @@ function boot(level){
     S.prices[a.id]=a.base;S.history[a.id]=[a.base];S.sessionOpen[a.id]=a.base;
     if(!S.positions[a.id])S.positions[a.id]={qty:0,avgPrice:0};
   });
+  // Auto-recovery: si aucune position mais journal contient des achats, on reconstruit
+  const hasPos=ASSETS.some(a=>S.positions[a.id]&&S.positions[a.id].qty>0.00001);
+  const hasBuys=S.journal.some(e=>e.type==='buy'||e.type==='limit');
+  if(!hasPos&&hasBuys){const n=recoverPositionsFromJournal();if(n>0){saveState();console.log('Positions récupérées depuis le journal:',n);}}
   el('splash').style.display='none';
   el('app').style.display='flex';
   el('tbLvlLabel').textContent=level;
