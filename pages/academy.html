@@ -2532,6 +2532,7 @@ function saveState(){
     totalLessons:S.totalLessons,totalBuys:S.totalBuys,
     crisisSurvived:S.crisisSurvived,limitExecuted:S.limitExecuted,debriefRead:S.debriefRead,
     journal:S.journal.slice(-60),limitOrders:S.limitOrders,
+    positions:S.positions,
   }));}catch(e){}
 }
 function loadState(){
@@ -2549,6 +2550,7 @@ function loadState(){
     if(s.debriefRead)S.debriefRead=s.debriefRead;
     if(s.diagProfile){S.diagProfile=s.diagProfile;S.diagDone=true;}
     if(s.limitOrders)S.limitOrders=s.limitOrders;
+    if(s.positions)Object.assign(S.positions,s.positions);
     const today=new Date().toDateString();
     if(s.lastPlay){
       const diff=Math.floor((new Date()-new Date(s.lastPlay))/86400000);
