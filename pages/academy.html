@@ -769,14 +769,16 @@ table.assets th{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;col
 .overlay.show{display:flex;flex-direction:column;}
 
 /* DIAG OVERLAY */
-#diagOv .ov-topbar{display:flex;align-items:center;gap:.7rem;padding:.55rem 1.2rem;border-bottom:1px solid var(--ln);flex-shrink:0;background:var(--bg1);}
-#diagOv .ov-nav-logo{font-family:'Bungee','Arial Black',impact,sans-serif;font-size:1rem;letter-spacing:.12em;color:var(--y);white-space:nowrap;}
+#diagOv .ov-topbar{display:flex;align-items:center;gap:.5rem;padding:0 .8rem;height:46px;border-bottom:1px solid var(--ln);flex-shrink:0;background:rgba(15,46,61,.96);backdrop-filter:blur(20px);}
+#diagOv .ov-nav-logo{font-family:'Bungee','Arial Black',impact,sans-serif;font-size:1.1rem;letter-spacing:.1em;color:var(--g);white-space:nowrap;}
 #diagOv .ov-nav-sep{width:1px;height:18px;background:var(--ln);flex-shrink:0;}
 #diagOv .ov-nav-steps{display:flex;gap:.3rem;align-items:center;flex:1;}
-#diagOv .ov-nav-step{font-size:.6rem;color:var(--muted);padding:.25rem .55rem;border-radius:20px;border:1px solid transparent;white-space:nowrap;transition:.2s;letter-spacing:.04em;}
-#diagOv .ov-nav-step.active{color:var(--y);border-color:rgba(255,205,13,.35);background:rgba(255,205,13,.08);font-weight:700;}
-#diagOv .ov-nav-step.done{color:var(--g);border-color:rgba(0,210,120,.25);}
-#diagOv .ov-prog-text{font-size:.6rem;color:var(--muted);font-family:'Nunito';margin-left:auto;white-space:nowrap;}
+#diagOv .ov-nav-step{font-size:.7rem;color:var(--soft);padding:.28rem .7rem;border-radius:5px;border:1px solid var(--ln);white-space:nowrap;transition:.18s;letter-spacing:.02em;background:transparent;}
+#diagOv .ov-nav-step.active{color:var(--y);border-color:rgba(255,205,13,.3);background:var(--gd);font-weight:700;}
+#diagOv .ov-nav-step.done{color:var(--g);border-color:rgba(0,210,120,.25);background:transparent;}
+#diagOv .ov-close-btn{margin-left:auto;background:transparent;border:1px solid var(--ln);color:var(--muted);font-size:.8rem;border-radius:5px;padding:.25rem .6rem;cursor:pointer;transition:.18s;flex-shrink:0;}
+#diagOv .ov-close-btn:hover{color:var(--r);border-color:var(--r);}
+#diagOv .ov-prog-text{display:none;}
 .ov-prog-bar{height:3px;background:var(--ln);}
 .ov-prog-fill{height:100%;background:linear-gradient(to right,var(--y),var(--g));transition:width .4s ease;width:0%;}
 .ov-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2.5rem 1.5rem;}
@@ -1418,6 +1420,7 @@ table.assets th{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;col
     <span class="ov-nav-logo">TACTIC</span>
     <div class="ov-nav-sep"></div>
     <nav class="ov-nav-steps" id="diagNavSteps"></nav>
+    <button class="ov-close-btn" onclick="closeDiag()">✕ Fermer</button>
     <span class="ov-prog-text" id="diagProgTxt"></span>
   </div>
   <div class="ov-prog-bar"><div class="ov-prog-fill" id="diagProgFill"></div></div>
