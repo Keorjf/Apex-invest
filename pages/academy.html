@@ -304,10 +304,34 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 .pnode-label{font-family:'Nunito';font-size:.82rem;font-weight:600;color:var(--soft);text-align:center;width:150px;line-height:1.35;margin-top:.3rem;}
 .pnode-pg{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--g);}
 
-/* LESSONS DRAWER */
-.track-drawer{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--bg1);border-top:1px solid rgba(255,205,13,.25);border-radius:16px 16px 0 0;z-index:300;padding:1.2rem 1.5rem;max-height:55vh;overflow-y:auto;box-shadow:0 -8px 32px rgba(0,0,0,.4);animation:drawerUp .25s ease both;}
+/* MINI BANNER (clic noeud parcours) */
+.mini-banner{
+  display:none;position:fixed;bottom:0;left:0;right:0;z-index:300;
+  background:rgba(15,46,61,.97);backdrop-filter:blur(16px);
+  border-top:2px solid rgba(255,205,13,.28);
+  border-radius:18px 18px 0 0;
+  padding:1rem 1.4rem 1.2rem;
+  box-shadow:0 -8px 36px rgba(0,0,0,.5);
+  animation:drawerUp .22s ease both;
+}
 @keyframes drawerUp{from{transform:translateY(100%);}to{transform:translateY(0);}}
-.track-drawer.open{display:block;}
+.mini-banner.open{display:block;}
+.mb-row{display:flex;align-items:center;gap:1rem;}
+.mb-emo{font-size:2.8rem;flex-shrink:0;filter:sepia(1) hue-rotate(5deg) saturate(3) brightness(1.1);}
+.mb-body{flex:1;min-width:0;}
+.mb-title{font-family:'Bungee',sans-serif;font-size:1rem;letter-spacing:.03em;margin-bottom:.25rem;}
+.mb-desc{font-size:.76rem;color:var(--soft);line-height:1.55;margin-bottom:.6rem;}
+.mb-prog-wrap{display:flex;align-items:center;gap:.7rem;margin-bottom:.8rem;}
+.mb-prog-bar{flex:1;height:5px;background:var(--ln2);border-radius:3px;overflow:hidden;}
+.mb-prog-fill{height:100%;background:linear-gradient(to right,var(--y),var(--g));border-radius:3px;transition:width .5s ease;}
+.mb-prog-lbl{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--g);white-space:nowrap;}
+.mb-actions{display:flex;gap:.6rem;align-items:center;}
+.mb-close{background:none;border:1px solid var(--ln2);border-radius:7px;color:var(--muted);font-size:.8rem;padding:.4rem .8rem;cursor:pointer;transition:.15s;}
+.mb-close:hover{color:var(--txt);border-color:var(--ln2);}
+
+/* LESSONS DRAWER (legacy) */
+.track-drawer{display:none;}
+.track-drawer.open{display:none;}
 .drawer-handle{width:36px;height:3px;background:var(--ln2);border-radius:2px;margin:0 auto .9rem;}
 .drawer-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem;}
 .track-nm{font-family:'Bungee','Arial Black',impact,sans-serif;font-size:1rem;letter-spacing:.02em;}
@@ -955,6 +979,24 @@ table.assets th{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;col
     <div class="learn-layout" id="learnLayout">
       <aside class="learn-sidebar" id="learnSidebar"></aside>
       <div class="learn-main" id="learnMain"></div>
+    </div>
+  </div>
+
+  <div class="mini-banner" id="miniBanner">
+    <div class="mb-row">
+      <div class="mb-emo" id="mbEmo"></div>
+      <div class="mb-body">
+        <div class="mb-title" id="mbTitle"></div>
+        <div class="mb-desc" id="mbDesc"></div>
+        <div class="mb-prog-wrap">
+          <div class="mb-prog-bar"><div class="mb-prog-fill" id="mbProgFill"></div></div>
+          <div class="mb-prog-lbl" id="mbProgLbl"></div>
+        </div>
+        <div class="mb-actions">
+          <button class="btn-g" id="mbStartBtn" style="font-size:.78rem;padding:.5rem 1.1rem"></button>
+          <button class="mb-close" onclick="closeMb()">✕ Fermer</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -2585,47 +2627,25 @@ function openTrackDrawer(idx){
   const name=track.track.replace(/^\S+\s/,'');
   const desc=TRACK_DESC[name]||'Explore les leçons de cette thématique pour progresser dans ton parcours.';
   const firstUnlocked=track.lessons.find(l=>!S.done.has(l.id));
-  const lessonsHtml=track.lessons.map(l=>`
-    <div class="lc${S.done.has(l.id)?' done':''}" onclick="openLesson('${l.id}')">
-      ${S.done.has(l.id)?'<div class="lc-check">✓</div>':''}
-      <span class="lc-e">${l.e}</span>
-      <div class="lc-n">${l.n}</div>
-      <div class="lc-foot"><span class="lc-t">${l.tag||''}</span><span class="lc-r">+${l.coins||20} 💰</span></div>
-    </div>`).join('');
-  el('learnMain').innerHTML=`
-    <div style="width:100%;max-width:860px;margin:0 auto;padding:2rem 1.5rem 4rem">
-      <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:1.8rem">
-        <button class="btn-ghost" onclick="showLessonMap()" style="padding:.35rem .8rem;font-size:.72rem">← Parcours</button>
-      </div>
-      <div style="display:flex;align-items:flex-start;gap:1.5rem;margin-bottom:2rem;flex-wrap:wrap">
-        <div style="font-size:4rem;filter:sepia(1) hue-rotate(5deg) saturate(3) brightness(1.1);line-height:1">${emo}</div>
-        <div style="flex:1;min-width:200px">
-          <div style="font-family:'Bungee',sans-serif;font-size:1.7rem;letter-spacing:.03em;line-height:1.1;margin-bottom:.6rem">${name}</div>
-          <div style="font-size:.88rem;color:var(--soft);line-height:1.7;max-width:560px">${desc}</div>
-        </div>
-      </div>
-      <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.6rem;flex-wrap:wrap">
-        <div style="flex:1;min-width:160px">
-          <div style="display:flex;justify-content:space-between;font-size:.65rem;color:var(--muted);margin-bottom:.35rem">
-            <span>Progression</span>
-            <span style="color:var(--g);font-family:'JetBrains Mono',monospace">${doneTr} / ${track.lessons.length}</span>
-          </div>
-          <div style="height:6px;background:var(--ln2);border-radius:3px;overflow:hidden">
-            <div style="height:100%;width:${pct}%;background:linear-gradient(to right,var(--y),var(--g));border-radius:3px;transition:width .6s ease"></div>
-          </div>
-        </div>
-        ${firstUnlocked?`<button class="btn-g" onclick="openLesson('${firstUnlocked.id}')" style="flex-shrink:0">
-          ${doneTr>0?'Continuer →':'Commencer →'}
-        </button>`:'<span style="color:var(--g);font-size:.8rem;font-weight:700">✓ Thématique terminée !</span>'}
-      </div>
-      <div class="lesson-grid">${lessonsHtml}</div>
-    </div>`;
-  buildParcoursBanner();
+  // Remplir le mini-banner
+  el('mbEmo').textContent=emo;
+  el('mbTitle').textContent=name;
+  el('mbDesc').textContent=desc;
+  el('mbProgFill').style.width=pct+'%';
+  el('mbProgLbl').textContent=doneTr+' / '+track.lessons.length+' leçons';
+  const btn=el('mbStartBtn');
+  if(firstUnlocked){
+    btn.textContent=doneTr>0?'Continuer →':'Commencer →';
+    btn.onclick=()=>{closeMb();openLesson(firstUnlocked.id);};
+  } else {
+    btn.textContent='✓ Terminé';btn.disabled=true;
+  }
+  el('miniBanner').classList.add('open');
 }
-function closeTrackDrawer(){
-  const d=document.getElementById('trackDrawer');
-  if(d)d.classList.remove('open');
+function closeMb(){
+  el('miniBanner').classList.remove('open');
 }
+function closeTrackDrawer(){closeMb();}
 
 function showLessonMap(){
   S.currentLesson=null;buildLearnSidebar();
