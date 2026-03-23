@@ -157,10 +157,12 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 /* ═══════════════════════════════════
    LEARN TAB
 ═══════════════════════════════════ */
-.learn-layout{display:grid;grid-template-columns:0px 1fr;min-height:calc(100vh - 48px);transition:grid-template-columns .3s ease;}
-.learn-layout.sidebar-open{grid-template-columns:280px 1fr;}
-.learn-sidebar{border-right:1px solid var(--ln);padding:1rem 0;position:sticky;top:48px;height:calc(100vh - 48px);overflow-y:auto;overflow-x:hidden;width:280px;transform:translateX(-100%);transition:transform .3s ease;}
-.learn-layout.sidebar-open .learn-sidebar{transform:translateX(0);}
+.learn-layout{display:block;min-height:calc(100vh - 48px);}
+/* GLOBAL SIDEBAR (fixed off-canvas, works on all tabs) */
+.learn-sidebar{position:fixed;top:48px;left:0;width:280px;height:calc(100vh - 48px);background:var(--bg1);border-right:1px solid var(--ln);padding:1rem 0;overflow-y:auto;overflow-x:hidden;z-index:300;transform:translateX(-100%);transition:transform .3s ease;box-shadow:4px 0 24px rgba(0,0,0,.4);}
+.learn-sidebar.sidebar-open{transform:translateX(0);}
+.sidebar-overlay{display:none;position:fixed;inset:0;z-index:299;background:rgba(0,0,0,.45);backdrop-filter:blur(2px);}
+.learn-sidebar.sidebar-open~.sidebar-overlay,.sidebar-overlay.active{display:block;}
 .sidebar-toggle{position:fixed;top:58px;left:8px;z-index:198;background:var(--bg3);border:1px solid var(--ln2);border-radius:6px;padding:.3rem .55rem;cursor:pointer;font-size:.75rem;color:var(--muted);transition:all .2s;}
 .sidebar-toggle:hover{color:var(--txt);border-color:var(--g);}
 .ls-section{font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);padding:.3rem .9rem .6rem;}
@@ -188,6 +190,11 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 .sp-risk-fill{height:100%;border-radius:3px;transition:width .6s ease;}
 .sp-no-profil{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.75rem;line-height:1.7;}
 .sp-diag-btn{width:100%;margin-top:.8rem;padding:.6rem;background:var(--g);color:#000;border:none;border-radius:7px;font-size:.75rem;font-weight:800;cursor:pointer;}
+/* PLAYER LEVEL */
+.sp-level-footer{display:flex;justify-content:space-between;font-size:.6rem;color:var(--muted);}
+.sp-lvl-opt{padding:.6rem .9rem;font-size:.78rem;font-family:'Nunito',sans-serif;color:#c8e8f0;cursor:pointer;transition:background .15s;}
+.sp-lvl-opt:hover{background:rgba(78,194,218,.12);}
+.sp-lvl-active{color:var(--y)!important;font-weight:800;background:rgba(255,205,13,.06)!important;}
 .ls-track{margin-bottom:0;border-bottom:1px solid var(--ln);}
 .ls-th{display:flex;align-items:center;gap:.45rem;padding:.65rem .9rem;font-size:.75rem;font-weight:400;color:var(--txt);cursor:pointer;border-radius:5px;transition:background .15s;line-height:1.4;font-family:'Nunito',sans-serif;}
 .ls-th:hover{background:rgba(255,255,255,.04);color:var(--txt);}
@@ -217,6 +224,20 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 .sb-info{flex:1;}
 .sb-days{font-weight:700;color:var(--o);}
 .sb-mult{font-size:.6rem;color:var(--muted);}
+/* STREAK ANIMATION OVERLAY */
+.streak-anim-ov{position:fixed;inset:0;z-index:5000;display:flex;align-items:center;justify-content:center;pointer-events:none;background:rgba(0,0,0,0);transition:background .4s;}
+.streak-anim-ov.show{background:rgba(0,0,0,.65);pointer-events:all;}
+.streak-anim-box{transform:scale(.5) translateY(60px);opacity:0;transition:transform .45s cubic-bezier(.34,1.56,.64,1),opacity .35s;text-align:center;padding:2.5rem 2rem;background:linear-gradient(160deg,var(--bg2),var(--bg3));border:1.5px solid rgba(255,122,0,.5);border-radius:20px;box-shadow:0 0 60px rgba(255,122,0,.25),0 10px 40px rgba(0,0,0,.5);max-width:300px;width:90%;}
+.streak-anim-ov.show .streak-anim-box{transform:scale(1) translateY(0);opacity:1;}
+.streak-anim-fire{font-size:4rem;display:block;animation:streakFire 1s ease-in-out infinite alternate;}
+@keyframes streakFire{0%{transform:scale(1) rotate(-4deg);}100%{transform:scale(1.15) rotate(4deg);}}
+.streak-anim-count{font-family:'Bungee',sans-serif;font-size:3.5rem;color:#FF7A00;text-shadow:0 0 30px rgba(255,122,0,.8);letter-spacing:.05em;line-height:1;margin:.4rem 0;}
+.streak-anim-label{font-family:'Bungee',sans-serif;font-size:.9rem;letter-spacing:.18em;color:#fff;margin-bottom:.3rem;}
+.streak-anim-sub{font-size:.75rem;color:var(--soft);font-family:'Nunito',sans-serif;line-height:1.5;margin-bottom:1.2rem;}
+.streak-anim-btn{background:linear-gradient(135deg,#FF7A00,#FFCD0D);border:none;border-radius:10px;padding:.65rem 2rem;font-family:'Bungee',sans-serif;font-size:.85rem;letter-spacing:.1em;color:#000;cursor:pointer;transition:.15s;}
+.streak-anim-btn:hover{transform:scale(1.04);}
+@keyframes streakParticle{0%{transform:translateY(0) scale(1);opacity:1;}100%{transform:translateY(-120px) scale(0);opacity:0;}}
+.streak-particle{position:fixed;pointer-events:none;font-size:1.6rem;z-index:5001;animation:streakParticle 1.2s ease-out forwards;}
 
 /* MISSIONS WIDGET */
 .missions-widget{
@@ -509,7 +530,11 @@ table.assets th.clickable:hover{color:var(--y);}
 /* CHART AREA */
 .chart-area{flex:1;display:flex;flex-direction:column;overflow:hidden;padding:.8rem 1rem;}
 .chart-header{display:flex;align-items:flex-start;gap:.9rem;margin-bottom:.6rem;flex-shrink:0;}
-.ch-name{font-family:'Bungee','Arial Black',impact,sans-serif;font-size:1.3rem;letter-spacing:.03em;}
+.ch-name{font-family:'Bungee','Arial Black',impact,sans-serif;font-size:1.3rem;letter-spacing:.03em;display:flex;align-items:center;gap:.5rem;}
+.ch-info-btn{width:17px;height:17px;border-radius:50%;border:1px solid rgba(78,194,218,.5);background:rgba(78,194,218,.12);color:var(--y);font-size:.6rem;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;font-family:'Nunito',sans-serif;}
+.ch-info-btn:hover{background:rgba(78,194,218,.25);}
+.ch-info-tooltip{display:none;position:absolute;top:calc(100% + 6px);left:0;background:var(--bg1);border:1px solid rgba(78,194,218,.3);border-radius:8px;padding:.55rem .75rem;font-size:.7rem;color:var(--soft);font-family:'Nunito',sans-serif;font-weight:400;white-space:nowrap;z-index:500;box-shadow:0 6px 20px rgba(0,0,0,.4);min-width:220px;max-width:300px;white-space:normal;line-height:1.5;}
+.ch-info-btn.open .ch-info-tooltip{display:block;}
 .ch-price{font-family:'JetBrains Mono','Courier New',monospace;font-size:1.5rem;font-weight:700;line-height:1;margin:.08rem 0;}
 .ch-price.up{color:var(--g);}.ch-price.dn{color:var(--r);}
 .ch-chg{font-size:.75rem;display:flex;gap:.45rem;align-items:center;}
@@ -544,48 +569,15 @@ table.assets th.clickable:hover{color:var(--y);}
 /* EVENT DEBRIEF */
 .ev-debrief-btn{display:none;}
 
-/* EVENTS TICKER */
-.events-ticker{padding:.4rem .8rem;border-top:1px solid var(--ln);background:var(--bg1);flex-shrink:0;}
-.et-lbl{font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.25rem;}
-.et-items{display:flex;gap:1.2rem;overflow:hidden;white-space:nowrap;}
-.et-item{display:inline-flex;align-items:center;gap:.35rem;font-size:.66rem;color:var(--soft);flex-shrink:0;}
-/* EVENTS PANEL */
-.eco-panel{border-top:1px solid var(--ln);flex-shrink:0;}
-.eco-toggle{display:flex;align-items:center;gap:.5rem;padding:.6rem .8rem;cursor:pointer;transition:.18s;user-select:none;}
-.eco-toggle:hover{background:rgba(78,194,218,.05);}
-.eco-toggle-label{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);font-weight:700;flex:1;}
-.eco-toggle-arrow{font-size:.65rem;color:var(--muted);transition:transform .25s;}
-.eco-toggle-arrow.open{transform:rotate(180deg);}
-.eco-body{overflow:hidden;max-height:0;transition:max-height .35s ease;}
-.eco-body.open{max-height:600px;}
-.eco-inner{padding:.3rem .8rem .8rem;display:flex;flex-direction:column;gap:.4rem;}
-.eco-ev{background:var(--bg3);border:1px solid var(--ln);border-radius:8px;padding:.55rem .7rem;display:flex;align-items:center;gap:.6rem;transition:.18s;}
-.eco-ev:hover{border-color:var(--ln2);}
-.eco-ev-ico{font-size:1.1rem;flex-shrink:0;}
-.eco-ev-info{flex:1;min-width:0;}
-.eco-ev-title{font-size:.72rem;font-weight:600;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.eco-ev-desc{font-size:.58rem;color:var(--muted);margin-top:.1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.eco-ev-badge{font-size:.52rem;padding:.15rem .45rem;border-radius:20px;font-weight:700;flex-shrink:0;}
-.eco-ev-badge.good{background:rgba(0,210,120,.12);color:var(--g);border:1px solid rgba(0,210,120,.25);}
-.eco-ev-badge.bad{background:rgba(255,59,92,.1);color:var(--r);border:1px solid rgba(255,59,92,.22);}
-.eco-sim-btn{font-size:.58rem;padding:.2rem .5rem;border-radius:5px;border:1px solid var(--ln2);background:transparent;color:var(--muted);cursor:pointer;flex-shrink:0;transition:.15s;}
-.eco-sim-btn:hover{border-color:var(--y);color:var(--y);}
-.eco-history{margin-top:.5rem;border-top:1px solid var(--ln);padding-top:.5rem;}
-.eco-hist-lbl{font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem;}
-.eco-hist-item{display:flex;align-items:center;gap:.4rem;font-size:.62rem;color:var(--soft);padding:.18rem 0;border-bottom:1px solid rgba(255,255,255,.04);}
-.eco-hist-item.good{color:var(--g);}.eco-hist-item.bad{color:var(--r);}
-.eco-hist-empty{font-size:.62rem;color:var(--muted);font-style:italic;}
-.et-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
-.et-dot.good{background:var(--g);}.et-dot.bad{background:var(--r);}.et-dot.neutral{background:var(--y);}
 
 /* MARKET RIGHT */
 .mkt-right{display:flex;flex-direction:column;overflow:hidden;}
 
 /* ORDER PANEL */
 .order-panel{border-bottom:1px solid var(--ln);flex-shrink:0;}
-.op-toggle{display:flex;align-items:center;justify-content:space-between;padding:.6rem .8rem;cursor:pointer;user-select:none;transition:.18s;gap:.5rem;}
-.op-toggle:hover{background:rgba(255,205,13,.05);}
-.op-toggle-label{display:flex;align-items:center;gap:.5rem;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--y);font-weight:700;}
+.op-toggle{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 1.2rem;cursor:pointer;user-select:none;transition:.18s;gap:.5rem;background:rgba(255,205,13,.08);border-left:3px solid #FFCD0D;box-shadow:inset 0 0 20px rgba(255,205,13,.06);}
+.op-toggle:hover{background:rgba(255,205,13,.14);}
+.op-toggle-label{display:flex;align-items:center;gap:.5rem;font-size:1.3rem;letter-spacing:.14em;text-transform:uppercase;color:#FFCD0D;font-weight:800;text-shadow:0 0 18px rgba(255,205,13,.8);font-family:'Bungee',sans-serif;}
 .op-toggle-sides{display:flex;gap:.35rem;}
 .op-side-pill{font-size:.58rem;padding:.18rem .55rem;border-radius:20px;border:1px solid var(--ln);color:var(--muted);cursor:pointer;transition:.15s;}
 .op-side-pill.buy.active{border-color:rgba(255,205,13,.4);color:var(--y);background:rgba(255,205,13,.1);}
@@ -647,9 +639,9 @@ table.assets th.clickable:hover{color:var(--y);}
 
 /* POSITIONS */
 .positions-panel{flex:1;overflow-y:auto;padding:0 .8rem .8rem;}
-.pp-hdr{position:sticky;top:0;background:rgba(11,11,24,.97);backdrop-filter:blur(12px);padding:.65rem .7rem;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--y);border:1px solid rgba(255,205,13,.2);border-radius:10px;margin-bottom:.6rem;cursor:pointer;display:flex;align-items:center;gap:.5rem;transition:.2s;box-shadow:0 2px 12px rgba(0,0,0,.3);}
-.pp-hdr:hover{background:rgba(255,205,13,.07);color:#fff;border-color:rgba(255,205,13,.4);box-shadow:0 0 18px rgba(255,205,13,.15);}
-.pp-hdr .pp-hdr-arrow{margin-left:auto;font-size:.7rem;opacity:.5;transition:.2s;}
+.pp-hdr{position:sticky;top:0;background:linear-gradient(135deg,rgba(255,205,13,.18),rgba(255,205,13,.08));backdrop-filter:blur(12px);padding:.75rem 1rem;font-size:.82rem;letter-spacing:.15em;text-transform:uppercase;color:#FFCD0D;border:1.5px solid rgba(255,205,13,.55);border-radius:10px;margin-bottom:.6rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.5rem;transition:.2s;box-shadow:0 0 20px rgba(255,205,13,.18),0 2px 12px rgba(0,0,0,.3);font-family:'Bungee',sans-serif;text-shadow:0 0 12px rgba(255,205,13,.5);}
+.pp-hdr:hover{background:linear-gradient(135deg,rgba(255,205,13,.28),rgba(255,205,13,.14));border-color:rgba(255,205,13,.8);box-shadow:0 0 30px rgba(255,205,13,.3),0 2px 16px rgba(0,0,0,.4);}
+.pp-hdr .pp-hdr-arrow{font-size:.75rem;opacity:.7;transition:.2s;}
 .pp-hdr:hover .pp-hdr-arrow{opacity:1;}
 /* PORTFOLIO MODAL */
 .port-modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1100;align-items:center;justify-content:center;}
@@ -889,6 +881,14 @@ table.assets th.clickable:hover{color:var(--y);}
 .dq-cat{font-family:'Nunito';font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--y);margin-bottom:.8rem;display:flex;align-items:center;justify-content:center;gap:.4rem;text-align:center;}
 .dq-q{font-family:'Bungee','Arial Black',impact,sans-serif;font-size:1.6rem;letter-spacing:.02em;line-height:1.15;color:var(--txt);margin-bottom:.6rem;text-align:center;max-width:560px;}
 .dq-hint{font-family:'Nunito';font-size:.75rem;color:var(--muted);margin-bottom:1.6rem;text-align:center;max-width:480px;line-height:1.6;}
+/* DIAG LOADING PAGE */
+.diag-loading{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3rem 1.5rem;text-align:center;min-height:340px;}
+.diag-loading-bar-wrap{width:280px;height:6px;background:var(--bg3);border-radius:10px;overflow:hidden;margin:1.8rem 0 1rem;}
+.diag-loading-bar{height:100%;width:0%;border-radius:10px;background:linear-gradient(90deg,var(--y),#FF7A00);transition:width .08s linear;}
+.diag-loading-label{font-size:.72rem;color:var(--muted);font-family:'Nunito',sans-serif;letter-spacing:.06em;min-height:1.2em;}
+.diag-loading-title{font-family:'Bungee',sans-serif;font-size:1.4rem;letter-spacing:.06em;color:var(--y);margin-top:.5rem;}
+.diag-loading-icon{font-size:3.5rem;animation:diagIconPulse 1s ease-in-out infinite alternate;}
+@keyframes diagIconPulse{0%{transform:scale(1);}100%{transform:scale(1.12);}}
 .dq-opts{display:flex;flex-direction:column;gap:.55rem;width:100%;max-width:520px;margin-bottom:1.8rem;}
 .dq-opt{display:flex;align-items:center;gap:.9rem;background:var(--bg2);border:1px solid var(--ln);border-radius:10px;padding:.75rem 1rem;cursor:pointer;transition:.18s;}
 .dq-opt:hover{border-color:rgba(78,194,218,.35);background:rgba(78,194,218,.06);}
@@ -949,8 +949,7 @@ table.assets th.clickable:hover{color:var(--y);}
 
 /* MOBILE */
 @media(max-width:900px){
-  .learn-sidebar{display:none;}
-  .learn-layout{grid-template-columns:1fr;}
+  .learn-layout{display:block;}
   .market-layout{grid-template-columns:1fr;}
   .mkt-right{display:none;}
   .tab.active.market-mobile #mktRightPanel{display:flex;flex-direction:column;height:calc(100vh - 48px);}
@@ -1171,7 +1170,7 @@ table.assets th.clickable:hover{color:var(--y);}
     <button class="tb-btn" id="navProfil"  onclick="switchTab('profil')">Profils</button>
     <span class="tb-center-title" id="tbCenterTitle">TON PARCOURS</span>
     <div class="tb-spacer"></div>
-    <div class="tb-streak" id="tbStreak" style="display:none"></div>
+    <div class="tb-wallet" id="tbStreak" style="color:var(--o);border-color:rgba(255,140,0,.3)">🔥 <span id="tbStreakDays">0j</span></div>
     <div class="tb-wallet" id="tbWallet">🪙 500</div>
     <div class="tb-lvl" id="tbLvl" onclick="toggleLvlMenu(event)">
       <span id="tbLvlLabel">Débutant</span> ▾
@@ -1187,9 +1186,11 @@ table.assets th.clickable:hover{color:var(--y);}
 
   <!-- LEARN -->
 
+  <aside class="learn-sidebar" id="learnSidebar"></aside>
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
   <div class="tab active" id="tabLearn">
     <div class="learn-layout" id="learnLayout">
-      <aside class="learn-sidebar" id="learnSidebar"></aside>
       <div class="learn-main" id="learnMain"></div>
     </div>
   </div>
@@ -1262,7 +1263,7 @@ table.assets th.clickable:hover{color:var(--y);}
         <div class="chart-area">
           <div class="chart-header">
             <div class="ch-asset">
-              <div class="ch-name" id="chName">—</div>
+              <div class="ch-name"><span id="chName">—</span><button class="ch-info-btn" id="chInfoBtn" onclick="toggleChInfo(event)" style="display:none">i<span class="ch-info-tooltip" id="chInfoTip"></span></button></div>
               <div class="ch-price" id="chPrice">—</div>
               <div class="ch-chg" id="chChg">—</div>
               <div class="ch-pnl-day" id="chPnlDay"></div>
@@ -1289,7 +1290,7 @@ table.assets th.clickable:hover{color:var(--y);}
       <div class="mkt-right" id="mktRight">
         <div class="order-panel">
           <div class="op-toggle" onclick="toggleOrderPanel()">
-            <span class="op-toggle-label">📋 Passer un ordre</span>
+            <span class="op-toggle-label">Passer un ordre</span>
             <div class="op-toggle-sides">
               <span class="op-side-pill buy active" id="oBuyPill" onclick="event.stopPropagation();setOrderSide('buy');openOrderPanel()">▲ Acheter</span>
               <span class="op-side-pill sell" id="oSellPill" onclick="event.stopPropagation();setOrderSide('sell');openOrderPanel()">▼ Vendre</span>
@@ -1338,7 +1339,7 @@ table.assets th.clickable:hover{color:var(--y);}
         </div>
 
         <div class="positions-panel">
-          <div class="pp-hdr" onclick="openPortfolioModal()">💼 Portefeuille <span class="pp-hdr-arrow">↗</span></div>
+          <div class="pp-hdr" onclick="openPortfolioModal()">Portefeuille <span class="pp-hdr-arrow">↗</span></div>
           <div class="port-summary" id="portSummary"></div>
           <div class="align-bar-wrap" id="alignBarWrap" style="display:none" onclick="openRebalanceModal()">
             <div class="ab-lbl"><span>Alignement profil</span><span id="alignPct">0%</span></div>
@@ -1347,18 +1348,7 @@ table.assets th.clickable:hover{color:var(--y);}
           <div id="posList"></div>
         </div>
 
-        <!-- EVENTS PANEL -->
-        <div class="eco-panel">
-          <div class="eco-toggle" onclick="toggleEcoPanel()">
-            <span class="eco-toggle-label">🌍 Événements économiques</span>
-            <span class="eco-toggle-arrow" id="ecoArrow">▼</span>
-          </div>
-          <div class="eco-body" id="ecoBody">
-            <div class="eco-inner" id="ecoInner"></div>
-          </div>
-        </div>
-
-        <div class="alloc-panel" id="allocPanel"></div>
+<div class="alloc-panel" id="allocPanel"></div>
         <!-- ALLOC MODAL -->
         <div class="alloc-modal-ov" id="allocModalOv" onclick="if(event.target===this)closeAllocModal()">
           <div class="alloc-modal">
@@ -1581,8 +1571,6 @@ table.assets th.clickable:hover{color:var(--y);}
 <div class="overlay" id="diagOv">
   <div class="ov-topbar">
     <span class="ov-nav-logo">TACTIC</span>
-    <div class="ov-nav-sep"></div>
-    <nav class="ov-nav-steps" id="diagNavSteps"></nav>
     <button class="ov-close-btn" onclick="closeDiag()">✕</button>
     <span class="ov-prog-text" id="diagProgTxt"></span>
   </div>
@@ -1708,6 +1696,70 @@ const EVENTS=[
      expl:'En récession, les banques centrales baissent leurs taux pour relancer l\'économie. Taux bas = prix obligations existantes montent (relation inverse). De plus, les investisseurs fuient le risque action et achètent des refuges. C\'est le seul moment où obligations et actions se découplent vraiment — raison pour laquelle tout portefeuille équilibré doit inclure des obligations.',
      lessons:['Récession → taux baissent → obligations montent','Portefeuille 60/40 : protection naturelle en récession','Gold : se comporte bien aussi (double refuge)']
    }
+  },
+  {id:'fed_cut',title:'🏦 FED baisse ses taux — Surprise dovish',desc:'La Réserve Fédérale réduit ses taux de 0.5%. Marché en euphorie, tech en feu.',impact:'good',
+   effects:{msci:.03,cac:.025,aapl:.05,tsla:.06,nvda:.07,btc:.08,gold:.02,tnx:.04,lvmh:.02,iaetf:.09,em:.04,scpi:.03},
+   debrief:{title:'Baisse de taux : le carburant de la tech',expl:'Des taux plus bas réduisent le coût d\'emprunt des entreprises et augmentent la valeur actualisée des profits futurs. La tech en profite doublement car ses bénéfices sont très éloignés dans le temps. Le Bitcoin bondit car un dollar moins cher pousse les investisseurs vers les actifs alternatifs.',lessons:['Taux bas = valorisations tech gonflées','Bitcoin bénéficie du "dollar faible"','Immobilier (SCPI) : coût du crédit baisse → demande monte']}
+  },
+  {id:'chom_usa',title:'💼 Chômage USA — Record historique bas',desc:'Taux de chômage à 3.2%, plus bas niveau depuis 50 ans. Consommation en hausse.',impact:'good',
+   effects:{msci:.02,cac:.015,aapl:.025,tsla:.03,nvda:.02,btc:.02,gold:-.015,tnx:.01,lvmh:.02,iaetf:.025,em:.015,scpi:.01},
+   debrief:{title:'Plein emploi : bon pour les marchés ?',expl:'Le plein emploi stimule la consommation mais fait peur aux banques centrales (inflation salariale). Court terme = hausse des actions (profits en hausse). Long terme = risque de hausse des taux. C\'est le paradoxe : trop de bonnes nouvelles économiques peuvent finir par faire monter les taux.',lessons:['Plein emploi → consommation → profits','Risque : inflation salariale → FED hawkish','LVMH profite de consommateurs plus riches']}
+  },
+  {id:'crypto_etf',title:'🪙 Approbation ETF Bitcoin Spot USA',desc:'La SEC approuve les premiers ETF Bitcoin spot. Adoption institutionnelle massive.',impact:'good',
+   effects:{btc:.25,iaetf:.06,nvda:.04,msci:.01,cac:.005,aapl:.02,gold:-.02,tnx:-.01,tsla:.03,lvmh:.0,em:.015,scpi:.0},
+   debrief:{title:'ETF Bitcoin : la porte institutionnelle s\'ouvre',expl:'L\'approbation d\'un ETF Bitcoin spot signifie que des fonds de pension, assurances et gestionnaires peuvent exposer leurs clients au Bitcoin sans détenir l\'actif. C\'est un catalyseur massif car cela crée une demande structurelle. BlackRock, Fidelity entrent sur le marché. L\'histoire montre qu\'après l\'approbation des ETF Gold en 2004, l\'or a été multiplié par 6.',lessons:['ETF = accès institutionnel aux crypto','Demande structurelle > demande spéculative','Or : précédent 2004 → ×6 en 7 ans après ETF']}
+  },
+  {id:'war',title:'⚔️ Conflit géopolitique majeur',desc:'Guerre en Europe de l\'Est. Énergie et céréales en rupture. Marchés en panique.',impact:'bad',
+   effects:{msci:-.05,cac:-.07,aapl:-.03,tsla:-.04,nvda:-.03,btc:-.04,gold:.09,tnx:.03,lvmh:-.05,iaetf:-.04,em:-.06,scpi:-.02},
+   debrief:{title:'Guerre et marchés : le réflexe "fuite vers la sécurité"',expl:'Les conflits géopolitiques créent de l\'incertitude extrême. Les investisseurs vendent les actifs risqués (actions, crypto) et achètent des refuges (or, obligations US, yen). L\'Europe est la plus touchée car la guerre perturbe les chaînes d\'approvisionnement (énergie, matières premières). LVMH souffre doublement : moins de touristes + baisse de la consommation de luxe.',lessons:['Or = refuge géopolitique par excellence','Europe plus exposée que les USA','Court terme : panique. Long terme : les marchés récupèrent toujours']}
+  },
+  {id:'nvidia_earnings',title:'🖥️ Nvidia — Résultats records, guidance explosive',desc:'Résultats trimestriels x3 les attentes. Nvidia révolutionne l\'IA générative.',impact:'good',
+   effects:{nvda:.18,iaetf:.12,aapl:.04,tsla:.03,msci:.02,cac:.01,btc:.04,gold:-.01,tnx:.0,lvmh:.0,em:.02,scpi:.0},
+   debrief:{title:'Pourquoi les résultats Nvidia impactent tout le secteur tech ?',expl:'Nvidia est devenu le baromètre de l\'économie IA. Quand ses résultats explosent, cela signifie que toutes les entreprises (Microsoft, Google, Meta, Amazon) dépensent des milliards en GPU. C\'est un signal de santé de tout l\'écosystème tech. L\'effet de halo profite à Apple (fournisseur), Tesla (IA pour l\'autonomie) et surtout à l\'ETF IA/Tech.',lessons:['Nvidia = indicateur avancé de l\'investissement IA','Effet halo sur tout le secteur tech','CAPEX des big tech = revenus pour les fournisseurs de chips']}
+  },
+  {id:'immob_crash',title:'🏢 Crise immobilière — Défauts en cascade',desc:'Vague de faillites dans le secteur immobilier. Banques exposées, SCPI sous pression.',impact:'bad',
+   effects:{scpi:-.12,msci:-.03,cac:-.04,lvmh:-.02,aapl:-.02,btc:-.03,gold:.03,tnx:.02,tsla:-.025,nvda:-.015,iaetf:-.02,em:-.03},
+   debrief:{title:'Crise immo : pourquoi les SCPI sont en première ligne ?',expl:'Les SCPI détiennent des portefeuilles d\'immeubles de bureaux et commerciaux. Quand les taux montent + le télétravail vide les bureaux, la valeur des actifs chute et les loyers baissent. Les SCPI à capital variable doivent vendre des actifs à prix bradé pour rembourser les investisseurs qui partent. C\'est une spirale baissière.',lessons:['SCPI : risque de liquidité en crise immo','Taux élevés = double peine pour l\'immo','Bureaux : risque structurel post-COVID']}
+  },
+  {id:'deflation',title:'❄️ Déflation — Spirale baissière des prix',desc:'Les prix chutent 3 mois consécutifs. Risque de spirale déflationniste à la japonaise.',impact:'bad',
+   effects:{msci:-.03,cac:-.035,aapl:-.025,tsla:-.04,nvda:-.03,btc:-.05,gold:.02,tnx:.06,lvmh:-.02,iaetf:-.035,em:-.03,scpi:-.025},
+   debrief:{title:'Déflation : pourquoi c\'est pire que l\'inflation ?',expl:'La déflation crée une attente de baisse des prix → les consommateurs reportent leurs achats → les entreprises réduisent leur production → chômage monte → encore moins de consommation. C\'est la spirale déflationniste. Les obligations montent fortement car les banques centrales vont baisser les taux à zéro. Le Japon en a souffert 30 ans.',lessons:['Déflation → obligations = actif le plus performant','Actions : profits chutent dans une spirale déflationniste','Or : résiste mais moins qu\'en inflation']}
+  },
+  {id:'em_crisis',title:'🌏 Crise des marchés émergents',desc:'Chute des devises émergentes. Fuite des capitaux vers les économies développées.',impact:'bad',
+   effects:{em:-.15,msci:-.025,cac:-.02,btc:-.03,gold:.04,tnx:.03,aapl:-.015,tsla:-.02,nvda:-.01,lvmh:-.025,iaetf:-.02,scpi:-.01},
+   debrief:{title:'Crises émergentes : le circuit de contagion',expl:'Les marchés émergents empruntent souvent en dollars. Quand le dollar monte (ou les taux US montent), leur dette explose en monnaie locale. Les investisseurs fuient → la devise s\'effondre → encore plus de dette → crise souveraine. L\'Asie (1997), l\'Argentine, la Turquie : même schéma. LVMH souffre car ces marchés sont une partie de sa clientèle.',lessons:['EM : exposition au dollar et aux taux US','Contagion : une crise EM peut se propager aux DM','LVMH : clients EM = 20% de ses revenus']}
+  },
+  {id:'apple_product',title:'🍎 Apple — Keynote révolutionnaire',desc:'Tim Cook présente un produit de rupture. Apple Vision Pro 2 : révolution spatiale.',impact:'good',
+   effects:{aapl:.10,msci:.015,cac:.005,nvda:.04,tsla:.01,btc:.02,gold:-.01,tnx:.0,lvmh:.005,iaetf:.06,em:.01,scpi:.0},
+   debrief:{title:'Effet keynote Apple : science et psychologie',expl:'Apple génère un "halo effect" lors de ses keynotes. Chaque nouveau produit crée de l\'anticipation même avant les revenus. Apple représente ~7% de l\'indice MSCI World → son mouvement tire le marché. Nvidia profite car les nouveaux produits Apple nécessitent des puces de pointe. L\'effet se dissipe souvent en 2-3 semaines si les ventes déçoivent.',lessons:['Apple = 7% du MSCI World → impact marché','Halo effect des keynotes sur le secteur tech','Court terme : news. Long terme : fondamentaux']}
+  },
+  {id:'cyber_attack',title:'🔐 Cyberattaque massive — Infrastructures critiques',desc:'Attaque coordonnée sur les systèmes bancaires mondiaux. Paralysie partielle.',impact:'bad',
+   effects:{msci:-.02,cac:-.025,aapl:-.015,btc:.04,gold:.03,tnx:.02,tsla:-.02,nvda:.03,lvmh:-.01,iaetf:.02,em:-.02,scpi:-.01},
+   debrief:{title:'Cyberattaques : les gagnants et perdants',expl:'Les cyberattaques sur les banques créent de la panique systémique mais aussi une opportunité pour les entreprises de cybersécurité. Bitcoin monte paradoxalement car certains voient dans la décentralisation une protection contre les systèmes centralisés compromis. Nvidia profite car les solutions de cybersécurité IA nécessitent des GPU.',lessons:['Crise cyber → volatilité court terme','Cybersécurité : secteur gagnant à long terme','Bitcoin : narrative "anti-système" activée']}
+  },
+  {id:'ecb_hike',title:'🇪🇺 BCE hausse agressive +0.5%',desc:'Christine Lagarde surprend les marchés avec une hausse de 50 points de base.',impact:'bad',
+   effects:{cac:-.04,msci:-.02,lvmh:-.035,tnx:-.05,scpi:-.04,aapl:-.01,tsla:-.025,nvda:-.015,btc:-.03,gold:.015,iaetf:-.025,em:-.02},
+   debrief:{title:'BCE hawkish : l\'Europe paie plus cher',expl:'La zone euro dépend davantage du financement bancaire que les USA (où les entreprises s\'endettent sur les marchés). Une hausse de la BCE impacte directement le crédit aux entreprises et aux ménages. Le CAC est particulièrement sensible car il inclut de nombreuses entreprises cycliques et financières (BNP, Société Générale). Les SCPI souffrent doublement : coût du crédit + baisse de la valeur des actifs.',lessons:['BCE hawk = double peine pour CAC et SCPI','Entreprises européennes : dépendance au crédit bancaire','LVMH exception : pricing power protège mais pas contre les taux']}
+  },
+  {id:'sovereign_debt',title:'🇺🇸 Crise de la dette américaine',desc:'Le Congrès bloque le relèvement du plafond de la dette. Risque de défaut des USA.',impact:'bad',
+   effects:{msci:-.04,cac:-.03,aapl:-.03,btc:.06,gold:.08,tnx:-.06,tsla:-.04,nvda:-.03,lvmh:-.02,iaetf:-.04,em:-.05,scpi:-.02},
+   debrief:{title:'Plafond de la dette US : un risque unique au monde',expl:'Les bons du trésor américain sont considérés comme l\'actif "sans risque" de référence mondiale. Une menace de défaut est donc une anomalie qui déstabilise tout le système financier. L\'or et Bitcoin montent car ils ne dépendent d\'aucun État. Paradoxalement les obligations US peuvent aussi monter si les investisseurs pensent que le défaut sera évité in extremis (ce qui arrive toujours).',lessons:['T-Bond = taux sans risque mondial → sa crise déstabilise tout','Or et BTC : actifs "hors système" = refuge en crise souveraine','Le défaut US n\'est jamais arrivé, mais la menace suffit à créer la panique']}
+  },
+  {id:'green_energy',title:'🌱 Loi sur les énergies renouvelables — Milliards de subventions',desc:'Plan historique de 500 Mds$ pour la transition énergétique mondiale.',impact:'good',
+   effects:{tsla:.08,msci:.02,cac:.015,nvda:.03,aapl:.01,btc:.01,gold:-.005,tnx:.01,lvmh:.005,iaetf:.04,em:.025,scpi:.015},
+   debrief:{title:'Transition énergétique : qui gagne vraiment ?',expl:'Les subventions massives pour les énergies renouvelables profitent directement à Tesla (VE + stockage), aux fabricants de panneaux solaires et aux gestionnaires de réseaux intelligents. Nvidia bénéficie car les smart grids nécessitent de l\'IA. Les marchés émergents (Inde, Afrique) qui construisent leurs infrastructures from scratch sautent directement à l\'énergie verte.',lessons:['Tesla : double bénéfice (VE + Powerwall/Megapack)','Green tech : secteur en hypercroissance subventionnée','EM : construisent en renouvelable by default (moins cher)']}
+  },
+  {id:'stagflation',title:'📉 Stagflation — Croissance nulle + Inflation élevée',desc:'Le pire des deux mondes : économie à l\'arrêt et inflation persistante.',impact:'bad',
+   effects:{msci:-.045,cac:-.05,aapl:-.03,tsla:-.05,nvda:-.03,btc:-.06,gold:.07,tnx:-.04,lvmh:-.025,iaetf:-.04,em:-.04,scpi:-.02},
+   debrief:{title:'Stagflation : le cauchemar des banquiers centraux',expl:'La stagflation place les banques centrales dans une impossible dilemme : monter les taux pour combattre l\'inflation (aggrave la récession) ou baisser les taux pour relancer (aggrave l\'inflation). L\'or est l\'un des rares actifs qui performe bien car il protège à la fois contre l\'inflation et l\'incertitude. C\'est ce que les USA ont vécu dans les années 70.',lessons:['Stagflation = impasse pour les banques centrales','Or : seul actif qui performe dans les deux maux','Actions : double peine (marges sous pression + taux élevés)']}
+  },
+  {id:'mega_merger',title:'🤝 Fusion géante — Microsoft rachète une major',desc:'Acquisition surprise à 200 Mds$. Consolidation du secteur tech mondial.',impact:'good',
+   effects:{msci:.02,cac:.01,aapl:.015,nvda:.025,tsla:.01,btc:.015,gold:-.005,tnx:.005,lvmh:.005,iaetf:.05,em:.01,scpi:.005},
+   debrief:{title:'Fusions-acquisitions : catalyseur de marché',expl:'Les grandes fusions créent un "deal premium" pour tout le secteur : les investisseurs achètent les concurrents potentiellement rachetables. Une acquisition à 200 Mds$ signifie que les acheteurs voient une valeur immense dans les actifs tech. Cela valide les valorisations élevées du secteur et déclenche un re-rating de tout l\'univers tech.',lessons:['M&A crée un "premium" sur tout le secteur','Validation des valorisations = re-rating','Qui est le prochain à être racheté ? → spéculation']}
+  },
+  {id:'pandemic',title:'🦠 Nouvelle pandémie déclarée — OMS alerte mondiale',desc:'Un nouveau variant virulent. Fermetures de frontières, confinements possibles.',impact:'bad',
+   effects:{msci:-.06,cac:-.07,aapl:-.03,tsla:-.04,nvda:.02,btc:-.05,gold:.05,tnx:.04,lvmh:-.08,iaetf:-.02,em:-.07,scpi:-.06},
+   debrief:{title:'Pandémie : les leçons de 2020',expl:'COVID-19 a montré que les marchés chutent violemment au début (panique) puis récupèrent vite si les gouvernements interviennent. Les gagnants atypiques : Nvidia (data centers en surchauffe), tech en général (télétravail). Les perdants : luxe (tourisme zéro), immo commercial (bureaux vides), marchés émergents (chaînes d\'approvisionnement cassées). L\'or et les obligations = refuge classique.',lessons:['Pandémie → LVMH et EM = gros perdants','Nvidia + tech : gagnants de la crise COVID','Récupération : rapide si stimulus gouvernemental']}
   }
 ];
 
@@ -1715,42 +1767,36 @@ const EVENTS=[
    DIAGNOSTIC PROFILES
 ═══════════════════════════════════ */
 const DIAG_Q=[
-  {id:'age',cat:'Profil',emoji:'🧬',text:'Quel est ton âge ?',hint:'L\'horizon temporel est le facteur n°1 de l\'allocation.',opts:[
-    {k:'A',l:'18–25 ans',d:'Long horizon, risque élevé possible.',sc:{r:3,h:4,k:0}},
-    {k:'B',l:'26–35 ans',d:'Phase de construction patrimoniale.',sc:{r:2,h:3,k:0}},
-    {k:'C',l:'36–50 ans',d:'Équilibre risque/sécurité croissant.',sc:{r:1,h:2,k:0}},
-    {k:'D',l:'51 ans et +',d:'Préservation du capital prioritaire.',sc:{r:0,h:1,k:0}}
+  {id:'age',cat:'Profil',emoji:'🧬',text:'Quel est ton âge ?',hint:'',opts:[
+    {k:'A',l:'18–25 ans',d:'',sc:{r:3,h:4,k:0}},
+    {k:'B',l:'26–35 ans',d:'',sc:{r:2,h:3,k:0}},
+    {k:'C',l:'36–50 ans',d:'',sc:{r:1,h:2,k:0}},
+    {k:'D',l:'51 ans et +',d:'',sc:{r:0,h:1,k:0}}
   ]},
-  {id:'obj',cat:'Objectifs',emoji:'🎯',text:'Ton objectif principal ?',hint:'L\'objectif détermine la stratégie.',opts:[
-    {k:'A',l:'Patrimoine long terme',d:'10–30 ans, maximiser la croissance.',sc:{r:3,h:3,k:0}},
-    {k:'B',l:'Préparer la retraite',d:'5–20 ans, sécuriser progressivement.',sc:{r:2,h:2,k:0}},
-    {k:'C',l:'Revenus passifs',d:'Dividendes et coupons réguliers.',sc:{r:1,h:1,k:1}},
-    {k:'D',l:'Protéger de l\'inflation',d:'Sécurité avant rendement.',sc:{r:0,h:1,k:0}}
+  {id:'obj',cat:'Objectifs',emoji:'🎯',text:'Ton objectif principal ?',hint:'',opts:[
+    {k:'A',l:'Patrimoine long terme',d:'',sc:{r:3,h:3,k:0}},
+    {k:'B',l:'Préparer la retraite',d:'',sc:{r:2,h:2,k:0}},
+    {k:'C',l:'Revenus passifs',d:'',sc:{r:1,h:1,k:1}},
+    {k:'D',l:'Protéger de l\'inflation',d:'',sc:{r:0,h:1,k:0}}
   ]},
-  {id:'crash',cat:'Psychologie',emoji:'📉',text:'Ton portefeuille perd -30% en 2 mois. Tu fais quoi ?',hint:'Ta réaction révèle ton vrai profil.',opts:[
-    {k:'A',l:'J\'achète davantage',d:'Les soldes sont une opportunité.',sc:{r:4,h:0,k:2}},
-    {k:'B',l:'Je ne fais rien',d:'Je garde le cap long terme.',sc:{r:3,h:0,k:1}},
-    {k:'C',l:'Je vends une partie',d:'Je réduis l\'exposition.',sc:{r:1,h:0,k:0}},
-    {k:'D',l:'Je vends tout',d:'Sécurité absolue.',sc:{r:0,h:0,k:0}}
+  {id:'crash',cat:'Psychologie',emoji:'📉',text:'Ton portefeuille perd -50%<br><span style="display:block;margin-top:.35rem">en 2 mois</span><span style="display:block;margin-top:.35rem">Tu fais quoi ?</span>',hint:'',opts:[
+    {k:'A',l:'J\'achète davantage',d:'',sc:{r:4,h:0,k:2}},
+    {k:'B',l:'Je ne fais rien',d:'',sc:{r:3,h:0,k:1}},
+    {k:'C',l:'Je vends une partie',d:'',sc:{r:1,h:0,k:0}},
+    {k:'D',l:'Je vends tout',d:'',sc:{r:0,h:0,k:0}}
   ]},
-  {id:'perte',cat:'Risque',emoji:'🛡️',text:'Perte max sur 1 an que tu acceptes ?',hint:'Sois honnête — mauvaise calibration = mauvaises décisions.',opts:[
-    {k:'A',l:'Plus de -25%',d:'Forte volatilité pour max rendement.',sc:{r:4,h:0,k:0}},
-    {k:'B',l:'-15% à -25%',d:'Profil dynamique.',sc:{r:3,h:0,k:0}},
-    {k:'C',l:'-5% à -15%',d:'Confort avant performance.',sc:{r:1,h:0,k:0}},
-    {k:'D',l:'Moins de -5%',d:'Quasi aucune perte tolérée.',sc:{r:0,h:0,k:0}}
+  {id:'perte',cat:'Risque',emoji:'🛡️',text:'Perte max sur 1 an que tu acceptes ?',hint:'',opts:[
+    {k:'A',l:'Plus de -25%',d:'',sc:{r:4,h:0,k:0}},
+    {k:'B',l:'-15% à -25%',d:'',sc:{r:3,h:0,k:0}},
+    {k:'C',l:'-5% à -15%',d:'',sc:{r:1,h:0,k:0}},
+    {k:'D',l:'Moins de -5%',d:'',sc:{r:0,h:0,k:0}}
   ]},
   {id:'kn',cat:'Connaissances',emoji:'📚',text:'Ton niveau en finance ?',hint:'',opts:[
-    {k:'A',l:'Expert',d:'Options, dérivés, gestion quant.',sc:{r:0,h:0,k:4}},
-    {k:'B',l:'Intermédiaire',d:'Actions, ETF, obligations.',sc:{r:0,h:0,k:2}},
-    {k:'C',l:'Débutant',d:'Je connais les bases.',sc:{r:0,h:0,k:1}},
-    {k:'D',l:'Novice',d:'Je débute totalement.',sc:{r:0,h:0,k:0}}
+    {k:'A',l:'Expert',d:'',sc:{r:0,h:0,k:4}},
+    {k:'B',l:'Intermédiaire',d:'',sc:{r:0,h:0,k:2}},
+    {k:'C',l:'Débutant',d:'',sc:{r:0,h:0,k:1}},
+    {k:'D',l:'Novice',d:'',sc:{r:0,h:0,k:0}}
   ]},
-  {id:'scen',cat:'Décision',emoji:'🧮',text:'Scénario : 1 000 AC à investir. Lequel te convient ?',hint:'Révèle ton rapport réel au risque.',opts:[
-    {k:'A',l:'50% chance × 1 600 AC / 50% chance × 1 000 AC',d:'+60% potentiel.',sc:{r:3,h:0,k:1}},
-    {k:'B',l:'80% chance × 1 250 AC / 20% chance × 900 AC',d:'Favorable, risque modéré.',sc:{r:2,h:0,k:0}},
-    {k:'C',l:'95% chance × 1 080 AC / 5% chance × 950 AC',d:'Quasi-certitude de faible gain.',sc:{r:0,h:0,k:0}},
-    {k:'D',l:'Certitude de 1 100 AC',d:'Sécurité absolue.',sc:{r:0,h:0,k:0}}
-  ]}
 ];
 
 const PROFILES={
@@ -2727,8 +2773,19 @@ function loadState(){
     const today=new Date().toDateString();
     if(s.lastPlay){
       const diff=Math.floor((new Date()-new Date(s.lastPlay))/86400000);
-      S.streak=diff===0?s.streak||1:diff===1?(s.streak||0)+1:1;
-    }else{S.streak=1;}
+      if(diff===0){
+        S.streak=s.streak||1;
+      }else if(diff===1){
+        S.streak=(s.streak||0)+1;
+        S._newStreakDay=true;
+      }else{
+        S.streak=1;
+        S._newStreakDay=true;
+      }
+    }else{
+      S.streak=1;
+      S._newStreakDay=true;
+    }
     S.lastPlay=today;
   }catch(e){}
 }
@@ -2798,22 +2855,39 @@ function boot(level){
   buildMarketTable();selectAsset('msci');
   startMarketSim();startClock();renderMissions();renderLimitQueue();
   if(S.diagDone&&S.diagProfile)showAllocPanel();
-  setInterval(triggerEvent,38000+Math.random()*22000);
+  setInterval(triggerEvent,90000+Math.random()*60000);
   setInterval(checkLimitOrders,1800);
   saveState();
+  if(S._newStreakDay)setTimeout(()=>showStreakAnim(S.streak),1200);
 }
 
 function toggleLvlMenu(e){
   e.stopPropagation();
-  el('lvlMenu').classList.toggle('open');
+  const m=el('lvlMenu');if(m)m.classList.toggle('open');
+}
+function toggleSpLvlMenu(e){
+  e.stopPropagation();
+  const m=el('spLvlMenu');
+  if(!m)return;
+  m.style.display=m.style.display==='block'?'none':'block';
+}
+function spSwitchLevel(lvl,optEl){
+  const m=el('spLvlMenu');if(m)m.style.display='none';
+  document.querySelectorAll('.sp-lvl-opt').forEach(o=>o.classList.remove('sp-lvl-active'));
+  optEl.classList.add('sp-lvl-active');
+  const lbl=el('spLvlLabel');if(lbl)lbl.textContent=lvl;
+  boot(lvl);
 }
 function switchLevel(lvl, optEl){
-  el('lvlMenu').classList.remove('open');
+  const m=el('lvlMenu');if(m)m.classList.remove('open');
   document.querySelectorAll('.lvl-opt').forEach(o=>o.classList.remove('active'));
   optEl.classList.add('active');
   boot(lvl);
 }
-document.addEventListener('click',()=>{ const m=el('lvlMenu'); if(m) m.classList.remove('open'); });
+document.addEventListener('click',()=>{
+  const m=el('lvlMenu');if(m)m.classList.remove('open');
+  const sm=el('spLvlMenu');if(sm)sm.style.display='none';
+});
 
 function goSplash(){
   clearInterval(window._mktSim);clearInterval(window._clock);
@@ -2881,6 +2955,9 @@ function startClock(){
 
 /* ══ LEARN SIDEBAR ══ */
 let _sidebarTab='parcours';
+function refreshSidebarProfile(){
+  const s=el('learnSidebar');if(s)s.innerHTML=buildSidebarProfile();
+}
 function buildLearnSidebar(){
   el('learnSidebar').innerHTML=buildSidebarProfile();return;
   const tracks=LESSONS[S.level]||[];
@@ -2944,6 +3021,24 @@ const PROFILE_META={
     style:'Agressif'
   }
 };
+const PLAYER_LEVELS=[
+  {id:'novice',    name:'Novice',        icon:'🌱', color:'#78C4B0', min:0,  next:3},
+  {id:'debutant',  name:'Débutant',      icon:'📖', color:'#4EC2DA', min:3,  next:8},
+  {id:'inter',     name:'Intermédiaire', icon:'⚡', color:'#FFCD0D', min:8,  next:16},
+  {id:'expert',    name:'Expert',        icon:'🏆', color:'#FF7A00', min:16, next:25},
+  {id:'cfa',       name:'CFA',           icon:'🎓', color:'#FF3B5C', min:25, next:25}
+];
+function getPlayerLevel(){
+  const allLessons=Object.values(LESSONS).flatMap(lvl=>lvl.flatMap(t=>t.lessons));
+  const done=allLessons.filter(l=>S.done&&S.done.has(l.id)).length;
+  let lvlIdx=0;
+  for(let i=PLAYER_LEVELS.length-1;i>=0;i--){if(done>=PLAYER_LEVELS[i].min){lvlIdx=i;break;}}
+  const lvl=PLAYER_LEVELS[lvlIdx];
+  const nextLvl=PLAYER_LEVELS[Math.min(lvlIdx+1,PLAYER_LEVELS.length-1)];
+  const isCfa=lvl.id==='cfa';
+  const pct=isCfa?100:Math.round(((done-lvl.min)/(nextLvl.min-lvl.min))*100);
+  return {lvl,done,pct,nextLvl,isCfa};
+}
 function buildSidebarProfile(){
   if(!S.diagDone||!S.diagProfile){
     return `<div class="sp-no-profil">
@@ -2963,10 +3058,17 @@ function buildSidebarProfile(){
       <div class="sp-name">${p.name}</div>
       <span class="sp-badge" style="background:${p.color}22;color:${p.color};border:1px solid ${p.color}44">${m.style}</span>
     </div>
-    <div class="sp-section-title">📊 Statistiques</div>
-    <div style="display:flex;flex-direction:column;gap:.3rem;margin-bottom:.5rem">
-      <div class="sp-stat-row"><span class="sp-stat-icon">🔥</span><span class="sp-stat-lbl">Streak</span><span class="sp-stat-val" style="color:#fff;font-size:.78rem">${S.streak} jour${S.streak>1?'s':''}</span></div>
-      <div class="sp-stat-row"><span class="sp-stat-icon">🪙</span><span class="sp-stat-lbl">Tacoins</span><span class="sp-stat-val" style="color:#fff;font-size:.78rem">${Math.floor(S.coins).toLocaleString('fr-FR')} 🪙</span></div>
+    <div class="sp-section-title">📚 Niveau de cours</div>
+    <div style="position:relative;margin-bottom:.6rem" id="spLvlWrap">
+      <div onclick="toggleSpLvlMenu(event)" style="display:flex;align-items:center;justify-content:space-between;padding:.6rem .9rem;background:rgba(78,194,218,.08);border:1px solid rgba(78,194,218,.25);border-radius:8px;cursor:pointer;font-size:.82rem;font-weight:700;color:var(--y);font-family:'Nunito',sans-serif;user-select:none">
+        <span id="spLvlLabel">${S.level||'Débutant'}</span><span>▾</span>
+      </div>
+      <div id="spLvlMenu" style="display:none;position:absolute;top:calc(100% + 4px);left:0;right:0;background:#0D2230;border:1px solid rgba(78,194,218,.3);border-radius:8px;overflow:hidden;z-index:200;box-shadow:0 8px 24px rgba(0,0,0,.4)">
+        <div class="sp-lvl-opt${(!S.level||S.level==='Débutant')?' sp-lvl-active':''}" onclick="spSwitchLevel('Débutant',this)">Débutant</div>
+        <div class="sp-lvl-opt${S.level==='Intermédiaire'?' sp-lvl-active':''}" onclick="spSwitchLevel('Intermédiaire',this)">Intermédiaire</div>
+        <div class="sp-lvl-opt${S.level==='Avancé'?' sp-lvl-active':''}" onclick="spSwitchLevel('Avancé',this)">Avancé</div>
+        <div class="sp-lvl-opt${S.level==='Expert CFA/AMF'?' sp-lvl-active':''}" onclick="spSwitchLevel('Expert CFA/AMF',this)">Expert</div>
+      </div>
     </div>
 
     <div class="sp-section-title">🎯 Aversion au risque</div>
@@ -2996,12 +3098,21 @@ function buildSidebarProfile(){
   </div>`;
 }
 function toggleSidebar(){
-  const layout = el('learnLayout');
-  const btn = el('sidebarToggle');
-  const open = layout.classList.toggle('sidebar-open');
-  btn.textContent = open ? '✕' : '☰';
-  // Redessine le SVG après la fin de la transition CSS (300ms)
+  const sidebar=el('learnSidebar');
+  const overlay=el('sidebarOverlay');
+  const btn=el('sidebarToggle');
+  const open=sidebar.classList.toggle('sidebar-open');
+  if(overlay)overlay.classList.toggle('active',open);
+  btn.textContent=open?'✕':'☰';
   setTimeout(()=>{ const svg=el('pathSvg'); if(svg&&window._lastMapPts) renderPathSvg(window._lastMapPts,window._lastMapH); },320);
+}
+function closeSidebar(){
+  const sidebar=el('learnSidebar');
+  const overlay=el('sidebarOverlay');
+  const btn=el('sidebarToggle');
+  sidebar.classList.remove('sidebar-open');
+  if(overlay)overlay.classList.remove('active');
+  if(btn)btn.textContent='☰';
 }
 function toggleSidebarTrack(id, btn){
   const panel=document.getElementById(id);
@@ -3514,8 +3625,16 @@ function selectAsset(id){
   const nm=el('oaiNm'),pr=el('oaiPr');
   if(nm)nm.textContent=a.emoji+' '+a.name;
   if(pr)pr.textContent=fmtP(S.prices[id]);
+  const btn=el('chInfoBtn'),tip=el('chInfoTip');
+  if(btn&&tip&&a.desc){tip.textContent=a.desc;btn.style.display='inline-flex';btn.classList.remove('open');}
+  else if(btn){btn.style.display='none';}
   updateOrderSummary();updateChartHeader();
 }
+function toggleChInfo(e){
+  e.stopPropagation();
+  const btn=el('chInfoBtn');if(btn)btn.classList.toggle('open');
+}
+document.addEventListener('click',()=>{const b=el('chInfoBtn');if(b)b.classList.remove('open');});
 
 /* ══ ORDER PANEL ══ */
 function toggleOrderPanel(){
@@ -3644,22 +3763,11 @@ function renderPositions(){
     updatePortSummary(0,0);return;
   }
   let totalVal=0,totalPnl=0;
-  e.innerHTML=active.map(a=>{
+  active.forEach(a=>{
     const pos=S.positions[a.id],p=S.prices[a.id],val=pos.qty*p,pnl=(p-pos.avgPrice)*pos.qty;
-    const pct=(p-pos.avgPrice)/pos.avgPrice*100;
     totalVal+=val;totalPnl+=pnl;
-    return `<div class="pos-item">
-      <div class="pi-top">
-        <span class="pi-emo">${a.emoji}</span>
-        <div class="pi-info"><div class="pi-name">${a.name}</div><div class="pi-ticker">${pos.qty.toFixed(4)} u.</div></div>
-        <span class="pi-pct ${pnl>=0?'g':'r'}">${pnl>=0?'+':''}${pct.toFixed(1)}%</span>
-      </div>
-      <div class="pi-bottom">
-        <span class="pi-hint">PRU: ${fmtP(pos.avgPrice)}</span>
-        <span style="font-size:.68rem;color:${pnl>=0?'var(--g)':'var(--r)'}">${pnl>=0?'+':''}${pnl.toFixed(0)} 🪙</span>
-      </div>
-    </div>`;
-  }).join('');
+  });
+  e.innerHTML='';
   updatePortSummary(totalVal,totalPnl);
   if(S.diagDone&&S.diagProfile)updateAlignScore();
 }
@@ -3777,32 +3885,6 @@ function closeColTip(){el('colTipOv').classList.remove('show');}
 
 /* ══ ECO EVENTS PANEL ══ */
 let _ecoHistory=[];
-function toggleEcoPanel(){
-  const body=el('ecoBody'),arrow=el('ecoArrow');if(!body)return;
-  const open=body.classList.toggle('open');
-  if(arrow)arrow.classList.toggle('open',open);
-  if(open)renderEcoPanel();
-}
-function renderEcoPanel(){
-  const inner=el('ecoInner');if(!inner)return;
-  const evRows=EVENTS.map(ev=>{
-    const ico=ev.title.match(/^(\S+)/)?.[1]||'🌐';
-    const titleClean=ev.title.replace(/^\S+\s*/,'');
-    return `<div class="eco-ev">
-      <span class="eco-ev-ico">${ico}</span>
-      <div class="eco-ev-info">
-        <div class="eco-ev-title">${titleClean}</div>
-        <div class="eco-ev-desc">${ev.desc}</div>
-      </div>
-      <span class="eco-ev-badge ${ev.impact}">${ev.impact==='good'?'📈 Haussier':'📉 Baissier'}</span>
-      <button class="eco-sim-btn" onclick="simulateEvent('${ev.id}')">▶ Sim.</button>
-    </div>`;
-  }).join('');
-  const histHtml=_ecoHistory.length
-    ?_ecoHistory.slice().reverse().map(h=>`<div class="eco-hist-item ${h.impact}">${h.impact==='good'?'▲':'▼'} ${h.title}</div>`).join('')
-    :'<div class="eco-hist-empty">Aucun événement déclenché</div>';
-  inner.innerHTML=evRows+`<div class="eco-history"><div class="eco-hist-lbl">Historique session</div>${histHtml}</div>`;
-}
 function simulateEvent(evId){
   const ev=EVENTS.find(e=>e.id===evId);if(!ev)return;
   S.lastEvent=ev;
@@ -3810,7 +3892,7 @@ function simulateEvent(evId){
   Object.entries(ev.effects).forEach(([id,delta])=>{if(S.prices[id]!==undefined){S.prices[id]*=(1+delta);S.history[id].push(S.prices[id]);}});
   _ecoHistory.push({title:ev.title.replace(/^\S+\s*/,''),impact:ev.impact});
   if(_ecoHistory.length>8)_ecoHistory.shift();
-  refreshMarketUI();renderEcoPanel();
+  refreshMarketUI();
 }
 function openDebrief(){
   if(!S.lastEvent||!S.lastEvent.debrief)return;
@@ -4108,7 +4190,6 @@ function renderDiagStep(){
     return `<span class="ov-nav-step ${cls}">${dq.emoji} ${dq.cat}</span>`;
   }).join('');};
   el('diagBody').innerHTML=`
-    <div class="dq-cat">${q.emoji} ${q.cat}</div>
     <div class="dq-q">${q.text}</div>
     ${q.hint?`<div class="dq-hint">${q.hint}</div>`:''}
     <div class="dq-opts">
@@ -4141,6 +4222,38 @@ function computeDiag(){
   S.diagProfile=score<.15?'ultraConservateur':score<.35?'conservateur':score<.55?'modere':score<.75?'dynamique':'offensif';
   S.diagDone=true;
   const p=PROFILES[S.diagProfile];
+  // Loading screen
+  const steps=[
+    {label:'Analyse de ton profil de risque…',pct:18},
+    {label:'Calcul de ton horizon d\'investissement…',pct:36},
+    {label:'Évaluation de ta tolérance aux pertes…',pct:54},
+    {label:'Comparaison avec 10 000 profils…',pct:72},
+    {label:'Génération de ton allocation…',pct:90},
+    {label:'Profil prêt !',pct:100}
+  ];
+  el('diagBody').innerHTML=`
+    <div class="diag-loading">
+      <div class="diag-loading-icon">🔍</div>
+      <div class="diag-loading-title">ANALYSE EN COURS</div>
+      <div class="diag-loading-bar-wrap"><div class="diag-loading-bar" id="diagLoadBar"></div></div>
+      <div class="diag-loading-label" id="diagLoadLabel">Initialisation…</div>
+    </div>`;
+  el('diagProgFill').style.width='90%';
+  let i=0;
+  function nextStep(){
+    if(i>=steps.length){
+      showDiagResult(p);return;
+    }
+    const s=steps[i++];
+    const bar=el('diagLoadBar'),lbl=el('diagLoadLabel');
+    if(bar)bar.style.width=s.pct+'%';
+    if(lbl)lbl.textContent=s.label;
+    setTimeout(nextStep,i===steps.length?600:420);
+  }
+  setTimeout(nextStep,200);
+  saveState();
+}
+function showDiagResult(p){
   el('diagBody').innerHTML=`
     <div style="text-align:center;padding:2rem 1rem">
       <div style="font-size:3rem;margin-bottom:.7rem">${p.emoji}</div>
@@ -4151,10 +4264,9 @@ function computeDiag(){
         <span style="flex:1;color:var(--soft)">${a.name}</span>
         <span style="color:${a.color};font-weight:700">${a.pct}%</span>
       </div>`).join('')}
-      <button class="btn-g" onclick="closeDiag();showAllocPanel()" style="margin-top:1.2rem;width:100%">Appliquer mon profil →</button>
+      <button class="btn-g" onclick="closeDiag();showAllocPanel();refreshSidebarProfile();" style="margin-top:1.2rem;width:100%">Appliquer mon profil →</button>
     </div>`;
   el('diagProgFill').style.width='100%';
-  saveState();
 }
 
 /* ══ MISSIONS ══ */
@@ -4907,6 +5019,44 @@ function runIntro(){
 }
 
 document.addEventListener('DOMContentLoaded',()=>setTimeout(runIntro,150));
+
+/* ══ STREAK ANIMATION ══ */
+function showStreakAnim(days){
+  const ov=el('streakAnimOv');if(!ov)return;
+  el('streakAnimCount').textContent=days;
+  el('streakAnimSub').textContent=days===1
+    ? 'Premier jour — bonne décision de revenir !'
+    : days<7
+      ? `Continue comme ça — encore ${7-days} jour${7-days>1?'s':''} pour débloquer le multiplicateur ×2 !`
+      : 'Tu es au max ! Multiplicateur ×2 actif sur toutes tes récompenses 🏆';
+  ov.classList.add('show');
+  // Particles
+  for(let i=0;i<12;i++){
+    setTimeout(()=>{
+      const p=document.createElement('span');
+      p.className='streak-particle';
+      p.textContent=['🔥','⚡','✨','🌟','💥'][Math.floor(Math.random()*5)];
+      p.style.left=Math.random()*100+'vw';
+      p.style.top=(30+Math.random()*40)+'vh';
+      document.body.appendChild(p);
+      setTimeout(()=>p.remove(),1300);
+    },i*100);
+  }
+}
+function closeStreakAnim(){
+  const ov=el('streakAnimOv');if(ov)ov.classList.remove('show');
+}
 </script>
+
+<!-- STREAK ANIMATION OVERLAY -->
+<div class="streak-anim-ov" id="streakAnimOv">
+  <div class="streak-anim-box">
+    <span class="streak-anim-fire">🔥</span>
+    <div class="streak-anim-count" id="streakAnimCount">1</div>
+    <div class="streak-anim-label">JOUR DE STREAK</div>
+    <div class="streak-anim-sub" id="streakAnimSub"></div>
+    <button class="streak-anim-btn" onclick="closeStreakAnim()">LET'S GO →</button>
+  </div>
+</div>
 </body>
 </html>
