@@ -127,8 +127,9 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
   padding:0 .8rem;gap:.5rem;
 }
 .tb-brand{font-family:'Bungee','Arial Black',impact,sans-serif;font-size:1.1rem;letter-spacing:.1em;color:var(--g);}
+.tb-center-title{position:absolute;left:50%;transform:translateX(-50%);font-family:'Bungee',sans-serif;font-size:1.45rem;letter-spacing:.12em;color:#fff;pointer-events:none;white-space:nowrap;text-shadow:0 0 18px rgba(255,255,255,.15);}
 .tb-sep{width:1px;height:18px;background:var(--ln);flex-shrink:0;}
-.tb-btn{font-size:.7rem;padding:.28rem .7rem;border-radius:5px;cursor:pointer;border:1px solid var(--ln);background:transparent;color:var(--soft);transition:all .18s;}
+.tb-btn{font-size:.62rem;padding:.18rem .5rem;border-radius:4px;cursor:pointer;border:1px solid var(--ln);background:transparent;color:var(--soft);transition:all .18s;}
 .tb-btn:hover{color:var(--txt);border-color:var(--ln2);}
 .tb-btn.active{background:var(--gd);border-color:rgba(255,205,13,.3);color:var(--g);}
 .tb-spacer{flex:1;}
@@ -136,7 +137,6 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 .tb-wallet{display:flex;align-items:center;gap:.35rem;background:var(--yd);border:1px solid rgba(78,194,218,.18);padding:.25rem .8rem;border-radius:100px;font-family:'JetBrains Mono','Courier New',monospace;font-size:.75rem;font-weight:700;color:var(--y);transition:.3s;}
 .tb-wallet.pulse{animation:wpulse .45s ease;}
 @keyframes wpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07);box-shadow:0 0 18px rgba(78,194,218,.4)}}
-.tb-xp{font-size:.68rem;color:var(--g);background:var(--gd);padding:.25rem .7rem;border-radius:100px;border:1px solid rgba(255,205,13,.2);font-family:'JetBrains Mono','Courier New',monospace;}
 .tb-lvl{font-size:.62rem;letter-spacing:.08em;padding:.22rem .6rem;border-radius:4px;border:1px solid var(--ln2);color:var(--soft);cursor:pointer;position:relative;user-select:none;}
 .tb-lvl:hover{border-color:var(--y);color:var(--y);}
 .lvl-dropdown{position:absolute;top:calc(100% + 6px);right:0;background:var(--bg2);border:1px solid var(--ln2);border-radius:8px;overflow:hidden;min-width:160px;z-index:300;display:none;box-shadow:0 8px 24px rgba(0,0,0,.4);}
@@ -152,6 +152,7 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 /* TAB CONTENT */
 .tab{display:none;padding-top:48px;}
 .tab.active{display:block;}
+#tabProfil.active{height:calc(100vh - 48px);overflow-y:auto;}
 
 /* ═══════════════════════════════════
    LEARN TAB
@@ -480,6 +481,8 @@ table.assets th.clickable:hover{color:var(--y);}
 .arow.sel{background:rgba(255,205,13,.08);border-left:2px solid var(--g);}
 .arow td{padding:.75rem 1rem;font-family:'JetBrains Mono','Courier New',monospace;font-size:.78rem;vertical-align:middle;}
 .td-name{font-family:'Nunito' !important;font-weight:700;font-size:.84rem !important;display:flex;align-items:center;gap:.5rem;}
+.td-name-wrap{display:flex;flex-direction:column;gap:.1rem;}
+.td-desc{font-size:.65rem;font-weight:400;color:var(--muted);font-family:'Nunito' !important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:220px;}
 .td-cat{font-size:.6rem !important;padding:.18rem .55rem;border-radius:4px;border:1px solid transparent;font-family:'Nunito' !important;white-space:nowrap;font-weight:700;}
 .td-cat[data-cat="ETF"]{color:#FFCD0D;background:rgba(255,205,13,.12);border-color:rgba(255,205,13,.3);}
 .td-cat[data-cat="ETF Thém."]{color:#E040FB;background:rgba(224,64,251,.1);border-color:rgba(224,64,251,.3);}
@@ -696,6 +699,10 @@ table.assets th.clickable:hover{color:var(--y);}
 .reb-btn-all{width:100%;padding:.7rem;background:linear-gradient(135deg,#4EC2DA,#2196F3);color:#000;border:none;border-radius:9px;font-size:.82rem;font-weight:800;cursor:pointer;letter-spacing:.03em;box-shadow:0 4px 16px rgba(78,194,218,.25);transition:.18s;}
 .reb-btn-all:hover{transform:translateY(-1px);box-shadow:0 6px 22px rgba(78,194,218,.35);}
 .reb-btn-all:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+.reb-action-btn{cursor:pointer;font-family:inherit;transition:.15s;white-space:nowrap;}
+.reb-action-btn.buy:hover{background:rgba(255,205,13,.28);transform:scale(1.04);}
+.reb-action-btn.sell:hover{background:rgba(255,59,92,.22);transform:scale(1.04);}
+.reb-action-btn:active{transform:scale(.97);}
 .align-bar-wrap{cursor:pointer;transition:.18s;}
 .align-bar-wrap:hover{background:rgba(255,255,255,.03);border-radius:7px;}
 /* CASH RESERVE */
@@ -1162,10 +1169,10 @@ table.assets th.clickable:hover{color:var(--y);}
     <button class="tb-btn" id="navJournal" onclick="switchTab('journal')">Journal</button>
     <button class="tb-btn" id="navCorpus"  onclick="switchTab('corpus')" style="display:none">🧠 Corpus</button>
     <button class="tb-btn" id="navProfil"  onclick="switchTab('profil')">Profils</button>
+    <span class="tb-center-title" id="tbCenterTitle">TON PARCOURS</span>
     <div class="tb-spacer"></div>
     <div class="tb-streak" id="tbStreak" style="display:none"></div>
     <div class="tb-wallet" id="tbWallet">🪙 500</div>
-    <div class="tb-xp" id="tbXP" style="display:none">⚡ 0 XP</div>
     <div class="tb-lvl" id="tbLvl" onclick="toggleLvlMenu(event)">
       <span id="tbLvlLabel">Débutant</span> ▾
       <div class="lvl-dropdown" id="lvlMenu">
@@ -1177,7 +1184,6 @@ table.assets th.clickable:hover{color:var(--y);}
     </div>
     <button class="tb-btn" onclick="goSplash()">↩</button>
   </nav>
-  <div class="xp-bar"><div class="xp-fill" id="xpFill"></div></div>
 
   <!-- LEARN -->
 
@@ -1209,7 +1215,6 @@ table.assets th.clickable:hover{color:var(--y);}
         <div class="mb-actions">
           <button class="btn-g" id="mbStartBtn" style="font-size:.78rem;padding:.5rem 1.1rem"></button>
           <button class="btn-ghost" id="mbDetailBtn" style="font-size:.78rem;padding:.5rem 1.1rem">📋 Voir les leçons</button>
-          <button class="mb-close" onclick="closeMb()">✕ Fermer</button>
         </div>
       </div>
     </div>
@@ -1435,6 +1440,10 @@ table.assets th.clickable:hover{color:var(--y);}
         <div class="mis-sec-title">🏆 Missions permanentes</div>
         <div id="permMissions"></div>
       </div>
+      <div class="mis-section" id="completedSection" style="display:none">
+        <div class="mis-sec-title">✅ Missions complétées</div>
+        <div id="completedMissions"></div>
+      </div>
     </div>
   </div>
 
@@ -1562,7 +1571,7 @@ table.assets th.clickable:hover{color:var(--y);}
       <div style="font-family:'Bungee','Arial Black',impact,sans-serif;font-size:2rem;letter-spacing:.05em;">Les 5 Profils Investisseur</div>
       <div style="color:var(--soft);font-size:.82rem;margin-top:.4rem;">Chaque profil correspond à une tolérance au risque, une allocation type et des comportements à adopter ou éviter.</div>
     </div>
-    <div id="profilCards" style="display:grid;gap:1.2rem;"></div>
+    <div id="profilCards" style="display:grid;grid-template-columns:1fr;gap:1.2rem;"></div>
   </div>
 </div>
 
@@ -1574,7 +1583,7 @@ table.assets th.clickable:hover{color:var(--y);}
     <span class="ov-nav-logo">TACTIC</span>
     <div class="ov-nav-sep"></div>
     <nav class="ov-nav-steps" id="diagNavSteps"></nav>
-    <button class="ov-close-btn" onclick="closeDiag()">✕ Fermer</button>
+    <button class="ov-close-btn" onclick="closeDiag()">✕</button>
     <span class="ov-prog-text" id="diagProgTxt"></span>
   </div>
   <div class="ov-prog-bar"><div class="ov-prog-fill" id="diagProgFill"></div></div>
@@ -1602,18 +1611,18 @@ table.assets th.clickable:hover{color:var(--y);}
    ASSETS
 ═══════════════════════════════════ */
 const ASSETS=[
-  {id:'msci', name:'MSCI World ETF',  cat:'ETF',         base:485.2,   vol:.004, color:'#FFCD0D', emoji:'🌍', unlockXP:0},
-  {id:'cac',  name:'CAC 40',          cat:'Indice',      base:7820,    vol:.005, color:'#4D9EFF', emoji:'🇫🇷', unlockXP:0},
-  {id:'lvmh', name:'LVMH',            cat:'Action',      base:672.4,   vol:.007, color:'#4EC2DA', emoji:'💎', unlockXP:0},
-  {id:'aapl', name:'Apple',           cat:'Action',      base:182.3,   vol:.008, color:'#A78BFA', emoji:'🍎', unlockXP:0},
-  {id:'gold', name:'Or',              cat:'Matière 1re', base:2340.8,  vol:.003, color:'#FFD700', emoji:'🪙', unlockXP:0},
-  {id:'tnx',  name:'OAT 10 ans',      cat:'Obligation',  base:100.2,   vol:.002, color:'#00BCD4', emoji:'📜', unlockXP:0},
-  {id:'btc',  name:'Bitcoin',         cat:'Crypto',      base:67400,   vol:.025, color:'#FF9800', emoji:'₿',  unlockXP:150},
-  {id:'tsla', name:'Tesla',           cat:'Action',      base:172.1,   vol:.018, color:'#FF3B5C', emoji:'⚡', unlockXP:150},
-  {id:'nvda', name:'Nvidia',          cat:'Action',      base:875.4,   vol:.015, color:'#76FF03', emoji:'🖥️', unlockXP:300},
-  {id:'scpi', name:'SCPI Immo',       cat:'Immobilier',  base:210.5,   vol:.001, color:'#FF7A00', emoji:'🏢', unlockXP:300},
-  {id:'iaetf',name:'ETF IA & Tech',   cat:'ETF Thém.',   base:324.6,   vol:.012, color:'#E040FB', emoji:'🤖', unlockXP:500},
-  {id:'em',   name:'ETF Émer. (Inde)',cat:'ETF',         base:445.8,   vol:.009, color:'#FF6F00', emoji:'🌏', unlockXP:500}
+  {id:'msci', name:'MSCI World ETF',  desc:'Fonds qui réplique 1 500 grandes entreprises mondiales',   cat:'ETF',         base:485.2,   vol:.004, color:'#FFCD0D', emoji:'🌍', unlockXP:0},
+  {id:'cac',  name:'CAC 40',          desc:'Indice des 40 plus grandes entreprises de la Bourse de Paris', cat:'Indice',  base:7820,    vol:.005, color:'#4D9EFF', emoji:'🇫🇷', unlockXP:0},
+  {id:'lvmh', name:'LVMH',            desc:'Géant mondial du luxe (Louis Vuitton, Dior, Moët…)',         cat:'Action',      base:672.4,   vol:.007, color:'#4EC2DA', emoji:'💎', unlockXP:0},
+  {id:'aapl', name:'Apple',           desc:'Fabricant de l\'iPhone, Mac et services numériques',          cat:'Action',      base:182.3,   vol:.008, color:'#A78BFA', emoji:'🍎', unlockXP:0},
+  {id:'gold', name:'Or',              desc:'Métal précieux, valeur refuge en période d\'incertitude',     cat:'Matière 1re', base:2340.8,  vol:.003, color:'#FFD700', emoji:'🪙', unlockXP:0},
+  {id:'tnx',  name:'OAT 10 ans',      desc:'Emprunt d\'État français à 10 ans (taux sans risque)',        cat:'Obligation',  base:100.2,   vol:.002, color:'#00BCD4', emoji:'📜', unlockXP:0},
+  {id:'btc',  name:'Bitcoin',         desc:'Première crypto-monnaie décentralisée au monde',              cat:'Crypto',      base:67400,   vol:.025, color:'#FF9800', emoji:'₿',  unlockXP:150},
+  {id:'tsla', name:'Tesla',           desc:'Leader des véhicules électriques et de l\'énergie propre',    cat:'Action',      base:172.1,   vol:.018, color:'#FF3B5C', emoji:'⚡', unlockXP:150},
+  {id:'nvda', name:'Nvidia',          desc:'Fabricant de puces GPU, moteur de l\'intelligence artificielle', cat:'Action',  base:875.4,   vol:.015, color:'#76FF03', emoji:'🖥️', unlockXP:300},
+  {id:'scpi', name:'SCPI Immo',       desc:'Parts d\'un fonds d\'immobilier locatif géré collectivement', cat:'Immobilier',  base:210.5,   vol:.001, color:'#FF7A00', emoji:'🏢', unlockXP:300},
+  {id:'iaetf',name:'ETF IA & Tech',   desc:'Fonds thématique sur les entreprises d\'IA et de technologie', cat:'ETF Thém.', base:324.6,   vol:.012, color:'#E040FB', emoji:'🤖', unlockXP:500},
+  {id:'em',   name:'ETF Émer. (Inde)',desc:'Fonds exposé aux marchés émergents, dont l\'Inde en priorité', cat:'ETF',       base:445.8,   vol:.009, color:'#FF6F00', emoji:'🌏', unlockXP:500}
 ];
 
 /* ═══════════════════════════════════
@@ -2825,6 +2834,8 @@ function switchTab(tab){
   if(tab==='journal')renderJournal();
   if(tab==='corpus')initCorpus();
   if(tab==='profil')renderProfilPage();
+  const titles={learn:'TON PARCOURS',market:'LA SALLE DES MARCHÉS',missions:'MISSIONS',journal:'LE JOURNAL',profil:'LE PROFIL',corpus:'CORPUS'};
+  const ct=el('tbCenterTitle');if(ct)ct.textContent=titles[tab]||'';
 }
 
 /* ══ TOPBAR ══ */
@@ -2833,10 +2844,7 @@ function updateWalletUI(){
   const ow=el('opWallet');if(ow)ow.textContent=fmt(S.coins);
   const ob=el('ofBal');if(ob)ob.textContent='Dispo : 🪙'+fmt(S.coins);
 }
-function updateXPUI(){
-  el('tbXP').textContent='⚡ '+S.xp+' XP';
-  el('xpFill').style.width=Math.min(100,S.xp/1000*100)+'%';
-}
+function updateXPUI(){}
 function updateStreakUI(){
   const sd=el('tbStreakDays');if(sd)sd.textContent=S.streak+'j';
   const st=el('tbStreak');if(st)st.style.display=S.streak>0?'flex':'none';
@@ -3164,7 +3172,7 @@ function showLessonMap(){
     const emo=track.track.match(/^\S+/)?.[0]||'📚';
     const name=track.track.replace(/^\S+\s/,'');
     const xp=xPcts[idx%xPcts.length];
-    const yp=70+idx*NODE_H;
+    const yp=140+idx*NODE_H;
     pts.push({x:xp,y:yp});
     nodesHtml+=`<div class="pnode" style="left:${xp}%;top:${yp}px" onclick="openTrackDrawer(${idx})">
       <div class="pnode-bubble${allDone?' done':''}">
@@ -3176,7 +3184,6 @@ function showLessonMap(){
   });
 
   let html=`<div class="lesson-map">
-    <div class="map-hero"><div class="map-title">TON PARCOURS</div></div>
     <div class="path-canvas-wrap" style="min-height:${totalH}px">
       <svg class="path-svg" id="pathSvg" style="height:${totalH}px;width:100%"></svg>
       ${nodesHtml}
@@ -3312,7 +3319,7 @@ function completeLesson(id){
   if(coins>0)addCoins(coins,el('quizCta'));
   addXP(xpGain);
   addJournal({type:'lesson',emoji:lesson.e,asset:'Leçon',
-    note:`"${lesson.n}" — +${xpGain} XP${coins>0?' · +'+coins+' 🪙':''}`});
+    note:`"${lesson.n}"${coins>0?' — +'+coins+' 🪙':''}`});
   const card=el('completeCard');
   if(card){
     card.classList.add('show');
@@ -3966,10 +3973,11 @@ function _renderRebList(){
     const needBuy=diff>1&&slot.assetId;
     const needSell=diff<-1&&slot.assetId&&curVal>0;
     if(needBuy||needSell)anyAction=true;
+    const idx=p.alloc.indexOf(slot);
     const actionHtml=aligned
       ?`<span class="reb-action ok">✓ Aligné</span>`
-      :needBuy?`<span class="reb-action buy">▲ Acheter ${fmt(Math.abs(diff))} 🪙</span>`
-      :needSell?`<span class="reb-action sell">▼ Vendre ${fmt(Math.abs(diff))} 🪙</span>`
+      :needBuy?`<button class="reb-action buy reb-action-btn" onclick="executeRebalanceSlot(${idx})">▲ Acheter ${fmt(Math.abs(diff))} 🪙</button>`
+      :needSell?`<button class="reb-action sell reb-action-btn" onclick="executeRebalanceSlot(${idx})">▼ Vendre ${fmt(Math.abs(diff))} 🪙</button>`
       :`<span class="reb-action ok">≈ OK</span>`;
     const targetPct=investable>0?targetVal/totalPortfolio*100:0;
     const barPct=Math.min(100,curPct/Math.max(targetPct,0.1)*100);
@@ -4013,6 +4021,36 @@ function openRebalanceModal(){
   el('rebModalOv').classList.add('show');
 }
 function closeRebalanceModal(){el('rebModalOv').classList.remove('show');}
+function executeRebalanceSlot(slotIdx){
+  const p=PROFILES[S.diagProfile];if(!p)return;
+  const slot=p.alloc[slotIdx];if(!slot||!slot.assetId)return;
+  const a=ASSETS.find(x=>x.id===slot.assetId);if(!a)return;
+  const totalPortfolio=ASSETS.reduce((s,a2)=>s+(S.positions[a2.id]?.qty||0)*S.prices[a2.id],0)+S.coins;
+  const cashReserve=_rebCashAmt();
+  const investable=totalPortfolio-cashReserve;
+  const curVal=(S.positions[a.id]?.qty||0)*S.prices[a.id];
+  const targetVal=investable*slot.pct/100;
+  const diff=targetVal-curVal;
+  if(diff>1){
+    const amt=Math.floor(Math.min(diff,S.coins));if(amt<=0){showToast('sell','⚠️','Fonds insuffisants',`Pas assez de coins pour acheter ${a.name}.`);return;}
+    const fee=amt*0.001,tot=amt+fee;if(tot>S.coins){showToast('sell','⚠️','Fonds insuffisants',`Pas assez de coins pour acheter ${a.name}.`);return;}
+    const qty=amt/S.prices[a.id];
+    S.coins-=tot;S.positions[a.id].qty+=qty;
+    const prev=S.positions[a.id].avgPrice||S.prices[a.id];
+    S.positions[a.id].avgPrice=(prev*(S.positions[a.id].qty-qty)+qty*S.prices[a.id])/S.positions[a.id].qty;
+    addJournal({type:'buy',emoji:a.emoji,asset:a.name,note:`Rééquilibrage → ${slot.pct}% · ${amt} 🪙`});
+    showToast('buy','▲',`Acheté ${a.name}`,`+${amt} 🪙 investis`);
+  } else if(diff<-1&&curVal>0){
+    const sellVal=Math.min(Math.abs(diff),curVal);
+    const qty=sellVal/S.prices[a.id];const sq=Math.min(qty,S.positions[a.id].qty);
+    const proceeds=sq*S.prices[a.id];const fee=proceeds*0.001;
+    S.coins+=proceeds-fee;S.positions[a.id].qty=Math.max(0,S.positions[a.id].qty-sq);
+    addJournal({type:'sell',emoji:a.emoji,asset:a.name,note:`Rééquilibrage → ${slot.pct}% · ${fmt(sellVal)} 🪙`});
+    showToast('sell','▼',`Vendu ${a.name}`,`+${fmt(proceeds-fee)} 🪙 récupérés`);
+  }
+  updateWalletUI();renderPositions();updateAlignScore();saveState();
+  _renderRebList();
+}
 function executeRebalance(){
   const p=PROFILES[S.diagProfile];if(!p)return;
   const totalPortfolio=ASSETS.reduce((s,a)=>s+(S.positions[a.id]?.qty||0)*S.prices[a.id],0)+S.coins;
@@ -4130,16 +4168,14 @@ function renderMissions(){
     for(let i=0;i<3;i++){const idx=(h+i*7)%pool.length;picked.push(pool.splice(idx%pool.length,1)[0]);}
     S._dailyPick=picked;
   }
-  const daily=el('dailyMissions');
-  if(daily)daily.innerHTML=S._dailyPick.map(m=>{
-    const state=S.missions['d_'+m.id]; // undefined | 'ready' | 'claimed'
-    const claimed=state==='claimed';
-    const ready=state==='ready';
+  const mkDaily=m=>{
+    const state=S.missions['d_'+m.id];
+    const claimed=state==='claimed', ready=state==='ready';
     let rewardHtml;
     if(claimed) rewardHtml='<span class="mc-done-tag">✅ Récupéré</span>';
     else if(ready) rewardHtml=`<button class="mc-claim-btn" onclick="claimMission('d_${m.id}',${m.reward},this)">🪙 Collecter +${m.reward}</button>`;
     else rewardHtml=`<span class="mc-coins">+${m.reward} 🪙</span>`;
-    return `<div class="mission-card daily${claimed?' done':''}">
+    return {claimed, html:`<div class="mission-card daily${claimed?' done':''}">
       <span class="mc-icon">${m.icon}</span>
       <div class="mc-content">
         <div class="mc-daily-badge">⚡ Aujourd'hui</div>
@@ -4147,12 +4183,11 @@ function renderMissions(){
         <div class="mc-desc">${m.desc}</div>
       </div>
       <div class="mc-reward">${rewardHtml}</div>
-    </div>`;
-  }).join('');
-  const perm=el('permMissions');
-  if(perm)perm.innerHTML=PERM_MISSIONS.map(m=>{
+    </div>`};
+  };
+  const mkPerm=m=>{
     const done=!!S.missions['p_'+m.id];
-    return `<div class="mission-card${done?' done':''}">
+    return {done, html:`<div class="mission-card${done?' done':''}">
       <span class="mc-icon">${m.icon}</span>
       <div class="mc-content">
         <div class="mc-name">${m.name}</div>
@@ -4161,8 +4196,32 @@ function renderMissions(){
       <div class="mc-reward">
         ${done?'<span class="mc-done-tag">✅ Fait</span>':`<span class="mc-coins">+${m.reward} 🪙</span>`}
       </div>
-    </div>`;
-  }).join('');
+    </div>`};
+  };
+
+  const dailyResults=S._dailyPick.map(mkDaily);
+  const permResults=PERM_MISSIONS.map(mkPerm);
+
+  const daily=el('dailyMissions');
+  if(daily) daily.innerHTML=dailyResults.filter(r=>!r.claimed).map(r=>r.html).join('');
+
+  const perm=el('permMissions');
+  if(perm) perm.innerHTML=permResults.filter(r=>!r.done).map(r=>r.html).join('');
+
+  const completedHtmls=[
+    ...dailyResults.filter(r=>r.claimed).map(r=>r.html),
+    ...permResults.filter(r=>r.done).map(r=>r.html)
+  ];
+  const completedSection=el('completedSection');
+  const completedEl=el('completedMissions');
+  if(completedSection && completedEl){
+    if(completedHtmls.length){
+      completedEl.innerHTML=completedHtmls.join('');
+      completedSection.style.display='';
+    } else {
+      completedSection.style.display='none';
+    }
+  }
 }
 
 function checkMissions(){

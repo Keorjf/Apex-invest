@@ -5,18 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TACTIC Academy — Connexion</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Press+Start+2P&family=DotGothic16&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Nunito:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:    #0F2E3D;--bg2:   #20556A;--bg3:   #1D6881;
-  --g:     #FFCD0D;--gd:    rgba(255,205,13,.1);
-  --r:#FF3B5C;--y:     #4EC2DA;--b:#4D9EFF;
-  --txt:   #EEFCFD;--soft:rgba(213,244,248,.75);--muted: rgba(175,232,242,.5);
-  --ln:    rgba(255,255,255,.07);--ln2:   rgba(255,255,255,.13);
+  --bg:#060F14;--bg1:#0C1E28;--bg2:#102533;--bg3:#142E3E;
+  --g:#FFCD0D;--gd:rgba(255,205,13,.1);--gg:rgba(255,205,13,.18);
+  --r:#FF3B5C;--y:#4EC2DA;--b:#4D9EFF;
+  --txt:#F0FBFF;--soft:#D6F4FB;--muted:rgba(180,230,242,.65);
+  --ln:rgba(255,255,255,.06);--ln2:rgba(255,255,255,.1);--body-font:'Nunito','Segoe UI',sans-serif;
 }
-html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DotGothic16',sans-serif}
+html,body{height:100%;background:var(--bg);color:var(--txt);font-family:var(--body-font);line-height:1.6;}
 
 /* BG ANIMATED */
 .bg-grid{position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
@@ -30,7 +30,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DotGoth
 
 /* BRAND */
 .brand{display:flex;align-items:center;gap:.6rem;margin-bottom:2.5rem;animation:rise .5s both}
-.brand-logo{width:36px;height:36px;background:var(--g);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Bungee';font-size:1.1rem;color:#000;letter-spacing:.05em}
+.brand-logo{width:36px;height:36px;background:linear-gradient(135deg,var(--y),#2fa8c4);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Bungee';font-size:1.1rem;color:#000;letter-spacing:.05em;box-shadow:0 4px 14px rgba(78,194,218,.4)}
 .brand-name{font-family:'Bungee';font-size:1.6rem;letter-spacing:.12em;color:var(--g)}
 .brand-tag{font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-left:.2rem}
 
@@ -54,7 +54,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DotGoth
   width:100%;padding:.75rem 1rem;
   background:var(--bg3);border:1px solid var(--ln2);
   border-radius:8px;color:var(--txt);
-  font-family:'DotGothic16';font-size:.88rem;
+  font-family:'Nunito';font-size:.88rem;
   transition:border-color .2s,box-shadow .2s;outline:none;
 }
 .field input:focus{border-color:rgba(255,205,13,.5);box-shadow:0 0 0 3px rgba(255,205,13,.14)}
@@ -72,7 +72,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DotGoth
 .btn-submit{
   width:100%;padding:.9rem;margin-top:.5rem;
   background:var(--g);color:#000;
-  font-family:'DotGothic16';font-weight:700;font-size:.92rem;letter-spacing:.04em;
+  font-family:'Nunito';font-weight:700;font-size:.92rem;letter-spacing:.04em;
   border:none;border-radius:8px;cursor:pointer;
   transition:opacity .2s,transform .15s;
   display:flex;align-items:center;justify-content:center;gap:.6rem;
@@ -92,7 +92,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DotGoth
   width:100%;padding:.75rem;
   background:var(--bg3);border:1px solid var(--ln2);
   border-radius:8px;color:var(--txt);
-  font-family:'DotGothic16';font-size:.85rem;font-weight:500;
+  font-family:'Nunito';font-size:.85rem;font-weight:500;
   cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.6rem;
   transition:border-color .2s,background .2s;
 }
@@ -138,7 +138,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'DotGoth
   <div class="brand">
     <div class="brand-logo">TA</div>
     <div>
-      <div class="brand-name">TACTIC<span style="color:var(--txt)"> ACADEMY</span></div>
+      <div class="brand-name">TACTIC<span style="color:var(--y)"> ACADEMY</span></div>
       <div class="brand-tag">Simulateur Éducatif</div>
     </div>
   </div>
