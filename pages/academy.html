@@ -233,11 +233,18 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 @keyframes streakFire{0%{transform:scale(1) rotate(-4deg);}100%{transform:scale(1.15) rotate(4deg);}}
 .streak-anim-count{font-family:'Bungee',sans-serif;font-size:3.5rem;color:#FF7A00;text-shadow:0 0 30px rgba(255,122,0,.8);letter-spacing:.05em;line-height:1;margin:.4rem 0;}
 .streak-anim-label{font-family:'Bungee',sans-serif;font-size:.9rem;letter-spacing:.18em;color:#fff;margin-bottom:.3rem;}
-.streak-anim-sub{font-size:.75rem;color:var(--soft);font-family:'Nunito',sans-serif;line-height:1.5;margin-bottom:1.2rem;}
+.streak-anim-sub{font-size:.75rem;color:var(--soft);font-family:'Nunito',sans-serif;line-height:1.5;margin-bottom:.9rem;}
 .streak-anim-btn{background:linear-gradient(135deg,#FF7A00,#FFCD0D);border:none;border-radius:10px;padding:.65rem 2rem;font-family:'Bungee',sans-serif;font-size:.85rem;letter-spacing:.1em;color:#000;cursor:pointer;transition:.15s;}
 .streak-anim-btn:hover{transform:scale(1.04);}
 @keyframes streakParticle{0%{transform:translateY(0) scale(1);opacity:1;}100%{transform:translateY(-120px) scale(0);opacity:0;}}
 .streak-particle{position:fixed;pointer-events:none;font-size:1.6rem;z-index:5001;animation:streakParticle 1.2s ease-out forwards;}
+/* STREAK DAYS DOTS */
+.streak-days-row{display:flex;gap:.45rem;justify-content:center;margin-bottom:1.1rem;}
+.streak-day-dot{width:28px;height:28px;border-radius:50%;border:2px solid rgba(255,122,0,.3);background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:.55rem;font-family:'Bungee',sans-serif;color:var(--muted);transition:background .4s,border-color .4s,transform .4s;}
+.streak-day-dot.lit{background:linear-gradient(135deg,#FF7A00,#FFCD0D);border-color:#FF7A00;color:#000;transform:scale(1.12);}
+.streak-day-dot.today{box-shadow:0 0 12px rgba(255,122,0,.8);}
+.streak-coins-reward{font-size:.7rem;font-family:'Nunito',sans-serif;color:#FFCD0D;margin-bottom:.8rem;opacity:0;transition:opacity .4s .3s;}
+.streak-coins-reward.show{opacity:1;}
 
 /* MISSIONS WIDGET */
 .missions-widget{
@@ -5024,11 +5031,31 @@ document.addEventListener('DOMContentLoaded',()=>setTimeout(runIntro,150));
 function showStreakAnim(days){
   const ov=el('streakAnimOv');if(!ov)return;
   el('streakAnimCount').textContent=days;
+  // Texte personnalisé
   el('streakAnimSub').textContent=days===1
     ? 'Premier jour — bonne décision de revenir !'
-    : days<7
-      ? `Continue comme ça — encore ${7-days} jour${7-days>1?'s':''} pour débloquer le multiplicateur ×2 !`
-      : 'Tu es au max ! Multiplicateur ×2 actif sur toutes tes récompenses 🏆';
+    : `Wow, tu t'es entraîné pendant ${days} jours d'affilée. Continue comme ça !`;
+  // Reward tacoins selon streak
+  const reward=days>=7?100:days>=3?50:20;
+  el('streakCoinsReward').textContent=`+ ${reward} Tacoins à débloquer !`;
+  el('streakCoinsReward').classList.remove('show');
+  el('streakAnimBtn').dataset.reward=reward;
+  el('streakAnimBtn').disabled=false;
+  // Cercles jours (max 7 affichés)
+  const showDays=Math.min(days,7);
+  const dotsWrap=el('streakDotRow');
+  dotsWrap.innerHTML='';
+  const dayLabels=['L','M','M','J','V','S','D'];
+  for(let i=0;i<7;i++){
+    const d=document.createElement('div');
+    d.className='streak-day-dot'+(i<showDays?' lit':'')+(i===showDays-1?' today':'');
+    d.textContent=dayLabels[i];
+    dotsWrap.appendChild(d);
+  }
+  // Animer les cercles un par un
+  const dots=dotsWrap.querySelectorAll('.streak-day-dot.lit');
+  dots.forEach((d,i)=>{d.classList.remove('lit','today');setTimeout(()=>{d.classList.add('lit');if(i===dots.length-1)d.classList.add('today');},300+i*200);});
+  setTimeout(()=>el('streakCoinsReward').classList.add('show'),300+showDays*200+200);
   ov.classList.add('show');
   // Particles
   for(let i=0;i<12;i++){
@@ -5044,7 +5071,23 @@ function showStreakAnim(days){
   }
 }
 function closeStreakAnim(){
-  const ov=el('streakAnimOv');if(ov)ov.classList.remove('show');
+  const ov=el('streakAnimOv');if(!ov)return;
+  const btn=el('streakAnimBtn');
+  const reward=parseInt(btn.dataset.reward||0);
+  if(reward>0){
+    S.coins+=reward;
+    btn.dataset.reward=0;
+    updateWalletUI();
+    saveState();
+    // Confirmation visuelle
+    const msg=document.createElement('div');
+    msg.style.cssText='position:fixed;top:30%;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#FF7A00,#FFCD0D);color:#000;font-family:Bungee,sans-serif;font-size:1rem;padding:.5rem 1.4rem;border-radius:20px;z-index:6000;pointer-events:none;transition:opacity .4s;';
+    msg.textContent=`+${reward} Tacoins !`;
+    document.body.appendChild(msg);
+    setTimeout(()=>{msg.style.opacity='0';},1200);
+    setTimeout(()=>msg.remove(),1700);
+  }
+  ov.classList.remove('show');
 }
 </script>
 
@@ -5055,7 +5098,9 @@ function closeStreakAnim(){
     <div class="streak-anim-count" id="streakAnimCount">1</div>
     <div class="streak-anim-label">JOUR DE STREAK</div>
     <div class="streak-anim-sub" id="streakAnimSub"></div>
-    <button class="streak-anim-btn" onclick="closeStreakAnim()">LET'S GO →</button>
+    <div class="streak-days-row" id="streakDotRow"></div>
+    <div class="streak-coins-reward" id="streakCoinsReward"></div>
+    <button class="streak-anim-btn" id="streakAnimBtn" onclick="closeStreakAnim()">LET'S GO →</button>
   </div>
 </div>
 </body>
