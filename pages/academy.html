@@ -523,6 +523,11 @@ table.assets th.clickable:hover{color:var(--y);}
 .td-chg{font-weight:700;font-size:.8rem;}
 .td-chg.up{color:var(--g);}.td-chg.dn{color:var(--r);}.td-chg.flat{color:var(--muted);}
 .td-price{font-weight:600;font-size:.82rem;}
+.asset-row{transition:background .15s;}
+.asset-row:hover{background:rgba(255,255,255,.04);}
+.asset-row.selected{background:rgba(255,205,13,.08);outline:1.5px solid rgba(255,205,13,.35);outline-offset:-1px;}
+.asset-row.selected .td-name{color:var(--y);}
+.asset-row.selected .td-price{color:var(--y);}
 .td-lock{color:var(--muted);font-size:.65rem;font-family:'Nunito' !important;}
 .spark-cv{display:block;}
 
@@ -3844,6 +3849,10 @@ function triggerEvent(){
     if(S.prices[id]!==undefined){S.prices[id]*=(1+delta);S.history[id].push(S.prices[id]);}
   });
   refreshMarketUI();
+  // Log dans le journal
+  const sentiment=ev.impact==='good'?'📈 Haussier':'📉 Baissier';
+  addJournal({type:'event',emoji:'🌐',asset:ev.title,note:`${sentiment} — ${ev.desc}`});
+  renderJournal();
 }
 function closeEvBanner(){const b=el('evBanner');if(b)b.classList.remove('show');}
 function openDebriefFromBanner(e){if(e.target.classList.contains('ev-close'))return;openDebrief();}
