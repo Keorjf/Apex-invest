@@ -238,6 +238,31 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 .streak-anim-btn:hover{transform:scale(1.04);}
 @keyframes streakParticle{0%{transform:translateY(0) scale(1);opacity:1;}100%{transform:translateY(-120px) scale(0);opacity:0;}}
 .streak-particle{position:fixed;pointer-events:none;font-size:1.6rem;z-index:5001;animation:streakParticle 1.2s ease-out forwards;}
+/* ══ CHATBOT ══ */
+.chatbot-fab{position:fixed;bottom:1.4rem;right:1.4rem;z-index:4000;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--y),#FF7A00);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.4rem;box-shadow:0 4px 20px rgba(255,122,0,.4);transition:.2s;}
+.chatbot-fab:hover{transform:scale(1.08);}
+.chatbot-fab.open{background:var(--bg3);border:1.5px solid var(--ln);}
+.chatbot-panel{position:fixed;bottom:5rem;right:1.4rem;z-index:4000;width:310px;max-height:460px;background:var(--bg2);border:1.5px solid var(--ln);border-radius:16px;display:flex;flex-direction:column;box-shadow:0 8px 40px rgba(0,0,0,.5);transform:translateY(20px) scale(.95);opacity:0;pointer-events:none;transition:transform .25s cubic-bezier(.34,1.56,.64,1),opacity .2s;}
+.chatbot-panel.open{transform:translateY(0) scale(1);opacity:1;pointer-events:all;}
+.cb-header{display:flex;align-items:center;gap:.6rem;padding:.8rem 1rem;border-bottom:1px solid var(--ln);flex-shrink:0;}
+.cb-header-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--y),#FF7A00);display:flex;align-items:center;justify-content:center;font-size:1rem;}
+.cb-header-name{font-family:'Bungee',sans-serif;font-size:.8rem;color:var(--y);letter-spacing:.05em;}
+.cb-header-status{font-size:.6rem;color:var(--g);font-family:'Nunito',sans-serif;}
+.cb-close{margin-left:auto;background:none;border:none;color:var(--muted);cursor:pointer;font-size:1rem;padding:.2rem;}
+.cb-messages{flex:1;overflow-y:auto;padding:.7rem .8rem;display:flex;flex-direction:column;gap:.5rem;}
+.cb-messages::-webkit-scrollbar{width:3px;}.cb-messages::-webkit-scrollbar-thumb{background:var(--ln);border-radius:2px;}
+.cb-msg{max-width:85%;font-size:.75rem;font-family:'Nunito',sans-serif;line-height:1.5;padding:.5rem .75rem;border-radius:12px;animation:cbFadeIn .2s ease;}
+@keyframes cbFadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+.cb-bot{background:var(--bg3);color:var(--txt);border-bottom-left-radius:3px;align-self:flex-start;}
+.cb-user{background:linear-gradient(135deg,rgba(255,205,13,.15),rgba(255,122,0,.1));color:var(--y);border:1px solid rgba(255,205,13,.2);border-bottom-right-radius:3px;align-self:flex-end;text-align:right;}
+.cb-sugs{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.2rem;}
+.cb-sug{background:rgba(78,194,218,.1);border:1px solid rgba(78,194,218,.25);color:var(--b);font-size:.65rem;font-family:'Nunito',sans-serif;border-radius:20px;padding:.25rem .6rem;cursor:pointer;transition:.15s;}
+.cb-sug:hover{background:rgba(78,194,218,.2);}
+.cb-input-row{display:flex;gap:.5rem;padding:.6rem .8rem;border-top:1px solid var(--ln);flex-shrink:0;}
+.cb-input{flex:1;background:var(--bg3);border:1px solid var(--ln);border-radius:8px;padding:.4rem .7rem;font-size:.75rem;font-family:'Nunito',sans-serif;color:var(--txt);outline:none;}
+.cb-input:focus{border-color:rgba(255,205,13,.4);}
+.cb-send{background:var(--y);border:none;border-radius:8px;width:32px;height:32px;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.15s;}
+.cb-send:hover{opacity:.85;}
 /* STREAK DAYS DOTS */
 .streak-days-row{display:flex;gap:.45rem;justify-content:center;margin-bottom:1.1rem;}
 .streak-day-dot{width:28px;height:28px;border-radius:50%;border:2px solid rgba(255,122,0,.3);background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:.55rem;font-family:'Bungee',sans-serif;color:var(--muted);transition:background .4s,border-color .4s,transform .4s;}
@@ -5127,6 +5152,69 @@ function closeStreakAnim(){
   }
   ov.classList.remove('show');
 }
+
+/* ══ CHATBOT ══ */
+const BOT_KB=[
+  {k:['tacoin','tacoins','monnaie','pièce','pièces'],r:'Les <b>Tacoins</b> sont la monnaie virtuelle de TACTIC. Tu en gagnes en complétant des leçons, en lisant les news éco, en maintenant ton streak et en accomplissant des missions.'},
+  {k:['streak','série','jours','connexion'],r:'Le <b>streak</b> compte tes jours de connexion consécutifs. Connecte-toi chaque jour pour le maintenir. À chaque nouveau jour tu reçois des Tacoins bonus + une animation.'},
+  {k:['acheter','achat','buy','ordre achat'],r:'Pour <b>acheter</b> un actif : clique sur un actif dans la table marché → clique sur <b>Passer un ordre</b> → sélectionne <b>Acheter</b> → entre le montant → confirme.'},
+  {k:['vendre','vente','sell'],r:'Pour <b>vendre</b> un actif : clique sur l\'actif dans ta table → <b>Passer un ordre</b> → <b>Vendre</b> → entre le montant → confirme.'},
+  {k:['portefeuille','portfolio','positions'],r:'Ton <b>portefeuille</b> est visible dans l\'onglet Marchés. Il affiche ta valeur totale, ton PnL et l\'alignement avec ton profil investisseur.'},
+  {k:['profil','investisseur','diagnostic','risque'],r:'Ton <b>profil investisseur</b> est défini via le diagnostic (onglet Profil). Il analyse ton âge, tes objectifs, ta tolérance au risque et ton niveau. Il génère une allocation cible.'},
+  {k:['mission','missions','objectif'],r:'Les <b>missions</b> sont dans l\'onglet Missions. Complète-les pour gagner des Tacoins. Les missions accomplies passent en bas de la liste.'},
+  {k:['leçon','lecons','apprendre','cours','module'],r:'Les <b>leçons</b> sont dans l\'onglet Parcours. Chaque leçon te donne des Tacoins et débloque les suivantes. Tu peux filtrer par thème.'},
+  {k:['news','actualité','économique','événement','event'],r:'Les <b>news économiques</b> apparaissent automatiquement pendant ta session. Clique sur la bannière → lis le débrief → clique <b>Compris</b> pour gagner 30 Tacoins. Elles sont archivées dans le Journal.'},
+  {k:['journal','historique','log'],r:'Le <b>Journal de Bord</b> (onglet Journal) enregistre tous tes trades, leçons, missions et news éco. Tu peux filtrer par catégorie.'},
+  {k:['rééquilibrage','rebalancing','alignement','allocation'],r:'Le <b>rééquilibrage</b> t\'aide à aligner ton portefeuille sur ton profil. Dans l\'onglet Marchés, la barre "Alignement Profil" indique le score. Clique sur ▲ Acheter ou ▼ Vendre sur chaque ligne pour rééquilibrer.'},
+  {k:['ordre limite','limit order','ordre conditionnel'],r:'Un <b>ordre limite</b> s\'exécute automatiquement quand le prix atteint ton seuil. Dans Passer un ordre, sélectionne "Limite" et fixe ton prix cible.'},
+  {k:['niveau','débutant','intermédiaire','expert','avancé'],r:'Ton <b>niveau</b> est visible dans le profil investisseur (barre latérale). Tu peux le changer via le menu déroulant : Débutant → Intermédiaire → Avancé → Expert.'},
+  {k:['parcours','chemin','map','bulle'],r:'Le <b>parcours</b> (onglet Ton Parcours) est une carte visuelle de ta progression. Clique sur chaque bulle pour démarrer une leçon.'},
+  {k:['pnl','gain','perte','performance'],r:'Le <b>PnL</b> (Profit & Loss) indique la performance de tes positions depuis leur achat. Il est affiché en Tacoins dans le portefeuille.'},
+  {k:['aide','help','comment','quoi','?'],r:'Je suis le bot de TACTIC 🤖. Pose-moi une question sur : les <b>Tacoins</b>, le <b>streak</b>, <b>acheter/vendre</b>, les <b>missions</b>, le <b>journal</b>, les <b>news éco</b>, le <b>rééquilibrage</b>...'},
+];
+function botReply(msg){
+  const m=msg.toLowerCase();
+  for(const entry of BOT_KB){
+    if(entry.k.some(k=>m.includes(k)))return entry.r;
+  }
+  return 'Je n\'ai pas bien compris 🤔 Essaie de me poser une question sur : <b>acheter</b>, <b>vendre</b>, <b>streak</b>, <b>tacoins</b>, <b>missions</b>, <b>news éco</b>, <b>journal</b>, <b>profil</b>...';
+}
+function toggleChatbot(){
+  const p=el('chatbotPanel');
+  p.classList.toggle('open');
+  if(p.classList.contains('open')&&el('chatbotMessages').children.length===0){
+    botAppend('bot','Salut ! Je suis <b>TACT</b>, ton assistant TACTIC 🤖<br>Comment puis-je t\'aider ?');
+    renderBotSuggestions();
+  }
+}
+function botAppend(who,html){
+  const wrap=el('chatbotMessages');
+  const d=document.createElement('div');
+  d.className='cb-msg cb-'+who;
+  d.innerHTML=html;
+  wrap.appendChild(d);
+  wrap.scrollTop=wrap.scrollHeight;
+}
+function renderBotSuggestions(){
+  const sugs=['Acheter un actif','Gagner des Tacoins','C\'est quoi le streak ?','Mes missions','Rééquilibrage'];
+  const wrap=el('chatbotMessages');
+  const row=document.createElement('div');
+  row.className='cb-sugs';
+  row.innerHTML=sugs.map(s=>`<button class="cb-sug" onclick="sendBotMsg('${s}')">${s}</button>`).join('');
+  wrap.appendChild(row);
+  wrap.scrollTop=wrap.scrollHeight;
+}
+function sendBotMsg(txt){
+  if(!txt.trim())return;
+  const inp=el('chatbotInput');
+  botAppend('user',txt);
+  if(inp)inp.value='';
+  setTimeout(()=>{
+    const reply=botReply(txt);
+    botAppend('bot',reply);
+  },350);
+}
+function chatbotKeydown(e){if(e.key==='Enter'){const v=el('chatbotInput').value.trim();if(v)sendBotMsg(v);}}
 </script>
 
 <!-- STREAK ANIMATION OVERLAY -->
@@ -5141,5 +5229,21 @@ function closeStreakAnim(){
     <button class="streak-anim-btn" id="streakAnimBtn" onclick="closeStreakAnim()">LET'S GO →</button>
   </div>
 </div>
+
+<!-- CHATBOT FLOTTANT -->
+<div class="chatbot-panel" id="chatbotPanel">
+  <div class="cb-header">
+    <div class="cb-header-avatar">🤖</div>
+    <div><div class="cb-header-name">TACT</div><div class="cb-header-status">● En ligne</div></div>
+    <button class="cb-close" onclick="toggleChatbot()">✕</button>
+  </div>
+  <div class="cb-messages" id="chatbotMessages"></div>
+  <div class="cb-input-row">
+    <input class="cb-input" id="chatbotInput" placeholder="Pose ta question…" onkeydown="chatbotKeydown(event)">
+    <button class="cb-send" onclick="sendBotMsg(el('chatbotInput').value.trim())">➤</button>
+  </div>
+</div>
+<button class="chatbot-fab" id="chatbotFab" onclick="toggleChatbot();this.classList.toggle('open')" title="Aide">🤖</button>
+
 </body>
 </html>
