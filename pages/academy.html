@@ -2762,7 +2762,7 @@ function saveState(){
     diagDone:S.diagDone,diagProfile:S.diagProfile,missions:S.missions,
     totalLessons:S.totalLessons,totalBuys:S.totalBuys,
     crisisSurvived:S.crisisSurvived,limitExecuted:S.limitExecuted,debriefRead:S.debriefRead,
-    journal:S.journal.slice(-60),limitOrders:S.limitOrders,
+    journal:S.journal.slice(-200),limitOrders:S.limitOrders,
     positions:S.positions,
   }));}catch(e){}
 }
@@ -4533,7 +4533,7 @@ function claimMission(key,reward,btnEl){
 /* ══ JOURNAL ══ */
 function addJournal(entry){
   S.journal.unshift({...entry,ts:new Date().toLocaleTimeString('fr-FR')});
-  if(S.journal.length>80)S.journal.pop();
+  if(S.journal.length>200)S.journal.pop();
 }
 function renderJournal(){
   const e=el('journalList');if(!e)return;
