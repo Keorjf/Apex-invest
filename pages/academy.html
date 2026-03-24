@@ -3921,9 +3921,22 @@ function openDebrief(){
     <div style="margin-top:.8rem">
       ${(d.lessons||[]).map(l=>`<div style="font-size:.75rem;color:var(--soft);padding:.25rem 0;border-bottom:1px solid var(--ln)">• ${l}</div>`).join('')}
     </div>
-    <button class="btn-g" onclick="closeDebrief()" style="margin-top:1rem;width:100%">Compris →</button>`;
+    <button class="btn-g" id="debriefValidBtn" onclick="closeDebriefWithReward()" style="margin-top:1rem;width:100%">Compris → <span style="font-size:.75rem;opacity:.8">+30 🪙</span></button>`;
   el('debriefOv').classList.add('show');
   S.debriefRead++;checkMissions();saveState();
+}
+function closeDebriefWithReward(){
+  const reward=30;
+  S.coins+=reward;
+  updateWalletUI();saveState();
+  // Badge flottant
+  const msg=document.createElement('div');
+  msg.style.cssText='position:fixed;top:30%;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#FF7A00,#FFCD0D);color:#000;font-family:Bungee,sans-serif;font-size:1rem;padding:.5rem 1.4rem;border-radius:20px;z-index:6000;pointer-events:none;transition:opacity .4s;';
+  msg.textContent=`+${reward} Tacoins !`;
+  document.body.appendChild(msg);
+  setTimeout(()=>{msg.style.opacity='0';},1200);
+  setTimeout(()=>msg.remove(),1700);
+  el('debriefOv').classList.remove('show');
 }
 function closeDebrief(){el('debriefOv').classList.remove('show');}
 
