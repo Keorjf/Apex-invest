@@ -4387,8 +4387,8 @@ function renderMissions(){
   if(perm) perm.innerHTML=permResults.filter(r=>!r.done).map(r=>r.html).join('');
 
   const completedHtmls=[
-    ...dailyResults.filter(r=>r.claimed).map(r=>r.html),
-    ...permResults.filter(r=>r.done).map(r=>r.html)
+    ...dailyResults.filter(r=>r.claimed).map(r=>r.html.replace(/<span class="mc-done-tag">.*?<\/span>/,'')),
+    ...permResults.filter(r=>r.done).map(r=>r.html.replace(/<span class="mc-done-tag">.*?<\/span>/,''))
   ];
   const completedSection=el('completedSection');
   const completedEl=el('completedMissions');
