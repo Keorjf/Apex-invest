@@ -819,8 +819,14 @@ table.assets th.clickable:hover{color:var(--y);}
 .j-filter{display:flex;gap:.4rem;margin-bottom:1rem;flex-wrap:wrap;}
 .jf-btn{font-size:.65rem;padding:.28rem .7rem;border-radius:100px;border:1px solid var(--ln);background:transparent;color:var(--muted);cursor:pointer;transition:.15s;}
 .jf-btn.active{background:var(--gd);border-color:rgba(255,205,13,.3);color:var(--g);}
-.j-entry{background:var(--bg2);border:1px solid var(--ln);border-radius:8px;padding:.9rem 1.1rem;margin-bottom:.6rem;transition:border-color .18s;}
+.j-entry{background:var(--bg2);border:1px solid var(--ln);border-left:3px solid var(--ln);border-radius:8px;padding:.9rem 1.1rem;margin-bottom:.6rem;transition:border-color .18s;}
 .j-entry:hover{border-color:var(--ln2);}
+.j-entry.j-buy{border-left-color:#FFCD0D!important;}
+.j-entry.j-sell{border-left-color:#FF3B5C!important;}
+.j-entry.j-limit{border-left-color:#4D9EFF!important;}
+.j-entry.j-event{border-left-color:#4EC2DA!important;}
+.j-entry.j-lesson{border-left-color:#A78BFA!important;}
+.j-entry.j-mission{border-left-color:#FF8C00!important;}
 .je-head{display:flex;align-items:center;gap:.6rem;margin-bottom:.4rem;}
 .je-side{font-size:.6rem;font-weight:700;padding:.15rem .5rem;border-radius:3px;}
 .je-side.buy{background:var(--gd);color:var(--g);border:1px solid rgba(255,205,13,.28);}
@@ -838,6 +844,7 @@ table.assets th.clickable:hover{color:var(--y);}
 }
 .je-annotation strong{color:var(--y);font-style:normal;}
 .j-empty{text-align:center;padding:3rem;color:var(--muted);font-size:.82rem;}
+.j-day-sep{font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:.5rem 0 .4rem;margin-top:.4rem;border-bottom:1px solid var(--ln);margin-bottom:.6rem;}
 
 /* MISSIONS TAB */
 .missions-wrap{max-width:700px;margin:0 auto;padding:2rem 1.5rem;}
@@ -845,7 +852,7 @@ table.assets th.clickable:hover{color:var(--y);}
 .mis-title{font-family:'Bungee','Arial Black',impact,sans-serif;font-size:1.8rem;letter-spacing:.04em;margin-bottom:.2rem;}
 .mis-sub{font-size:.78rem;color:var(--muted);}
 .mis-section{margin-bottom:1.5rem;}
-.mis-sec-title{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:.7rem;padding-bottom:.4rem;border-bottom:1px solid var(--ln);}
+.mis-sec-title{font-size:.85rem;letter-spacing:.1em;text-transform:uppercase;color:var(--txt);font-weight:700;margin-bottom:.7rem;padding-bottom:.4rem;border-bottom:1px solid var(--ln);}
 .mission-card{
   background:var(--bg2);border:1px solid var(--ln);border-radius:9px;
   padding:1rem 1.2rem;margin-bottom:.6rem;transition:border-color .18s;
@@ -975,6 +982,55 @@ table.assets th.clickable:hover{color:var(--y);}
 .toast.sell-t{border-color:rgba(255,59,92,.22);}
 .toast.reward-t{border-color:rgba(78,194,218,.28);}
 .toast.mission-t{border-color:rgba(167,139,250,.28);}
+/* PROFILE CARD DECK */
+.prof-card{position:absolute;top:0;left:0;right:0;border-radius:20px;padding:1.8rem 1.5rem 1.5rem;border:1px solid rgba(255,255,255,.1);box-shadow:0 20px 60px rgba(0,0,0,.5);cursor:grab;user-select:none;transition:transform .35s cubic-bezier(.25,.8,.25,1),opacity .35s;will-change:transform,opacity;}
+.prof-card.active{transform:translateX(0) scale(1);opacity:1;z-index:10;}
+.prof-card.prev{transform:translateX(-110%) scale(.88);opacity:0;z-index:5;}
+.prof-card.next{transform:translateX(110%) scale(.88);opacity:0;z-index:5;}
+.prof-card.dragging{transition:none;cursor:grabbing;}
+.prof-card-suit{font-size:2.8rem;margin-bottom:.6rem;}
+.prof-card-risk{font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;font-weight:700;opacity:.7;margin-bottom:.3rem;}
+.prof-card-name{font-family:'Bungee',sans-serif;font-size:1.5rem;letter-spacing:.04em;margin-bottom:.3rem;}
+.prof-card-badge{display:inline-block;font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .6rem;border-radius:20px;border:1px solid currentColor;opacity:.8;margin-bottom:.9rem;}
+.prof-card-advice{font-size:.75rem;line-height:1.65;color:rgba(255,255,255,.75);margin-bottom:1rem;border-left:3px solid currentColor;padding-left:.7rem;}
+.prof-card-alloc{display:flex;flex-direction:column;gap:.4rem;}
+.prof-card-alloc-row{display:flex;align-items:center;gap:.6rem;font-size:.72rem;}
+.prof-card-alloc-bar-wrap{flex:1;height:5px;background:rgba(255,255,255,.1);border-radius:10px;overflow:hidden;}
+.prof-card-alloc-bar{height:100%;border-radius:10px;}
+.prof-card-alloc-pct{font-weight:700;min-width:2.5rem;text-align:right;}
+.prof-card-corner{position:absolute;font-size:.7rem;font-weight:700;font-family:'JetBrains Mono',monospace;}
+.prof-card-corner.tl{top:.8rem;left:1rem;}
+.prof-card-corner.br{bottom:.8rem;right:1rem;transform:rotate(180deg);}
+.profile-dot{width:8px;height:8px;border-radius:50%;background:var(--ln2);transition:.25s;cursor:pointer;}
+.profile-dot.active{background:var(--y);transform:scale(1.3);}
+/* MISSION COMPLETE BANNER */
+.mission-banner{position:fixed;top:60px;left:50%;transform:translateX(-50%) translateY(-20px);opacity:0;z-index:700;background:linear-gradient(135deg,rgba(10,20,35,.98),rgba(15,30,20,.98));border:1px solid rgba(167,139,250,.6);border-radius:16px;padding:1.2rem 1.8rem;display:flex;align-items:center;gap:1rem;min-width:300px;max-width:400px;box-shadow:0 12px 40px rgba(0,0,0,.6),0 0 30px rgba(167,139,250,.2);transition:all .45s cubic-bezier(.34,1.4,.64,1);pointer-events:none;}
+.mission-banner.show{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto;}
+.mission-banner-icon{font-size:2.2rem;flex-shrink:0;animation:missionIconPop .5s ease both;}
+@keyframes missionIconPop{0%{transform:scale(0.5);}60%{transform:scale(1.2);}100%{transform:scale(1);}}
+.mission-banner-body{flex:1;}
+.mission-banner-label{font-size:.6rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#A78BFA;margin-bottom:.2rem;}
+.mission-banner-name{font-family:'Bungee',sans-serif;font-size:1rem;letter-spacing:.04em;color:#fff;margin-bottom:.15rem;}
+.mission-banner-reward{font-size:.72rem;color:var(--y);font-weight:700;}
+/* LOW COINS NUDGE */
+.low-nudge{position:fixed;bottom:5rem;left:50%;transform:translateX(-50%) translateY(20px);opacity:0;z-index:600;background:linear-gradient(135deg,#1a0a0a,#1a0f00);border:1px solid rgba(255,59,92,.5);border-radius:14px;padding:1.1rem 1.6rem;display:flex;align-items:center;gap:.9rem;min-width:280px;max-width:360px;box-shadow:0 8px 32px rgba(0,0,0,.5),0 0 20px rgba(255,59,92,.12);transition:all .4s cubic-bezier(.34,1.4,.64,1);pointer-events:none;}
+.low-nudge.show{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto;}
+.low-nudge-icon{font-size:1.8rem;flex-shrink:0;}
+.low-nudge-body{flex:1;}
+.low-nudge-title{font-size:.82rem;font-weight:700;color:#FF3B5C;margin-bottom:.2rem;}
+.low-nudge-sub{font-size:.7rem;color:var(--muted);margin-bottom:.5rem;}
+.low-nudge-btn{font-size:.68rem;font-weight:700;background:rgba(255,59,92,.15);border:1px solid rgba(255,59,92,.4);color:#FF3B5C;border-radius:6px;padding:.3rem .7rem;cursor:pointer;transition:.15s;}
+.low-nudge-btn:hover{background:rgba(255,59,92,.28);}
+.low-nudge-close{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.9rem;padding:0;flex-shrink:0;align-self:flex-start;}
+/* INVEST NUDGE NOTIFICATION */
+.invest-nudge{position:fixed;bottom:5rem;left:50%;transform:translateX(-50%) translateY(20px);opacity:0;z-index:600;background:linear-gradient(135deg,#0d2137,#0f2a1a);border:1px solid rgba(255,205,13,.5);border-radius:14px;padding:1.1rem 1.6rem;display:flex;align-items:center;gap:.9rem;min-width:280px;max-width:340px;box-shadow:0 8px 32px rgba(0,0,0,.5),0 0 20px rgba(255,205,13,.12);transition:all .4s cubic-bezier(.34,1.4,.64,1);pointer-events:none;}
+.invest-nudge.show{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto;}
+.invest-nudge-icon{font-size:1.8rem;flex-shrink:0;}
+.invest-nudge-body{flex:1;}
+.invest-nudge-title{font-size:.82rem;font-weight:700;color:var(--y);margin-bottom:.15rem;}
+.invest-nudge-sub{font-size:.7rem;color:var(--muted);}
+.invest-nudge-close{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.9rem;padding:0;flex-shrink:0;}
+.invest-nudge-close:hover{color:var(--y);}
 .toast.info-t{border-color:rgba(77,158,255,.22);}
 .t-icon{font-size:1.3rem;flex-shrink:0;}
 .t-title{font-size:.8rem;font-weight:700;}
@@ -1209,15 +1265,6 @@ table.assets th.clickable:hover{color:var(--y);}
     <div class="tb-spacer"></div>
     <div class="tb-wallet" id="tbStreak" style="color:var(--o);border-color:rgba(255,140,0,.3)">🔥 <span id="tbStreakDays">0j</span></div>
     <div class="tb-wallet" id="tbWallet">🪙 500</div>
-    <div class="tb-lvl" id="tbLvl" onclick="toggleLvlMenu(event)">
-      <span id="tbLvlLabel">Débutant</span> ▾
-      <div class="lvl-dropdown" id="lvlMenu">
-        <div class="lvl-opt active" onclick="switchLevel('Débutant',this)">Débutant</div>
-        <div class="lvl-opt" onclick="switchLevel('Intermédiaire',this)">Intermédiaire</div>
-        <div class="lvl-opt" onclick="switchLevel('Avancé',this)">Avancé</div>
-        <div class="lvl-opt" onclick="switchLevel('Expert CFA/AMF',this)">Expert CFA/AMF</div>
-      </div>
-    </div>
     <button class="tb-btn" onclick="goSplash()">↩</button>
   </nav>
 
@@ -1452,19 +1499,17 @@ table.assets th.clickable:hover{color:var(--y);}
   <div class="tab" id="tabMissions">
     <div class="missions-wrap">
       <div class="mis-header">
-        <div class="mis-title">Missions</div>
-        <div class="mis-sub">Complète des objectifs pour gagner des Tacoins bonus.</div>
       </div>
       <div class="mis-section">
-        <div class="mis-sec-title">🌅 3 Missions du jour · se renouvellent chaque session</div>
+        <div class="mis-sec-title">Missions du jour</div>
         <div id="dailyMissions"></div>
       </div>
       <div class="mis-section">
-        <div class="mis-sec-title">🏆 Missions permanentes</div>
+        <div class="mis-sec-title">Missions permanentes</div>
         <div id="permMissions"></div>
       </div>
       <div class="mis-section" id="completedSection" style="display:none">
-        <div class="mis-sec-title">✅ Missions complétées</div>
+        <div class="mis-sec-title">Missions complétées</div>
         <div id="completedMissions"></div>
       </div>
     </div>
@@ -1473,8 +1518,7 @@ table.assets th.clickable:hover{color:var(--y);}
   <!-- JOURNAL -->
   <div class="tab" id="tabJournal">
     <div class="journal-wrap">
-      <div class="jw-title">Journal de Bord</div>
-      <div class="jw-sub">Historique annoté de tes ordres, événements et récompenses.</div>
+      <div class="mis-sec-title" style="border-bottom:none">Historique de l'activité</div>
       <div class="j-filter">
         <button class="jf-btn active" onclick="filterJournal('all',this)">Tout</button>
         <button class="jf-btn" onclick="filterJournal('buy',this)">Achats</button>
@@ -1588,13 +1632,17 @@ table.assets th.clickable:hover{color:var(--y);}
      ONGLET PROFILS INVESTISSEUR
 ═══════════════════════════════════ -->
 <div class="tab" id="tabProfil">
-  <div id="profilPage" style="max-width:900px;margin:0 auto;padding:2rem 1.5rem 4rem;">
-    <div style="margin-bottom:2rem;">
-      <div style="font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem;">Référence</div>
-      <div style="font-family:'Bungee','Arial Black',impact,sans-serif;font-size:2rem;letter-spacing:.05em;">Les 5 Profils Investisseur</div>
-      <div style="color:var(--soft);font-size:.82rem;margin-top:.4rem;">Chaque profil correspond à une tolérance au risque, une allocation type et des comportements à adopter ou éviter.</div>
+  <div id="profilPage" style="padding:1.5rem 1rem 4rem;max-width:500px;margin:0 auto;">
+    <div style="font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:.2rem;text-align:center;">du moins risqué au plus risqué</div>
+    <div style="font-family:'Bungee',sans-serif;font-size:1.4rem;letter-spacing:.04em;text-align:center;margin-bottom:1.2rem;">Les 5 Profils</div>
+    <!-- CARD DECK -->
+    <div id="profileDeck" style="position:relative;height:460px;touch-action:pan-y;">
+      <!-- cards injected by JS -->
     </div>
-    <div id="profilCards" style="display:grid;grid-template-columns:1fr;gap:1.2rem;"></div>
+    <!-- dots nav -->
+    <div id="profileDots" style="display:flex;justify-content:center;gap:.5rem;margin-top:1rem;"></div>
+    <!-- swipe hint -->
+    <div style="text-align:center;font-size:.65rem;color:var(--muted);margin-top:.6rem;">← Swipe pour voir les autres profils →</div>
   </div>
 </div>
 
@@ -1625,6 +1673,31 @@ table.assets th.clickable:hover{color:var(--y);}
 <div class="toast" id="toast">
   <span class="t-icon" id="tIcon">✅</span>
   <div><div class="t-title" id="tTitle">—</div><div class="t-sub" id="tSub">—</div></div>
+</div>
+<div class="mission-banner" id="missionBanner">
+  <div class="mission-banner-icon" id="missionBannerIcon">🎯</div>
+  <div class="mission-banner-body">
+    <div class="mission-banner-label" id="missionBannerLabel">Mission complétée</div>
+    <div class="mission-banner-name" id="missionBannerName">—</div>
+    <div class="mission-banner-reward" id="missionBannerReward">+0 🪙</div>
+  </div>
+</div>
+<div class="low-nudge" id="lowNudge">
+  <div class="low-nudge-icon">📉</div>
+  <div class="low-nudge-body">
+    <div class="low-nudge-title">Ton solde est presque vide !</div>
+    <div class="low-nudge-sub">Complète des leçons pour continuer à investir.</div>
+    <button class="low-nudge-btn" onclick="closeAndGoLesson()">▶ Reprendre ma leçon</button>
+  </div>
+  <button class="low-nudge-close" onclick="closeLowNudge()">✕</button>
+</div>
+<div class="invest-nudge" id="investNudge">
+  <div class="invest-nudge-icon">💰</div>
+  <div class="invest-nudge-body">
+    <div class="invest-nudge-title">Il est temps d'investir, non ?</div>
+    <div class="invest-nudge-sub" id="investNudgeSub">Tu as <strong id="investNudgeAmt"></strong> 🪙 disponibles.</div>
+  </div>
+  <button class="invest-nudge-close" onclick="closeInvestNudge()">✕</button>
 </div>
 
 <script>
@@ -2780,7 +2853,7 @@ function el(id){return document.getElementById(id);}
 function saveState(){
   try{localStorage.setItem('apex_v3',JSON.stringify({
     coins:S.coins,xp:S.xp,done:[...S.done],streak:S.streak,lastPlay:S.lastPlay,
-    diagDone:S.diagDone,diagProfile:S.diagProfile,missions:S.missions,
+    diagDone:S.diagDone,diagProfile:S.diagProfile,missions:S.missions,dailyDate:S.dailyDate,
     totalLessons:S.totalLessons,totalBuys:S.totalBuys,
     crisisSurvived:S.crisisSurvived,limitExecuted:S.limitExecuted,debriefRead:S.debriefRead,
     journal:S.journal.slice(-200),limitOrders:S.limitOrders,
@@ -2794,7 +2867,6 @@ function loadState(){
     if(s.xp!==undefined)S.xp=s.xp;
     if(s.done)S.done=new Set(s.done);
     if(s.journal)S.journal=s.journal;
-    if(s.missions)S.missions=s.missions;
     if(s.totalLessons)S.totalLessons=s.totalLessons;
     if(s.totalBuys)S.totalBuys=s.totalBuys;
     if(s.crisisSurvived)S.crisisSurvived=s.crisisSurvived;
@@ -2804,6 +2876,16 @@ function loadState(){
     if(s.limitOrders)S.limitOrders=s.limitOrders;
     if(s.positions)Object.assign(S.positions,s.positions);
     const today=new Date().toDateString();
+    // Reset missions du jour si nouveau jour
+    if(s.dailyDate&&s.dailyDate!==today){
+      // Nouveau jour : supprimer les missions daily (dm_) et le pick
+      if(s.missions){Object.keys(s.missions).forEach(k=>{if(k.startsWith('d_'))delete s.missions[k];});}
+      S.missions=s.missions||{};
+      S._dailyPick=null;
+    }else{
+      if(s.missions)S.missions=s.missions;
+    }
+    S.dailyDate=today;
     if(s.lastPlay){
       const diff=Math.floor((new Date()-new Date(s.lastPlay))/86400000);
       if(diff===0){
@@ -2882,7 +2964,7 @@ function boot(level){
   if(!hasPos&&hasBuys){const n=recoverPositionsFromJournal();if(n>0){saveState();console.log('Positions récupérées depuis le journal:',n);}}
   el('splash').style.display='none';
   el('app').style.display='flex';
-  el('tbLvlLabel').textContent=level;
+  const tbLvlLbl=el('tbLvlLabel');if(tbLvlLbl)tbLvlLbl.textContent=level;
   updateWalletUI();updateXPUI();updateStreakUI();
   buildLearnSidebar();showLessonMap();
   buildMarketTable();selectAsset('msci');
@@ -2941,15 +3023,70 @@ function switchTab(tab){
   if(tab==='journal')renderJournal();
   if(tab==='corpus')initCorpus();
   if(tab==='profil')renderProfilPage();
-  const titles={learn:'TON PARCOURS',market:'LA SALLE DES MARCHÉS',missions:'MISSIONS',journal:'LE JOURNAL',profil:'LE PROFIL',corpus:'CORPUS'};
+  const titles={learn:'TON PARCOURS',market:'SALLE DES MARCHÉS',missions:'MISSIONS',journal:'JOURNAL DE BORD',profil:'PROFIL',corpus:'CORPUS'};
   const ct=el('tbCenterTitle');if(ct)ct.textContent=titles[tab]||'';
 }
 
 /* ══ TOPBAR ══ */
+const NUDGE_THRESHOLD=1500;
+const LOW_THRESHOLD=100;
+let nudgeShown=false;
+let lowNudgeShown=false;
 function updateWalletUI(){
   el('tbWallet').textContent='🪙 '+fmt(S.coins);
   const ow=el('opWallet');if(ow)ow.textContent=fmt(S.coins);
   const ob=el('ofBal');if(ob)ob.textContent='Dispo : 🪙'+fmt(S.coins);
+  if(S.coins>=NUDGE_THRESHOLD&&!nudgeShown){showInvestNudge();}
+  if(S.coins<NUDGE_THRESHOLD){nudgeShown=false;}
+  if(S.coins<=LOW_THRESHOLD&&!lowNudgeShown){showLowNudge();}
+  if(S.coins>LOW_THRESHOLD){lowNudgeShown=false;}
+}
+function showInvestNudge(){
+  nudgeShown=true;
+  const nudge=el('investNudge');
+  const amt=el('investNudgeAmt');
+  if(!nudge)return;
+  if(amt)amt.textContent=fmt(S.coins);
+  nudge.classList.add('show');
+  setTimeout(()=>nudge.classList.remove('show'),6000);
+}
+let _missionBannerTimer=null;
+function showMissionBanner(icon,label,name,reward){
+  const b=el('missionBanner');if(!b)return;
+  el('missionBannerIcon').textContent=icon;
+  el('missionBannerLabel').textContent=label;
+  el('missionBannerName').textContent=name;
+  el('missionBannerReward').textContent=reward>0?'+'+reward+' 🪙':'';
+  b.classList.add('show');
+  clearTimeout(_missionBannerTimer);
+  _missionBannerTimer=setTimeout(()=>b.classList.remove('show'),4000);
+}
+function closeInvestNudge(){
+  const nudge=el('investNudge');
+  if(nudge)nudge.classList.remove('show');
+  nudgeShown=true;
+}
+function showLowNudge(){
+  lowNudgeShown=true;
+  const nudge=el('lowNudge');
+  if(!nudge)return;
+  nudge.classList.add('show');
+}
+function closeLowNudge(){
+  const nudge=el('lowNudge');
+  if(nudge)nudge.classList.remove('show');
+}
+function closeAndGoLesson(){
+  closeLowNudge();
+  // Trouve la dernière leçon en cours ou la prochaine non complétée
+  const allLessons=(LESSONS[S.level]||[]).flatMap(t=>t.lessons);
+  let target=S.currentLesson;
+  if(!target){target=allLessons.find(l=>!S.done.has(l.id));}
+  switchTab('learn');
+  if(target){
+    const targetId=typeof target==='string'?target:target.id;
+    setTimeout(()=>openLesson(targetId),200);
+  }
 }
 function updateXPUI(){}
 function updateStreakUI(){
@@ -3727,7 +3864,7 @@ function executeOrder(){
   }
   const p=S.prices[a.id],qty=amt/p,fee=amt*0.001,tot=amt+fee;
   if(S.orderSide==='buy'){
-    if(tot>S.coins){showToast('warn','⚠️','Fonds insuffisants',`Il te faut ${tot.toFixed(0)} 🪙`);return;}
+    if(tot>S.coins){showToast('warn','⚠️','Fonds insuffisants',`Il te faut ${tot.toFixed(0)} 🪙`);if(S.coins<=LOW_THRESHOLD)showLowNudge();return;}
     S.coins-=tot;
     const pos=S.positions[a.id];
     pos.avgPrice=(pos.qty*pos.avgPrice+qty*p)/(pos.qty+qty);pos.qty+=qty;
@@ -3872,7 +4009,7 @@ function triggerEvent(){
   refreshMarketUI();
   // Log dans le journal
   const sentiment=ev.impact==='good'?'📈 Haussier':'📉 Baissier';
-  addJournal({type:'event',emoji:'🌐',asset:ev.title,note:`${sentiment} — ${ev.desc}`});
+  addJournal({type:'event',emoji:'🌐',asset:ev.title.replace(/^\p{Emoji}\s*/u,''),note:`${sentiment} — ${ev.desc}`});
   renderJournal();
 }
 function closeEvBanner(){const b=el('evBanner');if(b)b.classList.remove('show');}
@@ -4338,6 +4475,8 @@ function showDiagResult(p){
 /* ══ MISSIONS ══ */
 function renderMissions(){
   // Sélectionner 3 missions du jour stables par session (seed basé sur la date)
+  const todayStr=new Date().toDateString();
+  if(S._dailyPick&&S.dailyDate&&S.dailyDate!==todayStr){S._dailyPick=null;}
   if(!S._dailyPick){
     const seed=new Date().toDateString();
     let h=0;for(let c of seed){h=(h*31+c.charCodeAt(0))&0xffff;}
@@ -4353,10 +4492,9 @@ function renderMissions(){
     if(claimed) rewardHtml='<span class="mc-done-tag">✅ Récupéré</span>';
     else if(ready) rewardHtml=`<button class="mc-claim-btn" onclick="claimMission('d_${m.id}',${m.reward},this)">🪙 Collecter +${m.reward}</button>`;
     else rewardHtml=`<span class="mc-coins">+${m.reward} 🪙</span>`;
-    return {claimed, html:`<div class="mission-card daily${claimed?' done':''}">
+    return {claimed, html:`<div class="mission-card${claimed?' done':'  daily'}">
       <span class="mc-icon">${m.icon}</span>
       <div class="mc-content">
-        <div class="mc-daily-badge">⚡ Aujourd'hui</div>
         <div class="mc-name">${m.name}</div>
         <div class="mc-desc">${m.desc}</div>
       </div>
@@ -4424,14 +4562,15 @@ function checkMissions(){
     if(!S.missions[c.key]&&c.met){
       const isDaily=c.key.startsWith('d_');
       if(isDaily){
-        // Mission du jour → attente de collecte manuelle
+        const dId=c.key.replace(/^d_/,'');
+        const dm=(S._dailyPick||[]).find(x=>x.id===dId);
         S.missions[c.key]='ready';
-        showToast('reward','🎯','Mission débloquée !','Clique sur Collecter pour récupérer tes pièces !');
+        showMissionBanner(dm?dm.icon:'🎯','Mission du jour complétée !',dm?dm.name:'Mission débloquée',dm?dm.reward:0);
       } else {
         S.missions[c.key]=true;
         const mId=c.key.replace(/^p_/,'');
         const m=PERM_MISSIONS.find(x=>x.id===mId);
-        if(m){addCoins(m.reward);showToast('reward','🏆','Mission accomplie !',m.name+' · +'+m.reward+' 🪙');}
+        if(m){addCoins(m.reward);showMissionBanner(m.icon,'Mission accomplie !',m.name,m.reward);}
       }
     }
   });
@@ -4562,14 +4701,17 @@ function claimMission(key,reward,btnEl){
   }
   setTimeout(()=>{
     addCoins(reward);
-    showToast('reward','🪙','Pièces collectées !','+'+reward+' Tacoins dans ta cagnotte');
+    const dId=key.replace(/^d_/,'');
+    const dm=(S._dailyPick||[]).find(x=>x.id===dId);
+    showMissionBanner(dm?dm.icon:'🪙','Tacoins récupérés !',dm?dm.name:'Mission du jour',reward);
     saveState();
   },count*80+200);
 }
 
 /* ══ JOURNAL ══ */
 function addJournal(entry){
-  S.journal.unshift({...entry,ts:new Date().toLocaleTimeString('fr-FR')});
+  const now=new Date();
+  S.journal.unshift({...entry,ts:now.toLocaleTimeString('fr-FR'),date:now.toLocaleDateString('fr-FR')});
   if(S.journal.length>200)S.journal.pop();
 }
 function renderJournal(){
@@ -4580,15 +4722,23 @@ function renderJournal(){
     e.innerHTML='<div class="j-empty">Aucune entrée. Commence à trader ou suis une leçon !</div>';return;
   }
   const icons={buy:'▲',sell:'▼',limit:'📋',event:'📰',lesson:'📚',mission:'🎯'};
-  e.innerHTML=items.map(j=>`
-    <div class="j-entry j-${j.type}">
+  const today=new Date().toLocaleDateString('fr-FR');
+  const yesterday=new Date(Date.now()-86400000).toLocaleDateString('fr-FR');
+  function dayLabel(d){if(!d)return '';if(d===today)return 'Aujourd\'hui';if(d===yesterday)return 'Hier';return d;}
+  let lastDay='';
+  e.innerHTML=items.map(j=>{
+    let sep='';
+    const jDay=j.date||today;
+    if(jDay!==lastDay){lastDay=jDay;sep=`<div class="j-day-sep">${dayLabel(jDay)}</div>`;}
+    return sep+`<div class="j-entry j-${j.type}">
       <div class="je-head">
         <span class="je-side ${j.type}">${icons[j.type]||'•'}</span>
-        <span class="je-asset">${j.emoji||''} ${j.asset||''}</span>
+        <span class="je-asset">${j.asset||''}</span>
         <span class="je-time">${j.ts||''}</span>
       </div>
       <div class="je-details">${j.note||''}</div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 function filterJournal(filter,btn){
   document.querySelectorAll('.jf-btn').forEach(b=>b.classList.remove('active'));
@@ -4955,7 +5105,74 @@ const PROFILS = [
 ];
 
 
+/* ══ PROFILE CARD DECK ══ */
+const PROFILE_ORDER=['ultraConservateur','conservateur','modere','dynamique','offensif'];
+const PROFILE_SUITS=['♣','♦','♥','♠','★'];
+const PROFILE_RISK=['Très faible','Faible','Modéré','Élevé','Très élevé'];
+const PROFILE_BG=['linear-gradient(145deg,#0a1628,#0d2040)','linear-gradient(145deg,#0a1a2e,#0d2850)','linear-gradient(145deg,#150a28,#201040)','linear-gradient(145deg,#1a1400,#28200a)','linear-gradient(145deg,#001a1a,#002828)'];
+let _profIdx=0;
+function _initProfIdx(){if(S.diagProfile){const i=PROFILE_ORDER.indexOf(S.diagProfile);if(i>=0)_profIdx=i;}}
+let _profDragX=0,_profDragging=false,_profStartX=0;
+
 function renderProfilPage(){
+  _initProfIdx();
+  const deck=el('profileDeck');const dots=el('profileDots');
+  if(!deck)return;
+  deck.innerHTML=PROFILE_ORDER.map((key,i)=>{
+    const p=PROFILES[key];
+    const allocRows=p.alloc.map(a=>`
+      <div class="prof-card-alloc-row">
+        <div style="width:8px;height:8px;border-radius:50%;background:${a.color};flex-shrink:0;"></div>
+        <div style="flex:1;color:rgba(255,255,255,.75)">${a.name}</div>
+        <div class="prof-card-alloc-bar-wrap"><div class="prof-card-alloc-bar" style="width:${a.pct}%;background:${a.color};"></div></div>
+        <div class="prof-card-alloc-pct" style="color:${a.color}">${a.pct}%</div>
+      </div>`).join('');
+    const cls=i===_profIdx?'active':i<_profIdx?'prev':'next';
+    return `<div class="prof-card ${cls}" id="pcard${i}" style="background:${PROFILE_BG[i]};border-color:${p.color}40;"
+      data-idx="${i}" ontouchstart="profTouchStart(event)" ontouchmove="profTouchMove(event)" ontouchend="profTouchEnd(event)"
+      onmousedown="profMouseDown(event)">
+      <div class="prof-card-corner tl" style="color:${p.color}">${PROFILE_SUITS[i]}</div>
+      <div class="prof-card-corner br" style="color:${p.color}">${PROFILE_SUITS[i]}</div>
+      <div class="prof-card-suit">${p.emoji}</div>
+      <div class="prof-card-risk" style="color:${p.color}">Risque · ${PROFILE_RISK[i]}</div>
+      <div class="prof-card-name" style="color:${p.color}">${p.name}</div>
+      <div class="prof-card-badge" style="color:${p.color};border-color:${p.color}">${i===0?'Ultra Conservateur':i===1?'Conservateur':i===2?'Modéré':i===3?'Dynamique':'Offensif'}</div>
+      <div class="prof-card-advice" style="border-color:${p.color}">${p.advice}</div>
+      <div class="prof-card-alloc">${allocRows}</div>
+    </div>`;
+  }).join('');
+  if(dots)dots.innerHTML=PROFILE_ORDER.map((_,i)=>`<div class="profile-dot${i===_profIdx?' active':''}" onclick="goProfilCard(${i})"></div>`).join('');
+  _initProfDrag();
+}
+function goProfilCard(idx){
+  _profIdx=Math.max(0,Math.min(PROFILE_ORDER.length-1,idx));
+  PROFILE_ORDER.forEach((_,i)=>{
+    const c=el('pcard'+i);if(!c)return;
+    c.className='prof-card '+(i===_profIdx?'active':i<_profIdx?'prev':'next');
+  });
+  document.querySelectorAll('.profile-dot').forEach((d,i)=>d.classList.toggle('active',i===_profIdx));
+}
+function profTouchStart(e){_profDragging=true;_profStartX=e.touches[0].clientX;}
+function profTouchMove(e){if(!_profDragging)return;_profDragX=e.touches[0].clientX-_profStartX;}
+function profTouchEnd(){
+  if(!_profDragging)return;_profDragging=false;
+  if(_profDragX<-50)goProfilCard(_profIdx+1);
+  else if(_profDragX>50)goProfilCard(_profIdx-1);
+  _profDragX=0;
+}
+function profMouseDown(e){
+  _profDragging=true;_profStartX=e.clientX;
+  document.onmousemove=ev=>{_profDragX=ev.clientX-_profStartX;};
+  document.onmouseup=()=>{
+    document.onmousemove=null;document.onmouseup=null;
+    if(_profDragX<-50)goProfilCard(_profIdx+1);
+    else if(_profDragX>50)goProfilCard(_profIdx-1);
+    _profDragging=false;_profDragX=0;
+  };
+}
+function _initProfDrag(){}
+
+function _OLD_renderProfilPage(){
   const container = document.getElementById('profilCards');
   if(!container) return;
   container.innerHTML = PROFILS.map(p => {
