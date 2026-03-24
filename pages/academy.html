@@ -3921,7 +3921,7 @@ function openDebrief(){
     <div style="margin-top:.8rem">
       ${(d.lessons||[]).map(l=>`<div style="font-size:.75rem;color:var(--soft);padding:.25rem 0;border-bottom:1px solid var(--ln)">• ${l}</div>`).join('')}
     </div>
-    <button class="btn-g" id="debriefValidBtn" onclick="closeDebriefWithReward()" style="margin-top:1rem;width:100%">Compris → <span style="font-size:.75rem;opacity:.8">+30 🪙</span></button>`;
+    <button class="btn-g" id="debriefValidBtn" onclick="closeDebriefWithReward()" style="margin-top:1rem;width:100%">Compris →</button>`;
   el('debriefOv').classList.add('show');
   S.debriefRead++;checkMissions();saveState();
 }
