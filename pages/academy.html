@@ -3927,16 +3927,32 @@ function openDebrief(){
 }
 function closeDebriefWithReward(){
   const reward=30;
-  S.coins+=reward;
-  updateWalletUI();saveState();
-  // Badge flottant
-  const msg=document.createElement('div');
-  msg.style.cssText='position:fixed;top:30%;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#FF7A00,#FFCD0D);color:#000;font-family:Bungee,sans-serif;font-size:1rem;padding:.5rem 1.4rem;border-radius:20px;z-index:6000;pointer-events:none;transition:opacity .4s;';
-  msg.textContent=`+${reward} Tacoins !`;
-  document.body.appendChild(msg);
-  setTimeout(()=>{msg.style.opacity='0';},1200);
-  setTimeout(()=>msg.remove(),1700);
   el('debriefOv').classList.remove('show');
+  // Animation pièces → cagnotte
+  const wallet=el('tbWallet');
+  const toR=wallet.getBoundingClientRect();
+  const fromX=window.innerWidth/2;
+  const fromY=window.innerHeight/2;
+  const count=8;
+  for(let i=0;i<count;i++){
+    setTimeout(()=>{
+      const coin=document.createElement('div');
+      coin.className='coin-fly';
+      coin.textContent='🪙';
+      const ox=(Math.random()-.5)*60;
+      const oy=(Math.random()-.5)*40;
+      const fx=(toR.left+toR.width/2)-(fromX+ox);
+      const fy=(toR.top+toR.height/2)-(fromY+oy);
+      coin.style.cssText=`left:${fromX+ox}px;top:${fromY+oy}px;--fx:${fx}px;--fy:${fy}px;`;
+      coin.style.animation='flyToWallet .75s cubic-bezier(.4,0,.6,1) both';
+      document.body.appendChild(coin);
+      setTimeout(()=>coin.remove(),800);
+    },i*80);
+  }
+  setTimeout(()=>{
+    S.coins+=reward;
+    updateWalletUI();saveState();
+  },count*80+200);
 }
 function closeDebrief(){el('debriefOv').classList.remove('show');}
 
