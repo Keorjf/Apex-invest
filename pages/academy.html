@@ -238,6 +238,25 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 .streak-anim-btn:hover{transform:scale(1.04);}
 @keyframes streakParticle{0%{transform:translateY(0) scale(1);opacity:1;}100%{transform:translateY(-120px) scale(0);opacity:0;}}
 .streak-particle{position:fixed;pointer-events:none;font-size:1.6rem;z-index:5001;animation:streakParticle 1.2s ease-out forwards;}
+/* ══ TUTORIEL 5 ÉTAPES ══ */
+#tutorialOv{position:fixed;inset:0;z-index:6000;background:rgba(6,15,20,.92);display:none;align-items:center;justify-content:center;padding:1.2rem;}
+#tutorialOv.show{display:flex;}
+.tuto-card{background:var(--bg2);border:1px solid rgba(78,194,218,.25);border-radius:20px;max-width:420px;width:100%;padding:2rem 1.8rem 1.6rem;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.5);animation:tutoIn .4s cubic-bezier(.25,.8,.25,1) both;}
+@keyframes tutoIn{from{transform:translateY(30px) scale(.96);opacity:0;}to{transform:none;opacity:1;}}
+.tuto-step-dots{display:flex;gap:.45rem;justify-content:center;margin-bottom:1.4rem;}
+.tuto-dot{width:8px;height:8px;border-radius:50%;background:var(--ln2);transition:.25s;}
+.tuto-dot.active{background:var(--y);transform:scale(1.25);}
+.tuto-dot.done{background:rgba(78,194,218,.5);}
+.tuto-icon{font-size:3rem;text-align:center;margin-bottom:.9rem;animation:tutoIconPop .5s ease both;}
+@keyframes tutoIconPop{0%{transform:scale(.5);opacity:0;}70%{transform:scale(1.2);}100%{transform:scale(1);opacity:1;}}
+.tuto-title{font-family:'Bungee',sans-serif;font-size:1.35rem;letter-spacing:.05em;color:var(--y);text-align:center;margin-bottom:.6rem;}
+.tuto-body{font-family:'Nunito',sans-serif;font-size:.88rem;color:var(--soft);text-align:center;line-height:1.7;margin-bottom:1.6rem;}
+.tuto-highlight{display:inline-block;background:rgba(78,194,218,.12);border:1px solid rgba(78,194,218,.3);border-radius:6px;padding:.1rem .45rem;color:var(--y);font-weight:700;}
+.tuto-nav{display:flex;gap:.7rem;justify-content:center;}
+.tuto-skip{background:transparent;border:1px solid var(--ln2);color:var(--muted);font-size:.75rem;padding:.45rem 1rem;border-radius:8px;cursor:pointer;font-family:'Nunito',sans-serif;transition:.15s;}
+.tuto-skip:hover{border-color:var(--ln);color:var(--soft);}
+.tuto-next{background:var(--y);color:#0F2E3D;font-family:'Bungee',sans-serif;font-size:.85rem;letter-spacing:.06em;padding:.6rem 2rem;border:none;border-radius:10px;cursor:pointer;transition:.15s;min-width:130px;}
+.tuto-next:hover{opacity:.88;transform:translateY(-1px);}
 /* ══ CHATBOT ══ */
 .chatbot-fab{position:fixed;bottom:1.4rem;right:1.4rem;z-index:4000;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--y),#FF7A00);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.4rem;box-shadow:0 4px 20px rgba(255,122,0,.4);transition:.2s;}
 .chatbot-fab:hover{transform:scale(1.08);}
@@ -484,6 +503,28 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 
 /* MARKET TOPBAR */
 .mkt-topbar{display:flex;align-items:center;gap:.8rem;padding:.6rem 1rem;border-bottom:1px solid var(--ln);flex-shrink:0;}
+/* MODE SIMPLIFIÉ */
+.mkt-mode-btn{font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.25rem .65rem;border-radius:20px;border:1px solid var(--ln2);color:var(--muted);background:transparent;cursor:pointer;transition:.18s;margin-left:auto;}
+.mkt-mode-btn:hover{border-color:var(--y);color:var(--y);}
+.mkt-mode-btn.simple{border-color:rgba(78,194,218,.4);color:var(--y);background:rgba(78,194,218,.08);}
+/* En mode simplifié : cache Cat/Spark/Cap dans le tableau */
+.mkt-left.simplified .col-cat,.mkt-left.simplified .col-spark,.mkt-left.simplified .col-cap{display:none;}
+/* Barre d'action rapide en bas du graphique */
+.simple-action-bar{display:none;gap:.7rem;padding:.7rem .8rem;background:var(--bg2);border-top:1px solid var(--ln);flex-shrink:0;}
+.mkt-left.simplified .simple-action-bar{display:flex;}
+.simple-buy-btn{flex:1;background:var(--y);color:#0F2E3D;font-family:'Bungee',sans-serif;font-size:1rem;letter-spacing:.08em;border:none;border-radius:12px;padding:.8rem;cursor:pointer;transition:.15s;}
+.simple-buy-btn:hover{opacity:.88;}
+.simple-sell-btn{flex:1;background:rgba(255,59,92,.12);color:var(--r);font-family:'Bungee',sans-serif;font-size:1rem;letter-spacing:.08em;border:1px solid rgba(255,59,92,.3);border-radius:12px;padding:.8rem;cursor:pointer;transition:.15s;}
+.simple-sell-btn:hover{background:rgba(255,59,92,.2);}
+/* ══ PROGRESSIVE DISCLOSURE ══ */
+/* Niveaux 0 et 1 : masquer les éléments avancés */
+.ui-locked{display:none!important;}
+.ui-locked-badge{position:relative;opacity:.45;pointer-events:none;}
+.ui-lock-icon{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:1.2rem;z-index:10;}
+/* Bannière de déverrouillage */
+.ui-unlock-toast{position:fixed;top:60px;left:50%;transform:translateX(-50%) translateY(-80px);background:linear-gradient(135deg,rgba(78,194,218,.15),rgba(255,205,13,.1));border:1px solid rgba(78,194,218,.4);border-radius:14px;padding:.7rem 1.5rem;font-family:'Bungee',sans-serif;font-size:.85rem;letter-spacing:.06em;color:var(--y);z-index:5000;transition:transform .4s cubic-bezier(.25,.8,.25,1),opacity .3s;opacity:0;white-space:nowrap;pointer-events:none;text-align:center;}
+.ui-unlock-toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+.ui-unlock-sub{display:block;font-family:'Nunito',sans-serif;font-size:.7rem;font-weight:400;color:var(--soft);letter-spacing:0;margin-top:.2rem;}
 .mkt-title{font-family:'Bungee','Arial Black',impact,sans-serif;font-size:1rem;letter-spacing:.08em;color:var(--g);}
 .mkt-live{display:flex;align-items:center;gap:.35rem;font-size:.66rem;color:var(--muted);}
 .live-dot{width:6px;height:6px;border-radius:50%;background:var(--g);animation:livepulse 2s infinite;}
@@ -611,7 +652,7 @@ table.assets th.clickable:hover{color:var(--y);}
 .mkt-right{display:flex;flex-direction:column;overflow:hidden;}
 
 /* ORDER PANEL */
-.order-panel{border-bottom:1px solid var(--ln);flex-shrink:0;}
+.order-panel{border-bottom:1px solid rgba(78,194,218,.2);flex-shrink:0;background:rgba(78,194,218,.05);border-left:3px solid rgba(78,194,218,.35);}
 .op-toggle{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 1.2rem;cursor:pointer;user-select:none;transition:.18s;gap:.5rem;background:rgba(255,205,13,.08);border-left:3px solid #FFCD0D;box-shadow:inset 0 0 20px rgba(255,205,13,.06);}
 .op-toggle:hover{background:rgba(255,205,13,.14);}
 .op-toggle-label{display:flex;align-items:center;gap:.5rem;font-size:1.3rem;letter-spacing:.14em;text-transform:uppercase;color:#FFCD0D;font-weight:800;text-shadow:0 0 18px rgba(255,205,13,.8);font-family:'Bungee',sans-serif;}
@@ -1321,12 +1362,13 @@ table.assets th.clickable:hover{color:var(--y);}
           <div class="mkt-live"><div class="live-dot"></div>Live simulé</div>
           <span id="alignVal" style="display:none"></span>
           <div class="mkt-time" id="mktTime">--:--:--</div>
+          <button class="mkt-mode-btn" id="mktModeBtn" onclick="toggleSimpleMode()">⊞ Simplifié</button>
         </div>
         <div class="asset-wrap">
           <table class="assets">
             <thead><tr>
               <th class="clickable" onclick="showColTip('actif')">Actif ℹ</th>
-              <th>
+              <th class="col-cat">
                 <div class="cat-th-wrap">
                   <span id="catThLabel" onclick="toggleCatDd()">Cat.</span>
                   <span class="cat-th-arrow" onclick="toggleCatDd()">▾</span>
@@ -1345,8 +1387,8 @@ table.assets th.clickable:hover{color:var(--y);}
               </th>
               <th class="clickable" onclick="showColTip('prix')">Prix ℹ</th>
               <th class="clickable" onclick="showColTip('24h')">24h ℹ</th>
-              <th class="clickable" onclick="showColTip('spark')">7j Spark ℹ</th>
-              <th class="clickable" onclick="showColTip('cap')">Cap. ℹ</th>
+              <th class="col-spark clickable" onclick="showColTip('spark')">7j Spark ℹ</th>
+              <th class="col-cap clickable" onclick="showColTip('cap')">Cap. ℹ</th>
             </tr></thead>
             <tbody id="assetBody"></tbody>
           </table>
@@ -1374,6 +1416,11 @@ table.assets th.clickable:hover{color:var(--y);}
               <button class="ev-close" onclick="event.stopPropagation();closeEvBanner()">✕</button>
             </div>
           </div>
+        </div>
+        <!-- BARRE ACTION SIMPLIFIÉE -->
+        <div class="simple-action-bar" id="simpleActionBar">
+          <button class="simple-buy-btn" onclick="setOrderSide('buy');openOrderPanel();switchTab('market')">▲ ACHETER</button>
+          <button class="simple-sell-btn" onclick="setOrderSide('sell');openOrderPanel();switchTab('market')">▼ VENDRE</button>
         </div>
         <div id="etItems" style="display:none"></div>
       </div>
@@ -1513,6 +1560,7 @@ table.assets th.clickable:hover{color:var(--y);}
       </div>
       <div class="mis-section">
 
+        
         
         <div id="permMissions"></div>
       </div>
@@ -2840,6 +2888,7 @@ let S = {
   journal:[], missions:{}, streak:0, lastPlay:null,
   survivedCrash:false, totalLessons:0, totalBuys:0,
   crisisSurvived:0, limitExecuted:0, debriefRead:0,
+  uiLevel:0,
 };
 
 /* ══ UTILS ══ */
@@ -2857,6 +2906,7 @@ function saveState(){
     diagDone:S.diagDone,diagProfile:S.diagProfile,missions:S.missions,dailyDate:S.dailyDate,
     totalLessons:S.totalLessons,totalBuys:S.totalBuys,
     crisisSurvived:S.crisisSurvived,limitExecuted:S.limitExecuted,debriefRead:S.debriefRead,
+    uiLevel:S.uiLevel,
     journal:S.journal.slice(-200),limitOrders:S.limitOrders,
     positions:S.positions,
   }));}catch(e){}
@@ -2873,6 +2923,7 @@ function loadState(){
     if(s.crisisSurvived)S.crisisSurvived=s.crisisSurvived;
     if(s.limitExecuted)S.limitExecuted=s.limitExecuted;
     if(s.debriefRead)S.debriefRead=s.debriefRead;
+    if(s.uiLevel)S.uiLevel=s.uiLevel;
     if(s.diagProfile){S.diagProfile=s.diagProfile;S.diagDone=true;}
     if(s.limitOrders)S.limitOrders=s.limitOrders;
     if(s.positions)Object.assign(S.positions,s.positions);
@@ -2975,6 +3026,8 @@ function boot(level){
   setInterval(checkLimitOrders,1800);
   saveState();
   if(S._newStreakDay)setTimeout(()=>showStreakAnim(S.streak),1200);
+  setTimeout(()=>{checkUILevel();applyUILevel();},600);
+  maybeTutorial();
 }
 
 function toggleLvlMenu(e){
@@ -3648,11 +3701,11 @@ function buildMarketTable(){
   tbody.innerHTML=list.map(a=>`
     <tr class="asset-row${a.id===S.selectedAsset?' selected':''}" id="row_${a.id}" onclick="selectAsset('${a.id}')">
       <td><div class="td-name"><span style="font-size:1.1rem">${a.emoji}</span>${a.name}</div></td>
-      <td><span class="td-cat" data-cat="${a.cat}">${a.cat}</span></td>
+      <td class="col-cat"><span class="td-cat" data-cat="${a.cat}">${a.cat}</span></td>
       <td class="td-price" id="price_${a.id}">${fmtP(a.base)}</td>
       <td class="td-chg flat" id="chg_${a.id}">—</td>
-      <td><canvas class="spark-canvas" id="spark_${a.id}" width="80" height="32"></canvas></td>
-      <td class="td-chg flat" id="sess_${a.id}">—</td>
+      <td class="col-spark"><canvas class="spark-canvas" id="spark_${a.id}" width="80" height="32"></canvas></td>
+      <td class="col-cap td-chg flat" id="sess_${a.id}">—</td>
     </tr>`).join('');
 }
 
@@ -3882,7 +3935,7 @@ function executeOrder(){
       note:`Vente ${sq.toFixed(4)} × ${fmtP(p)} — PnL: ${pnl>=0?'+':''}${pnl.toFixed(0)} 🪙`});
     showToast('sell','▼',`Vente ${a.emoji} ${a.name}`,`PnL: ${pnl>=0?'+':''}${pnl.toFixed(0)} 🪙`);
   }
-  updateWalletUI();renderPositions();inp.value='';updateOrderSummary();checkMissions();saveState();
+  updateWalletUI();renderPositions();inp.value='';updateOrderSummary();checkMissions();checkUILevel();saveState();
 }
 
 /* ══ LIMIT ORDERS ══ */
@@ -4082,7 +4135,7 @@ function openDebrief(){
     </div>
     <button class="btn-g" id="debriefValidBtn" onclick="closeDebriefWithReward()" style="margin-top:1rem;width:100%">Compris</button>`;
   el('debriefOv').classList.add('show');
-  S.debriefRead++;checkMissions();saveState();
+  S.debriefRead++;checkMissions();checkUILevel();saveState();
 }
 function closeDebriefWithReward(){
   const reward=30;
@@ -5420,6 +5473,150 @@ function botReply(msg){
   }
   return 'Je n\'ai pas bien compris 🤔 Essaie de me poser une question sur : <b>acheter</b>, <b>vendre</b>, <b>streak</b>, <b>tacoins</b>, <b>missions</b>, <b>news éco</b>, <b>journal</b>, <b>profil</b>...';
 }
+/* ══ PROGRESSIVE DISCLOSURE ══ */
+const UI_LEVELS=[
+  {lvl:0,label:null,sub:null},
+  {lvl:1,label:'Interface de base débloquée',sub:'Tableau + Graphique + Bouton Acheter'},
+  {lvl:2,label:'🎉 Suivi Portefeuille débloqué !',sub:'Tu peux suivre tes positions et la session'},
+  {lvl:3,label:'🔓 Ordres Limites débloqués !',sub:'Place des ordres à un prix cible'},
+  {lvl:4,label:'📡 Flux Économique débloqué !',sub:'Lis les news et suis ton alignement de profil'},
+];
+function checkUILevel(){
+  let newLvl=S.uiLevel;
+  if(S.uiLevel<1 && localStorage.getItem('tuto_done'))newLvl=1;
+  if(S.uiLevel<2 && S.totalBuys>=1)newLvl=Math.max(newLvl,2);
+  if(S.uiLevel<3 && S.totalBuys>=3)newLvl=Math.max(newLvl,3);
+  if(S.uiLevel<4 && S.totalBuys>=5 && S.debriefRead>=1)newLvl=Math.max(newLvl,4);
+  if(newLvl>S.uiLevel){
+    const prev=S.uiLevel;S.uiLevel=newLvl;
+    applyUILevel();saveState();
+    if(newLvl>1){showUnlockToast(UI_LEVELS[newLvl]);}
+  }
+}
+function applyUILevel(){
+  const lvl=S.uiLevel;
+  const mktLeft=document.querySelector('.mkt-left');
+  const mktRight=el('mktRight');
+  const evBanner=el('evBanner');
+  const alignWrap=el('alignBarWrap');
+  const lq=el('limitQueue');
+  const otLmt=el('otLmt');
+  const sab=el('simpleActionBar');
+  const btn=el('mktModeBtn');
+
+  // Niveau 0 : tutoriel pas encore vu — tout masquer sauf le tutoriel
+  if(lvl===0){
+    if(mktRight)mktRight.classList.add('ui-locked');
+    if(evBanner)evBanner.classList.add('ui-locked');
+    if(alignWrap)alignWrap.classList.add('ui-locked');
+    if(lq)lq.classList.add('ui-locked');
+    if(otLmt)otLmt.classList.add('ui-locked');
+    if(mktLeft){mktLeft.classList.add('simplified');_simpleMode=true;}
+    if(sab)sab.style.display='flex';
+    if(btn){btn.style.display='none';}
+    return;
+  }
+
+  // Niveau 1 : tableau simplifié + graphique + bouton acheter/vendre
+  if(lvl===1){
+    if(mktLeft){mktLeft.classList.add('simplified');_simpleMode=true;}
+    if(btn){btn.style.display='none';}
+    if(mktRight)mktRight.classList.add('ui-locked');
+    if(evBanner)evBanner.classList.add('ui-locked');
+    if(alignWrap)alignWrap.classList.add('ui-locked');
+    if(lq)lq.classList.add('ui-locked');
+    if(otLmt)otLmt.classList.add('ui-locked');
+    if(sab)sab.style.display='flex';
+    return;
+  }
+
+  // Niveau 2+ : tableau complet + panneau droit + portefeuille
+  if(mktLeft){mktLeft.classList.remove('simplified');_simpleMode=false;}
+  if(btn){btn.style.display='';btn.textContent='⊞ Simplifié';btn.classList.remove('simple');}
+  if(mktRight)mktRight.classList.remove('ui-locked');
+  if(alignWrap)alignWrap.classList.remove('ui-locked');
+  if(sab)sab.style.display='none';
+
+  // Niveau 3+ : ordres limites
+  if(lvl>=3){
+    if(lq)lq.classList.remove('ui-locked');
+    if(otLmt)otLmt.classList.remove('ui-locked');
+  }else{
+    if(lq)lq.classList.add('ui-locked');
+    if(otLmt)otLmt.classList.add('ui-locked');
+  }
+
+  // Niveau 4+ : flux éco + alignement
+  if(lvl>=4){
+    if(evBanner)evBanner.classList.remove('ui-locked');
+    if(alignWrap)alignWrap.classList.remove('ui-locked');
+  }else{
+    if(evBanner)evBanner.classList.add('ui-locked');
+  }
+}
+function showUnlockToast(lvlObj){
+  const t=el('uiUnlockToast');
+  if(!t)return;
+  t.innerHTML=lvlObj.label+(lvlObj.sub?`<span class="ui-unlock-sub">${lvlObj.sub}</span>`:'');
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3500);
+}
+/* ══ MODE SIMPLIFIÉ ══ */
+let _simpleMode=false;
+function toggleSimpleMode(){
+  _simpleMode=!_simpleMode;
+  const mktLeft=document.querySelector('.mkt-left');
+  const btn=el('mktModeBtn');
+  if(_simpleMode){
+    mktLeft.classList.add('simplified');
+    btn.textContent='⊟ Complet';
+    btn.classList.add('simple');
+  }else{
+    mktLeft.classList.remove('simplified');
+    btn.textContent='⊞ Simplifié';
+    btn.classList.remove('simple');
+  }
+}
+/* ══ TUTORIEL 5 ÉTAPES ══ */
+const TUTO_STEPS=[
+  {icon:'🚀',title:'Bienvenue sur TACTIC !',body:'Tu vas apprendre à investir en simulant avec de vrais marchés — sans risquer un centime réel. En 5 étapes, je t\'explique comment ça marche.'},
+  {icon:'📚',title:'Apprendre',body:'L\'onglet <span class="tuto-highlight">Apprendre</span> contient des leçons classées par thème. Complète-les pour gagner des <span class="tuto-highlight">Tacoins</span> et débloquer de nouvelles notions.'},
+  {icon:'📈',title:'La Salle des Marchés',body:'Dans <span class="tuto-highlight">Marchés</span>, tu peux acheter et vendre des actifs (ETF, actions, obligations, or…) avec tes Tacoins. Observe les cours en temps réel et entraîne-toi à passer des ordres.'},
+  {icon:'🎯',title:'Missions',body:'Chaque jour, 3 <span class="tuto-highlight">missions du jour</span> se renouvellent. Des missions permanentes sont aussi disponibles. Complète-les pour gagner des Tacoins bonus !'},
+  {icon:'🏆',title:'C\'est parti !',body:'Ton <span class="tuto-highlight">profil investisseur</span> se construit au fil du temps. Connecte-toi chaque jour pour maintenir ton <span class="tuto-highlight">streak 🔥</span> et progresse vers le niveau Expert !'},
+];
+let _tutoIdx=0;
+function showTutorial(){
+  _tutoIdx=0;
+  el('tutorialOv').classList.add('show');
+  renderTutoStep();
+}
+function closeTutorial(){
+  el('tutorialOv').classList.remove('show');
+  localStorage.setItem('tuto_done','1');
+  checkUILevel();
+}
+function tutoNext(){
+  _tutoIdx++;
+  if(_tutoIdx>=TUTO_STEPS.length){closeTutorial();return;}
+  // re-trigger animation
+  const card=el('tutoCard');
+  card.style.animation='none';
+  requestAnimationFrame(()=>{card.style.animation='';renderTutoStep();});
+}
+function renderTutoStep(){
+  const s=TUTO_STEPS[_tutoIdx];
+  el('tutoIcon').innerHTML=s.icon;
+  el('tutoTitle').textContent=s.title;
+  el('tutoBody').innerHTML=s.body;
+  const btn=el('tutoNextBtn');
+  btn.textContent=_tutoIdx===TUTO_STEPS.length-1?'C\'est parti ! 🚀':'Suivant →';
+  // dots
+  el('tutoDots').innerHTML=TUTO_STEPS.map((_,i)=>`<div class="tuto-dot${i===_tutoIdx?' active':i<_tutoIdx?' done':''}"></div>`).join('');
+}
+function maybeTutorial(){
+  if(!localStorage.getItem('tuto_done'))setTimeout(showTutorial,1800);
+}
 function toggleChatbot(){
   const p=el('chatbotPanel');
   p.classList.toggle('open');
@@ -5485,6 +5682,23 @@ function chatbotKeydown(e){if(e.key==='Enter'){const v=el('chatbotInput').value.
   </div>
 </div>
 <button class="chatbot-fab" id="chatbotFab" onclick="toggleChatbot();this.classList.toggle('open')" title="Aide">🤖</button>
+
+<!-- UNLOCK TOAST -->
+<div class="ui-unlock-toast" id="uiUnlockToast"></div>
+
+<!-- TUTORIEL 5 ÉTAPES -->
+<div id="tutorialOv">
+  <div class="tuto-card" id="tutoCard">
+    <div class="tuto-step-dots" id="tutoDots"></div>
+    <div class="tuto-icon" id="tutoIcon"></div>
+    <div class="tuto-title" id="tutoTitle"></div>
+    <div class="tuto-body" id="tutoBody"></div>
+    <div class="tuto-nav">
+      <button class="tuto-skip" onclick="closeTutorial()">Passer</button>
+      <button class="tuto-next" id="tutoNextBtn" onclick="tutoNext()">Suivant →</button>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
