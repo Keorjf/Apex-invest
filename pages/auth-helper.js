@@ -2,8 +2,8 @@
 // APEX INVEST — Auth Helper (GitHub Pages / Supabase + fallback localStorage)
 // ═══════════════════════════════════════════════════════════
 
-const SUPABASE_URL      = 'https://vsukkuqcbgsdknlmvbhs.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_yjBSLfDA_G1TnoSmgEGAHw_yJpcid26';
+const SUPABASE_URL      = 'https://twjyajjfndsquhctxgvm.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3anlhampmbmRzcXVoY3R4Z3ZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2MDcyODgsImV4cCI6MjA5MDE4MzI4OH0.7WKBEjl-NwhZWLjfR0nxSZNPlUNVVRKv4DonpVrA12M';
 
 // Initialisation Supabase — si ça échoue, db reste null et on bascule sur localStorage
 let db = null;

@@ -169,11 +169,6 @@ if (typeof url       === 'undefined') { window.url       = p => p; }
 if (typeof redirect  === 'undefined') { window.redirect  = p => { window.location.href = p; }; }
 if (typeof lsSetSession==='undefined'){ window.lsSetSession = d => localStorage.setItem('apex_session', JSON.stringify(d)); }
 if (typeof db        === 'undefined') { window.db = null; }
-// Si la clé Supabase n'est pas un JWT valide, forcer mode local
-if (typeof db !== 'undefined' && db !== null && typeof window.supabase !== 'undefined') {
-  const key = 'sb_publishable_yjBSLfDA_G1TnoSmgEGAHw_yJpcid26';
-  if (!key.startsWith('eyJ')) { window.db = null; }
-}
 if (typeof requireGuest === 'function') requireGuest();
 
 
@@ -209,7 +204,7 @@ function checkMatch() {
   c.classList.toggle('invalid', c.value.length > 0 && c.value !== p);
 }
 
-function handleRegister(e) {
+async function handleRegister(e) {
   e.preventDefault();
   const btn = document.getElementById('submitBtn');
 
@@ -220,7 +215,6 @@ function handleRegister(e) {
   const lastName  = (document.getElementById('lastName').value || '').trim();
   const cgu       = document.getElementById('cguCheck').checked;
 
-  // Validation
   const errEl = document.getElementById('error-msg');
   function showErr(msg) {
     if (!errEl) { alert(msg); return; }
@@ -238,19 +232,27 @@ function handleRegister(e) {
 
   btn.classList.add('loading'); btn.disabled = true;
 
-  // Création compte en localStorage (toujours fiable)
-  const user = {
-    id: 'user_' + Date.now(),
-    email,
-    full_name: ((firstName + ' ' + lastName).trim()) || email,
-    level: selectedLevel || 'Débutant',
-    created_at: new Date().toISOString()
-  };
+  // ── Tentative Supabase ──────────────────────────────────────────────────────
+  if (typeof db !== 'undefined' && db !== null) {
+    try {
+      const { data, error } = await db.auth.signUp({
+        email,
+        password,
+        options: { data: { full_name: ((firstName + ' ' + lastName).trim()) || email, level: selectedLevel || 'Débutant' } }
+      });
+      if (error) { showErr(typeof translateError === 'function' ? translateError(error.message) : error.message); return; }
+      const uid = data.user ? data.user.id : ('user_' + Date.now());
+      lsSetSession({ id: uid, email, full_name: ((firstName + ' ' + lastName).trim()) || email });
+    } catch(err) {
+      // Supabase inaccessible — fallback localStorage
+      lsSetSession({ id: 'user_' + Date.now(), email, full_name: ((firstName + ' ' + lastName).trim()) || email });
+    }
+  } else {
+    // Mode local uniquement
+    lsSetSession({ id: 'user_' + Date.now(), email, full_name: ((firstName + ' ' + lastName).trim()) || email });
+  }
 
-  localStorage.setItem('apex_session', JSON.stringify(user));
-  localStorage.setItem('ta_user_' + email, JSON.stringify({ ...user, pw: btoa(password) }));
-
-  // Affichage succès
+  // Succès
   const form = document.getElementById('form');
   if (form) form.style.display = 'none';
   const s = document.getElementById('success-msg');
@@ -258,10 +260,7 @@ function handleRegister(e) {
     s.innerHTML = '✅ <strong>Compte créé !</strong> Bienvenue <strong>' + (firstName || email) + '</strong> — redirection…';
     s.style.display = 'block';
   }
-
-  setTimeout(function() {
-    window.location.href = 'pages/academy.html';
-  }, 1200);
+  setTimeout(function() { window.location.href = 'pages/academy.html'; }, 1200);
 }
 
 async function registerGoogle() {
