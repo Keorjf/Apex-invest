@@ -151,7 +151,7 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 .sp-stat-icon{font-size:.9rem;flex-shrink:0;width:20px;text-align:center;}
 .sp-stat-lbl{color:#9bbfcc;flex:1;font-size:.78rem;font-weight:600;}
 .sp-stat-val{font-weight:700;color:var(--txt);font-size:.82rem;}
-.sp-section-title{font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;font-weight:900;color:#ffffff;background:rgba(20,60,100,.55);border-left:none;border-radius:7px;margin:1.8rem 0 .8rem;padding:.65rem 1rem;text-align:center;border:1px solid rgba(77,158,255,.18);}
+.sp-section-title{font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;font-weight:900;color:var(--b);background:rgba(20,60,100,.55);border-left:none;border-radius:7px;margin:1.8rem 0 .8rem;padding:.65rem 1rem;text-align:center;border:1px solid rgba(77,158,255,.18);}
 .sp-tag{display:inline-block;font-size:.6rem;padding:.15rem .5rem;border-radius:4px;margin:.18rem .1rem;font-weight:600;}
 .sp-tag.force{background:rgba(78,194,218,.12);color:#4EC2DA;border:1px solid rgba(78,194,218,.3);}
 .sp-tag.faiblesse{background:rgba(255,59,92,.1);color:#FF3B5C;border:1px solid rgba(255,59,92,.25);}
@@ -3395,16 +3395,16 @@ function buildSidebarProfile(){
     <div style="margin-bottom:.8rem">
       <div style="display:flex;justify-content:space-between;font-size:.62rem;color:var(--muted);margin-bottom:.4rem;font-weight:600"><span>Faible</span><span>Élevée</span></div>
       <div class="sp-risk-track"><div class="sp-risk-fill" style="width:${m.risque}%;background:linear-gradient(to right,var(--r),var(--g))"></div></div>
-      <div style="font-size:.75rem;color:var(--muted);margin-top:.4rem">${m.aversion}</div>
+      <div style="font-size:.75rem;color:#fff;margin-top:.4rem">${m.aversion}</div>
     </div>
 
     <div class="sp-section-title">Horizon d'investissement</div>
-    <div style="font-size:.78rem;font-weight:700;color:var(--muted);padding:.2rem 0 .8rem">${m.horizon}</div>
+    <div style="font-size:.78rem;font-weight:700;color:#fff;padding:.2rem 0 .8rem">${m.horizon}</div>
 
     <div class="sp-section-title">Allocation cible</div>
     <div class="sp-alloc-bar" style="margin-bottom:.6rem">${allocBar}</div>
     <div style="display:flex;flex-direction:column;gap:.3rem;margin-bottom:.6rem">
-      ${p.alloc.map(a=>`<div style="display:flex;align-items:center;gap:.5rem;font-size:.76rem"><span style="width:8px;height:8px;border-radius:50%;background:${a.color};flex-shrink:0"></span><span style="flex:1;color:var(--muted)">${a.name}</span><span style="color:var(--txt);font-weight:700">${a.pct}%</span></div>`).join('')}
+      ${p.alloc.map(a=>`<div style="display:flex;align-items:center;gap:.5rem;font-size:.76rem"><span style="width:8px;height:8px;border-radius:50%;background:${a.color};flex-shrink:0"></span><span style="flex:1;color:#fff">${a.name}</span><span style="color:#fff;font-weight:700">${a.pct}%</span></div>`).join('')}
     </div>
 
     <button onclick="openDiag()" style="width:100%;margin-top:1rem;padding:.6rem;background:rgba(255,205,13,.12);border:1px solid rgba(255,205,13,.35);border-radius:7px;font-size:.75rem;color:var(--g);cursor:pointer;letter-spacing:.04em;font-weight:700">↺ Refaire le diagnostic</button>
