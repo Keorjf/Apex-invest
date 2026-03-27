@@ -3491,16 +3491,16 @@ function buildSidebarProfile(){
     <div style="margin-bottom:.8rem">
       <div style="display:flex;justify-content:space-between;font-size:.62rem;color:var(--muted);margin-bottom:.4rem;font-weight:600"><span>${(TRANSLATIONS[_lang]||TRANSLATIONS.fr).spRiskLow}</span><span>${(TRANSLATIONS[_lang]||TRANSLATIONS.fr).spRiskHigh}</span></div>
       <div class="sp-risk-track"><div class="sp-risk-fill" style="width:${m.risque}%;background:linear-gradient(to right,var(--r),var(--g))"></div></div>
-      <div style="font-size:.75rem;color:#fff;margin-top:.4rem">${m.aversion}</div>
+      <div style="font-size:.75rem;color:#fff;margin-top:.4rem">${tr(PROFILE_I18N.aversion,m.aversion)}</div>
     </div>
 
     <div class="sp-section-title">${(TRANSLATIONS[_lang]||TRANSLATIONS.fr).spHorizon}</div>
-    <div style="font-size:.78rem;font-weight:700;color:#fff;padding:.2rem 0 .8rem">${m.horizon}</div>
+    <div style="font-size:.78rem;font-weight:700;color:#fff;padding:.2rem 0 .8rem">${tr(PROFILE_I18N.horizon,m.horizon)}</div>
 
     <div class="sp-section-title">${(TRANSLATIONS[_lang]||TRANSLATIONS.fr).spAlloc}</div>
     <div class="sp-alloc-bar" style="margin-bottom:.6rem">${allocBar}</div>
     <div style="display:flex;flex-direction:column;gap:.3rem;margin-bottom:.6rem">
-      ${p.alloc.map(a=>`<div style="display:flex;align-items:center;gap:.5rem;font-size:.76rem"><span style="width:8px;height:8px;border-radius:50%;background:${a.color};flex-shrink:0"></span><span style="flex:1;color:#fff">${a.name}</span><span style="color:#fff;font-weight:700">${a.pct}%</span></div>`).join('')}
+      ${p.alloc.map(a=>`<div style="display:flex;align-items:center;gap:.5rem;font-size:.76rem"><span style="width:8px;height:8px;border-radius:50%;background:${a.color};flex-shrink:0"></span><span style="flex:1;color:#fff">${tr(PROFILE_I18N.alloc,a.name)}</span><span style="color:#fff;font-weight:700">${a.pct}%</span></div>`).join('')}
     </div>
 
     <button onclick="openDiag()" style="width:100%;margin-top:1rem;padding:.6rem;background:rgba(255,205,13,.12);border:1px solid rgba(255,205,13,.35);border-radius:7px;font-size:.75rem;color:var(--g);cursor:pointer;letter-spacing:.04em;font-weight:700">${(TRANSLATIONS[_lang]||TRANSLATIONS.fr).spDiagBtn}</button>
@@ -5917,6 +5917,51 @@ const TRANSLATIONS = {
 };
 
 let _lang = localStorage.getItem('apex_lang') || 'fr';
+
+// Maps de traduction pour les données dynamiques du profil investisseur
+const PROFILE_I18N = {
+  horizon: {
+    'Court / Moyen terme (< 5 ans)':         {en:'Short / Medium term (< 5 yrs)',  es:'Corto / Medio plazo (< 5 años)'},
+    'Moyen terme (5-10 ans)':                 {en:'Medium term (5-10 yrs)',          es:'Medio plazo (5-10 años)'},
+    'Moyen / Long terme (7-15 ans)':          {en:'Medium / Long term (7-15 yrs)',   es:'Medio / Largo plazo (7-15 años)'},
+    'Long terme (10-20 ans)':                 {en:'Long term (10-20 yrs)',           es:'Largo plazo (10-20 años)'},
+    'Très long terme (15+ ans)':              {en:'Very long term (15+ yrs)',        es:'Muy largo plazo (15+ años)'},
+  },
+  aversion: {
+    'Très faible — tu préfères la sécurité avant tout.':
+      {en:'Very low — you prioritize safety above all.', es:'Muy baja — priorizas la seguridad ante todo.'},
+    'Faible — tu acceptes de légères pertes mais cherches la stabilité.':
+      {en:'Low — you accept small losses but seek stability.', es:'Baja — aceptas pequeñas pérdidas pero buscas estabilidad.'},
+    'Modérée — tu équilibres risque et rendement sur le long terme.':
+      {en:'Moderate — you balance risk and return over the long term.', es:'Moderada — equilibras riesgo y rentabilidad a largo plazo.'},
+    'Élevée — tu vois les baisses comme des opportunités d\'achat.':
+      {en:'High — you see downturns as buying opportunities.', es:'Alta — ves las caídas como oportunidades de compra.'},
+    'Très élevée — tu ignores la volatilité et penses en décennies.':
+      {en:'Very high — you ignore volatility and think in decades.', es:'Muy alta — ignoras la volatilidad y piensas en décadas.'},
+  },
+  alloc: {
+    'Monétaire / Livrets':       {en:'Money market / Savings', es:'Monetario / Ahorro'},
+    'Obligations souveraines':   {en:'Government bonds',       es:'Bonos soberanos'},
+    'ETF Monde':                 {en:'World ETF',              es:'ETF Mundial'},
+    'ETF Monde + Factor':        {en:'World ETF + Factor',     es:'ETF Mundial + Factor'},
+    'Or':                        {en:'Gold',                   es:'Oro'},
+    'Or + Buffer':               {en:'Gold + Buffer',          es:'Oro + Buffer'},
+    'Obligations (mix)':         {en:'Bonds (mix)',            es:'Bonos (mix)'},
+    'Obligations':               {en:'Bonds',                  es:'Bonos'},
+    'Actions Europe':            {en:'European stocks',        es:'Acciones europeas'},
+    'Actions sectorielles':      {en:'Sector stocks',          es:'Acciones sectoriales'},
+    'Actions tech':              {en:'Tech stocks',            es:'Acciones tech'},
+    'ETF Émergents':             {en:'Emerging ETF',           es:'ETF Emergentes'},
+    'Tech / IA':                 {en:'Tech / AI',              es:'Tech / IA'},
+    'Émergents':                 {en:'Emerging markets',       es:'Mercados emergentes'},
+    'Bitcoin':                   {en:'Bitcoin',                es:'Bitcoin'},
+  }
+};
+
+function tr(map, key) {
+  if(_lang === 'fr' || !map[key]) return key;
+  return map[key][_lang] || key;
+}
 
 function setLang(lang) {
   _lang = lang;
