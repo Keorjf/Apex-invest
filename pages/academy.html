@@ -1115,6 +1115,49 @@ table.assets th.clickable:hover{color:var(--y);}
   .journal-wrap,.missions-wrap{padding:1rem;}
 }
 
+/* ── BOTTOM NAV (mobile) ──────────────────────────────────────────────────── */
+.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;height:58px;background:rgba(8,22,32,.97);border-top:1px solid var(--ln);z-index:250;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);}
+.bn-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:none;border:none;color:var(--muted);cursor:pointer;font-family:'Nunito',sans-serif;font-size:.58rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:.4rem 0;transition:color .2s;-webkit-tap-highlight-color:transparent;}
+.bn-btn .bn-icon{font-size:1.35rem;line-height:1;transition:transform .2s;}
+.bn-btn.active{color:var(--y);}
+.bn-btn.active .bn-icon{transform:scale(1.15);}
+
+@media(max-width:768px){
+  /* Bottom nav visible */
+  .bottom-nav{display:flex;}
+  /* Masque les boutons de nav dans la topbar */
+  #navLearn,#navMarket,#navMissions,#navJournal,#navProfil{display:none!important;}
+  /* Padding bas pour ne pas être masqué par la bottom nav */
+  .tab{padding-bottom:66px;}
+  /* Topbar : affiche le titre centré */
+  .tb-center-title{display:block!important;}
+  /* Améliore les zones tactiles */
+  .tb-btn{min-height:36px;padding:.4rem .65rem;font-size:.72rem;}
+  .tb-wallet{min-height:30px;font-size:.72rem;padding:.25rem .6rem;}
+  /* Contenu */
+  .journal-wrap,.missions-wrap{padding:.85rem .8rem;}
+  .learn-main{padding:.85rem .8rem;}
+  /* Market */
+  .market-layout{grid-template-columns:1fr;}
+  .mkt-right{display:none;}
+  /* Agrandit les boutons d'action */
+  .mkt-mode-btn{padding:.5rem .7rem;font-size:.7rem;}
+  table.assets td,table.assets th{padding:.55rem .4rem;font-size:.72rem;}
+  /* Sidebar profil : pleine largeur */
+  .learn-sidebar{width:100%;border-right:none;}
+  /* Profile tab */
+  #profilPage{padding:.8rem .9rem;}
+  /* Chatbot */
+  .chatbot-fab{bottom:70px;}
+  .chatbot-panel{bottom:70px;}
+  /* Notif nudge */
+  .low-nudge{bottom:70px;}
+  /* Toasts */
+  .toast{max-width:calc(100vw - 2rem);}
+  /* Settings overlay body padding */
+  .set-body{padding:1rem .8rem 4rem;}
+}
+
 /* ── Titres Bungee : contour noir + ombre jaune ── */
 .sp-h1,.lh-title,.map-title,.cc-title,.jw-title,.mis-title,.cw-title,.tb-brand,.track-nm,.deb-event,.ul-title{
   
@@ -1318,6 +1361,25 @@ table.assets th.clickable:hover{color:var(--y);}
     <div class="tb-wallet" id="tbStreak" style="color:var(--o);border-color:rgba(255,140,0,.3)">🔥 <span id="tbStreakDays">0j</span></div>
     <div class="tb-wallet" id="tbWallet">🪙 500</div>
     <button class="tb-btn" onclick="goSplash()">↩</button>
+  </nav>
+
+  <!-- BOTTOM NAV (mobile) -->
+  <nav class="bottom-nav" id="bottomNav">
+    <button class="bn-btn active" data-tab="learn" onclick="switchTab('learn')">
+      <span class="bn-icon">📚</span>Apprendre
+    </button>
+    <button class="bn-btn" data-tab="market" onclick="switchTab('market')">
+      <span class="bn-icon">📈</span>Marchés
+    </button>
+    <button class="bn-btn" data-tab="missions" onclick="switchTab('missions')">
+      <span class="bn-icon">🎯</span>Missions
+    </button>
+    <button class="bn-btn" data-tab="journal" onclick="switchTab('journal')">
+      <span class="bn-icon">📓</span>Journal
+    </button>
+    <button class="bn-btn" data-tab="profil" onclick="switchTab('profil')">
+      <span class="bn-icon">👤</span>Profil
+    </button>
   </nav>
 
   <!-- LEARN -->
@@ -3177,9 +3239,12 @@ function switchTab(tab){
   S.activeTab=tab;
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.tb-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.bn-btn').forEach(b=>b.classList.remove('active'));
   const tabEl=el('tab'+cap(tab));const navEl=el('nav'+cap(tab));
   if(tabEl)tabEl.classList.add('active');
   if(navEl)navEl.classList.add('active');
+  const bnEl=document.querySelector('.bn-btn[data-tab="'+tab+'"]');
+  if(bnEl)bnEl.classList.add('active');
   if(tab==='market'){refreshMarketUI();if(!S.diagDone)openDiag();}
   if(tab==='missions')renderMissions();
   if(tab==='journal')renderJournal();
