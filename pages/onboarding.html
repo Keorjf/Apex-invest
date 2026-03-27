@@ -366,9 +366,28 @@ var supaSession = null;
   buildTicker();
   updateHorizon(5);
 
+  // Fallback localStorage (mode local sans Supabase)
+  var lsSession = null;
+  try { lsSession = JSON.parse(localStorage.getItem('apex_session')||'null'); } catch(_) {}
+
+  if (!db || !db.auth) {
+    // Mode local : session depuis localStorage
+    if (!lsSession) { window.location.href = 'login.html'; return; }
+    supaSession = { user: lsSession };
+    var meta = lsSession;
+    var firstName = meta.full_name ? meta.full_name.split(' ')[0] : (meta.email||'').split('@')[0];
+    var el = document.getElementById('welcomeName');
+    if (el) el.textContent = firstName;
+    return;
+  }
+
   db.auth.getSession().then(function(res) {
     var session = res.data && res.data.session;
-    if (!session) { redirect('/pages/login.html'); return; }
+    if (!session) {
+      // Fallback localStorage
+      if (lsSession) { supaSession = { user: lsSession }; return; }
+      redirect('/pages/login.html'); return;
+    }
     supaSession = session;
 
     getUserProfile(session.user.id).then(function(profile) {
@@ -609,7 +628,7 @@ function saveOnboarding() {
 function launchApp() {
   var btn = document.getElementById('launchBtn');
   btn.classList.add('loading'); btn.disabled = true;
-  setTimeout(function() { redirect('/app.html'); }, 1200);
+  setTimeout(function() { window.location.href = 'academy.html'; }, 1200);
 }
 
 // ── Ticker ───────────────────────────────────────────
