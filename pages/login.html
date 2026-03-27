@@ -185,7 +185,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:var(--bo
     </button>
 
     <div class="form-links">
-      Pas encore de compte ?<span class="sep">·</span><a href="register.html">Créer un compte</a>
+      Pas encore de compte ?<span class="sep">·</span><a href="../index.html">Créer un compte</a>
     </div>
   </div>
 
@@ -241,29 +241,44 @@ async function handleLogin(e) {
   const email = document.getElementById('email').value.trim();
   const password = document.getElementById('password').value;
 
-  // Tentative Supabase avec timeout de 6 secondes
+  // ── Tentative Supabase ──────────────────────────────────────────────────────
   if (db) {
     try {
       const { data, error } = await withTimeout(db.auth.signInWithPassword({ email, password }), 6000);
-      btn.classList.remove('loading'); btn.disabled = false;
-      if (error) { showError(translateError(error.message)); return; }
-      lsSetSession({ id: data.user.id, email: data.user.email });
-      redirect('/pages/academy.html');
-      return;
-    } catch (err) {
-      if (err.message !== 'TIMEOUT') {
-        btn.classList.remove('loading'); btn.disabled = false;
-        showError('Erreur : ' + err.message);
-        return;
+      if (error) {
+        const isNet = error.message && (error.message.includes('fetch') || error.message.includes('network'));
+        if (!isNet) {
+          btn.classList.remove('loading'); btn.disabled = false;
+          showError(translateError(error.message)); return;
+        }
+        // Erreur réseau → fallback localStorage
+      } else {
+        lsSetSession({ id: data.user.id, email: data.user.email, full_name: data.user.user_metadata?.full_name || email });
+        redirect('/pages/academy.html'); return;
       }
-      // Timeout → fallback localStorage
+    } catch (err) {
+      // Timeout ou autre → fallback localStorage
     }
   }
 
-  // Fallback : authentification locale (mode démo / Supabase inaccessible)
+  // ── Fallback localStorage ───────────────────────────────────────────────────
+  const stored = localStorage.getItem('ta_user_' + email);
+  if (stored) {
+    try {
+      const u = JSON.parse(stored);
+      if (u.pw && atob(u.pw) === password) {
+        lsSetSession({ id: u.id, email: u.email, full_name: u.full_name });
+        btn.classList.remove('loading'); btn.disabled = false;
+        redirect('/pages/academy.html'); return;
+      }
+    } catch(_) {}
+    btn.classList.remove('loading'); btn.disabled = false;
+    showError('Mot de passe incorrect.'); return;
+  }
+
+  // Aucun compte trouvé localement
   btn.classList.remove('loading'); btn.disabled = false;
-  lsSetSession({ email, id: 'local_' + Date.now(), demo: true });
-  redirect('/pages/academy.html');
+  showError('Compte introuvable. Crée un compte ou vérifie ton email.');
 }
 
 function demoAccess() {
