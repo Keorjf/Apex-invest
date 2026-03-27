@@ -3321,35 +3321,35 @@ const PROFILE_META={
     horizon:'Court / Moyen terme (< 5 ans)',risque:15,
     forces:['Capital protégé','Peu de stress','Sommeil tranquille','Stabilité'],
     faiblesses:['Rendement limité','Inflation dévore les gains','Pas de croissance long terme'],
-    aversion:'Très élevée — tu préfères zéro gain plutôt que de risquer une perte.',
+    aversion:'Très faible — tu préfères la sécurité avant tout.',
     style:'Défensif'
   },
   conservateur:{
     horizon:'Moyen terme (5-10 ans)',risque:35,
     forces:['Équilibre rendement/risque','Résiste aux krachs','Diversification solide'],
     faiblesses:['Sous-performe en période de hausse','Croissance modérée'],
-    aversion:'Élevée — tu acceptes de petites pertes temporaires mais détestes les grosses chutes.',
+    aversion:'Faible — tu acceptes de légères pertes mais cherches la stabilité.',
     style:'Prudent'
   },
   modere:{
     horizon:'Moyen / Long terme (7-15 ans)',risque:55,
     forces:['Bon rapport risque/rendement','Diversification efficace','Croissance régulière'],
     faiblesses:['Volatilité modérée','Discipline de rééquilibrage nécessaire'],
-    aversion:'Modérée — tu acceptes -20% temporaire si la thèse long terme tient.',
+    aversion:'Modérée — tu équilibres risque et rendement sur le long terme.',
     style:'Équilibré'
   },
   dynamique:{
     horizon:'Long terme (10-20 ans)',risque:75,
     forces:['Forte croissance long terme','Exposition aux meilleurs actifs','Potentiel élevé'],
     faiblesses:['Volatilité forte','-40% possibles en crise','Discipline émotionnelle requise'],
-    aversion:'Faible — tu vois les krachs comme des opportunités d\'achat.',
+    aversion:'Élevée — tu vois les baisses comme des opportunités d\'achat.',
     style:'Offensif'
   },
   offensif:{
     horizon:'Très long terme (15+ ans)',risque:95,
     forces:['Rendement maximum potentiel','Accès aux actifs les plus performants','Mindset de chasseur'],
     faiblesses:['Très haute volatilité','Risque de perte > 50%','Exige sang-froid absolu'],
-    aversion:'Très faible — tu ignores la volatilité et penses en décennies.',
+    aversion:'Très élevée — tu ignores la volatilité et penses en décennies.',
     style:'Agressif'
   }
 };
@@ -3393,7 +3393,7 @@ function buildSidebarProfile(){
     <div class="sp-section-title">Tolérance au risque</div>
     <div style="margin-bottom:.5rem">
       <div style="display:flex;justify-content:space-between;font-size:.62rem;color:#c8e8f0;margin-bottom:.35rem;font-weight:600"><span>Faible</span><span>Élevée</span></div>
-      <div class="sp-risk-track"><div class="sp-risk-fill" style="width:${100-m.risque}%;background:linear-gradient(to right,var(--g),var(--r))"></div></div>
+      <div class="sp-risk-track"><div class="sp-risk-fill" style="width:${m.risque}%;background:linear-gradient(to right,var(--r),var(--g))"></div></div>
       <div style="font-size:.78rem;color:#dff0f5;line-height:1.6;margin-top:.5rem">${m.aversion}</div>
     </div>
 
