@@ -1697,13 +1697,6 @@ table.assets th.clickable:hover{color:var(--y);}
     <div id="profileDots"></div>
     <div class="prof-swipe-hint">← Swipe pour voir les autres profils →</div>
   </div>
-  <div class="settings-btn-wrap">
-    <button class="settings-btn" onclick="openSettings()">
-      <span class="sb-icon">⚙️</span>
-      <span class="sb-label">Paramètres</span>
-      <span class="sb-arrow">›</span>
-    </button>
-  </div>
 </div>
 
 <!-- ═══════════════════════════════════
@@ -3434,6 +3427,7 @@ function buildSidebarProfile(){
 
     <div class="sp-advice-box" style="font-size:.8rem;color:#dff0f5;line-height:1.65">💡 ${p.advice}</div>
     <button onclick="openDiag()" style="width:100%;margin-top:1rem;padding:.6rem;background:transparent;border:1px solid var(--ln2);border-radius:7px;font-size:.75rem;color:#9bbfcc;cursor:pointer;letter-spacing:.04em">↺ Refaire le diagnostic</button>
+    <button onclick="openSettings()" style="width:100%;margin-top:.5rem;padding:.6rem;background:transparent;border:1px solid var(--ln2);border-radius:7px;font-size:.75rem;color:#9bbfcc;cursor:pointer;letter-spacing:.04em;display:flex;align-items:center;justify-content:center;gap:.4rem">⚙️ Paramètres</button>
   </div>`;
 }
 function toggleSidebar(){
