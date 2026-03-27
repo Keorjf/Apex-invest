@@ -3388,32 +3388,27 @@ function buildSidebarProfile(){
     <div class="sp-hero">
       <span class="sp-emo">${p.emoji}</span>
       <div class="sp-name">${p.name}</div>
-      <span class="sp-badge" style="background:${p.color}22;color:${p.color};border:1px solid ${p.color}44">${m.style}</span>
+      <span class="sp-badge" style="background:rgba(20,60,100,.55);color:var(--y);border:1px solid rgba(77,158,255,.18)">${m.style}</span>
     </div>
+
     <div class="sp-section-title">Tolérance au risque</div>
-    <div style="margin-bottom:.5rem">
-      <div style="display:flex;justify-content:space-between;font-size:.62rem;color:#c8e8f0;margin-bottom:.35rem;font-weight:600"><span>Faible</span><span>Élevée</span></div>
+    <div style="margin-bottom:.8rem">
+      <div style="display:flex;justify-content:space-between;font-size:.62rem;color:var(--muted);margin-bottom:.4rem;font-weight:600"><span>Faible</span><span>Élevée</span></div>
       <div class="sp-risk-track"><div class="sp-risk-fill" style="width:${m.risque}%;background:linear-gradient(to right,var(--r),var(--g))"></div></div>
-      <div style="font-size:.78rem;color:#dff0f5;line-height:1.6;margin-top:.5rem">${m.aversion}</div>
+      <div style="font-size:.75rem;color:var(--muted);margin-top:.4rem">${m.aversion}</div>
     </div>
 
     <div class="sp-section-title">Horizon d'investissement</div>
-    <div style="font-size:.78rem;font-weight:700;color:#fff;background:rgba(255,205,13,.1);border-radius:6px;padding:.5rem .8rem;letter-spacing:.02em;margin-bottom:.5rem">${m.horizon}</div>
-
-    <div class="sp-section-title">Forces</div>
-    <div style="margin-bottom:.5rem">${m.forces.map(f=>`<span class="sp-tag force" style="font-size:.65rem;color:#7de8ff">✓ ${f}</span>`).join('')}</div>
-
-    <div class="sp-section-title">Faiblesses</div>
-    <div style="margin-bottom:.5rem">${m.faiblesses.map(f=>`<span class="sp-tag faiblesse" style="font-size:.65rem;color:#ff7090">✗ ${f}</span>`).join('')}</div>
+    <div style="font-size:.78rem;font-weight:700;color:var(--txt);background:rgba(20,60,100,.4);border:1px solid rgba(77,158,255,.15);border-radius:6px;padding:.5rem .8rem;margin-bottom:.8rem">${m.horizon}</div>
 
     <div class="sp-section-title">Allocation cible</div>
-    <div class="sp-alloc-bar" style="margin-bottom:.5rem">${allocBar}</div>
-    <div style="display:flex;flex-direction:column;gap:.35rem;margin-bottom:.6rem">
-      ${p.alloc.map(a=>`<div style="display:flex;align-items:center;gap:.5rem;font-size:.78rem"><span style="width:9px;height:9px;border-radius:50%;background:${a.color};flex-shrink:0"></span><span style="flex:1;color:#c8e8f0">${a.name}</span><span style="color:${a.color};font-weight:800">${a.pct}%</span></div>`).join('')}
+    <div class="sp-alloc-bar" style="margin-bottom:.6rem">${allocBar}</div>
+    <div style="display:flex;flex-direction:column;gap:.3rem;margin-bottom:.6rem">
+      ${p.alloc.map(a=>`<div style="display:flex;align-items:center;gap:.5rem;font-size:.76rem"><span style="width:8px;height:8px;border-radius:50%;background:${a.color};flex-shrink:0"></span><span style="flex:1;color:var(--muted)">${a.name}</span><span style="color:var(--txt);font-weight:700">${a.pct}%</span></div>`).join('')}
     </div>
 
     <button onclick="openDiag()" style="width:100%;margin-top:1rem;padding:.6rem;background:rgba(255,205,13,.12);border:1px solid rgba(255,205,13,.35);border-radius:7px;font-size:.75rem;color:var(--g);cursor:pointer;letter-spacing:.04em;font-weight:700">↺ Refaire le diagnostic</button>
-    <button onclick="openSettings()" style="width:100%;margin-top:.5rem;padding:.6rem;background:transparent;border:1px solid var(--ln2);border-radius:7px;font-size:.75rem;color:#9bbfcc;cursor:pointer;letter-spacing:.04em">Paramètres</button>
+    <button onclick="openSettings()" style="width:100%;margin-top:.5rem;padding:.6rem;background:transparent;border:1px solid rgba(77,158,255,.18);border-radius:7px;font-size:.75rem;color:var(--muted);cursor:pointer;letter-spacing:.04em">Paramètres</button>
   </div>`;
 }
 function toggleSidebar(){
