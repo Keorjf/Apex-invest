@@ -1023,6 +1023,48 @@ table.assets th.clickable:hover{color:var(--y);}
 .profile-dot{width:7px;height:7px;border-radius:50%;background:var(--ln2);transition:.25s;cursor:pointer;}
 .profile-dot.active{background:var(--y);transform:scale(1.3);}
 .prof-swipe-hint{text-align:center;font-size:.6rem;color:var(--muted);padding-bottom:.5rem;flex-shrink:0;}
+/* SETTINGS BUTTON */
+.settings-btn-wrap{padding:.8rem 1.2rem 1.4rem;display:flex;flex-direction:column;gap:.6rem;flex-shrink:0;}
+.settings-btn{width:100%;padding:.8rem 1.1rem;background:var(--bg2);border:1px solid var(--ln2);border-radius:12px;color:var(--txt);font-family:'Nunito',sans-serif;font-size:.85rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:.7rem;transition:border-color .2s,background .2s;}
+.settings-btn:hover{background:var(--bg3);border-color:rgba(255,255,255,.18);}
+.settings-btn .sb-icon{font-size:1.1rem;width:1.5rem;text-align:center;}
+.settings-btn .sb-label{flex:1;text-align:left;}
+.settings-btn .sb-arrow{color:var(--muted);font-size:.8rem;}
+.settings-btn.danger{border-color:rgba(255,59,92,.25);color:#FF6B84;}
+.settings-btn.danger:hover{background:rgba(255,59,92,.07);border-color:rgba(255,59,92,.5);}
+/* SETTINGS OVERLAY */
+#settingsOv{z-index:500;}
+.set-topbar{display:flex;align-items:center;height:50px;padding:0 1rem;border-bottom:1px solid var(--ln);background:var(--bg1);flex-shrink:0;}
+.set-topbar-title{font-family:'Bungee',sans-serif;font-size:1rem;letter-spacing:.06em;color:var(--g);flex:1;text-align:center;}
+.set-close{background:transparent;border:1px solid var(--ln);color:var(--muted);font-size:.8rem;border-radius:5px;padding:.28rem .65rem;cursor:pointer;transition:.18s;}
+.set-close:hover{color:var(--r);border-color:var(--r);}
+.set-body{flex:1;overflow-y:auto;padding:1.2rem 1rem 3rem;}
+.set-section{margin-bottom:1.4rem;}
+.set-section-title{font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem;padding-left:.2rem;}
+.set-card{background:var(--bg2);border:1px solid var(--ln2);border-radius:12px;overflow:hidden;}
+.set-row{display:flex;align-items:center;gap:.8rem;padding:.85rem 1rem;border-bottom:1px solid var(--ln);cursor:pointer;transition:background .18s;}
+.set-row:last-child{border-bottom:none;}
+.set-row:hover{background:var(--bg3);}
+.set-row-icon{font-size:1.1rem;width:1.6rem;text-align:center;flex-shrink:0;}
+.set-row-body{flex:1;}
+.set-row-label{font-size:.83rem;font-weight:600;color:var(--txt);}
+.set-row-sub{font-size:.68rem;color:var(--muted);margin-top:.1rem;}
+.set-row-action{font-size:.72rem;font-weight:700;color:var(--y);background:rgba(255,205,13,.1);border:1px solid rgba(255,205,13,.25);border-radius:6px;padding:.25rem .65rem;cursor:pointer;white-space:nowrap;transition:.18s;}
+.set-row-action:hover{background:rgba(255,205,13,.2);}
+.set-row-action.danger{color:#FF6B84;background:rgba(255,59,92,.08);border-color:rgba(255,59,92,.3);}
+.set-row-action.danger:hover{background:rgba(255,59,92,.18);}
+.set-row-action.logout{color:#fff;background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);}
+.set-row-action.logout:hover{background:rgba(255,59,92,.15);border-color:rgba(255,59,92,.4);color:#FF6B84;}
+/* Toggle switch */
+.set-toggle{position:relative;width:40px;height:22px;flex-shrink:0;}
+.set-toggle input{opacity:0;width:0;height:0;position:absolute;}
+.set-toggle-slider{position:absolute;inset:0;background:rgba(255,255,255,.12);border-radius:20px;cursor:pointer;transition:.25s;}
+.set-toggle-slider::before{content:'';position:absolute;width:16px;height:16px;top:3px;left:3px;background:#fff;border-radius:50%;transition:.25s;}
+.set-toggle input:checked+.set-toggle-slider{background:var(--y);}
+.set-toggle input:checked+.set-toggle-slider::before{transform:translateX(18px);background:#000;}
+.set-danger-card{background:rgba(255,59,92,.05);border-color:rgba(255,59,92,.2);}
+.set-danger-card .set-row:hover{background:rgba(255,59,92,.08);}
+.set-danger-card .set-row-label{color:#FF6B84;}
 /* MISSION COMPLETE BANNER */
 .mission-banner{position:fixed;top:60px;left:50%;transform:translateX(-50%) translateY(-20px);opacity:0;z-index:700;background:linear-gradient(135deg,rgba(10,20,35,.98),rgba(15,30,20,.98));border:1px solid rgba(167,139,250,.6);border-radius:16px;padding:1.2rem 1.8rem;display:flex;align-items:center;gap:1rem;min-width:300px;max-width:400px;box-shadow:0 12px 40px rgba(0,0,0,.6),0 0 30px rgba(167,139,250,.2);transition:all .45s cubic-bezier(.34,1.4,.64,1);pointer-events:none;}
 .mission-banner.show{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto;}
@@ -1654,6 +1696,117 @@ table.assets th.clickable:hover{color:var(--y);}
     <div id="profileDeck" style="touch-action:pan-y;"><!-- cards injected by JS --></div>
     <div id="profileDots"></div>
     <div class="prof-swipe-hint">← Swipe pour voir les autres profils →</div>
+  </div>
+  <div class="settings-btn-wrap">
+    <button class="settings-btn" onclick="openSettings()">
+      <span class="sb-icon">⚙️</span>
+      <span class="sb-label">Paramètres</span>
+      <span class="sb-arrow">›</span>
+    </button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     SETTINGS OVERLAY
+═══════════════════════════════════ -->
+<div class="overlay" id="settingsOv">
+  <div class="set-topbar">
+    <button class="set-close" onclick="closeSettings()">✕</button>
+    <div class="set-topbar-title">PARAMÈTRES</div>
+    <div style="width:2.5rem;"></div>
+  </div>
+  <div class="set-body">
+
+    <!-- Notifications -->
+    <div class="set-section">
+      <div class="set-section-title">Notifications</div>
+      <div class="set-card">
+        <div class="set-row">
+          <div class="set-row-icon">🔔</div>
+          <div class="set-row-body">
+            <div class="set-row-label">Notifications push</div>
+            <div class="set-row-sub">Rappels quotidiens</div>
+          </div>
+          <label class="set-toggle">
+            <input type="checkbox" id="toggleNotif" onchange="saveSettingToggle('notif',this.checked)">
+            <span class="set-toggle-slider"></span>
+          </label>
+        </div>
+        <div class="set-row">
+          <div class="set-row-icon">🔊</div>
+          <div class="set-row-body">
+            <div class="set-row-label">Sons</div>
+            <div class="set-row-sub">Effets sonores dans l'app</div>
+          </div>
+          <label class="set-toggle">
+            <input type="checkbox" id="toggleSound" onchange="saveSettingToggle('sound',this.checked)" checked>
+            <span class="set-toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data & Privacy -->
+    <div class="set-section">
+      <div class="set-section-title">Data & Privacy</div>
+      <div class="set-card">
+        <div class="set-row">
+          <div class="set-row-icon">📊</div>
+          <div class="set-row-body">
+            <div class="set-row-label">Exporter mes données</div>
+            <div class="set-row-sub">Télécharger toutes mes données en JSON</div>
+          </div>
+          <button class="set-row-action" onclick="exportData()">Exporter</button>
+        </div>
+        <div class="set-row">
+          <div class="set-row-icon">🔄</div>
+          <div class="set-row-body">
+            <div class="set-row-label">Réinitialiser les statistiques</div>
+            <div class="set-row-sub">Remet à zéro les stats (conserve les habitudes)</div>
+          </div>
+          <button class="set-row-action" onclick="resetStats()">Réinitialiser</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Compte -->
+    <div class="set-section">
+      <div class="set-section-title">Compte</div>
+      <div class="set-card">
+        <div class="set-row">
+          <div class="set-row-icon">🚪</div>
+          <div class="set-row-body">
+            <div class="set-row-label">Se déconnecter</div>
+            <div class="set-row-sub">Revenir à la page de connexion</div>
+          </div>
+          <button class="set-row-action logout" onclick="doSignOut()">Déconnexion</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Danger Zone -->
+    <div class="set-section">
+      <div class="set-section-title">⚠️ Zone dangereuse</div>
+      <div class="set-card set-danger-card">
+        <div class="set-row">
+          <div class="set-row-icon">🗑️</div>
+          <div class="set-row-body">
+            <div class="set-row-label">Supprimer toutes les données</div>
+            <div class="set-row-sub">Efface définitivement toutes les données de l'app</div>
+          </div>
+          <button class="set-row-action danger" onclick="deleteAllData()">Tout supprimer</button>
+        </div>
+        <div class="set-row">
+          <div class="set-row-icon">❌</div>
+          <div class="set-row-body">
+            <div class="set-row-label">Supprimer mon compte</div>
+            <div class="set-row-sub">Ferme définitivement ton compte (irréversible)</div>
+          </div>
+          <button class="set-row-action danger" onclick="deleteAccount()">Supprimer le compte</button>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -5584,6 +5737,78 @@ function sendBotMsg(txt){
   },350);
 }
 function chatbotKeydown(e){if(e.key==='Enter'){const v=el('chatbotInput').value.trim();if(v)sendBotMsg(v);}}
+
+// ── SETTINGS ────────────────────────────────────────────────────────────────
+function openSettings(){
+  const ov=el('settingsOv');
+  ov.classList.add('show');
+  // Restore toggle states
+  const notif=localStorage.getItem('apex_setting_notif')==='true';
+  const sound=localStorage.getItem('apex_setting_sound')!=='false';
+  const tn=document.getElementById('toggleNotif');
+  const ts=document.getElementById('toggleSound');
+  if(tn) tn.checked=notif;
+  if(ts) ts.checked=sound;
+}
+function closeSettings(){el('settingsOv').classList.remove('show');}
+
+function saveSettingToggle(key, val){
+  localStorage.setItem('apex_setting_'+key, val);
+}
+
+function exportData(){
+  const data={
+    session: JSON.parse(localStorage.getItem('apex_session')||'null'),
+    state: JSON.parse(localStorage.getItem('apex_state')||'null'),
+    exported_at: new Date().toISOString()
+  };
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='tactic_academy_data_'+new Date().toISOString().slice(0,10)+'.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+function resetStats(){
+  if(!confirm('Réinitialiser les statistiques ? (streak, tacoins, historique)')) return;
+  if(typeof S!=='undefined'){
+    S.coins=1000; S.streak=0; S.journal=[];
+    S.portfolio={}; S.orders=[];
+    saveState();
+    showToast('Statistiques réinitialisées','reward-t');
+  }
+  closeSettings();
+}
+
+function doSignOut(){
+  localStorage.removeItem('apex_session');
+  if(typeof db!=='undefined'&&db){try{db.auth.signOut();}catch(_){}}
+  window.location.href='../pages/login.html';
+}
+
+function deleteAllData(){
+  if(!confirm('Supprimer TOUTES les données ? Cette action est irréversible.')) return;
+  const keysToKeep=[];
+  Object.keys(localStorage).forEach(k=>{
+    if(!k.startsWith('apex_')&&!k.startsWith('ta_')) keysToKeep.push(k);
+  });
+  localStorage.clear();
+  keysToKeep.forEach(k=>localStorage.setItem(k,''));
+  window.location.href='../index.html';
+}
+
+function deleteAccount(){
+  if(!confirm('Supprimer définitivement ton compte ? Irréversible.')) return;
+  const sess=JSON.parse(localStorage.getItem('apex_session')||'null');
+  if(sess&&sess.email) localStorage.removeItem('ta_user_'+sess.email);
+  localStorage.removeItem('apex_session');
+  localStorage.removeItem('apex_state');
+  if(typeof db!=='undefined'&&db){
+    try{ db.auth.admin?.deleteUser(sess?.id).catch(()=>{}); }catch(_){}
+  }
+  window.location.href='../index.html';
+}
 </script>
 
 <!-- STREAK ANIMATION OVERLAY -->
