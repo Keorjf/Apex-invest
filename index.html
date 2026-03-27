@@ -240,9 +240,19 @@ async function handleRegister(e) {
         password,
         options: { data: { full_name: ((firstName + ' ' + lastName).trim()) || email, level: selectedLevel || 'Débutant' } }
       });
-      if (error) { showErr(typeof translateError === 'function' ? translateError(error.message) : error.message); return; }
-      const uid = data.user ? data.user.id : ('user_' + Date.now());
-      lsSetSession({ id: uid, email, full_name: ((firstName + ' ' + lastName).trim()) || email });
+      if (error) {
+        // Erreur réseau ou CORS → fallback localStorage silencieux
+        const isNetworkErr = error.message && (error.message.includes('fetch') || error.message.includes('network') || error.message.includes('NetworkError'));
+        if (isNetworkErr) {
+          lsSetSession({ id: 'user_' + Date.now(), email, full_name: ((firstName + ' ' + lastName).trim()) || email });
+        } else {
+          showErr(typeof translateError === 'function' ? translateError(error.message) : error.message);
+          return;
+        }
+      } else {
+        const uid = data.user ? data.user.id : ('user_' + Date.now());
+        lsSetSession({ id: uid, email, full_name: ((firstName + ' ' + lastName).trim()) || email });
+      }
     } catch(err) {
       // Supabase inaccessible — fallback localStorage
       lsSetSession({ id: 'user_' + Date.now(), email, full_name: ((firstName + ' ' + lastName).trim()) || email });
