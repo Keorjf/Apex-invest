@@ -1339,8 +1339,8 @@ table.assets th.clickable:hover{color:var(--y);}
 <div id="splash">
   <div class="sp-ticker"><div class="sp-tinner" id="spTicker"></div></div>
   <div class="sp-logo">TACTIC ACADEMY</div>
-  <h1 class="sp-h1" style="text-align:center;">APPRENDS.<br><span class="hi">GAGNE.</span><br>INVESTIS.<span class="sub">Zéro blabla, 100 % Tactic<br>La seule salle de marché qui te transforme en pro.</span></h1>
-  <button class="btn-g" style="margin-top:2.2rem;font-size:.9rem;padding:.9rem 2.5rem;" onclick="boot('Débutant')"><span style="color:#0F2E3D">Commencer →</span></button>
+  <h1 class="sp-h1" style="text-align:center;">APPRENDS.<br><span class="hi">GAGNE.</span><br>INVESTIS.<span class="sub" data-i18n="splashSub">Zéro blabla, 100 % Tactic<br>La seule salle de marché qui te transforme en pro.</span></h1>
+  <button class="btn-g" style="margin-top:2.2rem;font-size:.9rem;padding:.9rem 2.5rem;" onclick="boot('Débutant')"><span style="color:#0F2E3D" data-i18n="splashStart">Commencer →</span></button>
 </div>
 
 <!-- ═══════════════════════════════════
@@ -1427,14 +1427,14 @@ table.assets th.clickable:hover{color:var(--y);}
       <div class="mkt-left">
         <div class="mkt-topbar">
 
-          <div class="mkt-live"><div class="live-dot"></div>Live simulé</div>
+          <div class="mkt-live"><div class="live-dot"></div><span data-i18n="mktLive">Live simulé</span></div>
           <span id="alignVal" style="display:none"></span>
           <div class="mkt-time" id="mktTime">--:--:--</div>
         </div>
         <div class="asset-wrap">
           <table class="assets">
             <thead><tr>
-              <th class="clickable" onclick="showColTip('actif')">Actif ℹ</th>
+              <th class="clickable" onclick="showColTip('actif')" data-i18n="mktAsset">Actif ℹ</th>
               <th class="col-cat">
                 <div class="cat-th-wrap">
                   <span id="catThLabel" onclick="toggleCatDd()">Cat.</span>
@@ -1452,10 +1452,10 @@ table.assets th.clickable:hover{color:var(--y);}
                   </div>
                 </div>
               </th>
-              <th class="clickable" onclick="showColTip('prix')">Prix ℹ</th>
-              <th class="clickable" onclick="showColTip('24h')">24h ℹ</th>
-              <th class="col-spark clickable" onclick="showColTip('spark')">7j Spark ℹ</th>
-              <th class="col-cap clickable" onclick="showColTip('cap')">Cap. ℹ</th>
+              <th class="clickable" onclick="showColTip('prix')" data-i18n="mktPrice">Prix ℹ</th>
+              <th class="clickable" onclick="showColTip('24h')" data-i18n="mkt24h">24h ℹ</th>
+              <th class="col-spark clickable" onclick="showColTip('spark')" data-i18n="mktSpark">7j Spark ℹ</th>
+              <th class="col-cap clickable" onclick="showColTip('cap')" data-i18n="mktCap">Cap. ℹ</th>
             </tr></thead>
             <tbody id="assetBody"></tbody>
           </table>
@@ -1495,20 +1495,20 @@ table.assets th.clickable:hover{color:var(--y);}
       <div class="mkt-right" id="mktRight">
         <div class="order-panel">
           <div class="op-toggle" onclick="toggleOrderPanel()">
-            <span class="op-toggle-label">Passer un ordre</span>
+            <span class="op-toggle-label" data-i18n="orderTitle">Passer un ordre</span>
             <span class="op-toggle-arrow" id="opArrow">▼</span>
           </div>
           <div class="op-body" id="opBody">
             <div class="wallet-row">
-              <span>Disponible</span>
+              <span data-i18n="orderAvail">Disponible</span>
               <span class="wr-coins">🪙 <span id="opWallet">500</span></span>
             </div>
             <div class="order-tabs" style="display:none">
-              <button class="otab buy active" id="oBuy" onclick="setOrderSide('buy')">▲ ACHETER</button>
-              <button class="otab sell"       id="oSell" onclick="setOrderSide('sell')">▼ VENDRE</button>
+              <button class="otab buy active" id="oBuy" onclick="setOrderSide('buy')" data-i18n="orderBuy">▲ ACHETER</button>
+              <button class="otab sell"       id="oSell" onclick="setOrderSide('sell')" data-i18n="orderSell">▼ VENDRE</button>
             </div>
-            <div class="oai"><span class="oai-nm" id="oaiNm">Sélectionne un actif</span><span class="oai-pr" id="oaiPr">—</span></div>
-            <div class="of-lbl">Montant (Tacoins) <span id="ofBal"></span></div>
+            <div class="oai"><span class="oai-nm" id="oaiNm" data-i18n="orderSelect">Sélectionne un actif</span><span class="oai-pr" id="oaiPr">—</span></div>
+            <div class="of-lbl"><span data-i18n="orderAmount">Montant (Tacoins)</span> <span id="ofBal"></span></div>
             <input class="of-input" type="number" id="orderAmt" placeholder="0" min="1" oninput="updateOS()">
             <div class="of-quick">
               <button class="qpct" onclick="setPct(25)">25%</button>
@@ -1517,30 +1517,30 @@ table.assets th.clickable:hover{color:var(--y);}
               <button class="qpct" onclick="setPct(100)">MAX</button>
             </div>
             <div class="order-type-row">
-              <button class="ot-btn active" id="otMkt" onclick="setOrderType('market')">Au marché</button>
-              <button class="ot-btn"        id="otLmt" onclick="setOrderType('limit')">Ordre limite</button>
+              <button class="ot-btn active" id="otMkt" onclick="setOrderType('market')" data-i18n="orderMarket">Au marché</button>
+              <button class="ot-btn"        id="otLmt" onclick="setOrderType('limit')" data-i18n="orderLimit">Ordre limite</button>
             </div>
             <div class="limit-price-row" id="limitPriceRow">
-              <div class="of-lbl">Prix limite cible</div>
+              <div class="of-lbl" data-i18n="orderLimitPrice">Prix limite cible</div>
               <input class="of-input" type="number" id="limitPrice" placeholder="ex: 490.00" step="0.01" oninput="updateOS()">
             </div>
             <div class="os">
-              <div class="os-row"><span>Prix unitaire</span><span id="osPrice">—</span></div>
-              <div class="os-row"><span>Quantité</span><span id="osQty">—</span></div>
-              <div class="os-row"><span>Frais (0.1%)</span><span id="osFee">—</span></div>
-              <div class="os-row total"><span>Total</span><span id="osTotal">—</span></div>
+              <div class="os-row"><span data-i18n="orderUnitPrice">Prix unitaire</span><span id="osPrice">—</span></div>
+              <div class="os-row"><span data-i18n="orderQty">Quantité</span><span id="osQty">—</span></div>
+              <div class="os-row"><span data-i18n="orderFees">Frais (0.1%)</span><span id="osFee">—</span></div>
+              <div class="os-row total"><span data-i18n="orderTotal">Total</span><span id="osTotal">—</span></div>
             </div>
-            <button class="order-btn buy-btn" id="orderBtn" onclick="executeOrder()">ACHETER</button>
+            <button class="order-btn buy-btn" id="orderBtn" data-i18n="orderBuyBtn" onclick="executeOrder()">ACHETER</button>
           </div>
         </div>
 
         <div class="limit-queue" id="limitQueue">
-          <div class="lq-title">Ordres limites en attente</div>
-          <div id="limitQueueList"><div class="lq-empty">Aucun ordre limite</div></div>
+          <div class="lq-title" data-i18n="limitTitle">Ordres limites en attente</div>
+          <div id="limitQueueList"><div class="lq-empty" data-i18n="limitEmpty">Aucun ordre limite</div></div>
         </div>
 
         <div class="positions-panel">
-          <div class="pp-hdr" onclick="openPortfolioModal()">Portefeuille <span class="pp-hdr-arrow">↗</span></div>
+          <div class="pp-hdr" onclick="openPortfolioModal()"><span data-i18n="portfolioTitle">Portefeuille</span> <span class="pp-hdr-arrow">↗</span></div>
           <div class="port-summary" id="portSummary"></div>
           <div class="align-bar-wrap" id="alignBarWrap" style="display:none" onclick="openRebalanceModal()">
             <div class="ab-lbl"><span>Alignement profil</span><span id="alignPct">0%</span></div>
@@ -1555,9 +1555,9 @@ table.assets th.clickable:hover{color:var(--y);}
           <div class="alloc-modal">
             <button class="alloc-modal-close" onclick="closeAllocModal()">✕</button>
             <div class="ap-hdr">
-              <span class="ap-title">📐 Allocation conseillée</span>
+              <span class="ap-title" data-i18n="allocTitle">📐 Allocation conseillée</span>
               <span class="ap-profile" id="apProfile">—</span>
-              <button class="ap-retry" onclick="openDiag()">Refaire ↺</button>
+              <button class="ap-retry" data-i18n="allocRetry" onclick="openDiag()">Refaire ↺</button>
             </div>
             <div id="proposalList"></div>
           </div>
@@ -1570,17 +1570,17 @@ table.assets th.clickable:hover{color:var(--y);}
   <div class="reb-modal-ov" id="rebModalOv" onclick="if(event.target===this)closeRebalanceModal()">
     <div class="reb-modal">
       <button class="reb-close" onclick="closeRebalanceModal()">✕</button>
-      <div class="reb-title">⚖️ Rééquilibrage du portefeuille</div>
+      <div class="reb-title" data-i18n="rebTitle">⚖️ Rééquilibrage du portefeuille</div>
       <div class="reb-sub" id="rebSub"></div>
       <div class="reb-score" id="rebScore"></div>
       <div class="reb-cash">
         <div class="reb-cash-hdr">
-          <span class="reb-cash-lbl">🏦 Réserve de cash</span>
+          <span class="reb-cash-lbl" data-i18n="rebCashLbl">🏦 Réserve de cash</span>
           <span class="reb-cash-val" id="rebCashDisplay">0 🪙</span>
         </div>
         <div class="reb-cash-row">
           <input class="reb-cash-input" id="rebCashPct" type="number" min="0" max="80" value="0" placeholder="0" oninput="updateRebCash()">
-          <span class="reb-cash-unit">% du portefeuille</span>
+          <span class="reb-cash-unit" data-i18n="rebCashUnit">% du portefeuille</span>
         </div>
         <div class="reb-cash-pills">
           <button class="reb-cash-pill active" onclick="setRebCash(0)">0%</button>
@@ -1589,10 +1589,10 @@ table.assets th.clickable:hover{color:var(--y);}
           <button class="reb-cash-pill" onclick="setRebCash(20)">20%</button>
           <button class="reb-cash-pill" onclick="setRebCash(30)">30%</button>
         </div>
-        <div class="reb-cash-hint">Le cash réservé ne sera pas investi lors du rééquilibrage.</div>
+        <div class="reb-cash-hint" data-i18n="rebHint">Le cash réservé ne sera pas investi lors du rééquilibrage.</div>
       </div>
       <div class="reb-list" id="rebList"></div>
-      <button class="reb-btn-all" id="rebBtnAll" onclick="executeRebalance()">⚡ Rééquilibrer automatiquement</button>
+      <button class="reb-btn-all" id="rebBtnAll" data-i18n="rebBtn" onclick="executeRebalance()">⚡ Rééquilibrer automatiquement</button>
     </div>
   </div>
 
@@ -1622,7 +1622,7 @@ table.assets th.clickable:hover{color:var(--y);}
       <div class="mis-header">
       </div>
       <div class="mis-section">
-        <div class="mis-sec-title">Missions du jour</div>
+        <div class="mis-sec-title" data-i18n="missionsDayTitle">Missions du jour</div>
         <div id="dailyMissions"></div>
       </div>
       <div class="mis-section">
@@ -1632,7 +1632,7 @@ table.assets th.clickable:hover{color:var(--y);}
         <div id="permMissions"></div>
       </div>
       <div class="mis-section" id="completedSection" style="display:none">
-        <div class="mis-sec-title">Missions complétées</div>
+        <div class="mis-sec-title" data-i18n="missionsCompTitle">Missions complétées</div>
         <div id="completedMissions"></div>
       </div>
     </div>
@@ -1641,14 +1641,14 @@ table.assets th.clickable:hover{color:var(--y);}
   <!-- JOURNAL -->
   <div class="tab" id="tabJournal">
     <div class="journal-wrap">
-      <div class="mis-sec-title" style="border-bottom:none">Historique de l'activité</div>
+      <div class="mis-sec-title" style="border-bottom:none" data-i18n="journalHistTitle">Historique de l'activité</div>
       <div class="j-filter">
-        <button class="jf-btn active" onclick="filterJournal('all',this)">Tout</button>
-        <button class="jf-btn" onclick="filterJournal('buy',this)">Achats</button>
-        <button class="jf-btn" onclick="filterJournal('sell',this)">Ventes</button>
-        <button class="jf-btn" onclick="filterJournal('limit',this)">Ordres limites</button>
-        <button class="jf-btn" onclick="filterJournal('event',this)">Événements</button>
-        <button class="jf-btn" onclick="filterJournal('mission',this)">Missions</button>
+        <button class="jf-btn active" onclick="filterJournal('all',this)" data-i18n="jfAll">Tout</button>
+        <button class="jf-btn" onclick="filterJournal('buy',this)" data-i18n="jfBuy">Achats</button>
+        <button class="jf-btn" onclick="filterJournal('sell',this)" data-i18n="jfSell">Ventes</button>
+        <button class="jf-btn" onclick="filterJournal('limit',this)" data-i18n="jfLimit">Ordres limites</button>
+        <button class="jf-btn" onclick="filterJournal('event',this)" data-i18n="jfEvents">Événements</button>
+        <button class="jf-btn" onclick="filterJournal('mission',this)" data-i18n="jfMissions">Missions</button>
       </div>
       <div id="journalList"></div>
     </div>
@@ -1758,7 +1758,7 @@ table.assets th.clickable:hover{color:var(--y);}
   <div id="profilPage">
     <div id="profileDeck" style="touch-action:pan-y;"><!-- cards injected by JS --></div>
     <div id="profileDots"></div>
-    <div class="prof-swipe-hint">← Swipe pour voir les autres profils →</div>
+    <div class="prof-swipe-hint" data-i18n="profilSwipe">← Swipe pour voir les autres profils →</div>
   </div>
 </div>
 
@@ -3487,24 +3487,24 @@ function buildSidebarProfile(){
       <span class="sp-badge" style="background:rgba(20,60,100,.55);color:var(--y);border:1px solid rgba(77,158,255,.18)">${m.style}</span>
     </div>
 
-    <div class="sp-section-title">Tolérance au risque</div>
+    <div class="sp-section-title">${(TRANSLATIONS[_lang]||TRANSLATIONS.fr).spTolRisk}</div>
     <div style="margin-bottom:.8rem">
-      <div style="display:flex;justify-content:space-between;font-size:.62rem;color:var(--muted);margin-bottom:.4rem;font-weight:600"><span>Faible</span><span>Élevée</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:.62rem;color:var(--muted);margin-bottom:.4rem;font-weight:600"><span>${(TRANSLATIONS[_lang]||TRANSLATIONS.fr).spRiskLow}</span><span>${(TRANSLATIONS[_lang]||TRANSLATIONS.fr).spRiskHigh}</span></div>
       <div class="sp-risk-track"><div class="sp-risk-fill" style="width:${m.risque}%;background:linear-gradient(to right,var(--r),var(--g))"></div></div>
       <div style="font-size:.75rem;color:#fff;margin-top:.4rem">${m.aversion}</div>
     </div>
 
-    <div class="sp-section-title">Horizon d'investissement</div>
+    <div class="sp-section-title">${(TRANSLATIONS[_lang]||TRANSLATIONS.fr).spHorizon}</div>
     <div style="font-size:.78rem;font-weight:700;color:#fff;padding:.2rem 0 .8rem">${m.horizon}</div>
 
-    <div class="sp-section-title">Allocation cible</div>
+    <div class="sp-section-title">${(TRANSLATIONS[_lang]||TRANSLATIONS.fr).spAlloc}</div>
     <div class="sp-alloc-bar" style="margin-bottom:.6rem">${allocBar}</div>
     <div style="display:flex;flex-direction:column;gap:.3rem;margin-bottom:.6rem">
       ${p.alloc.map(a=>`<div style="display:flex;align-items:center;gap:.5rem;font-size:.76rem"><span style="width:8px;height:8px;border-radius:50%;background:${a.color};flex-shrink:0"></span><span style="flex:1;color:#fff">${a.name}</span><span style="color:#fff;font-weight:700">${a.pct}%</span></div>`).join('')}
     </div>
 
-    <button onclick="openDiag()" style="width:100%;margin-top:1rem;padding:.6rem;background:rgba(255,205,13,.12);border:1px solid rgba(255,205,13,.35);border-radius:7px;font-size:.75rem;color:var(--g);cursor:pointer;letter-spacing:.04em;font-weight:700">↺ Refaire le diagnostic</button>
-    <button onclick="openSettings()" style="width:100%;margin-top:.5rem;padding:.6rem;background:transparent;border:1px solid rgba(77,158,255,.18);border-radius:7px;font-size:.75rem;color:var(--muted);cursor:pointer;letter-spacing:.04em">Paramètres</button>
+    <button onclick="openDiag()" style="width:100%;margin-top:1rem;padding:.6rem;background:rgba(255,205,13,.12);border:1px solid rgba(255,205,13,.35);border-radius:7px;font-size:.75rem;color:var(--g);cursor:pointer;letter-spacing:.04em;font-weight:700">${(TRANSLATIONS[_lang]||TRANSLATIONS.fr).spDiagBtn}</button>
+    <button onclick="openSettings()" style="width:100%;margin-top:.5rem;padding:.6rem;background:transparent;border:1px solid rgba(77,158,255,.18);border-radius:7px;font-size:.75rem;color:var(--muted);cursor:pointer;letter-spacing:.04em">${(TRANSLATIONS[_lang]||TRANSLATIONS.fr).spSettingsBtn}</button>
   </div>`;
 }
 function toggleSidebar(){
@@ -5812,11 +5812,38 @@ function chatbotKeydown(e){if(e.key==='Enter'){const v=el('chatbotInput').value.
 // ── LANGUE / i18n ────────────────────────────────────────────────────────────
 const TRANSLATIONS = {
   fr: {
+    // Topbar & nav
     tabLearn:'TON PARCOURS', tabMarket:'SALLE DES MARCHÉS', tabMissions:'MISSIONS DU JOUR',
     tabJournal:'JOURNAL DE BORD', tabProfil:'PROFIL INVESTISSEUR',
     bnLearn:'Apprendre', bnMarket:'Marchés', bnMissions:'Missions', bnJournal:'Journal', bnProfil:'Profil',
-    setTitle:'PARAMÈTRES', setLang:'Langue', setNotif:'Notifications',
-    setData:'Data & Privacy', setAccount:'Compte', setDanger:'⚠️ Zone dangereuse',
+    // Splash
+    splashSub:'Zéro blabla, 100 % Tactic — La seule salle de marché qui te transforme en pro.', splashStart:'Commencer →',
+    // Marché — tableau
+    mktAsset:'Actif ℹ', mktPrice:'Prix ℹ', mkt24h:'24h ℹ', mktSpark:'7j Spark ℹ', mktCap:'Cap. ℹ', mktLive:'Live simulé',
+    // Marché — ordre
+    orderTitle:'Passer un ordre', orderAvail:'Disponible', orderBuy:'▲ ACHETER', orderSell:'▼ VENDRE',
+    orderSelect:'Sélectionne un actif', orderAmount:'Montant (Tacoins)', orderMarket:'Au marché',
+    orderLimit:'Ordre limite', orderLimitPrice:'Prix limite cible', orderUnitPrice:'Prix unitaire',
+    orderQty:'Quantité', orderFees:'Frais (0.1%)', orderTotal:'Total', orderBuyBtn:'ACHETER',
+    // Marché — portfolio
+    limitTitle:'Ordres limites en attente', limitEmpty:'Aucun ordre limite', portfolioTitle:'Portefeuille',
+    rebTitle:'⚖️ Rééquilibrage du portefeuille', rebCashLbl:'🏦 Réserve de cash',
+    rebCashUnit:'% du portefeuille', rebHint:'Le cash réservé ne sera pas investi lors du rééquilibrage.',
+    rebBtn:'⚡ Rééquilibrer automatiquement', allocTitle:'📐 Allocation conseillée', allocRetry:'Refaire ↺',
+    portModalTitle:'💼 Portefeuille',
+    // Missions
+    missionsDayTitle:'Missions du jour', missionsCompTitle:'Missions complétées',
+    // Journal
+    journalHistTitle:"Historique de l'activité",
+    jfAll:'Tout', jfBuy:'Achats', jfSell:'Ventes', jfLimit:'Ordres limites', jfEvents:'Événements', jfMissions:'Missions',
+    // Profil
+    profilSwipe:'← Swipe pour voir les autres profils →',
+    // Sidebar profil
+    spTolRisk:'Tolérance au risque', spHorizon:"Horizon d'investissement", spAlloc:'Allocation cible',
+    spRiskLow:'Faible', spRiskHigh:'Élevée', spDiagBtn:'↺ Refaire le diagnostic', spSettingsBtn:'Paramètres',
+    // Paramètres
+    setTitle:'PARAMÈTRES', setLang:'Langue', setNotif:'Notifications', setData:'Data & Privacy',
+    setAccount:'Compte', setDanger:'⚠️ Zone dangereuse',
     notifPush:'Notifications push', notifSub:'Rappels quotidiens',
     soundLabel:'Sons', soundSub:"Effets sonores dans l'app",
     exportLabel:'Exporter mes données', exportSub:'Télécharger toutes mes données en JSON', exportBtn:'Exporter',
@@ -5829,8 +5856,25 @@ const TRANSLATIONS = {
     tabLearn:'YOUR PATH', tabMarket:'MARKET ROOM', tabMissions:"TODAY'S MISSIONS",
     tabJournal:'LOGBOOK', tabProfil:'INVESTOR PROFILE',
     bnLearn:'Learn', bnMarket:'Markets', bnMissions:'Missions', bnJournal:'Journal', bnProfil:'Profile',
-    setTitle:'SETTINGS', setLang:'Language', setNotif:'Notifications',
-    setData:'Data & Privacy', setAccount:'Account', setDanger:'⚠️ Danger Zone',
+    splashSub:'No fluff, 100% Tactic — The only market simulator that turns you into a pro.', splashStart:'Start →',
+    mktAsset:'Asset ℹ', mktPrice:'Price ℹ', mkt24h:'24h ℹ', mktSpark:'7d Spark ℹ', mktCap:'Cap. ℹ', mktLive:'Simulated live',
+    orderTitle:'Place an order', orderAvail:'Available', orderBuy:'▲ BUY', orderSell:'▼ SELL',
+    orderSelect:'Select an asset', orderAmount:'Amount (Tacoins)', orderMarket:'Market order',
+    orderLimit:'Limit order', orderLimitPrice:'Target limit price', orderUnitPrice:'Unit price',
+    orderQty:'Quantity', orderFees:'Fees (0.1%)', orderTotal:'Total', orderBuyBtn:'BUY',
+    limitTitle:'Pending limit orders', limitEmpty:'No limit orders', portfolioTitle:'Portfolio',
+    rebTitle:'⚖️ Portfolio rebalancing', rebCashLbl:'🏦 Cash reserve',
+    rebCashUnit:'% of portfolio', rebHint:'Reserved cash will not be invested during rebalancing.',
+    rebBtn:'⚡ Auto-rebalance', allocTitle:'📐 Recommended allocation', allocRetry:'Redo ↺',
+    portModalTitle:'💼 Portfolio',
+    missionsDayTitle:"Today's missions", missionsCompTitle:'Completed missions',
+    journalHistTitle:'Activity history',
+    jfAll:'All', jfBuy:'Buys', jfSell:'Sales', jfLimit:'Limit orders', jfEvents:'Events', jfMissions:'Missions',
+    profilSwipe:'← Swipe to see other profiles →',
+    spTolRisk:'Risk tolerance', spHorizon:'Investment horizon', spAlloc:'Target allocation',
+    spRiskLow:'Low', spRiskHigh:'High', spDiagBtn:'↺ Redo diagnostic', spSettingsBtn:'Settings',
+    setTitle:'SETTINGS', setLang:'Language', setNotif:'Notifications', setData:'Data & Privacy',
+    setAccount:'Account', setDanger:'⚠️ Danger Zone',
     notifPush:'Push notifications', notifSub:'Daily reminders',
     soundLabel:'Sound', soundSub:'In-app sound effects',
     exportLabel:'Export my data', exportSub:'Download all your data in JSON format', exportBtn:'Export',
@@ -5843,8 +5887,25 @@ const TRANSLATIONS = {
     tabLearn:'TU RUTA', tabMarket:'SALA DE MERCADOS', tabMissions:'MISIONES DEL DÍA',
     tabJournal:'DIARIO DE ACTIVIDAD', tabProfil:'PERFIL INVERSOR',
     bnLearn:'Aprender', bnMarket:'Mercados', bnMissions:'Misiones', bnJournal:'Diario', bnProfil:'Perfil',
-    setTitle:'AJUSTES', setLang:'Idioma', setNotif:'Notificaciones',
-    setData:'Datos y privacidad', setAccount:'Cuenta', setDanger:'⚠️ Zona de peligro',
+    splashSub:'Sin rodeos, 100% Tactic — El único simulador de mercado que te convierte en profesional.', splashStart:'Comenzar →',
+    mktAsset:'Activo ℹ', mktPrice:'Precio ℹ', mkt24h:'24h ℹ', mktSpark:'7d Spark ℹ', mktCap:'Cap. ℹ', mktLive:'Simulación en vivo',
+    orderTitle:'Realizar orden', orderAvail:'Disponible', orderBuy:'▲ COMPRAR', orderSell:'▼ VENDER',
+    orderSelect:'Selecciona un activo', orderAmount:'Cantidad (Tacoins)', orderMarket:'Orden de mercado',
+    orderLimit:'Orden límite', orderLimitPrice:'Precio límite objetivo', orderUnitPrice:'Precio unitario',
+    orderQty:'Cantidad', orderFees:'Comisión (0.1%)', orderTotal:'Total', orderBuyBtn:'COMPRAR',
+    limitTitle:'Órdenes límite pendientes', limitEmpty:'Sin órdenes límite', portfolioTitle:'Cartera',
+    rebTitle:'⚖️ Reequilibrio de cartera', rebCashLbl:'🏦 Reserva de efectivo',
+    rebCashUnit:'% de la cartera', rebHint:'El efectivo reservado no se invertirá durante el reequilibrio.',
+    rebBtn:'⚡ Reequilibrar automáticamente', allocTitle:'📐 Asignación recomendada', allocRetry:'Rehacer ↺',
+    portModalTitle:'💼 Cartera',
+    missionsDayTitle:'Misiones del día', missionsCompTitle:'Misiones completadas',
+    journalHistTitle:'Historial de actividad',
+    jfAll:'Todo', jfBuy:'Compras', jfSell:'Ventas', jfLimit:'Órdenes límite', jfEvents:'Eventos', jfMissions:'Misiones',
+    profilSwipe:'← Desliza para ver otros perfiles →',
+    spTolRisk:'Tolerancia al riesgo', spHorizon:'Horizonte de inversión', spAlloc:'Asignación objetivo',
+    spRiskLow:'Baja', spRiskHigh:'Alta', spDiagBtn:'↺ Rehacer diagnóstico', spSettingsBtn:'Ajustes',
+    setTitle:'AJUSTES', setLang:'Idioma', setNotif:'Notificaciones', setData:'Datos y privacidad',
+    setAccount:'Cuenta', setDanger:'⚠️ Zona de peligro',
     notifPush:'Notificaciones push', notifSub:'Recordatorios diarios',
     soundLabel:'Sonidos', soundSub:'Efectos de sonido en la app',
     exportLabel:'Exportar mis datos', exportSub:'Descargar todos tus datos en JSON', exportBtn:'Exportar',
@@ -5883,11 +5944,15 @@ function applyLang() {
     if(btn) btn.childNodes[btn.childNodes.length-1].textContent = t[keys[i]];
   });
   // Settings overlay
-  const setTitle = document.querySelector('.set-topbar-title'); if(setTitle) setTitle.textContent = t.setTitle;
+  const setTitleEl = document.querySelector('.set-topbar-title'); if(setTitleEl) setTitleEl.textContent = t.setTitle;
   const setText = (id, val) => { const e = document.getElementById(id); if(e) e.textContent = val; };
   setText('set-lang-title', t.setLang);
   setText('set-notif-title', t.setNotif);
-  // Rows labels (par data-i18n)
+  // Section titles settings (par ordre dans le DOM)
+  const setSecTitles = document.querySelectorAll('#settingsOv .set-section-title');
+  const setSecKeys = ['setLang','setNotif','setData','setAccount','setDanger'];
+  setSecTitles.forEach((el,i)=>{ if(setSecKeys[i]&&t[setSecKeys[i]]) el.textContent=t[setSecKeys[i]]; });
+  // Tous les data-i18n
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
     if(t[key]) el.textContent = t[key];
