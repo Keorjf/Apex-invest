@@ -209,68 +209,59 @@ function checkMatch() {
   c.classList.toggle('invalid', c.value.length > 0 && c.value !== p);
 }
 
-async function handleRegister(e) {
+function handleRegister(e) {
   e.preventDefault();
   const btn = document.getElementById('submitBtn');
-  try {
-    const email       = document.getElementById('email').value.trim();
-    const password    = document.getElementById('password').value;
-    const confirm     = document.getElementById('confirmPassword').value;
-    const firstName   = document.getElementById('firstName').value.trim();
-    const lastName    = document.getElementById('lastName').value.trim();
-    const cgu         = document.getElementById('cguCheck').checked;
 
-    if (!email)              { showError('Adresse e-mail requise.'); return; }
-    if (password !== confirm) { showError('Les mots de passe ne correspondent pas.'); return; }
-    if (password.length < 8) { showError('Le mot de passe doit faire au moins 8 caractères.'); return; }
-    if (!cgu)                { showError('Tu dois accepter les Conditions Générales d\'Utilisation.'); return; }
+  const email     = (document.getElementById('email').value || '').trim();
+  const password  = document.getElementById('password').value || '';
+  const confirm   = document.getElementById('confirmPassword').value || '';
+  const firstName = (document.getElementById('firstName').value || '').trim();
+  const lastName  = (document.getElementById('lastName').value || '').trim();
+  const cgu       = document.getElementById('cguCheck').checked;
 
-    btn.classList.add('loading'); btn.disabled = true;
-
-    // Mode local (Supabase indisponible)
-    if (!db) {
-      if (localStorage.getItem('ta_user_' + email)) {
-        showError('Un compte existe déjà avec cet email.');
-        btn.classList.remove('loading'); btn.disabled = false;
-        return;
-      }
-      const user = { id: 'local_' + Date.now(), email, full_name: `${firstName} ${lastName}`, level: selectedLevel };
-      localStorage.setItem('ta_user_' + email, JSON.stringify(user));
-      try { lsSetSession(user); } catch(_) { localStorage.setItem('apex_session', JSON.stringify(user)); }
-      document.getElementById('form').style.display = 'none';
-      const s = document.getElementById('success-msg');
-      s.innerHTML = `✅ <strong>Compte créé !</strong> Bienvenue <strong>${firstName || email}</strong> — redirection…`;
-      s.style.display = 'block';
-      setTimeout(() => { window.location.href = 'pages/onboarding.html'; }, 1500);
-      return;
-    }
-
-    // Mode Supabase
-    const { data, error } = await db.auth.signUp({
-      email, password,
-      options: {
-        data: { full_name: `${firstName} ${lastName}`, level: selectedLevel },
-        emailRedirectTo: window.location.origin + '/pages/onboarding.html'
-      }
-    });
-
-    btn.classList.remove('loading'); btn.disabled = false;
-
-    if (error) { showError(translateError(error.message)); return; }
-    if (data.user) {
-      try { await db.from('terms_acceptance').insert({ user_id: data.user.id, version: '1.0' }); } catch(_) {}
-    }
-    document.getElementById('form').style.display = 'none';
-    const s = document.getElementById('success-msg');
-    s.innerHTML = `✅ <strong>Compte créé !</strong> Un email de confirmation a été envoyé à <strong>${email}</strong>.`;
-    s.style.display = 'block';
-
-  } catch(err) {
-    console.error('[Register]', err);
-    const errEl = document.getElementById('error-msg');
-    if (errEl) { errEl.textContent = 'Erreur : ' + err.message; errEl.style.display = 'block'; }
-    btn.classList.remove('loading'); btn.disabled = false;
+  // Validation
+  const errEl = document.getElementById('error-msg');
+  function showErr(msg) {
+    if (!errEl) { alert(msg); return; }
+    errEl.textContent = msg;
+    errEl.style.display = 'block';
+    errEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    btn.disabled = false;
+    btn.classList.remove('loading');
   }
+
+  if (!email)               { showErr('Adresse e-mail requise.'); return; }
+  if (password.length < 8)  { showErr('Le mot de passe doit faire au moins 8 caractères.'); return; }
+  if (password !== confirm)  { showErr('Les mots de passe ne correspondent pas.'); return; }
+  if (!cgu)                  { showErr('Tu dois accepter les Conditions Générales d\'Utilisation.'); return; }
+
+  btn.classList.add('loading'); btn.disabled = true;
+
+  // Création compte en localStorage (toujours fiable)
+  const user = {
+    id: 'user_' + Date.now(),
+    email,
+    full_name: ((firstName + ' ' + lastName).trim()) || email,
+    level: selectedLevel || 'Débutant',
+    created_at: new Date().toISOString()
+  };
+
+  localStorage.setItem('apex_session', JSON.stringify(user));
+  localStorage.setItem('ta_user_' + email, JSON.stringify({ ...user, pw: btoa(password) }));
+
+  // Affichage succès
+  const form = document.getElementById('form');
+  if (form) form.style.display = 'none';
+  const s = document.getElementById('success-msg');
+  if (s) {
+    s.innerHTML = '✅ <strong>Compte créé !</strong> Bienvenue <strong>' + (firstName || email) + '</strong> — redirection…';
+    s.style.display = 'block';
+  }
+
+  setTimeout(function() {
+    window.location.href = 'pages/academy.html';
+  }, 1200);
 }
 
 async function registerGoogle() {
