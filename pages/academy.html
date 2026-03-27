@@ -1129,8 +1129,10 @@ table.assets th.clickable:hover{color:var(--y);}
   #navLearn,#navMarket,#navMissions,#navJournal,#navProfil{display:none!important;}
   /* Padding bas pour ne pas être masqué par la bottom nav */
   .tab{padding-bottom:66px;}
-  /* Topbar : affiche le titre centré */
-  .tb-center-title{display:block!important;}
+  /* Topbar : titre centré via flexbox */
+  .tb-brand,.tb-sep{display:none!important;}
+  .tb-spacer{display:none!important;}
+  .tb-center-title{display:block!important;position:static!important;transform:none!important;flex:1!important;text-align:center!important;font-size:1.05rem!important;}
   /* Améliore les zones tactiles */
   .tb-btn{min-height:36px;padding:.4rem .65rem;font-size:.72rem;}
   .tb-wallet{min-height:30px;font-size:.72rem;padding:.25rem .6rem;}
