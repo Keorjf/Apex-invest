@@ -1773,15 +1773,43 @@ table.assets th.clickable:hover{color:var(--y);}
   </div>
   <div class="set-body">
 
+    <!-- Langue -->
+    <div class="set-section">
+      <div class="set-section-title" id="set-lang-title">Langue</div>
+      <div class="set-card">
+        <div class="set-row lang-row" data-lang="fr" onclick="setLang('fr')" style="cursor:pointer">
+          <div class="set-row-icon">🇫🇷</div>
+          <div class="set-row-body">
+            <div class="set-row-label">Français</div>
+          </div>
+          <span class="lang-check" id="lang-check-fr" style="color:var(--y);font-size:1rem">✓</span>
+        </div>
+        <div class="set-row lang-row" data-lang="en" onclick="setLang('en')" style="cursor:pointer">
+          <div class="set-row-icon">🇬🇧</div>
+          <div class="set-row-body">
+            <div class="set-row-label">English</div>
+          </div>
+          <span class="lang-check" id="lang-check-en" style="color:var(--y);font-size:1rem;display:none">✓</span>
+        </div>
+        <div class="set-row lang-row" data-lang="es" onclick="setLang('es')" style="cursor:pointer">
+          <div class="set-row-icon">🇪🇸</div>
+          <div class="set-row-body">
+            <div class="set-row-label">Español</div>
+          </div>
+          <span class="lang-check" id="lang-check-es" style="color:var(--y);font-size:1rem;display:none">✓</span>
+        </div>
+      </div>
+    </div>
+
     <!-- Notifications -->
     <div class="set-section">
-      <div class="set-section-title">Notifications</div>
+      <div class="set-section-title" id="set-notif-title">Notifications</div>
       <div class="set-card">
         <div class="set-row">
           <div class="set-row-icon">🔔</div>
           <div class="set-row-body">
-            <div class="set-row-label">Notifications push</div>
-            <div class="set-row-sub">Rappels quotidiens</div>
+            <div class="set-row-label" data-i18n="notifPush">Notifications push</div>
+            <div class="set-row-sub" data-i18n="notifSub">Rappels quotidiens</div>
           </div>
           <label class="set-toggle">
             <input type="checkbox" id="toggleNotif" onchange="saveSettingToggle('notif',this.checked)">
@@ -1791,8 +1819,8 @@ table.assets th.clickable:hover{color:var(--y);}
         <div class="set-row">
           <div class="set-row-icon">🔊</div>
           <div class="set-row-body">
-            <div class="set-row-label">Sons</div>
-            <div class="set-row-sub">Effets sonores dans l'app</div>
+            <div class="set-row-label" data-i18n="soundLabel">Sons</div>
+            <div class="set-row-sub" data-i18n="soundSub">Effets sonores dans l'app</div>
           </div>
           <label class="set-toggle">
             <input type="checkbox" id="toggleSound" onchange="saveSettingToggle('sound',this.checked)" checked>
@@ -1809,18 +1837,18 @@ table.assets th.clickable:hover{color:var(--y);}
         <div class="set-row">
           <div class="set-row-icon">📊</div>
           <div class="set-row-body">
-            <div class="set-row-label">Exporter mes données</div>
-            <div class="set-row-sub">Télécharger toutes mes données en JSON</div>
+            <div class="set-row-label" data-i18n="exportLabel">Exporter mes données</div>
+            <div class="set-row-sub" data-i18n="exportSub">Télécharger toutes mes données en JSON</div>
           </div>
-          <button class="set-row-action" onclick="exportData()">Exporter</button>
+          <button class="set-row-action" data-i18n="exportBtn" onclick="exportData()">Exporter</button>
         </div>
         <div class="set-row">
           <div class="set-row-icon">🔄</div>
           <div class="set-row-body">
-            <div class="set-row-label">Réinitialiser les statistiques</div>
-            <div class="set-row-sub">Remet à zéro les stats (conserve les habitudes)</div>
+            <div class="set-row-label" data-i18n="resetLabel">Réinitialiser les statistiques</div>
+            <div class="set-row-sub" data-i18n="resetSub">Remet à zéro les stats (conserve les habitudes)</div>
           </div>
-          <button class="set-row-action" onclick="resetStats()">Réinitialiser</button>
+          <button class="set-row-action" data-i18n="resetBtn" onclick="resetStats()">Réinitialiser</button>
         </div>
       </div>
     </div>
@@ -1832,10 +1860,10 @@ table.assets th.clickable:hover{color:var(--y);}
         <div class="set-row">
           <div class="set-row-icon">🚪</div>
           <div class="set-row-body">
-            <div class="set-row-label">Se déconnecter</div>
-            <div class="set-row-sub">Revenir à la page de connexion</div>
+            <div class="set-row-label" data-i18n="logoutLabel">Se déconnecter</div>
+            <div class="set-row-sub" data-i18n="logoutSub">Revenir à la page de connexion</div>
           </div>
-          <button class="set-row-action logout" onclick="doSignOut()">Déconnexion</button>
+          <button class="set-row-action logout" data-i18n="logoutBtn" onclick="doSignOut()">Déconnexion</button>
         </div>
       </div>
     </div>
@@ -1847,18 +1875,18 @@ table.assets th.clickable:hover{color:var(--y);}
         <div class="set-row">
           <div class="set-row-icon">🗑️</div>
           <div class="set-row-body">
-            <div class="set-row-label">Supprimer toutes les données</div>
-            <div class="set-row-sub">Efface définitivement toutes les données de l'app</div>
+            <div class="set-row-label" data-i18n="deleteDataLabel">Supprimer toutes les données</div>
+            <div class="set-row-sub" data-i18n="deleteDataSub">Efface définitivement toutes les données de l'app</div>
           </div>
-          <button class="set-row-action danger" onclick="deleteAllData()">Tout supprimer</button>
+          <button class="set-row-action danger" data-i18n="deleteDataBtn" onclick="deleteAllData()">Tout supprimer</button>
         </div>
         <div class="set-row">
           <div class="set-row-icon">❌</div>
           <div class="set-row-body">
-            <div class="set-row-label">Supprimer mon compte</div>
-            <div class="set-row-sub">Ferme définitivement ton compte (irréversible)</div>
+            <div class="set-row-label" data-i18n="deleteAccLabel">Supprimer mon compte</div>
+            <div class="set-row-sub" data-i18n="deleteAccSub">Ferme définitivement ton compte (irréversible)</div>
           </div>
-          <button class="set-row-action danger" onclick="deleteAccount()">Supprimer le compte</button>
+          <button class="set-row-action danger" data-i18n="deleteAccBtn" onclick="deleteAccount()">Supprimer le compte</button>
         </div>
       </div>
     </div>
@@ -3199,6 +3227,7 @@ function boot(level){
   if(S._newStreakDay)setTimeout(()=>showStreakAnim(S.streak),1200);
   setTimeout(()=>{checkUILevel();applyUILevel();},600);
   maybeTutorial();
+  setTimeout(()=>{ _lang=localStorage.getItem('apex_lang')||'fr'; applyLang(); },300);
 }
 
 function toggleLvlMenu(e){
@@ -3251,7 +3280,8 @@ function switchTab(tab){
   if(tab==='journal')renderJournal();
   if(tab==='corpus')initCorpus();
   if(tab==='profil')renderProfilPage();
-  const titles={learn:'TON PARCOURS',market:'SALLE DES MARCHÉS',missions:'MISSIONS',journal:'JOURNAL DE BORD',profil:'PROFIL',corpus:'CORPUS'};
+  const t=TRANSLATIONS[_lang]||TRANSLATIONS.fr;
+  const titles={learn:t.tabLearn,market:t.tabMarket,missions:t.tabMissions,journal:t.tabJournal,profil:t.tabProfil,corpus:'CORPUS'};
   const ct=el('tbCenterTitle');if(ct)ct.textContent=titles[tab]||'';
 }
 
@@ -5779,6 +5809,91 @@ function sendBotMsg(txt){
 }
 function chatbotKeydown(e){if(e.key==='Enter'){const v=el('chatbotInput').value.trim();if(v)sendBotMsg(v);}}
 
+// ── LANGUE / i18n ────────────────────────────────────────────────────────────
+const TRANSLATIONS = {
+  fr: {
+    tabLearn:'TON PARCOURS', tabMarket:'SALLE DES MARCHÉS', tabMissions:'MISSIONS DU JOUR',
+    tabJournal:'JOURNAL DE BORD', tabProfil:'PROFIL INVESTISSEUR',
+    bnLearn:'Apprendre', bnMarket:'Marchés', bnMissions:'Missions', bnJournal:'Journal', bnProfil:'Profil',
+    setTitle:'PARAMÈTRES', setLang:'Langue', setNotif:'Notifications',
+    setData:'Data & Privacy', setAccount:'Compte', setDanger:'⚠️ Zone dangereuse',
+    notifPush:'Notifications push', notifSub:'Rappels quotidiens',
+    soundLabel:'Sons', soundSub:"Effets sonores dans l'app",
+    exportLabel:'Exporter mes données', exportSub:'Télécharger toutes mes données en JSON', exportBtn:'Exporter',
+    resetLabel:'Réinitialiser les statistiques', resetSub:'Remet à zéro les stats (conserve les habitudes)', resetBtn:'Réinitialiser',
+    logoutLabel:'Se déconnecter', logoutSub:'Revenir à la page de connexion', logoutBtn:'Déconnexion',
+    deleteDataLabel:'Supprimer toutes les données', deleteDataSub:"Efface définitivement toutes les données de l'app", deleteDataBtn:'Tout supprimer',
+    deleteAccLabel:'Supprimer mon compte', deleteAccSub:'Ferme définitivement ton compte (irréversible)', deleteAccBtn:'Supprimer le compte',
+  },
+  en: {
+    tabLearn:'YOUR PATH', tabMarket:'MARKET ROOM', tabMissions:"TODAY'S MISSIONS",
+    tabJournal:'LOGBOOK', tabProfil:'INVESTOR PROFILE',
+    bnLearn:'Learn', bnMarket:'Markets', bnMissions:'Missions', bnJournal:'Journal', bnProfil:'Profile',
+    setTitle:'SETTINGS', setLang:'Language', setNotif:'Notifications',
+    setData:'Data & Privacy', setAccount:'Account', setDanger:'⚠️ Danger Zone',
+    notifPush:'Push notifications', notifSub:'Daily reminders',
+    soundLabel:'Sound', soundSub:'In-app sound effects',
+    exportLabel:'Export my data', exportSub:'Download all your data in JSON format', exportBtn:'Export',
+    resetLabel:'Reset statistics', resetSub:'Reset your stats (keeps habits)', resetBtn:'Reset',
+    logoutLabel:'Sign out', logoutSub:'Return to the login page', logoutBtn:'Sign out',
+    deleteDataLabel:'Delete all data', deleteDataSub:'Permanently erase all app data', deleteDataBtn:'Delete everything',
+    deleteAccLabel:'Delete my account', deleteAccSub:'Permanently close your account (irreversible)', deleteAccBtn:'Delete account',
+  },
+  es: {
+    tabLearn:'TU RUTA', tabMarket:'SALA DE MERCADOS', tabMissions:'MISIONES DEL DÍA',
+    tabJournal:'DIARIO DE ACTIVIDAD', tabProfil:'PERFIL INVERSOR',
+    bnLearn:'Aprender', bnMarket:'Mercados', bnMissions:'Misiones', bnJournal:'Diario', bnProfil:'Perfil',
+    setTitle:'AJUSTES', setLang:'Idioma', setNotif:'Notificaciones',
+    setData:'Datos y privacidad', setAccount:'Cuenta', setDanger:'⚠️ Zona de peligro',
+    notifPush:'Notificaciones push', notifSub:'Recordatorios diarios',
+    soundLabel:'Sonidos', soundSub:'Efectos de sonido en la app',
+    exportLabel:'Exportar mis datos', exportSub:'Descargar todos tus datos en JSON', exportBtn:'Exportar',
+    resetLabel:'Restablecer estadísticas', resetSub:'Reinicia las stats (conserva hábitos)', resetBtn:'Restablecer',
+    logoutLabel:'Cerrar sesión', logoutSub:'Volver a la página de inicio', logoutBtn:'Cerrar sesión',
+    deleteDataLabel:'Eliminar todos los datos', deleteDataSub:'Borrar permanentemente todos los datos', deleteDataBtn:'Eliminar todo',
+    deleteAccLabel:'Eliminar mi cuenta', deleteAccSub:'Cerrar tu cuenta permanentemente (irreversible)', deleteAccBtn:'Eliminar cuenta',
+  }
+};
+
+let _lang = localStorage.getItem('apex_lang') || 'fr';
+
+function setLang(lang) {
+  _lang = lang;
+  localStorage.setItem('apex_lang', lang);
+  // Coches
+  ['fr','en','es'].forEach(l => {
+    const c = document.getElementById('lang-check-'+l);
+    if(c) c.style.display = l === lang ? '' : 'none';
+  });
+  applyLang();
+}
+
+function applyLang() {
+  const t = TRANSLATIONS[_lang] || TRANSLATIONS.fr;
+  // Topbar titles (mis à jour dynamiquement selon l'onglet actif)
+  const TAB_TITLES = { learn:t.tabLearn, market:t.tabMarket, missions:t.tabMissions, journal:t.tabJournal, profil:t.tabProfil };
+  window._tabTitles = TAB_TITLES;
+  const titleEl = el('tbCenterTitle');
+  if(titleEl && S.activeTab) titleEl.textContent = TAB_TITLES[S.activeTab] || titleEl.textContent;
+  // Bottom nav
+  const tabs = ['Learn','Market','Missions','Journal','Profil'];
+  const keys = ['bnLearn','bnMarket','bnMissions','bnJournal','bnProfil'];
+  tabs.forEach((tab,i) => {
+    const btn = document.querySelector(`.bn-btn[data-tab="${tab.toLowerCase()}"]`);
+    if(btn) btn.childNodes[btn.childNodes.length-1].textContent = t[keys[i]];
+  });
+  // Settings overlay
+  const setTitle = document.querySelector('.set-topbar-title'); if(setTitle) setTitle.textContent = t.setTitle;
+  const setText = (id, val) => { const e = document.getElementById(id); if(e) e.textContent = val; };
+  setText('set-lang-title', t.setLang);
+  setText('set-notif-title', t.setNotif);
+  // Rows labels (par data-i18n)
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if(t[key]) el.textContent = t[key];
+  });
+}
+
 // ── SETTINGS ────────────────────────────────────────────────────────────────
 function openSettings(){
   const ov=el('settingsOv');
@@ -5790,6 +5905,13 @@ function openSettings(){
   const ts=document.getElementById('toggleSound');
   if(tn) tn.checked=notif;
   if(ts) ts.checked=sound;
+  // Langue active
+  _lang=localStorage.getItem('apex_lang')||'fr';
+  ['fr','en','es'].forEach(l=>{
+    const c=document.getElementById('lang-check-'+l);
+    if(c) c.style.display=l===_lang?'':'none';
+  });
+  applyLang();
 }
 function closeSettings(){el('settingsOv').classList.remove('show');}
 
