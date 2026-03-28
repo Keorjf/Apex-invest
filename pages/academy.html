@@ -243,7 +243,13 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 #mktTutoCard{
   position:fixed;z-index:6000;max-width:400px;width:calc(100% - 2rem);
   transition:top .35s cubic-bezier(.25,.8,.25,1),left .35s cubic-bezier(.25,.8,.25,1);
+  background:#0e2535!important;
+  border:1.5px solid rgba(255,205,13,.45)!important;
+  box-shadow:0 0 0 4px rgba(6,15,20,.9), 0 24px 60px rgba(0,0,0,.9)!important;
 }
+#mktTutoCard .tuto-title{color:var(--y)!important;}
+#mktTutoCard .tuto-body{color:#e8f8ff!important;}
+#mktTutoCard .mkt-tuto-hint{color:var(--y)!important;}
 #mktTutoCard.centered{left:50%!important;transform:translateX(-50%)!important;top:50%!important;margin-top:-200px!important;transition:none;}
 .tuto-back{background:transparent;border:1px solid var(--ln2);color:var(--muted);font-size:.75rem;padding:.45rem .9rem;border-radius:8px;cursor:pointer;font-family:'Nunito',sans-serif;transition:.15s;}
 .tuto-back:hover{border-color:var(--ln);color:var(--soft);}
