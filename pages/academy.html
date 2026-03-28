@@ -475,6 +475,73 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 
 /* MARKET TOPBAR */
 .mkt-topbar{display:flex;align-items:center;gap:.8rem;padding:.6rem 1rem;border-bottom:1px solid var(--ln);flex-shrink:0;}
+.mkt-order-fab{display:none;margin-left:auto;padding:.38rem .85rem;background:var(--g);color:#000;font-family:'Bungee';font-size:.65rem;letter-spacing:.06em;border:none;border-radius:7px;cursor:pointer;white-space:nowrap;}
+@media(max-width:900px){
+  .mkt-order-fab{display:block;}
+  .mobile-sheet-handle{display:block!important;padding:.7rem 1.1rem .6rem;border-bottom:1px solid var(--ln);background:var(--bg3);}
+  /* ── Sheet tabs ── */
+  .sheet-tabs{display:flex;gap:.5rem;margin-top:.5rem;}
+  .sheet-tab{flex:1;padding:.55rem .5rem;border-radius:9px;border:1px solid var(--ln2);background:transparent;color:var(--muted);font-family:'Bungee',sans-serif;font-size:.72rem;letter-spacing:.06em;cursor:pointer;transition:.18s;}
+  .sheet-tab.active{background:rgba(255,205,13,.15);border-color:rgba(255,205,13,.45);color:var(--g);box-shadow:0 0 12px rgba(255,205,13,.12);}
+  .mkt-right.mobile-open .sheet-panel{display:none;}
+  .mkt-right.mobile-open .sheet-panel.active{display:flex;flex-direction:column;flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;}
+  .mkt-right.mobile-open{
+    display:flex!important;position:fixed;inset:0;top:auto;z-index:400;
+    height:92vh;border-radius:18px 18px 0 0;
+    background:var(--bg2);border-top:1px solid var(--ln2);
+    box-shadow:0 -8px 40px rgba(0,0,0,.6);
+    flex-direction:column;overflow:hidden;
+    animation:slideUp .3s cubic-bezier(.34,1.2,.64,1);
+  }
+  /* ── MOBILE ORDER BOTTOM SHEET ── */
+  .mkt-right.mobile-open .order-panel{border:none;background:transparent;}
+  .mkt-right.mobile-open .sheet-panel.active .positions-panel{flex:1;overflow-y:auto;padding:0 1.1rem 2.5rem;}
+  .mkt-right.mobile-open .op-toggle{display:none;}
+  .mkt-right.mobile-open .op-body{display:block!important;max-height:none!important;overflow:visible!important;padding:1rem 1.1rem 2.5rem!important;}
+
+  /* Asset selector */
+  .mkt-right.mobile-open .oai-select{padding:.7rem 1rem;border-radius:10px;font-size:.85rem;}
+  .mkt-right.mobile-open .oai-nm{font-size:.88rem;}
+  .mkt-right.mobile-open .oai-pr{font-size:.82rem;}
+  .mkt-right.mobile-open .oai-dropdown{max-height:200px;border-radius:10px;}
+  .mkt-right.mobile-open .oai-opt{padding:.6rem .85rem;font-size:.82rem;}
+
+  /* Solde disponible */
+  .mkt-right.mobile-open .wallet-row{padding:.6rem .2rem;margin-bottom:.2rem;font-size:.78rem;}
+  .mkt-right.mobile-open .wr-coins{font-size:.86rem;}
+
+  /* Boutons Acheter / Vendre — grandes zones tactiles */
+  .mkt-right.mobile-open .order-tabs{display:flex!important;gap:.6rem;margin:1rem 0 .8rem;}
+  .mkt-right.mobile-open .otab{padding:.75rem .5rem;font-size:.85rem;font-weight:800;border-radius:10px;letter-spacing:.04em;}
+  .mkt-right.mobile-open .otab.buy.active{background:rgba(255,205,13,.25);border-color:rgba(255,205,13,.6);color:var(--g);box-shadow:0 0 14px rgba(255,205,13,.2);}
+  .mkt-right.mobile-open .otab.sell.active{background:rgba(255,59,92,.18);border-color:rgba(255,59,92,.5);color:var(--r);box-shadow:0 0 14px rgba(255,59,92,.15);}
+
+  /* Label montant */
+  .mkt-right.mobile-open .of-lbl{font-size:.72rem;margin-bottom:.45rem;}
+
+  /* Champ montant */
+  .mkt-right.mobile-open .of-input{padding:.75rem 1rem;font-size:.95rem;border-radius:10px;border-color:var(--ln2);}
+  .mkt-right.mobile-open .of-input:focus{border-color:rgba(255,205,13,.5);box-shadow:0 0 0 3px rgba(255,205,13,.1);}
+
+  /* Boutons % */
+  .mkt-right.mobile-open .of-quick{gap:.5rem;margin-top:.6rem;}
+  .mkt-right.mobile-open .qpct{flex:1;padding:.55rem 0;font-size:.78rem;font-weight:700;border-radius:8px;}
+
+  /* Type d'ordre */
+  .mkt-right.mobile-open .order-type-row{gap:.5rem;margin:.8rem 0 .5rem;}
+  .mkt-right.mobile-open .ot-btn{padding:.5rem;font-size:.74rem;border-radius:8px;}
+
+  /* Récap */
+  .mkt-right.mobile-open .os{border-radius:10px;padding:.7rem .9rem;margin:.7rem 0;font-size:.76rem;}
+  .mkt-right.mobile-open .os-row{padding:.18rem 0;}
+  .mkt-right.mobile-open .os-row.total{padding-top:.4rem;margin-top:.3rem;font-size:.82rem;}
+
+  /* Bouton principal */
+  .mkt-right.mobile-open .order-btn{padding:1rem;font-size:1rem;letter-spacing:.06em;border-radius:12px;font-family:'Bungee',sans-serif;margin-top:.4rem;box-shadow:0 6px 24px rgba(255,205,13,.3);}
+  .mkt-right.mobile-open .order-btn.buy-btn{background:linear-gradient(135deg,var(--g),#e6b800);}
+  .mkt-right.mobile-open .order-btn.sell-btn{box-shadow:0 6px 20px rgba(255,59,92,.25);}
+  @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+}
 /* MODE SIMPLIFIÉ */
 .mkt-mode-btn{font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.25rem .65rem;border-radius:20px;border:1px solid var(--ln2);color:var(--muted);background:transparent;cursor:pointer;transition:.18s;margin-left:auto;}
 .mkt-mode-btn:hover{border-color:var(--y);color:var(--y);}
@@ -622,6 +689,7 @@ table.assets th.clickable:hover{color:var(--y);}
 
 /* MARKET RIGHT */
 .mkt-right{display:flex;flex-direction:column;overflow:hidden;}
+.sheet-panel{display:contents;}/* desktop: both panels always visible */
 
 /* ORDER PANEL */
 .order-panel{border-bottom:1px solid rgba(78,194,218,.2);flex-shrink:0;background:rgba(78,194,218,.05);border-left:3px solid rgba(78,194,218,.35);}
@@ -644,9 +712,20 @@ table.assets th.clickable:hover{color:var(--y);}
 .otab.buy.active{background:rgba(255,205,13,.2);border-color:rgba(255,205,13,.35);color:var(--g);}
 .otab.sell.active{background:rgba(255,59,92,.1);border-color:rgba(255,59,92,.28);color:var(--r);}
 .otab:not(.active):hover{border-color:var(--ln2);color:var(--txt);}
-.oai{display:flex;align-items:center;justify-content:space-between;padding:.42rem .65rem;background:var(--bg3);border-radius:5px;margin-bottom:.6rem;font-size:.73rem;}
-.oai-nm{font-weight:700;}
-.oai-pr{font-family:'JetBrains Mono','Courier New',monospace;color:var(--g);}
+.oai{position:relative;margin-bottom:.6rem;}
+.oai-select{display:flex;align-items:center;justify-content:space-between;padding:.42rem .65rem;background:var(--bg3);border:1px solid var(--ln2);border-radius:6px;font-size:.73rem;cursor:pointer;user-select:none;transition:border-color .15s;}
+.oai-select:hover,.oai-select.open{border-color:rgba(255,205,13,.4);}
+.oai-nm{font-weight:700;flex:1;}
+.oai-pr{font-family:'JetBrains Mono','Courier New',monospace;color:var(--g);margin-right:.5rem;}
+.oai-arrow{font-size:.6rem;color:var(--muted);transition:transform .2s;}
+.oai-select.open .oai-arrow{transform:rotate(180deg);}
+.oai-dropdown{display:none;position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--bg3);border:1px solid rgba(255,205,13,.25);border-radius:8px;z-index:500;max-height:220px;overflow-y:auto;box-shadow:0 8px 24px rgba(0,0,0,.5);}
+.oai-dropdown.open{display:block;}
+.oai-opt{display:flex;align-items:center;justify-content:space-between;padding:.45rem .7rem;font-size:.72rem;cursor:pointer;transition:background .15s;}
+.oai-opt:hover{background:rgba(255,205,13,.08);}
+.oai-opt.active{background:rgba(255,205,13,.12);color:var(--g);}
+.oai-opt-left{display:flex;align-items:center;gap:.4rem;font-weight:600;}
+.oai-opt-price{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--g);}
 .of-lbl{font-size:.6rem;color:var(--muted);margin-bottom:.3rem;display:flex;justify-content:space-between;}
 .of-lbl span{color:var(--y);}
 .of-input{width:100%;padding:.55rem .75rem;background:var(--bg3);border:1px solid var(--ln);border-radius:5px;color:var(--txt);font-size:.8rem;outline:none;transition:border-color .18s;}
@@ -1088,7 +1167,7 @@ table.assets th.clickable:hover{color:var(--y);}
 .invest-nudge{position:fixed;bottom:5rem;left:50%;transform:translateX(-50%) translateY(20px);opacity:0;z-index:600;background:linear-gradient(135deg,#0d2137,#0f2a1a);border:1px solid rgba(255,205,13,.5);border-radius:14px;padding:1.1rem 1.6rem;display:flex;align-items:center;gap:.9rem;min-width:280px;max-width:340px;box-shadow:0 8px 32px rgba(0,0,0,.5),0 0 20px rgba(255,205,13,.12);transition:all .4s cubic-bezier(.34,1.4,.64,1);pointer-events:none;}
 .invest-nudge.show{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto;}
 .invest-nudge-icon{font-size:1.8rem;flex-shrink:0;}
-.invest-nudge-body{flex:1;}
+.invest-nudge-body{flex:1;text-align:center;}
 .invest-nudge-title{font-size:.82rem;font-weight:700;color:var(--y);margin-bottom:.15rem;}
 .invest-nudge-sub{font-size:.7rem;color:var(--muted);}
 .invest-nudge-close{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.9rem;padding:0;flex-shrink:0;}
@@ -1123,41 +1202,78 @@ table.assets th.clickable:hover{color:var(--y);}
 .bn-btn.active .bn-icon{transform:scale(1.15);}
 
 @media(max-width:768px){
-  /* Bottom nav visible */
+  /* ── Bottom nav ── */
   .bottom-nav{display:flex;}
-  /* Masque les boutons de nav dans la topbar */
   #navLearn,#navMarket,#navMissions,#navJournal,#navProfil{display:none!important;}
-  /* Padding bas pour ne pas être masqué par la bottom nav */
-  .tab{padding-bottom:66px;}
-  /* Topbar : titre centré via flexbox */
+  .tab{padding-bottom:72px;}
+
+  /* ── Topbar ── */
   .tb-brand,.tb-sep{display:none!important;}
   .tb-spacer{display:none!important;}
-  .tb-center-title{display:block!important;position:static!important;transform:none!important;flex:1!important;text-align:center!important;font-size:1.05rem!important;}
-  /* Améliore les zones tactiles */
-  .tb-btn{min-height:36px;padding:.4rem .65rem;font-size:.72rem;}
-  .tb-wallet{min-height:30px;font-size:.72rem;padding:.25rem .6rem;}
-  /* Contenu */
-  .journal-wrap,.missions-wrap{padding:.85rem .8rem;}
-  .learn-main{padding:.85rem .8rem;}
-  /* Market */
+  .tb-center-title{position:absolute!important;left:50%!important;transform:translateX(-50%)!important;font-size:1rem!important;letter-spacing:.08em!important;text-align:center!important;}
+  .tb-btn{min-height:40px;padding:.45rem .7rem;font-size:.72rem;}
+  .tb-wallet{min-height:32px;font-size:.74rem;padding:.28rem .65rem;border-radius:8px;}
+
+  /* ── Parcours (Learn) ── */
+  .learn-main{padding:1rem;}
+  .lesson-map{padding:1rem;}
+  .lh-title{font-size:1.4rem;text-align:center;}
+  .lh-sub{text-align:center;font-size:.8rem;}
+  .track-card{padding:1rem;margin-bottom:.8rem;}
+  .lesson-card{padding:.85rem 1rem;margin-bottom:.5rem;}
+  .lc-n{font-size:.85rem;}
+
+  /* ── Missions ── */
+  .missions-wrap{padding:1rem;}
+  .mis-title{font-size:1.1rem;text-align:center;margin-bottom:1rem;}
+  .mission-card{padding:1rem 1.1rem;margin-bottom:.7rem;}
+  .mc-icon{font-size:1.7rem;}
+  .mc-claim-btn{padding:.5rem 1.1rem;font-size:.75rem;}
+
+  /* ── Journal ── */
+  .journal-wrap{padding:1rem;}
+  .jw-title{font-size:1.1rem;text-align:center;margin-bottom:1rem;}
+  .jf-bar{justify-content:center;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem;}
+  .jf-btn{padding:.38rem .8rem;font-size:.7rem;}
+  .je-card{padding:.8rem 1rem;}
+
+  /* ── Marché ── */
   .market-layout{grid-template-columns:1fr;}
   .mkt-right{display:none;}
-  /* Agrandit les boutons d'action */
-  .mkt-mode-btn{padding:.5rem .7rem;font-size:.7rem;}
-  table.assets td,table.assets th{padding:.55rem .4rem;font-size:.72rem;}
-  /* Sidebar profil : pleine largeur */
-  .learn-sidebar{width:100%;border-right:none;}
-  /* Profile tab */
-  #profilPage{padding:.8rem .9rem;}
-  /* Chatbot */
-  .chatbot-fab{bottom:70px;}
-  .chatbot-panel{bottom:70px;}
-  /* Notif nudge */
-  .low-nudge{bottom:70px;}
-  /* Toasts */
-  .toast{max-width:calc(100vw - 2rem);}
-  /* Settings overlay body padding */
-  .set-body{padding:1rem .8rem 4rem;}
+  .mkt-topbar{padding:.6rem .9rem;gap:.6rem;}
+  .mkt-mode-btn{padding:.5rem .75rem;font-size:.7rem;}
+  table.assets td,table.assets th{padding:.65rem .5rem;font-size:.75rem;}
+  table.assets td:first-child,table.assets th:first-child{padding-left:.7rem;}
+  .td-name{gap:.4rem;font-size:.78rem;}
+  .asset-row.selected td{background:rgba(255,205,13,.06);}
+
+  /* ── Profil ── */
+  .learn-sidebar{width:100%;border-right:none;padding:1.1rem 1rem;}
+  #profilPage{padding:1rem;}
+  .sp-name{font-size:1.1rem;text-align:center;}
+  .sp-tag{text-align:center;}
+  .sp-section{margin-bottom:1.2rem;}
+  .sp-lbl{font-size:.68rem;letter-spacing:.1em;margin-bottom:.4rem;}
+  .sp-val{font-size:.82rem;line-height:1.5;}
+  .sp-actions{display:flex;flex-direction:column;gap:.6rem;}
+  .sp-btn{width:100%;text-align:center;padding:.7rem;font-size:.78rem;}
+
+  /* ── Settings ── */
+  .set-body{padding:1.1rem 1rem 4.5rem;}
+  .set-section-title{font-size:.62rem;letter-spacing:.12em;margin-bottom:.6rem;}
+  .set-row{padding:.85rem 1rem;margin-bottom:.35rem;}
+  .set-row-lbl{font-size:.85rem;}
+  .set-row-sub{font-size:.72rem;margin-top:.2rem;}
+  .set-row-action{padding:.42rem .9rem;font-size:.75rem;}
+
+  /* ── Notifications & toasts ── */
+  .chatbot-fab{bottom:72px;}
+  .chatbot-panel{bottom:72px;}
+  .low-nudge,.invest-nudge{bottom:74px;left:1rem;right:1rem;transform:none;max-width:none;border-radius:12px;}
+  .low-nudge.show,.invest-nudge.show{transform:translateY(0);}
+  .toast{max-width:calc(100vw - 2rem);left:1rem;right:1rem;transform:translateY(20px);border-radius:12px;}
+  .toast.show{transform:translateY(0);}
+  .invest-nudge-body{text-align:left;}
 }
 
 /* ── Titres Bungee : contour noir + ombre jaune ── */
@@ -1362,7 +1478,6 @@ table.assets th.clickable:hover{color:var(--y);}
     <div class="tb-spacer"></div>
     <div class="tb-wallet" id="tbStreak" style="color:var(--o);border-color:rgba(255,140,0,.3)">🔥 <span id="tbStreakDays">0j</span></div>
     <div class="tb-wallet" id="tbWallet">🪙 500</div>
-    <button class="tb-btn" onclick="goSplash()">↩</button>
   </nav>
 
   <!-- BOTTOM NAV (mobile) -->
@@ -1426,10 +1541,10 @@ table.assets th.clickable:hover{color:var(--y);}
     <div class="market-layout">
       <div class="mkt-left">
         <div class="mkt-topbar">
-
           <div class="mkt-live"><div class="live-dot"></div><span data-i18n="mktLive">Live simulé</span></div>
           <span id="alignVal" style="display:none"></span>
           <div class="mkt-time" id="mktTime">--:--:--</div>
+          <button class="mkt-order-fab" onclick="openOrderPanel()">📈 Passer un ordre</button>
         </div>
         <div class="asset-wrap">
           <table class="assets">
@@ -1492,13 +1607,34 @@ table.assets th.clickable:hover{color:var(--y);}
         <div id="etItems" style="display:none"></div>
       </div>
 
+      <div class="mkt-order-backdrop" id="mktOrderBackdrop" onclick="closeMobileOrderPanel()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:399;"></div>
       <div class="mkt-right" id="mktRight">
+        <div class="mobile-sheet-handle" id="mobileSheetHandle" style="display:none;flex-shrink:0;">
+          <div style="width:40px;height:4px;background:var(--ln2);border-radius:2px;margin:0 auto .5rem"></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem;">
+            <span style="font-family:'Bungee';font-size:.8rem;letter-spacing:.08em;color:var(--muted)">SALLE DES MARCHÉS</span>
+            <button onclick="closeMobileOrderPanel()" style="background:rgba(255,255,255,.08);border:1px solid var(--ln2);border-radius:7px;color:var(--muted);font-size:.7rem;padding:.3rem .65rem;cursor:pointer;">✕ Fermer</button>
+          </div>
+          <div class="sheet-tabs">
+            <button class="sheet-tab active" id="sheetTabBtnOrder" onclick="switchSheetTab('order')">📈 Ordre</button>
+            <button class="sheet-tab" id="sheetTabBtnPortfolio" onclick="switchSheetTab('portfolio')">💼 Portefeuille</button>
+          </div>
+        </div>
+        <div class="sheet-panel active" id="sheetPanelOrder">
         <div class="order-panel">
           <div class="op-toggle" onclick="toggleOrderPanel()">
             <span class="op-toggle-label" data-i18n="orderTitle">Passer un ordre</span>
             <span class="op-toggle-arrow" id="opArrow">▼</span>
           </div>
           <div class="op-body" id="opBody">
+            <div class="oai" id="oaiWrap">
+              <div class="oai-select" id="oaiSelect" onclick="toggleAssetDd(event)">
+                <span class="oai-nm" id="oaiNm" data-i18n="orderSelect">Sélectionne un actif</span>
+                <span class="oai-pr" id="oaiPr">—</span>
+                <span class="oai-arrow">▼</span>
+              </div>
+              <div class="oai-dropdown" id="oaiDropdown"></div>
+            </div>
             <div class="wallet-row">
               <span data-i18n="orderAvail">Disponible</span>
               <span class="wr-coins">🪙 <span id="opWallet">500</span></span>
@@ -1507,7 +1643,6 @@ table.assets th.clickable:hover{color:var(--y);}
               <button class="otab buy active" id="oBuy" onclick="setOrderSide('buy')" data-i18n="orderBuy">▲ ACHETER</button>
               <button class="otab sell"       id="oSell" onclick="setOrderSide('sell')" data-i18n="orderSell">▼ VENDRE</button>
             </div>
-            <div class="oai"><span class="oai-nm" id="oaiNm" data-i18n="orderSelect">Sélectionne un actif</span><span class="oai-pr" id="oaiPr">—</span></div>
             <div class="of-lbl"><span data-i18n="orderAmount">Montant (Tacoins)</span> <span id="ofBal"></span></div>
             <input class="of-input" type="number" id="orderAmt" placeholder="0" min="1" oninput="updateOS()">
             <div class="of-quick">
@@ -1538,7 +1673,9 @@ table.assets th.clickable:hover{color:var(--y);}
           <div class="lq-title" data-i18n="limitTitle">Ordres limites en attente</div>
           <div id="limitQueueList"><div class="lq-empty" data-i18n="limitEmpty">Aucun ordre limite</div></div>
         </div>
+        </div><!-- /sheetPanelOrder -->
 
+        <div class="sheet-panel" id="sheetPanelPortfolio">
         <div class="positions-panel">
           <div class="pp-hdr" onclick="openPortfolioModal()"><span data-i18n="portfolioTitle">Portefeuille</span> <span class="pp-hdr-arrow">↗</span></div>
           <div class="port-summary" id="portSummary"></div>
@@ -1548,6 +1685,7 @@ table.assets th.clickable:hover{color:var(--y);}
           </div>
           <div id="posList"></div>
         </div>
+        </div><!-- /sheetPanelPortfolio -->
 
 <div class="alloc-panel" id="allocPanel"></div>
         <!-- ALLOC MODAL -->
@@ -1555,7 +1693,7 @@ table.assets th.clickable:hover{color:var(--y);}
           <div class="alloc-modal">
             <button class="alloc-modal-close" onclick="closeAllocModal()">✕</button>
             <div class="ap-hdr">
-              <span class="ap-title" data-i18n="allocTitle">📐 Allocation conseillée</span>
+              <span class="ap-title" data-i18n="allocTitle">Allocation conseillée</span>
               <span class="ap-profile" id="apProfile">—</span>
               <button class="ap-retry" data-i18n="allocRetry" onclick="openDiag()">Refaire ↺</button>
             </div>
@@ -1570,12 +1708,12 @@ table.assets th.clickable:hover{color:var(--y);}
   <div class="reb-modal-ov" id="rebModalOv" onclick="if(event.target===this)closeRebalanceModal()">
     <div class="reb-modal">
       <button class="reb-close" onclick="closeRebalanceModal()">✕</button>
-      <div class="reb-title" data-i18n="rebTitle">⚖️ Rééquilibrage du portefeuille</div>
+      <div class="reb-title" data-i18n="rebTitle">Rééquilibrage du portefeuille</div>
       <div class="reb-sub" id="rebSub"></div>
       <div class="reb-score" id="rebScore"></div>
       <div class="reb-cash">
         <div class="reb-cash-hdr">
-          <span class="reb-cash-lbl" data-i18n="rebCashLbl">🏦 Réserve de cash</span>
+          <span class="reb-cash-lbl" data-i18n="rebCashLbl">Réserve de cash</span>
           <span class="reb-cash-val" id="rebCashDisplay">0 🪙</span>
         </div>
         <div class="reb-cash-row">
@@ -1592,7 +1730,7 @@ table.assets th.clickable:hover{color:var(--y);}
         <div class="reb-cash-hint" data-i18n="rebHint">Le cash réservé ne sera pas investi lors du rééquilibrage.</div>
       </div>
       <div class="reb-list" id="rebList"></div>
-      <button class="reb-btn-all" id="rebBtnAll" data-i18n="rebBtn" onclick="executeRebalance()">⚡ Rééquilibrer automatiquement</button>
+      <button class="reb-btn-all" id="rebBtnAll" data-i18n="rebBtn" onclick="executeRebalance()">Rééquilibrer automatiquement</button>
     </div>
   </div>
 
@@ -1610,7 +1748,7 @@ table.assets th.clickable:hover{color:var(--y);}
   <div class="port-modal-ov" id="portModalOv" onclick="if(event.target===this)closePortfolioModal()">
     <div class="port-modal">
       <button class="pm-close" onclick="closePortfolioModal()">✕</button>
-      <div class="pm-title">💼 Portefeuille</div>
+      <div class="pm-title">Portefeuille</div>
       <div class="pm-summary" id="pmSummary"></div>
       <div class="pm-list" id="pmList"></div>
     </div>
@@ -1688,10 +1826,10 @@ table.assets th.clickable:hover{color:var(--y);}
           <div class="cc-field">
             <label>Niveau cible</label>
             <select id="ccLevel">
-              <option value="Débutant">🌱 Débutant</option>
-              <option value="Intermédiaire" selected>📈 Intermédiaire</option>
-              <option value="Avancé">⚡ Avancé</option>
-              <option value="Expert">🏛️ Expert</option>
+              <option value="Débutant">Débutant</option>
+              <option value="Intermédiaire" selected>Intermédiaire</option>
+              <option value="Avancé">Avancé</option>
+              <option value="Expert">Expert</option>
             </select>
           </div>
           <div class="cc-field">
@@ -1870,7 +2008,7 @@ table.assets th.clickable:hover{color:var(--y);}
 
     <!-- Danger Zone -->
     <div class="set-section">
-      <div class="set-section-title">⚠️ Zone dangereuse</div>
+      <div class="set-section-title">Zone dangereuse</div>
       <div class="set-card set-danger-card">
         <div class="set-row">
           <div class="set-row-icon">🗑️</div>
@@ -1944,6 +2082,7 @@ table.assets th.clickable:hover{color:var(--y);}
   <div class="invest-nudge-body">
     <div class="invest-nudge-title">Il est temps d'investir, non ?</div>
     <div class="invest-nudge-sub" id="investNudgeSub">Tu as <strong id="investNudgeAmt"></strong> 🪙 disponibles.</div>
+    <button onclick="closeInvestNudge();switchTab('market')" style="margin-top:.5rem;padding:.35rem .85rem;background:var(--g);color:#000;font-family:'Bungee';font-size:.65rem;letter-spacing:.06em;border:none;border-radius:6px;cursor:pointer">Salle des marchés →</button>
   </div>
   <button class="invest-nudge-close" onclick="closeInvestNudge()">✕</button>
 </div>
@@ -2824,6 +2963,184 @@ Intermédiaire: [
 ] // fin Expert CFA/AMF
 
 }; // fin LESSONS
+LESSONS['Expert'] = LESSONS['Expert CFA/AMF']; // alias pour le menu déroulant
+
+// ── Traductions Expert CFA/AMF ─────────────────────────────────────────────
+const LESSON_I18N = {
+  en: {
+    tracks: {
+      '🏛️ Risk Management Institutionnel': '🏛️ Institutional Risk Management',
+      '📈 Finance de Marché Avancée':       '📈 Advanced Market Finance',
+      '📋 Préparation CFA/AMF':            '📋 CFA/AMF Preparation',
+    },
+    lessons: {
+      ex1: {
+        n: 'VaR, CVaR and advanced risk measures',
+        blocks: [
+          { type:'hook', emo:'📐', text:'<strong>Value at Risk (VaR) answers one precise question: how much can I lose at most with X% probability over N days?</strong> It is the universal language of institutional risk management.' },
+          { type:'content', text:'<strong>95% 1-day VaR</strong>: maximum loss in 1 day with 95% confidence. Example: VaR of €1M → we lose more than €1M only 5% of trading days.<br><strong>CVaR (Expected Shortfall)</strong>: expected loss in the worst case (remaining 5%). Better measure for tail distributions.<br><strong>Calculation methods:</strong> historical (simulates past data), variance-covariance (Gaussian assumption), Monte Carlo (random simulations).' },
+          { type:'trap', text:'<strong>Fatal limitation of VaR:</strong> it often assumes a normal distribution. Financial crises (2008, 2020) produce "black swans" that Gaussian VaR massively underestimates. Basel III now requires CVaR.' }
+        ],
+        quiz: { q:'CVaR (Expected Shortfall) is preferred over VaR because:', opts:['It is simpler to calculate','It captures the expected loss in extreme scenarios beyond VaR','It is required by the FCA','It ignores tail distributions'], correct:1, expl:'<strong>CVaR = conditional expectation of loss</strong> beyond the VaR threshold. It measures "how much we lose on average in worst cases", where VaR only says "from what point".' }
+      },
+      ex2: {
+        n: 'Basel III: CET1 ratio, LCR and NSFR',
+        blocks: [
+          { type:'hook', emo:'⚖️', text:'<strong>Basel III is the global regulatory framework defining how much capital a bank must hold against its risks.</strong> Born after 2008, it fundamentally changed the international banking system.' },
+          { type:'content', text:'<strong>CET1 (Common Equity Tier 1)</strong>: highest quality capital (ordinary shares + retained earnings). Minimum: 4.5% of risk-weighted assets. With conservation buffer: 7%.<br><strong>LCR (Liquidity Coverage Ratio)</strong>: high-quality liquid assets ≥ net outflows over 30 days of stress. Minimum: 100%.<br><strong>NSFR (Net Stable Funding Ratio)</strong>: available stable funding ≥ required stable funding over 1 year.' },
+          { type:'real', head:'Market impact', body:'Basel III requirements <em>reduced bond market liquidity</em> by constraining banks to hold fewer securities in inventory. <strong>Bid-ask spreads on some corporate bonds have widened</strong> since 2013.' }
+        ],
+        quiz: { q:'The LCR ratio measures:', opts:['Return on equity','The ability to survive 30 days of liquidity stress','The bank\'s total leverage','The proportion of non-performing loans'], correct:1, expl:'<strong>LCR = Liquidity Coverage Ratio.</strong> It requires a bank to hold enough liquid assets to cover net cash outflows for 30 days of stress.' }
+      },
+      ex3: {
+        n: 'ALM management: asset-liability and immunization',
+        blocks: [
+          { type:'hook', emo:'🔄', text:'<strong>ALM (Asset-Liability Management) consists of aligning an institution\'s asset structure with its future commitments</strong>, controlling interest rate, liquidity and duration risk.' },
+          { type:'content', text:'<strong>Duration matching</strong>: align asset duration with liability duration to neutralize interest rate risk.<br><strong>Immunization</strong>: build a portfolio whose value is insensitive to small rate shocks (duration + convexity).<br><strong>Cash Flow Matching</strong>: dedicate specific bond cash flows to each liability maturity (used by pension funds).<br><strong>Surplus ALM</strong>: manage the Assets − Liabilities difference as a portfolio to optimize.' },
+          { type:'tip', text:'<strong>Pension funds</strong> and insurers use ALM to manage liabilities over 30–50 years. A +100bp rate shock can reduce a pension liability\'s value by 15–20%.' }
+        ],
+        quiz: { q:'Bond portfolio immunization aims to:', opts:['Maximize return','Make the portfolio value insensitive to rate changes','Eliminate all credit risk','Maximize duration'], correct:1, expl:'<strong>Immunization = neutralizing interest rate risk</strong> by aligning asset duration and convexity with liabilities. Portfolio value stays stable despite rate movements.' }
+      },
+      ex4: {
+        n: 'Pricing models: Black-Scholes and its limits',
+        blocks: [
+          { type:'hook', emo:'🔬', text:'<strong>Black-Scholes (1973) revolutionized finance by providing a closed-form formula for pricing European options.</strong> Nobel Prize 1997. Still used everywhere — but everyone knows its limitations.' },
+          { type:'content', text:'<strong>BS Formula</strong>: C = S·N(d1) − K·e^(−rT)·N(d2)<br><strong>Assumptions:</strong> constant volatility, log-normal price distribution, continuous frictionless markets, constant risk-free rate, no dividends.<br><strong>The volatility smile:</strong> in practice, implied vol varies by strike (higher for OTM puts). BS doesn\'t explain it → stochastic vol models (Heston, SABR).' },
+          { type:'real', head:'Practical use', body:'Traders use BS to calculate <em>implied volatility</em> from market option prices. <strong>This implied vol is the true price of an option</strong> — the model serves as a conversion tool.' }
+        ],
+        quiz: { q:'The "volatility smile" reveals that Black-Scholes:', opts:['Always overestimates option prices','Incorrectly assumes constant volatility across all strikes','Only works for American options','Miscalculates Delta'], correct:1, expl:'<strong>The smile shows implied vol varies by strike</strong>, contrary to BS\'s constant vol assumption. OTM puts typically have higher implied vol → negative skew.' }
+      },
+      ex5: {
+        n: 'Structured products: CDO, MBS and complex derivatives',
+        blocks: [
+          { type:'hook', emo:'🏦', text:'<strong>The 2008 crisis showed how complex structured products can concentrate and amplify systemic risk.</strong> Understanding them means understanding the mechanics of modern crises.' },
+          { type:'content', text:'<strong>MBS (Mortgage-Backed Securities)</strong>: securitization of mortgage loans into bonds. Prepayment risk included.<br><strong>CDO (Collateralized Debt Obligation)</strong>: slicing a debt pool into tranches (Senior AAA, Mezzanine, Equity). The senior tranche is repaid first.<br><strong>CDS (Credit Default Swap)</strong>: insurance against an issuer\'s default. Buyer pays a premium, receives face value in case of default.' },
+          { type:'trap', text:'<strong>Underestimated correlation in 2008:</strong> CDOs were rated AAA assuming low correlation between mortgage defaults. When the crisis hit all markets simultaneously, correlation rose to 1 and models collapsed.' }
+        ],
+        quiz: { q:'In a CDO, which tranche absorbs the first losses?', opts:['The Senior tranche (AAA)','The Mezzanine tranche','The Equity tranche (First Loss)','All tranches equally'], correct:2, expl:'<strong>Equity tranche = First Loss.</strong> It absorbs the first losses from the pool. In return, it offers the highest yield. The Senior tranche is the last to be affected.' }
+      },
+      ex6: {
+        n: 'Macroeconomics for investors: cycles and allocation',
+        blocks: [
+          { type:'hook', emo:'🌍', text:'<strong>Major economic cycles determine which asset classes outperform.</strong> Understanding the cycle means knowing where to allocate before everyone else.' },
+          { type:'content', text:'<strong>Economic cycle in 4 phases:</strong><br>1. <strong>Expansion</strong>: equities (cyclicals, emerging), commodities.<br>2. <strong>Peak</strong>: commodities, TIPS, raw materials.<br>3. <strong>Contraction</strong>: government bonds, gold, defensives.<br>4. <strong>Trough / Recovery</strong>: growth stocks, real estate, high yield.<br><strong>Key indicators:</strong> ISM Manufacturing PMI, yield curve (2s10s), credit spreads.' },
+          { type:'real', head:'Bridgewater All Weather', body:'Ray Dalio built the <em>All Weather</em> fund by weighting assets by their <strong>risk contribution</strong> in each cycle phase: 30% equities, 40% long-term bonds, 15% intermediate bonds, 7.5% gold, 7.5% commodities.' }
+        ],
+        quiz: { q:'During an economic contraction, which assets generally outperform?', opts:['Cyclical stocks and emerging markets','Government bonds and gold','Commodities and real estate','Small caps and high yield'], correct:1, expl:'<strong>Contraction phase</strong> = flight to safety. <strong>Government bonds</strong> (anticipated rate cuts) and <strong>gold</strong> (safe haven) outperform. Cyclical stocks and high yield suffer.' }
+      },
+      ex7: {
+        n: 'CFA Code of Ethics: Standards and Norms',
+        blocks: [
+          { type:'hook', emo:'📋', text:'<strong>The CFA Institute enforces a Code of Ethics and Professional Standards that every CFA analyst must follow.</strong> It is the foundation of trust in the financial industry.' },
+          { type:'content', text:'<strong>7 main Standards:</strong><br>I. Professionalism (diligence, honest communication).<br>II. Integrity of capital markets (no insider information).<br>III. Duties to clients (loyalty, client priority).<br>IV. Duties to employers.<br>V. Analysis and recommendations (reasonable basis).<br>VI. Conflicts of interest (disclosure).<br>VII. CFA Member responsibilities.' },
+          { type:'tip', text:'<strong>For the AMF exam:</strong> know French financial ethics rules (market abuse, price manipulation, insider trading) and AMF sanctions (up to €100M or 10× realized profit).' }
+        ],
+        quiz: { q:'According to CFA Standards, what should an analyst do when receiving non-public information about a company?', opts:['Use it quickly before others','Refrain from trading and contact the compliance officer','Share it with selected clients','Ignore it and continue normally'], correct:1, expl:'<strong>Non-public information = Chinese wall.</strong> The analyst must refrain from any transaction and consult their compliance department. Using this information constitutes insider trading.' }
+      },
+      ex8: {
+        n: 'CFA Level III portfolio construction',
+        blocks: [
+          { type:'hook', emo:'🎯', text:'<strong>CFA Level III focuses on portfolio management and wealth planning.</strong> It is the culmination: turning all knowledge into concrete allocation decisions.' },
+          { type:'content', text:'<strong>IPS (Investment Policy Statement)</strong>: document defining objectives (return, risk) and constraints (liquidity, horizon, taxes, regulatory, specific) of the client.<br><strong>Allocation process:</strong><br>1. Define the IPS<br>2. Strategic allocation (SAA) long term<br>3. Tactical allocation (TAA) short term<br>4. Vehicle selection (ETFs, funds, individual securities)<br>5. Periodic rebalancing<br>6. Performance evaluation (GIPS).' },
+          { type:'real', head:'GIPS (Global Investment Performance Standards)', body:'GIPS standards impose precise rules for calculating and presenting performance. <strong>Used by institutional managers to compare performance</strong> fairly and transparently.' }
+        ],
+        quiz: { q:'The IPS (Investment Policy Statement) primarily defines:', opts:['The list of stocks to buy','The client portfolio\'s objectives and constraints','The manager\'s historical performance','Short-term tactical allocation'], correct:1, expl:'<strong>The IPS is the cornerstone of CFA portfolio management.</strong> It formalizes return and risk objectives and all client constraints (liquidity, horizon, taxes, specific needs).' }
+      }
+    }
+  },
+  es: {
+    tracks: {
+      '🏛️ Risk Management Institutionnel': '🏛️ Gestión de Riesgos Institucional',
+      '📈 Finance de Marché Avancée':       '📈 Finanzas de Mercado Avanzadas',
+      '📋 Préparation CFA/AMF':            '📋 Preparación CFA/AMF',
+    },
+    lessons: {
+      ex1: {
+        n: 'VaR, CVaR y medidas de riesgo avanzadas',
+        blocks: [
+          { type:'hook', emo:'📐', text:'<strong>El Valor en Riesgo (VaR) responde a una pregunta precisa: ¿cuánto puedo perder como máximo con probabilidad X% en N días?</strong> Es el lenguaje universal de la gestión de riesgos institucional.' },
+          { type:'content', text:'<strong>VaR al 95% a 1 día</strong>: pérdida máxima en 1 día con confianza del 95%. Ejemplo: VaR de 1M€ → perdemos más de 1M€ solo el 5% de los días de trading.<br><strong>CVaR (Expected Shortfall)</strong>: esperanza de pérdida en el peor caso (5% restante). Mejor medida para las colas de distribución.<br><strong>Métodos de cálculo:</strong> histórico (simula el pasado), varianza-covarianza (hipótesis gaussiana), Monte Carlo (simulaciones aleatorias).' },
+          { type:'trap', text:'<strong>Limitación fatal del VaR:</strong> a menudo asume una distribución normal. Las crisis financieras (2008, 2020) producen "cisnes negros" que el VaR gaussiano subestima masivamente. Basilea III impone el CVaR.' }
+        ],
+        quiz: { q:'El CVaR (Expected Shortfall) se prefiere al VaR porque:', opts:['Es más simple de calcular','Captura la pérdida esperada en escenarios extremos que superan el VaR','Lo exige la CNMV','Ignora las colas de distribución'], correct:1, expl:'<strong>CVaR = esperanza condicional de pérdida</strong> más allá del umbral VaR. Mide "cuánto perdemos en promedio en los peores casos", donde el VaR solo dice "a partir de qué punto".' }
+      },
+      ex2: {
+        n: 'Basilea III: ratio CET1, LCR y NSFR',
+        blocks: [
+          { type:'hook', emo:'⚖️', text:'<strong>Basilea III es el marco regulatorio mundial que define cuánto capital debe mantener un banco frente a sus riesgos.</strong> Nacido tras 2008, cambió fundamentalmente el sistema bancario internacional.' },
+          { type:'content', text:'<strong>CET1 (Common Equity Tier 1)</strong>: capital de mayor calidad (acciones ordinarias + beneficios retenidos). Mínimo: 4,5% de los activos ponderados por riesgo. Con colchón de conservación: 7%.<br><strong>LCR (Liquidity Coverage Ratio)</strong>: activos líquidos de alta calidad ≥ salidas netas en 30 días de estrés. Mínimo: 100%.<br><strong>NSFR (Net Stable Funding Ratio)</strong>: financiación estable disponible ≥ financiación estable requerida a 1 año.' },
+          { type:'real', head:'Impacto en el mercado', body:'Los requisitos de Basilea III <em>redujeron la liquidez del mercado de bonos</em> al obligar a los bancos a mantener menos títulos en inventario. <strong>El diferencial bid-ask en algunos bonos corporativos se ha ampliado</strong> desde 2013.' }
+        ],
+        quiz: { q:'El ratio LCR mide:', opts:['La rentabilidad sobre recursos propios','La capacidad de sobrevivir 30 días de estrés de liquidez','El apalancamiento total del banco','La proporción de préstamos morosos'], correct:1, expl:'<strong>LCR = Liquidity Coverage Ratio.</strong> Exige que un banco mantenga suficientes activos líquidos para cubrir sus salidas netas de efectivo durante 30 días de estrés.' }
+      },
+      ex3: {
+        n: 'Gestión ALM: activo-pasivo e inmunización',
+        blocks: [
+          { type:'hook', emo:'🔄', text:'<strong>El ALM (Asset-Liability Management) consiste en alinear la estructura de activos de una institución con sus compromisos futuros</strong>, controlando el riesgo de tipo de interés, liquidez y duración.' },
+          { type:'content', text:'<strong>Duration matching</strong>: alinear la duración de los activos con la de los pasivos para neutralizar el riesgo de tipo de interés.<br><strong>Inmunización</strong>: construir una cartera cuyo valor sea insensible a pequeñas variaciones de tipos (duración + convexidad).<br><strong>Cash Flow Matching</strong>: dedicar flujos de bonos específicos a cada vencimiento del pasivo (usado por fondos de pensiones).<br><strong>Surplus ALM</strong>: gestionar la diferencia Activos − Pasivos como una cartera a optimizar.' },
+          { type:'tip', text:'Los <strong>fondos de pensiones</strong> y aseguradoras usan el ALM para gestionar pasivos a 30–50 años. Un shock de tipos de +100pb puede reducir el valor de un pasivo pensional un 15–20%.' }
+        ],
+        quiz: { q:'La inmunización de una cartera de bonos tiene como objetivo:', opts:['Maximizar el rendimiento','Hacer el valor de la cartera insensible a las variaciones de tipos','Eliminar todo riesgo de crédito','Maximizar la duración'], correct:1, expl:'<strong>Inmunización = neutralización del riesgo de tipo de interés</strong> alineando duración y convexidad de activos con pasivos. El valor de la cartera se mantiene estable pese a los movimientos de tipos.' }
+      },
+      ex4: {
+        n: 'Modelos de valoración: Black-Scholes y sus límites',
+        blocks: [
+          { type:'hook', emo:'🔬', text:'<strong>Black-Scholes (1973) revolucionó las finanzas al dar una fórmula cerrada para valorar opciones europeas.</strong> Premio Nobel 1997. Aún utilizado en todas partes — pero todos conocen sus limitaciones.' },
+          { type:'content', text:'<strong>Fórmula BS</strong>: C = S·N(d1) − K·e^(−rT)·N(d2)<br><strong>Hipótesis:</strong> volatilidad constante, distribución log-normal de precios, mercados continuos sin fricción, tasa libre de riesgo constante, sin dividendos.<br><strong>La sonrisa de volatilidad:</strong> en la práctica, la vol implícita varía según el strike (mayor para puts OTM). BS no lo explica → modelos estocásticos de vol (Heston, SABR).' },
+          { type:'real', head:'Uso práctico', body:'Los traders usan BS para calcular la <em>volatilidad implícita</em> a partir de los precios de mercado de las opciones. <strong>Esta vol implícita es el verdadero precio de una opción</strong> — el modelo sirve de herramienta de conversión.' }
+        ],
+        quiz: { q:'La "sonrisa de volatilidad" revela que Black-Scholes:', opts:['Siempre sobreestima el precio de las opciones','Asume incorrectamente una volatilidad constante para todos los strikes','Solo funciona para opciones americanas','Calcula mal el Delta'], correct:1, expl:'<strong>La sonrisa muestra que la vol implícita varía según los strikes</strong>, contrariamente a la hipótesis BS de vol constante. Los puts OTM típicamente tienen mayor vol implícita → skew negativo.' }
+      },
+      ex5: {
+        n: 'Productos estructurados: CDO, MBS y derivados complejos',
+        blocks: [
+          { type:'hook', emo:'🏦', text:'<strong>La crisis de 2008 mostró cómo los productos estructurados complejos pueden concentrar y amplificar el riesgo sistémico.</strong> Entenderlos es entender la mecánica de las crisis modernas.' },
+          { type:'content', text:'<strong>MBS (Mortgage-Backed Securities)</strong>: titulización de préstamos hipotecarios en bonos. Incluye riesgo de prepago.<br><strong>CDO (Collateralized Debt Obligation)</strong>: división de un pool de deudas en tramos (Senior AAA, Mezzanine, Equity). El tramo senior se reembolsa primero.<br><strong>CDS (Credit Default Swap)</strong>: seguro contra el impago de un emisor. El comprador paga una prima y recibe el nominal en caso de impago.' },
+          { type:'trap', text:'<strong>Correlación subestimada en 2008:</strong> los CDO estaban calificados AAA asumiendo baja correlación entre impagos hipotecarios. Cuando la crisis golpeó todos los mercados simultáneamente, la correlación subió a 1 y los modelos colapsaron.' }
+        ],
+        quiz: { q:'En un CDO, ¿qué tramo absorbe las primeras pérdidas?', opts:['El tramo Senior (AAA)','El tramo Mezzanine','El tramo Equity (First Loss)','Todos los tramos por igual'], correct:2, expl:'<strong>Tramo Equity = First Loss.</strong> Absorbe las primeras pérdidas del pool. A cambio, ofrece el mayor rendimiento. El tramo Senior es el último en ser afectado.' }
+      },
+      ex6: {
+        n: 'Macroeconomía para inversores: ciclos y asignación',
+        blocks: [
+          { type:'hook', emo:'🌍', text:'<strong>Los grandes ciclos económicos determinan qué clases de activos superan al mercado.</strong> Entender el ciclo es saber dónde asignar antes que los demás.' },
+          { type:'content', text:'<strong>Ciclo económico en 4 fases:</strong><br>1. <strong>Expansión</strong>: acciones (cíclicas, emergentes), materias primas.<br>2. <strong>Pico</strong>: materias primas, TIPS, commodities.<br>3. <strong>Contracción</strong>: bonos soberanos, oro, defensivas.<br>4. <strong>Valle / Recuperación</strong>: acciones de crecimiento, inmobiliario, high yield.<br><strong>Indicadores clave:</strong> ISM Manufacturing PMI, curva de rendimientos (2s10s), diferenciales de crédito.' },
+          { type:'real', head:'Bridgewater All Weather', body:'Ray Dalio construyó el fondo <em>All Weather</em> ponderando los activos por su <strong>contribución al riesgo</strong> en cada fase del ciclo: 30% acciones, 40% bonos a largo plazo, 15% bonos intermedios, 7,5% oro, 7,5% commodities.' }
+        ],
+        quiz: { q:'Durante una contracción económica, ¿qué activos suelen superar al mercado?', opts:['Acciones cíclicas y mercados emergentes','Bonos soberanos y oro','Materias primas e inmobiliario','Small caps y high yield'], correct:1, expl:'<strong>Fase de contracción</strong> = huida hacia la seguridad. <strong>Bonos soberanos</strong> (bajada de tipos anticipada) y <strong>oro</strong> (valor refugio) superan al mercado. Las acciones cíclicas y el high yield sufren.' }
+      },
+      ex7: {
+        n: 'Código ético CFA: Normas y Estándares',
+        blocks: [
+          { type:'hook', emo:'📋', text:'<strong>El CFA Institute impone un Código Ético y Normas Profesionales que todo analista CFA debe respetar.</strong> Es la base de la confianza en la industria financiera.' },
+          { type:'content', text:'<strong>7 Normas principales:</strong><br>I. Profesionalismo (diligencia, comunicación honesta).<br>II. Integridad de los mercados (sin información privilegiada).<br>III. Deberes hacia clientes (lealtad, prioridad al cliente).<br>IV. Deberes hacia empleadores.<br>V. Análisis y recomendaciones (base razonable).<br>VI. Conflictos de interés (divulgación).<br>VII. Responsabilidades del Miembro CFA.' },
+          { type:'tip', text:'<strong>Para el examen AMF:</strong> conocer las normas de ética financiera francesas (abuso de mercado, manipulación de precios, insider trading) y las sanciones AMF (hasta 100M€ o 10× el beneficio obtenido).' }
+        ],
+        quiz: { q:'Según las Normas CFA, ¿qué debe hacer un analista que recibe información no pública sobre una empresa?', opts:['Usarla rápidamente antes que los demás','Abstenerse de operar y contactar al oficial de cumplimiento','Compartirla con clientes seleccionados','Ignorarla y seguir con normalidad'], correct:1, expl:'<strong>Información no pública = muralla china.</strong> El analista debe abstenerse de cualquier transacción y consultar a su departamento de cumplimiento. Usar esta información constituye un delito de iniciados.' }
+      },
+      ex8: {
+        n: 'Construcción de cartera CFA nivel III',
+        blocks: [
+          { type:'hook', emo:'🎯', text:'<strong>El nivel III del CFA se centra en la gestión de carteras y la planificación patrimonial.</strong> Es la culminación: convertir todos los conocimientos en decisiones de asignación concretas.' },
+          { type:'content', text:'<strong>IPS (Investment Policy Statement)</strong>: documento que define los objetivos (rendimiento, riesgo) y restricciones (liquidez, horizonte, fiscalidad, regulatoria, específica) del cliente.<br><strong>Proceso de asignación:</strong><br>1. Definir el IPS<br>2. Asignación estratégica (SAA) a largo plazo<br>3. Asignación táctica (TAA) a corto plazo<br>4. Selección de vehículos (ETF, fondos, títulos directos)<br>5. Reequilibrio periódico<br>6. Evaluación del rendimiento (GIPS).' },
+          { type:'real', head:'GIPS (Global Investment Performance Standards)', body:'Los estándares GIPS imponen reglas precisas de cálculo y presentación del rendimiento. <strong>Utilizados por gestores institucionales para comparar rendimientos</strong> de forma justa y transparente.' }
+        ],
+        quiz: { q:'El IPS (Investment Policy Statement) define principalmente:', opts:['La lista de acciones a comprar','Los objetivos y restricciones de la cartera del cliente','El rendimiento histórico del gestor','La asignación táctica a corto plazo'], correct:1, expl:'<strong>El IPS es la piedra angular de la gestión de carteras CFA.</strong> Formaliza los objetivos de rendimiento y riesgo, así como todas las restricciones del cliente (liquidez, horizonte, fiscalidad, necesidades específicas).' }
+      }
+    }
+  }
+};
+
+function trLesson(lesson) {
+  if (!lesson || _lang === 'fr') return lesson;
+  const t = LESSON_I18N[_lang]?.lessons?.[lesson.id];
+  if (!t) return lesson;
+  return Object.assign({}, lesson, t);
+}
+function trTrackName(trackStr) {
+  if (_lang === 'fr') return trackStr;
+  return LESSON_I18N[_lang]?.tracks?.[trackStr] || trackStr;
+}
 // ═══ LEÇONS SUPPLÉMENTAIRES — 38 leçons pour atteindre 100 ═══
 
 // Ajout dans Débutant : track Retraite & Long terme (8 leçons)
@@ -3299,11 +3616,19 @@ function updateWalletUI(){
   if(S.coins<=LOW_THRESHOLD&&!lowNudgeShown){showLowNudge();}
   if(S.coins>LOW_THRESHOLD){lowNudgeShown=false;}
 }
+function hideAllNotifs(){
+  ['investNudge','lowNudge','missionBanner','toast'].forEach(id=>{
+    const n=el(id);if(n)n.classList.remove('show');
+  });
+  clearTimeout(window._toastT);
+  clearTimeout(_missionBannerTimer);
+}
 function showInvestNudge(){
   nudgeShown=true;
   const nudge=el('investNudge');
   const amt=el('investNudgeAmt');
   if(!nudge)return;
+  hideAllNotifs();
   if(amt)amt.textContent=fmt(S.coins);
   nudge.classList.add('show');
   setTimeout(()=>nudge.classList.remove('show'),6000);
@@ -3311,12 +3636,12 @@ function showInvestNudge(){
 let _missionBannerTimer=null;
 function showMissionBanner(icon,label,name,reward){
   const b=el('missionBanner');if(!b)return;
+  hideAllNotifs();
   el('missionBannerIcon').textContent=icon;
   el('missionBannerLabel').textContent=label;
   el('missionBannerName').textContent=name;
   el('missionBannerReward').textContent=reward>0?'+'+reward+' 🪙':'';
   b.classList.add('show');
-  clearTimeout(_missionBannerTimer);
   _missionBannerTimer=setTimeout(()=>b.classList.remove('show'),4000);
 }
 function closeInvestNudge(){
@@ -3328,6 +3653,7 @@ function showLowNudge(){
   lowNudgeShown=true;
   const nudge=el('lowNudge');
   if(!nudge)return;
+  hideAllNotifs();
   nudge.classList.add('show');
 }
 function closeLowNudge(){
@@ -3369,9 +3695,10 @@ function spawnCoins(ref){
 
 /* ══ TOAST ══ */
 function showToast(cls,icon,title,sub){
+  hideAllNotifs();
   const t=el('toast');t.className='toast';if(cls)t.classList.add(cls);
   el('tIcon').textContent=icon;el('tTitle').textContent=title;el('tSub').textContent=sub;
-  t.classList.add('show');clearTimeout(window._toastT);
+  t.classList.add('show');
   window._toastT=setTimeout(()=>t.classList.remove('show'),3500);
 }
 
@@ -3480,11 +3807,22 @@ function buildSidebarProfile(){
   const allLessons=(LESSONS[S.level]||[]).flatMap(t=>t.lessons);
   const doneLessons=allLessons.filter(l=>S.done.has(l.id)).length;
   const allocBar=p.alloc.map(a=>`<div style="flex:${a.pct};background:${a.color}" title="${a.name} ${a.pct}%"></div>`).join('');
+  const levels = ['Débutant','Intermédiaire','Avancé','Expert'];
+  const lvlOpts = levels.map(l=>`<div class="sp-lvl-opt${S.level===l?' sp-lvl-active':''}" onclick="spSwitchLevel('${l}',this)">${l}</div>`).join('');
   return `<div class="sp-profile">
     <div class="sp-hero">
       <span class="sp-emo">${p.emoji}</span>
       <div class="sp-name">${p.name}</div>
       <span class="sp-badge" style="background:rgba(20,60,100,.55);color:var(--y);border:1px solid rgba(77,158,255,.18)">${m.style}</span>
+    </div>
+
+    <div style="position:relative;margin-bottom:.8rem" id="spLvlWrap">
+      <div onclick="toggleSpLvlMenu(event)" style="display:flex;justify-content:space-between;align-items:center;padding:.5rem .8rem;background:rgba(20,60,100,.55);border:1px solid rgba(77,158,255,.18);border-radius:7px;cursor:pointer;font-size:.78rem;font-weight:700;color:var(--y);letter-spacing:.04em">
+        <span id="spLvlLabel">${S.level}</span><span style="font-size:.65rem;opacity:.7">▾</span>
+      </div>
+      <div id="spLvlMenu" style="display:none;position:absolute;top:100%;left:0;right:0;background:#0d2033;border:1px solid rgba(77,158,255,.25);border-radius:7px;z-index:50;overflow:hidden;margin-top:2px">
+        ${lvlOpts}
+      </div>
     </div>
 
     <div class="sp-section-title">${(TRANSLATIONS[_lang]||TRANSLATIONS.fr).spTolRisk}</div>
@@ -3638,15 +3976,17 @@ function openTrackDetail(idx){
   S.currentLesson=null;buildLearnSidebar();
   const doneTr=track.lessons.filter(l=>S.done.has(l.id)).length;
   const pct=track.lessons.length?Math.round(doneTr/track.lessons.length*100):0;
-  const emo=track.track.match(/^\S+/)?.[0]||'📚';
-  const name=track.track.replace(/^\S+\s/,'');
-  const desc=TRACK_DESC[name]||'Explore les leçons de cette thématique pour progresser dans ton parcours.';
+  const rawTrackStr=trTrackName(track.track);
+  const emo=rawTrackStr.match(/^\S+/)?.[0]||'📚';
+  const name=rawTrackStr.replace(/^\S+\s/,'');
+  const desc=TRACK_DESC[track.track.replace(/^\S+\s/,'')]||'Explore les leçons de cette thématique pour progresser dans ton parcours.';
   const lessonsHtml=track.lessons.map(l=>{
     const isDone=S.done.has(l.id);
+    const tl=trLesson(l);
     return `<div class="lc${isDone?' done':''}" onclick="openLesson('${l.id}')">
       ${isDone?'<div class="lc-check">✓</div>':''}
-      <span class="lc-e">${l.e}</span>
-      <div class="lc-n">${l.n}</div>
+      <span class="lc-e">${tl.e}</span>
+      <div class="lc-n">${tl.n}</div>
       <div class="lc-foot">
         <span class="lc-t">${l.tag||''}</span>
         <span class="lc-r">🪙 ${l.coins}</span>
@@ -3690,8 +4030,9 @@ function showLessonMap(){
   tracks.forEach((track,idx)=>{
     const doneTr=track.lessons.filter(l=>S.done.has(l.id)).length;
     const allDone=doneTr===track.lessons.length&&track.lessons.length>0;
-    const emo=track.track.match(/^\S+/)?.[0]||'📚';
-    const name=track.track.replace(/^\S+\s/,'');
+    const tTrack=trTrackName(track.track);
+    const emo=tTrack.match(/^\S+/)?.[0]||'📚';
+    const name=tTrack.replace(/^\S+\s/,'');
     const xp=xPcts[idx%xPcts.length];
     const yp=140+idx*NODE_H;
     pts.push({x:xp,y:yp});
@@ -3733,7 +4074,7 @@ function showLessonMap(){
 /* ══ LESSON VIEW ══ */
 function openLesson(id){
   const all=(LESSONS[S.level]||[]).flatMap(t=>t.lessons);
-  const lesson=all.find(l=>l.id===id);if(!lesson)return;
+  const lesson=trLesson(all.find(l=>l.id===id));if(!lesson)return;
   S.currentLesson=lesson;buildLearnSidebar();window._quizDone=false;
   const mult=streakMult();
   const coins=Math.round(lesson.coins*mult);
@@ -3885,7 +4226,7 @@ function buildMarketTable(){
   const tbody=el('assetBody');if(!tbody)return;
   const list=_catFilter==='Tous'?ASSETS:ASSETS.filter(a=>a.cat===_catFilter);
   tbody.innerHTML=list.map(a=>`
-    <tr class="asset-row${a.id===S.selectedAsset?' selected':''}" id="row_${a.id}" onclick="selectAsset('${a.id}')">
+    <tr class="asset-row${a.id===S.selectedAsset?' selected':''}" id="row_${a.id}" onclick="selectAsset('${a.id}')" ondblclick="if(window.innerWidth<=900)openMobileOrderPanel()">
       <td><div class="td-name"><span style="font-size:1.1rem">${a.emoji}</span>${a.name}</div></td>
       <td class="col-cat"><span class="td-cat" data-cat="${a.cat}">${a.cat}</span></td>
       <td class="td-price" id="price_${a.id}">${fmtP(a.base)}</td>
@@ -4027,9 +4368,33 @@ function setTF(btn,tf){
 }
 
 /* ══ ASSET SELECT ══ */
+function buildAssetDd(){
+  const dd=el('oaiDropdown');if(!dd)return;
+  dd.innerHTML=ASSETS.map(a=>`
+    <div class="oai-opt${a.id===S.selectedAsset?' active':''}" onclick="selectAsset('${a.id}');closeAssetDd()">
+      <div class="oai-opt-left"><span>${a.emoji}</span><span>${a.name}</span></div>
+      <span class="oai-opt-price">${fmtP(S.prices[a.id])}</span>
+    </div>`).join('');
+}
+function toggleAssetDd(e){
+  e.stopPropagation();
+  const btn=el('oaiSelect'),dd=el('oaiDropdown');
+  const isOpen=dd.classList.contains('open');
+  if(!isOpen) buildAssetDd();
+  btn.classList.toggle('open',!isOpen);
+  dd.classList.toggle('open',!isOpen);
+}
+function closeAssetDd(){
+  const btn=el('oaiSelect'),dd=el('oaiDropdown');
+  if(btn)btn.classList.remove('open');
+  if(dd)dd.classList.remove('open');
+}
+document.addEventListener('click',()=>closeAssetDd());
+
 function selectAsset(id){
   S.selectedAsset=id;
   document.querySelectorAll('.asset-row').forEach(r=>r.classList.remove('selected'));
+  document.querySelectorAll('.oai-opt').forEach(o=>o.classList.remove('active'));
   const row=el('row_'+id);if(row)row.classList.add('selected');
   const a=ASSETS.find(x=>x.id===id);if(!a)return;
   const nm=el('oaiNm'),pr=el('oaiPr');
@@ -4056,6 +4421,29 @@ function toggleOrderPanel(){
 function openOrderPanel(){
   const body=el('opBody'),arrow=el('opArrow');
   if(body&&!body.classList.contains('open')){body.classList.add('open');if(arrow)arrow.classList.add('open');}
+  if(window.innerWidth<=900) openMobileOrderPanel();
+}
+function switchSheetTab(tab){
+  ['order','portfolio'].forEach(t=>{
+    const cap=t.charAt(0).toUpperCase()+t.slice(1);
+    const btn=el('sheetTabBtn'+cap),panel=el('sheetPanel'+cap);
+    const active=t===tab;
+    if(btn)btn.classList.toggle('active',active);
+    if(panel)panel.classList.toggle('active',active);
+  });
+}
+function openMobileOrderPanel(){
+  const panel=el('mktRight'),bd=el('mktOrderBackdrop');
+  if(panel){panel.classList.add('mobile-open');}
+  if(bd){bd.style.display='block';}
+  switchSheetTab('order');
+  const body=el('opBody');
+  if(body){body.classList.add('open');}
+}
+function closeMobileOrderPanel(){
+  const panel=el('mktRight'),bd=el('mktOrderBackdrop');
+  if(panel){panel.classList.remove('mobile-open');}
+  if(bd){bd.style.display='none';}
 }
 function setOrderSide(side){
   S.orderSide=side;
@@ -4233,7 +4621,7 @@ function closePortfolioModal(){el('portModalOv').classList.remove('show');}
 /* ══ ÉVÉNEMENTS ══ */
 function _showEvBanner(ev){
   const banner=el('evBanner');if(!banner)return;
-  el('evImpact').textContent=ev.impact==='good'?'📈':'📉';
+  el('evImpact').textContent=ev.impact==='good'?'+':'-';
   el('evTitle').textContent=ev.title;
   el('evDesc').textContent=ev.desc;
   banner.classList.add('show');
@@ -4403,7 +4791,7 @@ function _renderAllocList(p){
     </div>`;
   }).join('');
   const anyBuyable=p.alloc.some(slot=>slot.assetId&&Math.floor(S.coins*slot.pct/100)>0);
-  const allBtn=anyBuyable?`<button onclick="quickBuyAll()" style="width:100%;margin-top:.8rem;padding:.65rem;background:linear-gradient(135deg,var(--y),#ff9800);color:#000;border:none;border-radius:8px;font-size:.78rem;font-weight:800;cursor:pointer;letter-spacing:.02em;box-shadow:0 4px 16px rgba(255,205,13,.3)">⚡ Tout allouer selon mon profil</button>`:'';
+  const allBtn=anyBuyable?`<button onclick="quickBuyAll()" style="width:100%;margin-top:.8rem;padding:.65rem;background:linear-gradient(135deg,var(--y),#ff9800);color:#000;border:none;border-radius:8px;font-size:.78rem;font-weight:800;cursor:pointer;letter-spacing:.02em;box-shadow:0 4px 16px rgba(255,205,13,.3)">Tout allouer selon mon profil</button>`:'';
   pl.innerHTML=rows+allBtn;
 }
 function quickBuy(assetId,pct,amt){
@@ -4522,7 +4910,7 @@ function _renderRebList(){
   }).join('');
   const listEl=el('rebList');if(listEl)listEl.innerHTML=rows;
   const btn=el('rebBtnAll');
-  if(btn){btn.disabled=!anyAction;btn.textContent=anyAction?'⚡ Rééquilibrer automatiquement':'✓ Portefeuille déjà équilibré';}
+  if(btn){btn.disabled=!anyAction;btn.textContent=anyAction?'Rééquilibrer automatiquement':'Portefeuille déjà équilibré';}
 }
 function openRebalanceModal(){
   if(!S.diagProfile)return;
@@ -5514,7 +5902,8 @@ function playTacticJingle(){
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
-  document.getElementById('splash').style.display='';
+  document.getElementById('splash').style.display='none';
+  boot('Débutant');
 });
 
 /* ══ STREAK ANIMATION ══ */
@@ -5827,10 +6216,10 @@ const TRANSLATIONS = {
     orderQty:'Quantité', orderFees:'Frais (0.1%)', orderTotal:'Total', orderBuyBtn:'ACHETER',
     // Marché — portfolio
     limitTitle:'Ordres limites en attente', limitEmpty:'Aucun ordre limite', portfolioTitle:'Portefeuille',
-    rebTitle:'⚖️ Rééquilibrage du portefeuille', rebCashLbl:'🏦 Réserve de cash',
+    rebTitle:'Rééquilibrage du portefeuille', rebCashLbl:'Réserve de cash',
     rebCashUnit:'% du portefeuille', rebHint:'Le cash réservé ne sera pas investi lors du rééquilibrage.',
-    rebBtn:'⚡ Rééquilibrer automatiquement', allocTitle:'📐 Allocation conseillée', allocRetry:'Refaire ↺',
-    portModalTitle:'💼 Portefeuille',
+    rebBtn:'Rééquilibrer automatiquement', allocTitle:'Allocation conseillée', allocRetry:'Refaire ↺',
+    portModalTitle:'Portefeuille',
     // Missions
     missionsDayTitle:'Missions du jour', missionsCompTitle:'Missions complétées',
     // Journal
@@ -5843,7 +6232,7 @@ const TRANSLATIONS = {
     spRiskLow:'Faible', spRiskHigh:'Élevée', spDiagBtn:'↺ Refaire le diagnostic', spSettingsBtn:'Paramètres',
     // Paramètres
     setTitle:'PARAMÈTRES', setLang:'Langue', setNotif:'Notifications', setData:'Data & Privacy',
-    setAccount:'Compte', setDanger:'⚠️ Zone dangereuse',
+    setAccount:'Compte', setDanger:'Zone dangereuse',
     notifPush:'Notifications push', notifSub:'Rappels quotidiens',
     soundLabel:'Sons', soundSub:"Effets sonores dans l'app",
     exportLabel:'Exporter mes données', exportSub:'Télécharger toutes mes données en JSON', exportBtn:'Exporter',
@@ -5863,10 +6252,10 @@ const TRANSLATIONS = {
     orderLimit:'Limit order', orderLimitPrice:'Target limit price', orderUnitPrice:'Unit price',
     orderQty:'Quantity', orderFees:'Fees (0.1%)', orderTotal:'Total', orderBuyBtn:'BUY',
     limitTitle:'Pending limit orders', limitEmpty:'No limit orders', portfolioTitle:'Portfolio',
-    rebTitle:'⚖️ Portfolio rebalancing', rebCashLbl:'🏦 Cash reserve',
+    rebTitle:'Portfolio rebalancing', rebCashLbl:'Cash reserve',
     rebCashUnit:'% of portfolio', rebHint:'Reserved cash will not be invested during rebalancing.',
-    rebBtn:'⚡ Auto-rebalance', allocTitle:'📐 Recommended allocation', allocRetry:'Redo ↺',
-    portModalTitle:'💼 Portfolio',
+    rebBtn:'Auto-rebalance', allocTitle:'Recommended allocation', allocRetry:'Redo ↺',
+    portModalTitle:'Portfolio',
     missionsDayTitle:"Today's missions", missionsCompTitle:'Completed missions',
     journalHistTitle:'Activity history',
     jfAll:'All', jfBuy:'Buys', jfSell:'Sales', jfLimit:'Limit orders', jfEvents:'Events', jfMissions:'Missions',
@@ -5874,7 +6263,7 @@ const TRANSLATIONS = {
     spTolRisk:'Risk tolerance', spHorizon:'Investment horizon', spAlloc:'Target allocation',
     spRiskLow:'Low', spRiskHigh:'High', spDiagBtn:'↺ Redo diagnostic', spSettingsBtn:'Settings',
     setTitle:'SETTINGS', setLang:'Language', setNotif:'Notifications', setData:'Data & Privacy',
-    setAccount:'Account', setDanger:'⚠️ Danger Zone',
+    setAccount:'Account', setDanger:'Danger Zone',
     notifPush:'Push notifications', notifSub:'Daily reminders',
     soundLabel:'Sound', soundSub:'In-app sound effects',
     exportLabel:'Export my data', exportSub:'Download all your data in JSON format', exportBtn:'Export',
@@ -5894,10 +6283,10 @@ const TRANSLATIONS = {
     orderLimit:'Orden límite', orderLimitPrice:'Precio límite objetivo', orderUnitPrice:'Precio unitario',
     orderQty:'Cantidad', orderFees:'Comisión (0.1%)', orderTotal:'Total', orderBuyBtn:'COMPRAR',
     limitTitle:'Órdenes límite pendientes', limitEmpty:'Sin órdenes límite', portfolioTitle:'Cartera',
-    rebTitle:'⚖️ Reequilibrio de cartera', rebCashLbl:'🏦 Reserva de efectivo',
+    rebTitle:'Reequilibrio de cartera', rebCashLbl:'Reserva de efectivo',
     rebCashUnit:'% de la cartera', rebHint:'El efectivo reservado no se invertirá durante el reequilibrio.',
-    rebBtn:'⚡ Reequilibrar automáticamente', allocTitle:'📐 Asignación recomendada', allocRetry:'Rehacer ↺',
-    portModalTitle:'💼 Cartera',
+    rebBtn:'Reequilibrar automáticamente', allocTitle:'Asignación recomendada', allocRetry:'Rehacer ↺',
+    portModalTitle:'Cartera',
     missionsDayTitle:'Misiones del día', missionsCompTitle:'Misiones completadas',
     journalHistTitle:'Historial de actividad',
     jfAll:'Todo', jfBuy:'Compras', jfSell:'Ventas', jfLimit:'Órdenes límite', jfEvents:'Eventos', jfMissions:'Misiones',
@@ -5905,7 +6294,7 @@ const TRANSLATIONS = {
     spTolRisk:'Tolerancia al riesgo', spHorizon:'Horizonte de inversión', spAlloc:'Asignación objetivo',
     spRiskLow:'Baja', spRiskHigh:'Alta', spDiagBtn:'↺ Rehacer diagnóstico', spSettingsBtn:'Ajustes',
     setTitle:'AJUSTES', setLang:'Idioma', setNotif:'Notificaciones', setData:'Datos y privacidad',
-    setAccount:'Cuenta', setDanger:'⚠️ Zona de peligro',
+    setAccount:'Cuenta', setDanger:'Zona de peligro',
     notifPush:'Notificaciones push', notifSub:'Recordatorios diarios',
     soundLabel:'Sonidos', soundSub:'Efectos de sonido en la app',
     exportLabel:'Exportar mis datos', exportSub:'Descargar todos tus datos en JSON', exportBtn:'Exportar',

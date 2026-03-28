@@ -211,6 +211,16 @@ if(typeof withTimeout==='undefined'){
 }
 </script>
 <script>
+// Override showError pour supporter les liens HTML dans les messages
+window.showError = function(msg) {
+  const el = document.getElementById('error-msg');
+  if (!el) return;
+  el.innerHTML = msg;
+  el.style.display = 'block';
+  // Auto-hide seulement si pas de lien cliquable
+  if (!msg.includes('<a ')) setTimeout(() => { el.style.display = 'none'; }, 7000);
+};
+
 requireGuest();
 
 (()=>{
@@ -251,24 +261,40 @@ function checkMatch() {
   c.classList.toggle('invalid', c.value.length > 0 && c.value !== p);
 }
 
+// ── Registre local des emails ─────────────────────────────────────────────
+const EMAILS_KEY = 'ta_emails';
+function hasEmailLocal(e) {
+  try { return JSON.parse(localStorage.getItem(EMAILS_KEY) || '[]').includes(e.toLowerCase()); } catch { return false; }
+}
+function saveEmailLocal(e) {
+  try {
+    const a = JSON.parse(localStorage.getItem(EMAILS_KEY) || '[]');
+    if (!a.includes(e.toLowerCase())) { a.push(e.toLowerCase()); localStorage.setItem(EMAILS_KEY, JSON.stringify(a)); }
+  } catch {}
+}
+const ERR_DUPLICATE = '❌ Cet email est déjà utilisé. <a href="login.html" style="color:var(--g);font-weight:700">Se connecter →</a> ou <a href="forgot-password.html" style="color:var(--muted)">mot de passe oublié ?</a>';
+
 async function handleRegister(e) {
   e.preventDefault();
   const btn = document.getElementById('submitBtn');
 
-  const email = document.getElementById('email').value.trim();
-  const password = document.getElementById('password').value;
-  const confirm = document.getElementById('confirmPassword').value;
-  const firstName = document.getElementById('firstName').value.trim();
-  const lastName = document.getElementById('lastName').value.trim();
-  const cgu = document.getElementById('cguCheck').checked;
+  const email       = document.getElementById('email').value.trim();
+  const password    = document.getElementById('password').value;
+  const confirm     = document.getElementById('confirmPassword').value;
+  const firstName   = document.getElementById('firstName').value.trim();
+  const lastName    = document.getElementById('lastName').value.trim();
+  const cgu         = document.getElementById('cguCheck').checked;
 
-  if (password !== confirm) { showError('Les mots de passe ne correspondent pas.'); return; }
-  if (password.length < 8) { showError('Le mot de passe doit faire au moins 8 caractères.'); return; }
-  if (!cgu) { showError('Tu dois accepter les Conditions Générales d\'Utilisation.'); return; }
+  if (password !== confirm)  { showError('Les mots de passe ne correspondent pas.'); return; }
+  if (password.length < 8)   { showError('Le mot de passe doit faire au moins 8 caractères.'); return; }
+  if (!cgu)                  { showError("Tu dois accepter les Conditions Générales d'Utilisation."); return; }
+
+  // Vérification locale immédiate (fonctionne même sans Supabase)
+  if (hasEmailLocal(email)) { showError(ERR_DUPLICATE); return; }
 
   btn.classList.add('loading'); btn.disabled = true;
 
-  // Tentative Supabase avec timeout de 6 secondes
+  // ── Tentative Supabase ──────────────────────────────────────────────────
   if (db) {
     try {
       const { data, error } = await withTimeout(db.auth.signUp({
@@ -280,31 +306,41 @@ async function handleRegister(e) {
       }), 6000);
 
       btn.classList.remove('loading'); btn.disabled = false;
-      if (error) { showError(translateError(error.message)); return; }
 
-      if (data.session) {
-        lsSetSession({ id: data.user.id, email: data.user.email });
-        redirect('/pages/academy.html');
+      if (error) {
+        const msg = error.message || '';
+        const isDup = msg.includes('already') || msg.includes('registered') || msg.includes('exists');
+        showError(isDup ? ERR_DUPLICATE : translateError(msg));
         return;
       }
 
+      // Enumeration protection : Supabase renvoie user avec identities vides
+      const ids = data?.user?.identities;
+      if (ids !== undefined && ids.length === 0) { showError(ERR_DUPLICATE); return; }
+
+      // Succès
+      saveEmailLocal(email);
+      if (data?.session) {
+        lsSetSession({ id: data.user.id, email: data.user.email });
+        redirect('/pages/academy.html'); return;
+      }
       document.getElementById('form').style.display = 'none';
       showSuccess(`✅ <strong>Compte créé !</strong> Un email de confirmation a été envoyé à <strong>${email}</strong>. Clique sur le lien puis connecte-toi.`);
       return;
 
     } catch(err) {
-      if (err.message !== 'TIMEOUT') {
-        btn.classList.remove('loading'); btn.disabled = false;
-        showError('Erreur : ' + err.message);
-        return;
-      }
+      btn.classList.remove('loading'); btn.disabled = false;
+      if (err.message !== 'TIMEOUT') { showError('Erreur : ' + err.message); return; }
       // Timeout → fallback local
     }
   }
 
-  // Fallback local (Supabase inaccessible ou non configuré)
+  // ── Fallback local (Supabase hors ligne) ───────────────────────────────
   btn.classList.remove('loading'); btn.disabled = false;
-  lsSetSession({ email, firstName, lastName, level: selectedLevel, id: 'local_' + Date.now(), demo: true });
+  const userId = 'local_' + Date.now();
+  localStorage.setItem('ta_user_' + email.toLowerCase(), JSON.stringify({ id: userId, email, full_name: `${firstName} ${lastName}`, pw: btoa(password) }));
+  saveEmailLocal(email);
+  lsSetSession({ id: userId, email, full_name: `${firstName} ${lastName}` });
   redirect('/pages/academy.html');
 }
 
