@@ -245,6 +245,10 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
   transition:top .35s cubic-bezier(.25,.8,.25,1),left .35s cubic-bezier(.25,.8,.25,1);
 }
 #mktTutoCard.centered{left:50%!important;transform:translateX(-50%)!important;top:50%!important;margin-top:-200px!important;transition:none;}
+.tuto-back{background:transparent;border:1px solid var(--ln2);color:var(--muted);font-size:.75rem;padding:.45rem .9rem;border-radius:8px;cursor:pointer;font-family:'Nunito',sans-serif;transition:.15s;}
+.tuto-back:hover{border-color:var(--ln);color:var(--soft);}
+@keyframes btnAttention{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(255,205,13,.5);}50%{transform:scale(1.05);box-shadow:0 0 0 8px rgba(255,205,13,0);}}
+.tuto-next.attention{animation:btnAttention 1s ease-in-out infinite;}
 .mkt-tuto-hint{font-size:.78rem;color:var(--y);text-align:center;margin:-1rem 0 1.2rem;opacity:.85;font-weight:600;letter-spacing:.01em;}
 /* ══ CHATBOT ══ */
 .chatbot-fab{position:fixed;bottom:1.4rem;right:1.4rem;z-index:4000;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--y),#FF7A00);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.4rem;box-shadow:0 4px 20px rgba(255,122,0,.4);transition:.2s;}
@@ -6142,7 +6146,7 @@ function toggleSimpleMode(){
 const MKT_TUTO_STEPS=[
   {icon:'👀',title:'Bienvenue dans la Salle des Marchés',body:'Ici tu simules de vrais investissements avec des Tacoins. Zéro risque réel — c\'est fait pour apprendre.',hint:'👇 Commence par observer les prix en temps réel',btn:'J\'observe',target:null},
   {icon:'📈',title:'Les actifs : ce que tu peux acheter',body:'Chaque ligne = un actif (ETF, action, crypto, or). Le prix change en direct. La colonne <span class="tuto-highlight">24h</span> montre si c\'est en hausse (vert) ou en baisse (rouge) depuis hier.',hint:'👇 Clique sur une ligne pour voir son graphique',btn:'J\'ai compris',target:'.assets thead'},
-  {icon:'📊',title:'Le graphique : l\'historique du prix',body:'Le graphique montre l\'évolution du prix dans le temps. Si la courbe monte → l\'actif a pris de la valeur. <span class="tuto-highlight">1J</span> = aujourd\'hui, <span class="tuto-highlight">1S</span> = cette semaine, <span class="tuto-highlight">1M</span> = ce mois.',hint:'👇 Essaie de changer la période (1J / 1S / 1M)',btn:'Compris',target:'.chart-header'},
+  {icon:'📊',title:'Le graphique : l\'historique du prix',body:'Le graphique montre l\'évolution du prix dans le temps. Si la courbe monte → l\'actif a pris de la valeur. <span class="tuto-highlight">1J</span> = aujourd\'hui, <span class="tuto-highlight">1S</span> = cette semaine, <span class="tuto-highlight">1M</span> = ce mois.',hint:'👇 Essaie de changer la période (1J / 1S / 1M)',btn:'Compris',target:'.chart-wrap'},
   {icon:'🪙',title:'Premier achat : utilise tes Tacoins',body:'Tu as <span class="tuto-highlight">500 Tacoins</span> pour investir. Sélectionne un actif, entre un montant, et clique <span class="tuto-highlight">ACHETER</span>.',hint:'👇 Fais ton premier achat maintenant !',btn:'Je vais essayer',target:'.order-panel'},
   {icon:'🎉',title:'Tu es prêt !',body:'Ton portefeuille apparaît ici. Les <span class="tuto-highlight">événements macro</span> (hausse des taux, inflation…) vont faire bouger les prix. Lis les débrief pour comprendre pourquoi.',hint:'',btn:'Démarrer',target:'#portSummary'},
 ];
@@ -6189,19 +6193,31 @@ function _mktSpotlight(targetSel){
   const left=Math.max(12,Math.min(r.left+r.width/2-cw/2,vw-cw-12));
   Object.assign(card.style,{top:top+'px',left:left+'px',width:cw+'px',transform:'none',marginTop:'0'});
 }
+let _mktAttentionTimer=null;
+function _clearMktAttention(){clearTimeout(_mktAttentionTimer);el('mktTutoNextBtn').classList.remove('attention');}
 function showMktTutorial(){
   _mktTutoIdx=0;
   el('mktTutoOv').classList.add('show');
   renderMktTutoStep();
 }
 function closeMktTutorial(){
+  _clearMktAttention();
   el('mktTutoOv').classList.remove('show');
   el('mktTutoSpotlight').classList.remove('show');
   localStorage.setItem('mkt_tuto_done','1');
 }
 function mktTutoNext(){
+  _clearMktAttention();
   _mktTutoIdx++;
   if(_mktTutoIdx>=MKT_TUTO_STEPS.length){closeMktTutorial();return;}
+  const card=el('mktTutoCard');
+  card.style.animation='none';
+  requestAnimationFrame(()=>{card.style.animation='';renderMktTutoStep();});
+}
+function mktTutoPrev(){
+  _clearMktAttention();
+  if(_mktTutoIdx<=0)return;
+  _mktTutoIdx--;
   const card=el('mktTutoCard');
   card.style.animation='none';
   requestAnimationFrame(()=>{card.style.animation='';renderMktTutoStep();});
@@ -6215,9 +6231,22 @@ function renderMktTutoStep(){
   const hint=el('mktTutoHint');
   hint.textContent=s.hint;hint.style.display=s.hint?'block':'none';
   const btn=el('mktTutoNextBtn');
+  btn.classList.remove('attention');
   btn.textContent=n===total?`${s.btn} →`:`${s.btn} → ${n}/${total}`;
+  // Back button
+  const back=el('mktTutoBackBtn');
+  if(back)back.style.display=_mktTutoIdx>0?'':'none';
   el('mktTutoDots').innerHTML=MKT_TUTO_STEPS.map((_,i)=>`<div class="tuto-dot${i===_mktTutoIdx?' active':i<_mktTutoIdx?' done':''}"></div>`).join('');
-  _mktSpotlight(s.target);
+  // Scroll target into view then spotlight
+  if(s.target){
+    const tgt=document.querySelector(s.target);
+    if(tgt)tgt.scrollIntoView({block:'nearest',behavior:'smooth'});
+  }
+  setTimeout(()=>_mktSpotlight(s.target),s.target?300:0);
+  // Step 2 : attention timer on next button after 4s
+  if(_mktTutoIdx===1){
+    _mktAttentionTimer=setTimeout(()=>btn.classList.add('attention'),4000);
+  }
 }
 
 /* ══ TUTORIEL 5 ÉTAPES ══ */
@@ -6615,7 +6644,8 @@ function deleteAccount(){
     <div class="tuto-body" id="mktTutoBody"></div>
     <div class="mkt-tuto-hint" id="mktTutoHint"></div>
     <div class="tuto-nav">
-      <button class="tuto-skip" onclick="closeMktTutorial()">Passer le tutoriel</button>
+      <button class="tuto-back" id="mktTutoBackBtn" onclick="mktTutoPrev()" style="display:none">← Retour</button>
+      <button class="tuto-skip" onclick="closeMktTutorial()">Passer</button>
       <button class="tuto-next" id="mktTutoNextBtn" onclick="mktTutoNext()">Suivant →</button>
     </div>
   </div>
