@@ -6141,8 +6141,8 @@ function toggleSimpleMode(){
 /* ══ TUTORIEL MARCHÉ 5 ÉTAPES ══ */
 const MKT_TUTO_STEPS=[
   {icon:'👀',title:'Bienvenue dans la Salle des Marchés',body:'Ici tu simules de vrais investissements avec des Tacoins. Zéro risque réel — c\'est fait pour apprendre.',hint:'👇 Commence par observer les prix en temps réel',btn:'J\'observe',target:null},
-  {icon:'📈',title:'Les actifs : ce que tu peux acheter',body:'Chaque ligne = un actif (ETF, action, crypto, or). Le prix change en direct. La colonne <span class="tuto-highlight">24h</span> montre si c\'est en hausse (vert) ou en baisse (rouge) depuis hier.',hint:'👇 Clique sur une ligne pour voir son graphique',btn:'J\'ai compris',target:'.asset-wrap'},
-  {icon:'📊',title:'Le graphique : l\'historique du prix',body:'Le graphique montre l\'évolution du prix dans le temps. Si la courbe monte → l\'actif a pris de la valeur. <span class="tuto-highlight">1J</span> = aujourd\'hui, <span class="tuto-highlight">1S</span> = cette semaine, <span class="tuto-highlight">1M</span> = ce mois.',hint:'👇 Essaie de changer la période (1J / 1S / 1M)',btn:'Compris',target:'.ch-tfs'},
+  {icon:'📈',title:'Les actifs : ce que tu peux acheter',body:'Chaque ligne = un actif (ETF, action, crypto, or). Le prix change en direct. La colonne <span class="tuto-highlight">24h</span> montre si c\'est en hausse (vert) ou en baisse (rouge) depuis hier.',hint:'👇 Clique sur une ligne pour voir son graphique',btn:'J\'ai compris',target:'.assets thead'},
+  {icon:'📊',title:'Le graphique : l\'historique du prix',body:'Le graphique montre l\'évolution du prix dans le temps. Si la courbe monte → l\'actif a pris de la valeur. <span class="tuto-highlight">1J</span> = aujourd\'hui, <span class="tuto-highlight">1S</span> = cette semaine, <span class="tuto-highlight">1M</span> = ce mois.',hint:'👇 Essaie de changer la période (1J / 1S / 1M)',btn:'Compris',target:'.chart-header'},
   {icon:'🪙',title:'Premier achat : utilise tes Tacoins',body:'Tu as <span class="tuto-highlight">500 Tacoins</span> pour investir. Sélectionne un actif, entre un montant, et clique <span class="tuto-highlight">ACHETER</span>.',hint:'👇 Fais ton premier achat maintenant !',btn:'Je vais essayer',target:'.order-panel'},
   {icon:'🎉',title:'Tu es prêt !',body:'Ton portefeuille apparaît ici. Les <span class="tuto-highlight">événements macro</span> (hausse des taux, inflation…) vont faire bouger les prix. Lis les débrief pour comprendre pourquoi.',hint:'',btn:'Démarrer',target:'#portSummary'},
 ];
@@ -6156,29 +6156,37 @@ function _mktTuVisible(el){
 function _mktSpotlight(targetSel){
   const sp=el('mktTutoSpotlight');
   const card=el('mktTutoCard');
-  // Resolve target (mobile fallback for order panel)
+  const ov=el('mktTutoOv');
+  // Mobile fallback for order panel
   let tgt=targetSel?document.querySelector(targetSel):null;
   if(!tgt&&targetSel==='.order-panel')tgt=document.querySelector('.mkt-order-fab');
+  // No target or invisible → center card + dim the whole overlay
   if(!tgt||!_mktTuVisible(tgt)){
     sp.classList.remove('show');
     card.classList.add('centered');
     card.style.transform='';
+    ov.style.background='rgba(6,15,20,.9)';
     return;
   }
+  ov.style.background='transparent';
   const r=tgt.getBoundingClientRect(),pad=8;
   sp.classList.add('show');
   Object.assign(sp.style,{left:(r.left-pad)+'px',top:(r.top-pad)+'px',width:(r.width+pad*2)+'px',height:(r.height+pad*2)+'px'});
-  // Position card: below if enough room, else above, else center
   card.classList.remove('centered');
-  const cw=Math.min(400,window.innerWidth-32);
-  const ch=350;
-  const below=window.innerHeight-r.bottom-pad;
-  const above=r.top-pad;
-  let top,left;
-  if(below>=ch+16)top=r.bottom+pad+12;
-  else if(above>=ch+16)top=r.top-pad-ch-12;
-  else top=Math.max(12,Math.min(r.top,window.innerHeight-ch-12));
-  left=Math.max(12,Math.min(r.left+r.width/2-cw/2,window.innerWidth-cw-12));
+  const vw=window.innerWidth,vh=window.innerHeight;
+  const cw=Math.min(400,vw-32);
+  // Measure real card height after render
+  const ch=card.offsetHeight||380;
+  const margin=14;
+  const below=vh-r.bottom-pad-margin;
+  const above=r.top-pad-margin;
+  let top;
+  if(below>=ch)      top=r.bottom+pad+margin;       // fits below
+  else if(above>=ch) top=r.top-pad-margin-ch;        // fits above
+  else if(r.top>vh/2) top=Math.max(8,r.top-margin-ch); // target in lower half → card above
+  else               top=Math.min(vh-ch-8,r.bottom+margin); // target in upper half → card below
+  top=Math.max(8,Math.min(top,vh-ch-8));             // hard clamp so button stays visible
+  const left=Math.max(12,Math.min(r.left+r.width/2-cw/2,vw-cw-12));
   Object.assign(card.style,{top:top+'px',left:left+'px',width:cw+'px',transform:'none',marginTop:'0'});
 }
 function showMktTutorial(){
