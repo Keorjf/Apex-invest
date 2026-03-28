@@ -203,7 +203,16 @@ if(typeof withTimeout==='undefined'){
   window.lsClearSession=()=>localStorage.removeItem(LS);
   window.url=p=>p;
   window.redirect=p=>{ window.location.href=p; };
-  window.translateError=m=>m||'Erreur';
+  const _ERR={
+    'Invalid login credentials':'Email ou mot de passe incorrect.',
+    'Email not confirmed':'Confirme ton email avant de te connecter.',
+    'Too many requests':'Trop de tentatives. Attends quelques minutes.',
+    'User already registered':'Cet email est déjà utilisé.',
+    'Password should be at least 6':'Le mot de passe doit faire 8 caractères minimum.',
+    'Email rate limit exceeded':'Trop d\'emails envoyés. Attends quelques minutes avant de réessayer.',
+    'over_email_send_rate_limit':'Trop d\'emails envoyés. Attends quelques minutes avant de réessayer.',
+  };
+  window.translateError=m=>{if(!m)return'Erreur.';for(const[k,v]of Object.entries(_ERR))if(m.toLowerCase().includes(k.toLowerCase()))return v;return m;};
   window.db=null;
   window.showError=m=>{const el=document.getElementById('error-msg');if(el){el.textContent=m;el.style.display='block';setTimeout(()=>el.style.display='none',7000);}};
   window.showSuccess=m=>{const el=document.getElementById('success-msg');if(el){el.innerHTML=m;el.style.display='block';}};
