@@ -4591,25 +4591,30 @@ function renderPositions(){
     e.innerHTML='<div style="padding:.8rem;font-size:.68rem;color:var(--muted);font-style:italic">Aucune position</div>';
     updatePortSummary(0,0);return;
   }
-  let totalVal=0,totalPnl=0;
+  let totalVal=0,totalPnl=0,totalCost=0;
   active.forEach(a=>{
     const pos=S.positions[a.id],p=S.prices[a.id],val=pos.qty*p,pnl=(p-pos.avgPrice)*pos.qty;
-    totalVal+=val;totalPnl+=pnl;
+    totalVal+=val;totalPnl+=pnl;totalCost+=pos.avgPrice*pos.qty;
   });
   e.innerHTML='';
-  updatePortSummary(totalVal,totalPnl);
+  updatePortSummary(totalVal,totalPnl,totalCost);
   if(S.diagDone&&S.diagProfile)updateAlignScore();
 }
 
-function updatePortSummary(val,pnl){
+function updatePortSummary(val,pnl,cost=0){
   const e=el('portSummary');if(!e)return;
+  const pct=cost>0?((val-cost)/cost*100):0;
   e.innerHTML=`
     <div class="ps-card">
-      <div class="ps-lbl">📊 Valeur positions</div>
-      <div class="ps-val y">${fmt(val)} <span class="ps-coin">🪙</span></div>
+      <div class="ps-lbl">Montant investi</div>
+      <div class="ps-val y">${fmt(cost)} <span class="ps-coin">🪙</span></div>
     </div>
     <div class="ps-card">
-      <div class="ps-lbl">${pnl>=0?'📈':'📉'} PnL total</div>
+      <div class="ps-lbl">Valeur actuelle</div>
+      <div class="ps-val y">${fmt(val)} <span class="ps-coin">🪙</span></div>
+    </div>
+    <div class="ps-card" style="grid-column:1/-1">
+      <div class="ps-lbl">PnL total <span style="font-size:.6rem;opacity:.7">(${pnl>=0?'+':''}${pct.toFixed(1)}%)</span></div>
       <div class="ps-val ${pnl>=0?'g':'r'}">${pnl>=0?'+':''}${fmt(pnl)} <span class="ps-coin">🪙</span></div>
     </div>`;
 }
