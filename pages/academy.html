@@ -1231,9 +1231,19 @@ table.assets th.clickable:hover{color:var(--y);}
   /* ── Topbar ── */
   .tb-brand,.tb-sep{display:none!important;}
   .tb-spacer{display:none!important;}
-  .tb-center-title{position:absolute!important;left:50%!important;transform:translateX(-50%)!important;font-size:1rem!important;letter-spacing:.08em!important;text-align:center!important;}
+  /* Cacher les boutons de nav desktop — remplacés par la bottom-nav */
+  #navLearn,#navMarket,#navMissions,#navJournal,#navProfil,#navCorpus{display:none!important;}
+  /* Titre centré : taille réduite + ellipsis si trop long */
+  .tb-center-title{
+    position:absolute!important;left:50%!important;transform:translateX(-50%)!important;
+    font-size:.82rem!important;letter-spacing:.06em!important;
+    white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;
+    max-width:calc(100vw - 180px)!important;/* laisse la place au ☰ + wallet */
+  }
+  /* Sidebar toggle : taille confortable */
+  #sidebarToggle{min-height:40px;padding:.35rem .65rem;font-size:.9rem;}
+  .tb-wallet{min-height:32px;font-size:.72rem;padding:.25rem .6rem;border-radius:8px;}
   .tb-btn{min-height:40px;padding:.45rem .7rem;font-size:.72rem;}
-  .tb-wallet{min-height:32px;font-size:.74rem;padding:.28rem .65rem;border-radius:8px;}
 
   /* ── Parcours (Learn) ── */
   .learn-main{padding:1rem;}
