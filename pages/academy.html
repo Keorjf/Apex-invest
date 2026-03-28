@@ -256,6 +256,32 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 @keyframes btnAttention{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(255,205,13,.5);}50%{transform:scale(1.05);box-shadow:0 0 0 8px rgba(255,205,13,0);}}
 .tuto-next.attention{animation:btnAttention 1s ease-in-out infinite;}
 .mkt-tuto-hint{font-size:.78rem;color:var(--y);text-align:center;margin:-1rem 0 1.2rem;opacity:.85;font-weight:600;letter-spacing:.01em;}
+/* ══ MINI TUTORIEL MARCHÉ (Phase 2 — spotlight tooltips) ══ */
+#mktMiniOv{position:fixed;inset:0;z-index:6001;background:transparent;display:none;pointer-events:all;}
+#mktMiniOv.show{display:block;}
+#mktMiniSpotlight{
+  position:fixed;z-index:5999;border-radius:10px;pointer-events:none;display:none;
+  box-shadow:0 0 0 9999px rgba(6,15,20,.88);
+  outline:2.5px solid rgba(255,205,13,.6);outline-offset:5px;
+  transition:left .35s cubic-bezier(.25,.8,.25,1),top .35s cubic-bezier(.25,.8,.25,1),width .35s,height .35s;
+}
+#mktMiniSpotlight.show{display:block;animation:spotPulse 2s ease-in-out infinite;}
+#mktMiniCard{
+  position:fixed;z-index:6000;max-width:320px;width:calc(100% - 2rem);
+  background:#0e2535;border:1.5px solid rgba(255,205,13,.45);border-radius:12px;
+  padding:1.1rem 1.2rem;
+  box-shadow:0 0 0 4px rgba(6,15,20,.9),0 16px 40px rgba(0,0,0,.9);
+  transition:top .35s cubic-bezier(.25,.8,.25,1),left .35s cubic-bezier(.25,.8,.25,1);
+}
+.mini-label{font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,205,13,.6);margin-bottom:.25rem;font-weight:700;}
+.mini-title{font-family:'Bungee';font-size:1rem;color:var(--y);margin-bottom:.5rem;}
+.mini-hint{font-size:.8rem;color:#e8f8ff;line-height:1.65;margin-bottom:.9rem;}
+.mini-nav{display:flex;align-items:center;justify-content:space-between;gap:.5rem;}
+.mini-skip-btn{background:transparent;border:none;color:rgba(180,230,242,.45);font-size:.7rem;cursor:pointer;padding:.2rem .4rem;font-family:'Nunito',sans-serif;}
+.mini-skip-btn:hover{color:var(--txt);}
+.mini-next-btn{background:var(--g);color:#000;border:none;border-radius:6px;padding:.45rem 1rem;font-size:.78rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;transition:opacity .2s;}
+.mini-next-btn:hover{opacity:.85;}
+.mini-step-num{font-size:.62rem;color:rgba(180,230,242,.4);margin-top:.55rem;text-align:center;}
 /* ══ CHATBOT ══ */
 .chatbot-fab{position:fixed;bottom:1.4rem;right:1.4rem;z-index:4000;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--y),#FF7A00);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.4rem;box-shadow:0 4px 20px rgba(255,122,0,.4);transition:.2s;}
 .chatbot-fab:hover{transform:scale(1.08);}
@@ -6163,13 +6189,11 @@ function toggleSimpleMode(){
     btn.classList.remove('simple');
   }
 }
-/* ══ TUTORIEL MARCHÉ 5 ÉTAPES ══ */
+/* ══ TUTORIEL MARCHÉ — PHASE 1 : 3 grandes cartes centrées ══ */
 const MKT_TUTO_STEPS=[
-  {icon:'👀',title:'Bienvenue dans la Salle des Marchés',body:'Ici tu simules de vrais investissements avec des Tacoins. Zéro risque réel — c\'est fait pour apprendre.',hint:'👇 Commence par observer les prix en temps réel',btn:'J\'observe',target:null},
-  {icon:'📈',title:'Les actifs : ce que tu peux acheter',body:'Chaque ligne = un actif (ETF, action, crypto, or). Le prix change en direct. La colonne <span class="tuto-highlight">24h</span> montre si c\'est en hausse (vert) ou en baisse (rouge) depuis hier.',hint:'👇 Clique sur une ligne pour voir son graphique',btn:'J\'ai compris',target:'.assets thead'},
-  {icon:'📊',title:'Le graphique : l\'historique du prix',body:'Le graphique montre l\'évolution du prix dans le temps. Si la courbe monte → l\'actif a pris de la valeur. <span class="tuto-highlight">1J</span> = aujourd\'hui, <span class="tuto-highlight">1S</span> = cette semaine, <span class="tuto-highlight">1M</span> = ce mois.',hint:'👇 Essaie de changer la période (1J / 1S / 1M)',btn:'Compris',target:'.chart-wrap'},
-  {icon:'🪙',title:'Premier achat : utilise tes Tacoins',body:'Tu as <span class="tuto-highlight">500 Tacoins</span> pour investir. Sélectionne un actif, entre un montant, et clique <span class="tuto-highlight">ACHETER</span>.',hint:'👇 Fais ton premier achat maintenant !',btn:'Je vais essayer',target:'.order-panel'},
-  {icon:'🎉',title:'Tu es prêt !',body:'Ton portefeuille apparaît ici. Les <span class="tuto-highlight">événements macro</span> (hausse des taux, inflation…) vont faire bouger les prix. Lis les débrief pour comprendre pourquoi.',hint:'',btn:'Démarrer',target:'#portSummary'},
+  {icon:'👀',title:'Bienvenue dans la Salle des Marchés',body:'Ici tu simules de vrais investissements avec des <span class="tuto-highlight">Tacoins</span>. Zéro risque réel — c\'est fait pour apprendre.<br><br>Les prix changent en direct, comme sur de vrais marchés financiers.',hint:'',btn:'C\'est parti',target:null},
+  {icon:'📈',title:'Les actifs : ce que tu peux acheter',body:'Chaque ligne = un actif (ETF, action, crypto, or). Le prix change en direct. La colonne <span class="tuto-highlight">24h</span> montre si l\'actif est en hausse (vert) ou en baisse (rouge) depuis hier.<br><br>Clique sur une ligne pour voir son graphique détaillé.',hint:'',btn:'J\'ai compris',target:null},
+  {icon:'🪙',title:'Premier achat : utilise tes Tacoins',body:'Tu as <span class="tuto-highlight">500 Tacoins</span> pour investir. Sélectionne un actif dans la liste, entre un montant dans le panneau d\'ordre, et clique <span class="tuto-highlight">ACHETER</span>.<br><br>Ensuite je te montre où trouver les infos clés.',hint:'',btn:'Je suis prêt',target:null},
 ];
 let _mktTutoIdx=0;
 
@@ -6221,11 +6245,91 @@ function showMktTutorial(){
   el('mktTutoOv').classList.add('show');
   renderMktTutoStep();
 }
+function skipMktTuto(){
+  _clearMktAttention();
+  el('mktTutoOv').classList.remove('show');
+  el('mktTutoSpotlight').classList.remove('show');
+  localStorage.setItem('mkt_tuto_done','1');
+}
 function closeMktTutorial(){
   _clearMktAttention();
   el('mktTutoOv').classList.remove('show');
   el('mktTutoSpotlight').classList.remove('show');
   localStorage.setItem('mkt_tuto_done','1');
+  // Enchaîne la Phase 2 — mini tutoriels interactifs
+  setTimeout(showMktMini, 400);
+}
+/* ══ TUTORIEL MARCHÉ — PHASE 2 : mini tooltips interactifs avec spotlight ══ */
+const MKT_MINI_STEPS=[
+  {
+    label:'Astuce interactive',
+    title:'Le graphique',
+    hint:'Change la période en cliquant sur <strong style="color:var(--y)">1J</strong>, <strong style="color:var(--y)">1S</strong> ou <strong style="color:var(--y)">1M</strong> pour voir l\'historique du prix sur différentes durées.',
+    target:'.chart-wrap'
+  },
+  {
+    label:'À toi de jouer !',
+    title:'Passe ton premier ordre',
+    hint:'Entre un montant et clique sur <strong style="color:var(--y)">ACHETER</strong> pour simuler ton premier investissement.',
+    target:'.order-panel'
+  },
+];
+let _mktMiniIdx=0;
+function showMktMini(){
+  _mktMiniIdx=0;
+  el('mktMiniOv').classList.add('show');
+  renderMktMiniStep();
+}
+function closeMktMini(){
+  el('mktMiniOv').classList.remove('show');
+  el('mktMiniSpotlight').classList.remove('show');
+}
+function mktMiniNext(){
+  _mktMiniIdx++;
+  if(_mktMiniIdx>=MKT_MINI_STEPS.length){closeMktMini();return;}
+  renderMktMiniStep();
+}
+function renderMktMiniStep(){
+  const s=MKT_MINI_STEPS[_mktMiniIdx];
+  el('mktMiniLabel').textContent=s.label;
+  el('mktMiniTitle').textContent=s.title;
+  el('mktMiniHint').innerHTML=s.hint;
+  el('mktMiniStepNum').textContent=`${_mktMiniIdx+1} / ${MKT_MINI_STEPS.length}`;
+  const nextBtn=el('mktMiniNextBtn');
+  nextBtn.textContent=_mktMiniIdx===MKT_MINI_STEPS.length-1?'Terminer':'Suivant →';
+  if(s.target){
+    const tgt=document.querySelector(s.target);
+    if(tgt)tgt.scrollIntoView({block:'nearest',behavior:'smooth'});
+  }
+  setTimeout(()=>_mktMiniSpotlight(s.target),s.target?300:0);
+}
+function _mktMiniSpotlight(targetSel){
+  const sp=el('mktMiniSpotlight');
+  const card=el('mktMiniCard');
+  let tgt=targetSel?document.querySelector(targetSel):null;
+  if(!tgt&&targetSel==='.order-panel')tgt=document.querySelector('.mkt-order-fab');
+  if(!tgt||!_mktTuVisible(tgt)){
+    sp.classList.remove('show');
+    Object.assign(card.style,{left:'50%',top:'50%',transform:'translateX(-50%) translateY(-50%)',width:'calc(100% - 2rem)'});
+    return;
+  }
+  const r=tgt.getBoundingClientRect(),pad=8;
+  sp.classList.add('show');
+  Object.assign(sp.style,{left:(r.left-pad)+'px',top:(r.top-pad)+'px',width:(r.width+pad*2)+'px',height:(r.height+pad*2)+'px'});
+  const vw=window.innerWidth,vh=window.innerHeight;
+  const cw=Math.min(320,vw-32);
+  const ch=card.offsetHeight||160;
+  const margin=14;
+  const below=vh-r.bottom-pad-margin;
+  const above=r.top-pad-margin;
+  let top;
+  if(below>=ch)       top=r.bottom+pad+margin;
+  else if(above>=ch)  top=r.top-pad-margin-ch;
+  else if(r.top>vh/2) top=Math.max(8,r.top-margin-ch);
+  else                top=Math.min(vh-ch-8,r.bottom+margin);
+  top=Math.max(8,Math.min(top,vh-ch-8));
+  const left=Math.max(12,Math.min(r.left+r.width/2-cw/2,vw-cw-12));
+  Object.assign(card.style,{top:top+'px',left:left+'px',width:cw+'px',transform:'none'});
 }
 function mktTutoNext(){
   _clearMktAttention();
@@ -6653,10 +6757,10 @@ function deleteAccount(){
 <!-- UNLOCK TOAST -->
 <div class="ui-unlock-toast" id="uiUnlockToast"></div>
 
-<!-- SPOTLIGHT MARCHÉ -->
+<!-- SPOTLIGHT MARCHÉ (Phase 1) -->
 <div id="mktTutoSpotlight"></div>
 
-<!-- TUTORIEL MARCHÉ 5 ÉTAPES -->
+<!-- TUTORIEL MARCHÉ PHASE 1 — 3 grandes cartes centrées -->
 <div id="mktTutoOv">
   <div class="tuto-card" id="mktTutoCard">
     <div class="tuto-step-dots" id="mktTutoDots"></div>
@@ -6666,9 +6770,26 @@ function deleteAccount(){
     <div class="mkt-tuto-hint" id="mktTutoHint"></div>
     <div class="tuto-nav">
       <button class="tuto-back" id="mktTutoBackBtn" onclick="mktTutoPrev()" style="display:none">← Retour</button>
-      <button class="tuto-skip" onclick="closeMktTutorial()">Passer</button>
+      <button class="tuto-skip" onclick="skipMktTuto()">Passer</button>
       <button class="tuto-next" id="mktTutoNextBtn" onclick="mktTutoNext()">Suivant →</button>
     </div>
+  </div>
+</div>
+
+<!-- SPOTLIGHT MARCHÉ (Phase 2) -->
+<div id="mktMiniSpotlight"></div>
+
+<!-- TUTORIEL MARCHÉ PHASE 2 — mini tooltips interactifs -->
+<div id="mktMiniOv">
+  <div id="mktMiniCard">
+    <div class="mini-label" id="mktMiniLabel"></div>
+    <div class="mini-title" id="mktMiniTitle"></div>
+    <div class="mini-hint" id="mktMiniHint"></div>
+    <div class="mini-nav">
+      <button class="mini-skip-btn" onclick="closeMktMini()">Passer</button>
+      <button class="mini-next-btn" id="mktMiniNextBtn" onclick="mktMiniNext()">Suivant →</button>
+    </div>
+    <div class="mini-step-num" id="mktMiniStepNum"></div>
   </div>
 </div>
 
