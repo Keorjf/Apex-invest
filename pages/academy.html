@@ -229,6 +229,10 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 .tuto-skip:hover{border-color:var(--ln);color:var(--soft);}
 .tuto-next{background:var(--y);color:#0F2E3D;font-family:'Bungee',sans-serif;font-size:.85rem;letter-spacing:.06em;padding:.6rem 2rem;border:none;border-radius:10px;cursor:pointer;transition:.15s;min-width:130px;}
 .tuto-next:hover{opacity:.88;transform:translateY(-1px);}
+/* ══ TUTORIEL MARCHÉ ══ */
+#mktTutoOv{position:fixed;inset:0;z-index:6000;background:rgba(6,15,20,.92);display:none;align-items:center;justify-content:center;padding:1.2rem;}
+#mktTutoOv.show{display:flex;}
+.mkt-tuto-hint{font-size:.78rem;color:var(--y);text-align:center;margin:-1rem 0 1.2rem;opacity:.85;font-weight:600;letter-spacing:.01em;}
 /* ══ CHATBOT ══ */
 .chatbot-fab{position:fixed;bottom:1.4rem;right:1.4rem;z-index:4000;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--y),#FF7A00);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.4rem;box-shadow:0 4px 20px rgba(255,122,0,.4);transition:.2s;}
 .chatbot-fab:hover{transform:scale(1.08);}
@@ -3592,7 +3596,7 @@ function switchTab(tab){
   if(navEl)navEl.classList.add('active');
   const bnEl=document.querySelector('.bn-btn[data-tab="'+tab+'"]');
   if(bnEl)bnEl.classList.add('active');
-  if(tab==='market'){refreshMarketUI();if(!S.diagDone)openDiag();}
+  if(tab==='market'){refreshMarketUI();if(!S.diagDone)openDiag();else if(!localStorage.getItem('mkt_tuto_done'))setTimeout(showMktTutorial,400);}
   if(tab==='missions')renderMissions();
   if(tab==='journal')renderJournal();
   if(tab==='corpus')initCorpus();
@@ -6121,6 +6125,46 @@ function toggleSimpleMode(){
     btn.classList.remove('simple');
   }
 }
+/* ══ TUTORIEL MARCHÉ 5 ÉTAPES ══ */
+const MKT_TUTO_STEPS=[
+  {icon:'👀',title:'Bienvenue dans la Salle des Marchés',body:'Ici tu simules de vrais investissements avec des Tacoins. Zéro risque réel — c\'est fait pour apprendre.',hint:'👇 Commence par observer les prix en temps réel',btn:'J\'observe'},
+  {icon:'📈',title:'Les actifs : ce que tu peux acheter',body:'Chaque ligne = un actif (ETF, action, crypto, or). Le prix change en direct. La colonne <span class="tuto-highlight">24h</span> montre si c\'est en hausse (vert) ou en baisse (rouge) depuis hier.',hint:'👇 Clique sur une ligne pour voir son graphique',btn:'J\'ai compris'},
+  {icon:'📊',title:'Le graphique : l\'historique du prix',body:'Le graphique montre l\'évolution du prix dans le temps. Si la courbe monte → l\'actif a pris de la valeur. <span class="tuto-highlight">1J</span> = aujourd\'hui, <span class="tuto-highlight">1S</span> = cette semaine, <span class="tuto-highlight">1M</span> = ce mois.',hint:'👇 Essaie de changer la période (1J / 1S / 1M)',btn:'Compris'},
+  {icon:'🪙',title:'Premier achat : utilise tes Tacoins',body:'Tu as <span class="tuto-highlight">500 Tacoins</span> pour investir. Sélectionne un actif à gauche, entre un montant à droite, et clique <span class="tuto-highlight">ACHETER</span>. Simple.',hint:'👇 Fais ton premier achat maintenant !',btn:'Je vais essayer'},
+  {icon:'🎉',title:'Tu es prêt !',body:'Ton portefeuille apparaît en bas à droite. Les <span class="tuto-highlight">événements macro</span> (hausse des taux, inflation…) vont faire bouger les prix. Lis les débrief pour comprendre pourquoi.',hint:'',btn:'Démarrer'},
+];
+let _mktTutoIdx=0;
+function showMktTutorial(){
+  _mktTutoIdx=0;
+  el('mktTutoOv').classList.add('show');
+  renderMktTutoStep();
+}
+function closeMktTutorial(){
+  el('mktTutoOv').classList.remove('show');
+  localStorage.setItem('mkt_tuto_done','1');
+}
+function mktTutoNext(){
+  _mktTutoIdx++;
+  if(_mktTutoIdx>=MKT_TUTO_STEPS.length){closeMktTutorial();return;}
+  const card=el('mktTutoCard');
+  card.style.animation='none';
+  requestAnimationFrame(()=>{card.style.animation='';renderMktTutoStep();});
+}
+function renderMktTutoStep(){
+  const s=MKT_TUTO_STEPS[_mktTutoIdx];
+  const total=MKT_TUTO_STEPS.length;
+  const n=_mktTutoIdx+1;
+  el('mktTutoIcon').innerHTML=s.icon;
+  el('mktTutoTitle').textContent=s.title;
+  el('mktTutoBody').innerHTML=s.body;
+  const hint=el('mktTutoHint');
+  hint.textContent=s.hint;
+  hint.style.display=s.hint?'block':'none';
+  const btn=el('mktTutoNextBtn');
+  btn.textContent=n===total?`${s.btn} →`:`${s.btn} → ${n}/${total}`;
+  el('mktTutoDots').innerHTML=MKT_TUTO_STEPS.map((_,i)=>`<div class="tuto-dot${i===_mktTutoIdx?' active':i<_mktTutoIdx?' done':''}"></div>`).join('');
+}
+
 /* ══ TUTORIEL 5 ÉTAPES ══ */
 const TUTO_STEPS=[
   {icon:'🚀',title:'Bienvenue sur TACTIC !',body:'Tu vas apprendre à investir en simulant avec de vrais marchés — sans risquer un centime réel. En 5 étapes, je t\'explique comment ça marche.'},
@@ -6503,6 +6547,21 @@ function deleteAccount(){
 
 <!-- UNLOCK TOAST -->
 <div class="ui-unlock-toast" id="uiUnlockToast"></div>
+
+<!-- TUTORIEL MARCHÉ 5 ÉTAPES -->
+<div id="mktTutoOv">
+  <div class="tuto-card" id="mktTutoCard">
+    <div class="tuto-step-dots" id="mktTutoDots"></div>
+    <div class="tuto-icon" id="mktTutoIcon"></div>
+    <div class="tuto-title" id="mktTutoTitle"></div>
+    <div class="tuto-body" id="mktTutoBody"></div>
+    <div class="mkt-tuto-hint" id="mktTutoHint"></div>
+    <div class="tuto-nav">
+      <button class="tuto-skip" onclick="closeMktTutorial()">Passer le tutoriel</button>
+      <button class="tuto-next" id="mktTutoNextBtn" onclick="mktTutoNext()">Suivant →</button>
+    </div>
+  </div>
+</div>
 
 <!-- TUTORIEL 5 ÉTAPES -->
 <div id="tutorialOv">
