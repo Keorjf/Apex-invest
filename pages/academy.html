@@ -840,8 +840,12 @@ table.assets th.clickable:hover{color:var(--y);}
 .pm-title{font-size:1rem;font-weight:700;color:var(--y);margin-bottom:1rem;display:flex;align-items:center;gap:.4rem;}
 .pm-summary{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:1rem;}
 .pm-sc{background:var(--bg3);border:1px solid var(--ln);border-radius:7px;padding:.6rem .8rem;}
+.pm-sc-full{grid-column:1/-1;}
 .pm-sl{font-size:.55rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.2rem;}
 .pm-sv{font-family:'JetBrains Mono','Courier New',monospace;font-size:.95rem;font-weight:700;}
+.pm-align-wrap{display:flex;align-items:center;gap:.6rem;margin-top:.35rem;}
+.pm-align-bar{flex:1;height:5px;background:var(--ln);border-radius:3px;overflow:hidden;}
+.pm-align-fill{height:100%;background:linear-gradient(to right,var(--r),var(--y),var(--g));border-radius:3px;transition:width .6s ease;}
 .pm-list{display:flex;flex-direction:column;gap:.5rem;}
 .pm-item{background:var(--bg3);border:1px solid var(--ln);border-radius:8px;padding:.65rem .8rem;display:flex;align-items:center;gap:.6rem;}
 .pm-emo{font-size:1.3rem;}
@@ -1613,7 +1617,7 @@ table.assets th.clickable:hover{color:var(--y);}
         <div class="mkt-topbar">
           <div class="mkt-live"><div class="live-dot"></div><span data-i18n="mktLive">Live simulé</span></div>
           <span id="alignVal" style="display:none"></span>
-          <button class="mkt-port-topbtn" id="mktPortTopBtn" onclick="openPortfolioSheet()">
+          <button class="mkt-port-topbtn" id="mktPortTopBtn" onclick="openPortfolioModal()">
             <span class="mpt-label">Portefeuille</span>
             <span class="mpt-pnl" id="mptPnl">—</span>
             <span class="mpt-arrow">↗</span>
@@ -4680,7 +4684,7 @@ function updatePortSummary(val,pnl,cost=0){
 /* ══ PORTFOLIO MODAL ══ */
 function openPortfolioModal(){
   const active=ASSETS.filter(a=>S.positions[a.id]&&S.positions[a.id].qty>0.00001);
-  let totalVal=0,totalPnl=0;
+  let totalVal=0,totalPnl=0,totalCost=0;
   const pmList=el('pmList');
   const pmSummary=el('pmSummary');
   if(!pmList||!pmSummary)return;
@@ -4691,7 +4695,8 @@ function openPortfolioModal(){
     pmList.innerHTML=active.map(a=>{
       const pos=S.positions[a.id],p=S.prices[a.id],val=pos.qty*p,pnl=(p-pos.avgPrice)*pos.qty;
       const pct=(p-pos.avgPrice)/pos.avgPrice*100;
-      totalVal+=val;totalPnl+=pnl;
+      const cost=pos.avgPrice*pos.qty;
+      totalVal+=val;totalPnl+=pnl;totalCost+=cost;
       return `<div class="pm-item">
         <span class="pm-emo">${a.emoji}</span>
         <div class="pm-info">
@@ -4704,9 +4709,15 @@ function openPortfolioModal(){
         </div>
       </div>`;
     }).join('');
+    const pct=totalCost>0?((totalVal-totalCost)/totalCost*100):0;
+    // Alignement profil
+    const alignTxt=el('alignPct')?el('alignPct').textContent:'—';
+    const alignW=el('alignFill')?el('alignFill').style.width:'0%';
     pmSummary.innerHTML=`
-      <div class="pm-sc"><div class="pm-sl">Valeur totale</div><div class="pm-sv" style="color:var(--y)">${fmt(totalVal)} 🪙</div></div>
-      <div class="pm-sc"><div class="pm-sl">PnL total</div><div class="pm-sv" style="color:${totalPnl>=0?'var(--g)':'var(--r)'}">${totalPnl>=0?'+':''}${fmt(totalPnl)} 🪙</div></div>`;
+      <div class="pm-sc"><div class="pm-sl">Montant investi</div><div class="pm-sv" style="color:var(--y)">${fmt(totalCost)} 🪙</div></div>
+      <div class="pm-sc"><div class="pm-sl">Valeur actuelle</div><div class="pm-sv" style="color:var(--y)">${fmt(totalVal)} 🪙</div></div>
+      <div class="pm-sc"><div class="pm-sl">PnL total</div><div class="pm-sv" style="color:${totalPnl>=0?'var(--g)':'var(--r)'}">${totalPnl>=0?'+':''}${fmt(totalPnl)} 🪙 <span style="font-size:.7rem;opacity:.7">(${totalPnl>=0?'+':''}${pct.toFixed(1)}%)</span></div></div>
+      <div class="pm-sc pm-sc-full"><div class="pm-sl">Alignement profil</div><div class="pm-align-wrap"><div class="pm-align-bar"><div class="pm-align-fill" style="width:${alignW}"></div></div><span class="pm-sv" style="color:var(--y)">${alignTxt}</span></div></div>`;
   }
   el('portModalOv').classList.add('show');
 }
