@@ -1701,11 +1701,7 @@ table.assets th.clickable:hover{color:var(--y);}
         </div>
         <div class="sheet-panel active" id="sheetPanelOrder">
         <div class="order-panel">
-          <div class="op-toggle" onclick="toggleOrderPanel()">
-            <span class="op-toggle-label" data-i18n="orderTitle">Passer un ordre</span>
-            <span class="op-toggle-arrow" id="opArrow">▼</span>
-          </div>
-          <div class="op-body" id="opBody">
+          <div class="op-body open" id="opBody">
             <div class="oai" id="oaiWrap">
               <div class="oai-select" id="oaiSelect" onclick="toggleAssetDd(event)">
                 <span class="oai-nm" id="oaiNm" data-i18n="orderSelect">Sélectionne un actif</span>
@@ -4532,8 +4528,6 @@ function toggleOrderPanel(){
   if(arrow)arrow.classList.toggle('open',open);
 }
 function openOrderPanel(){
-  const body=el('opBody'),arrow=el('opArrow');
-  if(body&&!body.classList.contains('open')){body.classList.add('open');if(arrow)arrow.classList.add('open');}
   if(window.innerWidth<=900) openMobileOrderPanel();
 }
 function switchSheetTab(tab){
