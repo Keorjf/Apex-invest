@@ -1685,7 +1685,7 @@ table.assets th.clickable:hover{color:var(--y);}
             <div class="ev-banner" id="evBanner" onclick="openDebriefFromBanner(event)">
               <div class="ev-impact" id="evImpact">—</div>
               <div class="ev-txt"><div class="ev-title" id="evTitle">—</div><div class="ev-desc" id="evDesc">—</div></div>
-              <span class="ev-cta">Voir le détail →</span>
+              <span class="ev-cta" id="evCta">Voir le détail →</span>
               <button class="ev-close" onclick="event.stopPropagation();closeEvBanner()">✕</button>
             </div>
           </div>
@@ -4807,15 +4807,17 @@ function showPriceContext(){
     el('evImpact').textContent=ev.impact==='good'?'+':'-';
     el('evTitle').textContent=ev.title;
     el('evDesc').textContent=extraDesc;
+    const cta=el('evCta');if(cta)cta.style.display='';
     banner.classList.add('show');
     clearTimeout(banner._autoHide);
     banner._autoHide=setTimeout(()=>closeEvBanner(),14000);
   } else {
-    // Aucun événement récent — affiche un contexte générique
+    // Aucun événement récent — affiche un contexte générique sans bouton "Voir le détail"
     const banner=el('evBanner');if(!banner)return;
     el('evImpact').textContent='~';
     el('evTitle').textContent='Fluctuation normale du marché';
     el('evDesc').textContent='Pas d\'événement récent. Les prix fluctuent selon l\'offre et la demande en temps réel.';
+    const cta=el('evCta');if(cta)cta.style.display='none';
     banner.classList.add('show');
     clearTimeout(banner._autoHide);
     banner._autoHide=setTimeout(()=>closeEvBanner(),8000);
