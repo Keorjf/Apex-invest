@@ -286,6 +286,12 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 .chatbot-fab{position:fixed;bottom:1.4rem;right:1.4rem;z-index:4000;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--y),#FF7A00);border:none;cursor:grab;display:flex;align-items:center;justify-content:center;font-size:1.4rem;box-shadow:0 4px 20px rgba(255,122,0,.4);touch-action:none;user-select:none;}
 .chatbot-fab:hover{transform:scale(1.08);}
 .chatbot-fab.open{background:var(--bg3);border:1.5px solid var(--ln);}
+@keyframes fabBounce{0%,100%{transform:translateY(0) scale(1)}30%{transform:translateY(-12px) scale(1.1)}60%{transform:translateY(-5px) scale(1.05)}80%{transform:translateY(-8px) scale(1.07)}}
+@keyframes fabWiggle{0%,100%{transform:rotate(0)}20%{transform:rotate(-12deg)}40%{transform:rotate(12deg)}60%{transform:rotate(-8deg)}80%{transform:rotate(8deg)}}
+@keyframes fabPop{0%,100%{transform:scale(1)}40%{transform:scale(1.22)}70%{transform:scale(.92)}}
+.chatbot-fab.anim-bounce{animation:fabBounce .7s cubic-bezier(.34,1.56,.64,1)}
+.chatbot-fab.anim-wiggle{animation:fabWiggle .6s ease-in-out}
+.chatbot-fab.anim-pop{animation:fabPop .5s cubic-bezier(.34,1.56,.64,1)}
 .chatbot-panel{position:fixed;bottom:5rem;right:1.4rem;z-index:4000;width:310px;max-height:460px;background:var(--bg2);border:1.5px solid var(--ln);border-radius:16px;display:flex;flex-direction:column;box-shadow:0 8px 40px rgba(0,0,0,.5);transform:translateY(20px) scale(.95);opacity:0;pointer-events:none;transition:transform .25s cubic-bezier(.34,1.56,.64,1),opacity .2s;}
 .chatbot-panel.open{transform:translateY(0) scale(1);opacity:1;pointer-events:all;}
 .cb-header{display:flex;align-items:center;gap:.6rem;padding:.8rem 1rem;border-bottom:1px solid var(--ln);flex-shrink:0;}
@@ -6577,6 +6583,18 @@ function initFabDrag(){
     const r=fab.getBoundingClientRect();
     snapTo(r.left+SIZE/2,r.top+SIZE/2);
   });
+  // Animations spontanées périodiques
+  const _anims=['anim-bounce','anim-wiggle','anim-pop'];
+  function _doFabAnim(){
+    if(dragging||el('chatbotPanel')?.classList.contains('open')) return;
+    const cls=_anims[Math.floor(Math.random()*_anims.length)];
+    fab.classList.add(cls);
+    fab.addEventListener('animationend',()=>fab.classList.remove(cls),{once:true});
+  }
+  function _schedFabAnim(){
+    setTimeout(()=>{_doFabAnim();_schedFabAnim();},15000+Math.random()*25000);
+  }
+  setTimeout(_schedFabAnim, 8000); // première fois après 8s
 }
 function botAppend(who,html){
   const wrap=el('chatbotMessages');
