@@ -750,6 +750,24 @@ table.assets th.clickable:hover{color:var(--y);}
 .ev-close{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:.85rem;padding:.2rem;flex-shrink:0;transition:.15s;}
 .ev-close:hover{color:var(--r);}
 
+/* INFO TOAST (éducatif — indépendant du système de progression) */
+.info-toast{
+  position:fixed;bottom:4.8rem;left:50%;transform:translateX(-50%) translateY(120px);
+  z-index:850;width:min(520px,90vw);
+  background:rgba(8,14,28,.97);border:1px solid rgba(78,194,218,.25);border-radius:12px;
+  padding:.75rem 1rem;display:flex;align-items:flex-start;gap:.8rem;
+  box-shadow:0 8px 32px rgba(0,0,0,.6);
+  opacity:0;transition:transform .4s cubic-bezier(.34,1.2,.64,1),opacity .3s ease;
+  pointer-events:none;
+}
+.info-toast.show{transform:translateX(-50%) translateY(0);opacity:1;pointer-events:auto;}
+.it-icon{font-size:1.4rem;flex-shrink:0;line-height:1.4;}
+.it-body{flex:1;min-width:0;}
+.it-title{font-size:.82rem;font-weight:700;color:var(--txt);margin-bottom:.2rem;}
+.it-desc{font-size:.7rem;color:var(--muted);line-height:1.5;}
+.it-close{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:.85rem;padding:.1rem;flex-shrink:0;transition:.15s;}
+.it-close:hover{color:var(--r);}
+
 /* EVENT DEBRIEF */
 .ev-debrief-btn{display:none;}
 
@@ -4536,6 +4554,16 @@ function selectAsset(id){
   if(pr)pr.textContent=fmtP(S.prices[id]);
   updateOrderSummary();updateChartHeader();
 }
+function _showInfoToast(icon,title,desc,ms=9000){
+  const t=el('infoToast');if(!t)return;
+  el('itIcon').textContent=icon;
+  el('itTitle').textContent=title;
+  el('itDesc').textContent=desc;
+  t.classList.add('show');
+  clearTimeout(t._hide);
+  t._hide=setTimeout(()=>closeInfoToast(),ms);
+}
+function closeInfoToast(){const t=el('infoToast');if(t)t.classList.remove('show');}
 function showStatInfo(type,id){
   const a=ASSETS.find(x=>x.id===id);if(!a)return;
   const price=S.prices[id]||a.base;
@@ -4544,49 +4572,24 @@ function showStatInfo(type,id){
   const chgPct=prev?((price-prev)/prev*100):0;
   const base=hist.length>0?hist[0]:a.base;
   const sessPct=base?((price-base)/base*100):0;
-  const banner=el('evBanner');if(!banner)return;
-  const cta=el('evCta');if(cta)cta.style.display='none';
   if(type==='price'){
-    el('evImpact').textContent='💰';
-    el('evTitle').textContent=`Prix : ${fmtP(price)}`;
-    el('evDesc').textContent=`Le prix reflète ce que les acheteurs et vendeurs acceptent d'échanger sur le marché simulé. Il évolue selon l'offre, la demande et les événements économiques.`;
+    _showInfoToast('💰',`Prix : ${fmtP(price)}`,`Le prix reflète ce que les acheteurs et vendeurs acceptent d'échanger. Il évolue selon l'offre, la demande et les événements économiques.`);
   } else if(type==='chg'){
     const dir=chgPct>=0?'hausse':'baisse';
-    el('evImpact').textContent=chgPct>=0?'📈':'📉';
-    el('evTitle').textContent=`Variation 24h : ${chgPct>=0?'+':''}${chgPct.toFixed(2)}%`;
-    el('evDesc').textContent=`L'actif est en ${dir} de ${Math.abs(chgPct).toFixed(2)}% par rapport au tick précédent. Positif = les acheteurs dominent. Négatif = les vendeurs dominent.`;
+    _showInfoToast(chgPct>=0?'📈':'📉',`Variation : ${chgPct>=0?'+':''}${chgPct.toFixed(2)}%`,`L'actif est en ${dir} de ${Math.abs(chgPct).toFixed(2)}% depuis le dernier tick. Positif = acheteurs dominants. Négatif = vendeurs dominants.`);
   } else if(type==='sess'){
     const dir=sessPct>=0?'hausse':'baisse';
-    el('evImpact').textContent=sessPct>=0?'🟢':'🔴';
-    el('evTitle').textContent=`Session : ${sessPct>=0?'+':''}${sessPct.toFixed(2)}%`;
-    el('evDesc').textContent=`Performance depuis l'ouverture de la session. ${sessPct>=0?`+${sessPct.toFixed(2)}% : tendance haussière sur la séance.`:`${sessPct.toFixed(2)}% : tendance baissière sur la séance.`}`;
+    _showInfoToast(sessPct>=0?'🟢':'🔴',`Session : ${sessPct>=0?'+':''}${sessPct.toFixed(2)}%`,`Performance depuis l'ouverture de la session. ${sessPct>=0?'Tendance haussière':'Tendance baissière'} sur la séance en cours.`);
   }
-  banner.classList.add('show');
-  clearTimeout(banner._autoHide);
-  banner._autoHide=setTimeout(()=>closeEvBanner(),9000);
 }
 function showAssetDesc(id){
   const a=ASSETS.find(x=>x.id===id);if(!a)return;
-  const banner=el('evBanner');if(!banner)return;
-  el('evImpact').textContent=a.emoji;
-  el('evTitle').textContent=a.name;
-  el('evDesc').textContent=a.desc||'';
-  const cta=el('evCta');if(cta)cta.style.display='none';
-  banner.classList.add('show');
-  clearTimeout(banner._autoHide);
-  banner._autoHide=setTimeout(()=>closeEvBanner(),8000);
+  _showInfoToast(a.emoji,a.name,a.desc||'',8000);
 }
 function toggleChInfo(e){
   e.stopPropagation();
   const a=ASSETS.find(x=>x.id===S.selectedAsset);if(!a)return;
-  const banner=el('evBanner');if(!banner)return;
-  el('evImpact').textContent=a.emoji;
-  el('evTitle').textContent=a.name;
-  el('evDesc').textContent=a.desc||'';
-  const cta=el('evCta');if(cta)cta.style.display='none';
-  banner.classList.add('show');
-  clearTimeout(banner._autoHide);
-  banner._autoHide=setTimeout(()=>closeEvBanner(),8000);
+  _showInfoToast(a.emoji,a.name,a.desc||'',8000);
 }
 document.addEventListener('click',()=>{const b=el('chInfoBtn');if(b)b.classList.remove('open');});
 
@@ -4848,24 +4851,9 @@ function showPriceContext(){
       const dir=delta>0?'hausse':'baisse';
       extraDesc=ev.desc+` (Impact sur cet actif : ${dir} ~${pct}%)`;
     }
-    const banner=el('evBanner');if(!banner)return;
-    el('evImpact').textContent=ev.impact==='good'?'+':'-';
-    el('evTitle').textContent=ev.title;
-    el('evDesc').textContent=extraDesc;
-    const cta=el('evCta');if(cta)cta.style.display='';
-    banner.classList.add('show');
-    clearTimeout(banner._autoHide);
-    banner._autoHide=setTimeout(()=>closeEvBanner(),14000);
+    _showInfoToast(ev.impact==='good'?'📈':'📉',ev.title,extraDesc,14000);
   } else {
-    // Aucun événement récent — affiche un contexte générique sans bouton "Voir le détail"
-    const banner=el('evBanner');if(!banner)return;
-    el('evImpact').textContent='~';
-    el('evTitle').textContent='Fluctuation normale du marché';
-    el('evDesc').textContent='Pas d\'événement récent. Les prix fluctuent selon l\'offre et la demande en temps réel.';
-    const cta=el('evCta');if(cta)cta.style.display='none';
-    banner.classList.add('show');
-    clearTimeout(banner._autoHide);
-    banner._autoHide=setTimeout(()=>closeEvBanner(),8000);
+    _showInfoToast('〰️','Fluctuation normale du marché','Pas d\'événement récent. Les prix fluctuent selon l\'offre et la demande en temps réel.',8000);
   }
 }
 
@@ -7029,6 +7017,12 @@ function deleteAccount(){
 
 <!-- UNLOCK TOAST -->
 <div class="ui-unlock-toast" id="uiUnlockToast"></div>
+<!-- INFO TOAST éducatif -->
+<div class="info-toast" id="infoToast">
+  <span class="it-icon" id="itIcon"></span>
+  <div class="it-body"><div class="it-title" id="itTitle"></div><div class="it-desc" id="itDesc"></div></div>
+  <button class="it-close" onclick="closeInfoToast()">✕</button>
+</div>
 
 <!-- SPOTLIGHT MARCHÉ (Phase 1) -->
 <div id="mktTutoSpotlight"></div>
