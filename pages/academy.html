@@ -1017,7 +1017,10 @@ table.assets th.clickable:hover{color:var(--y);}
 }
 .mission-card:hover{border-color:var(--ln2);}
 .mission-card.done{border-color:rgba(255,205,13,.22);background:rgba(78,194,218,.04);}
-.mission-card.claimed{opacity:.5;}
+.mission-card.claimed{opacity:.45;}
+.mission-card.ready{border-color:rgba(255,205,13,.6);box-shadow:0 0 20px rgba(255,205,13,.18),0 4px 16px rgba(0,0,0,.3);}
+.missions-badge{position:absolute;top:3px;right:3px;width:9px;height:9px;background:#FF3B5C;border-radius:50%;display:none;box-shadow:0 0 6px rgba(255,59,92,.9);animation:badgePulse 1.5s ease-in-out infinite;}
+@keyframes badgePulse{0%,100%{transform:scale(1)}50%{transform:scale(1.3)}}
 .mission-card.daily{
   background:linear-gradient(135deg,rgba(255,205,13,.08) 0%,rgba(255,160,0,.05) 100%);
   border:1.5px solid rgba(255,205,13,.45);
@@ -1550,7 +1553,7 @@ table.assets th.clickable:hover{color:var(--y);}
     <div class="tb-sep"></div>
     <button class="tb-btn active" id="navLearn"    onclick="switchTab('learn')">Apprendre</button>
     <button class="tb-btn" id="navMarket" onclick="switchTab('market')">Marchés</button>
-    <button class="tb-btn" id="navMissions" onclick="switchTab('missions')">Missions</button>
+    <button class="tb-btn" id="navMissions" onclick="switchTab('missions')" style="position:relative">Missions<span id="missionsBadge" class="missions-badge"></span></button>
     <button class="tb-btn" id="navJournal" onclick="switchTab('journal')">Journal</button>
     <button class="tb-btn" id="navCorpus"  onclick="switchTab('corpus')" style="display:none">🧠 Corpus</button>
     <button class="tb-btn" id="navProfil"  onclick="switchTab('profil')">Profils</button>
@@ -1568,8 +1571,8 @@ table.assets th.clickable:hover{color:var(--y);}
     <button class="bn-btn" data-tab="market" onclick="switchTab('market')">
       Marchés
     </button>
-    <button class="bn-btn" data-tab="missions" onclick="switchTab('missions')">
-      Missions
+    <button class="bn-btn" data-tab="missions" onclick="switchTab('missions')" style="position:relative">
+      Missions<span id="missionsBadgeMobile" class="missions-badge"></span>
     </button>
     <button class="bn-btn" data-tab="journal" onclick="switchTab('journal')">
       Journal
@@ -5229,16 +5232,20 @@ function renderMissions(){
     </div>`};
   };
   const mkPerm=m=>{
-    const done=!!S.missions['p_'+m.id];
-    return {done, html:`<div class="mission-card${done?' done':''}">
+    const state=S.missions['p_'+m.id];
+    const claimed=state==='claimed'||state===true;
+    const ready=state==='ready';
+    let rewardHtml;
+    if(claimed) rewardHtml='<span class="mc-done-tag">✅ Récupéré</span>';
+    else if(ready) rewardHtml=`<button class="mc-claim-btn" onclick="claimMission('p_${m.id}',${m.reward},this)">🪙 Collecter +${m.reward}</button>`;
+    else rewardHtml=`<span class="mc-coins">+${m.reward} 🪙</span>`;
+    return {claimed, ready, html:`<div class="mission-card${claimed?' claimed':ready?' ready':''}">
       <span class="mc-icon">${m.icon}</span>
       <div class="mc-content">
         <div class="mc-name">${m.name}</div>
         <div class="mc-desc">${m.desc}</div>
       </div>
-      <div class="mc-reward">
-        ${done?'<span class="mc-done-tag">✅ Fait</span>':`<span class="mc-coins">+${m.reward} 🪙</span>`}
-      </div>
+      <div class="mc-reward">${rewardHtml}</div>
     </div>`};
   };
 
@@ -5249,12 +5256,12 @@ function renderMissions(){
   if(daily) daily.innerHTML=dailyResults.filter(r=>!r.claimed).map(r=>r.html).join('');
 
   const perm=el('permMissions');
-  if(perm) perm.innerHTML=permResults.filter(r=>!r.done).map(r=>r.html).join('');
+  if(perm) perm.innerHTML=permResults.map(r=>r.html).join('');
 
   const completedHtmls=[
     ...dailyResults.filter(r=>r.claimed).map(r=>r.html.replace(/<span class="mc-done-tag">.*?<\/span>/,'')),
-    ...permResults.filter(r=>r.done).map(r=>r.html.replace(/<span class="mc-done-tag">.*?<\/span>/,''))
   ];
+  updateMissionsBadge();
   const completedSection=el('completedSection');
   const completedEl=el('completedMissions');
   if(completedSection && completedEl){
@@ -5295,14 +5302,21 @@ function checkMissions(){
         S.missions[c.key]='ready';
         showMissionBanner(dm?dm.icon:'🎯','Mission du jour complétée !',dm?dm.name:'Mission débloquée',dm?dm.reward:0);
       } else {
-        S.missions[c.key]=true;
+        S.missions[c.key]='ready';
         const mId=c.key.replace(/^p_/,'');
         const m=PERM_MISSIONS.find(x=>x.id===mId);
-        if(m){addCoins(m.reward);showMissionBanner(m.icon,'Mission accomplie !',m.name,m.reward);}
+        if(m){showMissionBanner(m.icon,'Mission accomplie ! 🎁',m.name+' — Collecte ta récompense',0);}
       }
     }
   });
   renderMissions();saveState();
+}
+
+function updateMissionsBadge(){
+  const hasReady=Object.values(S.missions).some(v=>v==='ready');
+  ['missionsBadge','missionsBadgeMobile'].forEach(id=>{
+    const b=el(id);if(b)b.style.display=hasReady?'block':'none';
+  });
 }
 
 /* ══ CALCULATRICE QUIZ ══ */
@@ -5429,9 +5443,15 @@ function claimMission(key,reward,btnEl){
   }
   setTimeout(()=>{
     addCoins(reward);
-    const dId=key.replace(/^d_/,'');
-    const dm=(S._dailyPick||[]).find(x=>x.id===dId);
-    showMissionBanner(dm?dm.icon:'🪙','Tacoins récupérés !',dm?dm.name:'Mission du jour',reward);
+    if(key.startsWith('d_')){
+      const dId=key.replace(/^d_/,'');
+      const dm=(S._dailyPick||[]).find(x=>x.id===dId);
+      showMissionBanner(dm?dm.icon:'🪙','Tacoins récupérés !',dm?dm.name:'Mission du jour',reward);
+    } else {
+      const mId=key.replace(/^p_/,'');
+      const m=PERM_MISSIONS.find(x=>x.id===mId);
+      showMissionBanner(m?m.icon:'🏆','Récompense récupérée !',m?m.name:'Mission permanente',reward);
+    }
     saveState();
   },count*80+200);
 }
