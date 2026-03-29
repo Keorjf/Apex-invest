@@ -1265,12 +1265,13 @@ table.assets th.clickable:hover{color:var(--y);}
   .tb-spacer{display:none!important;}
   /* Cacher les boutons de nav desktop — remplacés par la bottom-nav */
   #navLearn,#navMarket,#navMissions,#navJournal,#navProfil,#navCorpus{display:none!important;}
-  /* Titre centré : taille réduite + ellipsis si trop long */
+  /* Titre centré : flex item entre ☰ et les wallets — évite tout chevauchement */
   .tb-center-title{
-    position:absolute!important;left:50%!important;transform:translateX(-50%)!important;
+    position:static!important;left:auto!important;transform:none!important;
+    flex:1!important;text-align:center!important;
     font-size:.82rem!important;letter-spacing:.06em!important;
     white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;
-    max-width:calc(100vw - 180px)!important;/* laisse la place au ☰ + wallet */
+    min-width:0!important;
   }
   /* Sidebar toggle : taille confortable */
   #sidebarToggle{min-height:40px;padding:.35rem .65rem;font-size:.9rem;}
