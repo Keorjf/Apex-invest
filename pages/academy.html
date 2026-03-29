@@ -4363,10 +4363,10 @@ function buildMarketTable(){
     <tr class="asset-row${a.id===S.selectedAsset?' selected':''}" id="row_${a.id}" onclick="selectAsset('${a.id}')" ondblclick="openOrderPanel()">
       <td><div class="td-name" onclick="event.stopPropagation();showAssetDesc('${a.id}')"><span style="font-size:1.1rem">${a.emoji}</span>${a.name}</div></td>
       <td class="col-cat"><span class="td-cat" data-cat="${a.cat}">${a.cat}</span></td>
-      <td class="td-price" id="price_${a.id}">${fmtP(a.base)}</td>
-      <td class="td-chg flat" id="chg_${a.id}">—</td>
+      <td class="td-price" id="price_${a.id}" onclick="event.stopPropagation();showStatInfo('price','${a.id}')" style="cursor:pointer">${fmtP(a.base)}</td>
+      <td class="td-chg flat" id="chg_${a.id}" onclick="event.stopPropagation();showStatInfo('chg','${a.id}')" style="cursor:pointer">—</td>
       <td class="col-spark"><canvas class="spark-canvas" id="spark_${a.id}" width="80" height="32"></canvas></td>
-      <td class="col-cap td-chg flat" id="sess_${a.id}">—</td>
+      <td class="col-cap td-chg flat" id="sess_${a.id}" onclick="event.stopPropagation();showStatInfo('sess','${a.id}')" style="cursor:pointer">—</td>
     </tr>`).join('');
 }
 
@@ -4535,6 +4535,35 @@ function selectAsset(id){
   if(nm)nm.textContent=a.emoji+' '+a.name;
   if(pr)pr.textContent=fmtP(S.prices[id]);
   updateOrderSummary();updateChartHeader();
+}
+function showStatInfo(type,id){
+  const a=ASSETS.find(x=>x.id===id);if(!a)return;
+  const price=S.prices[id]||a.base;
+  const hist=S.history[id]||[];
+  const prev=hist.length>=2?hist[hist.length-2]:price;
+  const chgPct=prev?((price-prev)/prev*100):0;
+  const base=hist.length>0?hist[0]:a.base;
+  const sessPct=base?((price-base)/base*100):0;
+  const banner=el('evBanner');if(!banner)return;
+  const cta=el('evCta');if(cta)cta.style.display='none';
+  if(type==='price'){
+    el('evImpact').textContent='💰';
+    el('evTitle').textContent=`Prix : ${fmtP(price)}`;
+    el('evDesc').textContent=`Le prix reflète ce que les acheteurs et vendeurs acceptent d'échanger sur le marché simulé. Il évolue selon l'offre, la demande et les événements économiques.`;
+  } else if(type==='chg'){
+    const dir=chgPct>=0?'hausse':'baisse';
+    el('evImpact').textContent=chgPct>=0?'📈':'📉';
+    el('evTitle').textContent=`Variation 24h : ${chgPct>=0?'+':''}${chgPct.toFixed(2)}%`;
+    el('evDesc').textContent=`L'actif est en ${dir} de ${Math.abs(chgPct).toFixed(2)}% par rapport au tick précédent. Positif = les acheteurs dominent. Négatif = les vendeurs dominent.`;
+  } else if(type==='sess'){
+    const dir=sessPct>=0?'hausse':'baisse';
+    el('evImpact').textContent=sessPct>=0?'🟢':'🔴';
+    el('evTitle').textContent=`Session : ${sessPct>=0?'+':''}${sessPct.toFixed(2)}%`;
+    el('evDesc').textContent=`Performance depuis l'ouverture de la session. ${sessPct>=0?`+${sessPct.toFixed(2)}% : tendance haussière sur la séance.`:`${sessPct.toFixed(2)}% : tendance baissière sur la séance.`}`;
+  }
+  banner.classList.add('show');
+  clearTimeout(banner._autoHide);
+  banner._autoHide=setTimeout(()=>closeEvBanner(),9000);
 }
 function showAssetDesc(id){
   const a=ASSETS.find(x=>x.id===id);if(!a)return;
