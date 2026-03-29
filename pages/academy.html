@@ -4379,12 +4379,12 @@ function buildMarketTable(){
   const list=_catFilter==='Tous'?ASSETS:ASSETS.filter(a=>a.cat===_catFilter);
   tbody.innerHTML=list.map(a=>`
     <tr class="asset-row${a.id===S.selectedAsset?' selected':''}" id="row_${a.id}" onclick="selectAsset('${a.id}')" ondblclick="openOrderPanel()">
-      <td><div class="td-name" onclick="event.stopPropagation();showAssetDesc('${a.id}')"><span style="font-size:1.1rem">${a.emoji}</span>${a.name}</div></td>
+      <td><div class="td-name" onclick="selectAsset('${a.id}');showAssetDesc('${a.id}')"><span style="font-size:1.1rem">${a.emoji}</span>${a.name}</div></td>
       <td class="col-cat"><span class="td-cat" data-cat="${a.cat}">${a.cat}</span></td>
-      <td class="td-price" id="price_${a.id}" onclick="event.stopPropagation();showStatInfo('price','${a.id}')" style="cursor:pointer">${fmtP(a.base)}</td>
-      <td class="td-chg flat" id="chg_${a.id}" onclick="event.stopPropagation();showStatInfo('chg','${a.id}')" style="cursor:pointer">—</td>
+      <td class="td-price" id="price_${a.id}" onclick="selectAsset('${a.id}');showStatInfo('price','${a.id}')" style="cursor:pointer">${fmtP(a.base)}</td>
+      <td class="td-chg flat" id="chg_${a.id}" onclick="selectAsset('${a.id}');showStatInfo('chg','${a.id}')" style="cursor:pointer">—</td>
       <td class="col-spark"><canvas class="spark-canvas" id="spark_${a.id}" width="80" height="32"></canvas></td>
-      <td class="col-cap td-chg flat" id="sess_${a.id}" onclick="event.stopPropagation();showStatInfo('sess','${a.id}')" style="cursor:pointer">—</td>
+      <td class="col-cap td-chg flat" id="sess_${a.id}" onclick="selectAsset('${a.id}');showStatInfo('sess','${a.id}')" style="cursor:pointer">—</td>
     </tr>`).join('');
 }
 
