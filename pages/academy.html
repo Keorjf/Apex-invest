@@ -6459,35 +6459,41 @@ function chatbotKeydown(e){if(e.key==='Enter'){const v=el('chatbotInput').value.
   const S=52;
   let startY=0,startTop=0,moved=false;
 
-  // Restaure position verticale sauvegardée
-  const savedTop=localStorage.getItem('fab_top');
-  if(savedTop){fab.style.bottom='auto';fab.style.top=savedTop;}
+  // Convertit en positionnement top dès le chargement
+  requestAnimationFrame(function(){
+    const saved=localStorage.getItem('fab_top');
+    if(saved){
+      fab.style.bottom='auto';fab.style.top=saved;
+    } else {
+      const r=fab.getBoundingClientRect();
+      fab.style.bottom='auto';fab.style.top=r.top+'px';
+    }
+  });
 
   fab.addEventListener('pointerdown',function(e){
+    e.preventDefault(); // nécessaire pour que pointermove fonctionne sur mobile
     this.setPointerCapture(e.pointerId);
-    const r=fab.getBoundingClientRect();
-    fab.style.bottom='auto';
-    fab.style.top=r.top+'px';
     startY=e.clientY;
-    startTop=r.top;
+    startTop=parseInt(fab.style.top)||fab.getBoundingClientRect().top;
     moved=false;
     fab.style.transition='none';
   });
 
   fab.addEventListener('pointermove',function(e){
-    if(!(e.buttons&1))return;
     const dy=e.clientY-startY;
-    if(Math.abs(dy)<4&&!moved)return;
+    if(Math.abs(dy)<5&&!moved)return;
     moved=true;
-    const newTop=Math.max(8,Math.min(window.innerHeight-S-8,startTop+dy));
-    fab.style.top=newTop+'px';
+    fab.style.top=Math.max(8,Math.min(window.innerHeight-S-8,startTop+dy))+'px';
   });
 
   fab.addEventListener('pointerup',function(){
     fab.style.transition='.2s';
     if(moved){
-      window._fabDragged=true;
       localStorage.setItem('fab_top',fab.style.top);
+    } else {
+      // C'était un tap : ouvre/ferme le chatbot
+      toggleChatbot();
+      fab.classList.toggle('open');
     }
     moved=false;
   });
@@ -6800,7 +6806,7 @@ function deleteAccount(){
     <button class="cb-send" onclick="sendBotMsg(el('chatbotInput').value.trim())">➤</button>
   </div>
 </div>
-<button class="chatbot-fab" id="chatbotFab" onclick="if(!window._fabDragged){toggleChatbot();this.classList.toggle('open');}window._fabDragged=false;" title="Aide">🤖</button>
+<button class="chatbot-fab" id="chatbotFab" title="Aide">🤖</button>
 
 <!-- UNLOCK TOAST -->
 <div class="ui-unlock-toast" id="uiUnlockToast"></div>
