@@ -5229,6 +5229,21 @@ function showDiagResult(p){
 }
 
 /* ══ MISSIONS ══ */
+function _pmTotalVal(){return ASSETS.reduce((s,a)=>s+(S.positions[a.id]?.qty||0)*S.prices[a.id],0)+S.coins;}
+function _pmNPos(){return Object.values(S.positions).filter(p=>p.qty>0).length;}
+function _pmAllLessonsDone(){const all=(LESSONS[S.level]||[]).flatMap(t=>t.lessons);return all.length>0&&all.every(l=>S.done.has(l.id));}
+function fillActivePerm(){
+  if(!S.activePerm.length){
+    S.activePerm=PERM_MISSION_POOL.slice(0,5).map(m=>m.id);
+    return;
+  }
+  const uncompleted=S.activePerm.filter(id=>{const v=S.missions['p_'+id];return v!=='claimed'&&v!==true;});
+  if(uncompleted.length>=3)return;
+  const activeSet=new Set(S.activePerm);
+  const available=PERM_MISSION_POOL.filter(m=>!activeSet.has(m.id));
+  const toAdd=Math.max(0,5-uncompleted.length);
+  available.slice(0,toAdd).forEach(m=>S.activePerm.push(m.id));
+}
 function renderMissions(){
   // Sélectionner 3 missions du jour stables par session (seed basé sur la date)
   const todayStr=new Date().toDateString();
@@ -5275,17 +5290,20 @@ function renderMissions(){
     </div>`};
   };
 
+  fillActivePerm();
   const dailyResults=S._dailyPick.map(mkDaily);
-  const permResults=PERM_MISSIONS.map(mkPerm);
+  const activeMissions=S.activePerm.map(id=>PERM_MISSION_POOL.find(m=>m.id===id)).filter(Boolean);
+  const permResults=activeMissions.map(mkPerm);
 
   const daily=el('dailyMissions');
   if(daily) daily.innerHTML=dailyResults.filter(r=>!r.claimed).map(r=>r.html).join('');
 
   const perm=el('permMissions');
-  if(perm) perm.innerHTML=permResults.map(r=>r.html).join('');
+  if(perm) perm.innerHTML=permResults.filter(r=>!r.claimed).map(r=>r.html).join('');
 
   const completedHtmls=[
     ...dailyResults.filter(r=>r.claimed).map(r=>r.html.replace(/<span class="mc-done-tag">.*?<\/span>/,'')),
+    ...permResults.filter(r=>r.claimed).map(r=>r.html.replace(/<span class="mc-done-tag">.*?<\/span>/,'')),
   ];
   updateMissionsBadge();
   const completedSection=el('completedSection');
@@ -5301,37 +5319,23 @@ function renderMissions(){
 }
 
 function checkMissions(){
-  const nPos=Object.values(S.positions).filter(p=>p.qty>0).length;
-  const totalVal=ASSETS.reduce((s,a)=>s+(S.positions[a.id]?.qty||0)*S.prices[a.id],0)+S.coins;
-  const allLessons=(LESSONS[S.level]||[]).flatMap(t=>t.lessons);
-  const metFor=t=>({buy_different:nPos>=3,complete_lesson:S.totalLessons>=2,place_limit:S.limitExecuted>=1,read_debrief:S.debriefRead>=2,market_orders:S.totalBuys>=5,profit_sell:S.profitSells>=1,hold_crisis:S.survivedCrash,alignment:S.alignScore>=70}[t]||false);
-  const dailyChecks=(S._dailyPick||[]).map(m=>({key:'d_'+m.id,met:metFor(m.type)}));
-  const checks=[
-    ...dailyChecks,
-    {key:'p_'+PERM_MISSIONS[0].id,      met:S.totalBuys>=1},
-    {key:'p_'+PERM_MISSIONS[1].id,      met:totalVal>=1000},
-    {key:'p_'+PERM_MISSIONS[2].id,      met:totalVal>=5000},
-    {key:'p_'+PERM_MISSIONS[3].id,      met:nPos>=4},
-    {key:'p_'+PERM_MISSIONS[4].id,      met:S.totalLessons>=5},
-    {key:'p_'+PERM_MISSIONS[5].id,      met:allLessons.every(l=>S.done.has(l.id))},
-    {key:'p_'+PERM_MISSIONS[6].id,      met:S.crisisSurvived>=3},
-    {key:'p_'+PERM_MISSIONS[7].id,      met:S.limitExecuted>=5},
-    {key:'p_'+PERM_MISSIONS[8].id,      met:S.consecProfits>=3},
-    {key:'p_'+PERM_MISSIONS[9].id,      met:S.streak>=7},
-  ];
-  checks.forEach(c=>{
+  fillActivePerm();
+  const metFor=t=>({buy_different:_pmNPos()>=3,complete_lesson:S.totalLessons>=2,place_limit:S.limitExecuted>=1,read_debrief:S.debriefRead>=2,market_orders:S.totalBuys>=5,profit_sell:S.profitSells>=1,hold_crisis:S.survivedCrash,alignment:S.alignScore>=70}[t]||false);
+  const dailyChecks=(S._dailyPick||[]).map(m=>({key:'d_'+m.id,met:metFor(m.type),mission:m}));
+  const permChecks=S.activePerm.map(id=>{
+    const m=PERM_MISSION_POOL.find(x=>x.id===id);
+    return {key:'p_'+id,met:m?m.check():false,mission:m};
+  });
+  [...dailyChecks,...permChecks].forEach(c=>{
     if(!S.missions[c.key]&&c.met){
-      const isDaily=c.key.startsWith('d_');
-      if(isDaily){
-        const dId=c.key.replace(/^d_/,'');
-        const dm=(S._dailyPick||[]).find(x=>x.id===dId);
+      if(c.key.startsWith('d_')){
+        const dm=c.mission;
         S.missions[c.key]='ready';
         showMissionBanner(dm?dm.icon:'🎯','Mission du jour complétée !',dm?dm.name:'Mission débloquée',dm?dm.reward:0);
       } else {
         S.missions[c.key]='ready';
-        const mId=c.key.replace(/^p_/,'');
-        const m=PERM_MISSIONS.find(x=>x.id===mId);
-        if(m){showMissionBanner(m.icon,'Mission accomplie ! 🎁',m.name+' — Collecte ta récompense',0);}
+        const m=c.mission;
+        if(m)showMissionBanner(m.icon,'Mission accomplie ! 🎁',m.name+' — Collecte ta récompense',0);
       }
     }
   });
@@ -5473,7 +5477,7 @@ function claimMission(key,reward,btnEl){
       showMissionBanner(dm?dm.icon:'🪙','Tacoins récupérés !',dm?dm.name:'Mission du jour',reward);
     } else {
       const mId=key.replace(/^p_/,'');
-      const m=PERM_MISSIONS.find(x=>x.id===mId);
+      const m=PERM_MISSION_POOL.find(x=>x.id===mId);
       showMissionBanner(m?m.icon:'🏆','Récompense récupérée !',m?m.name:'Mission permanente',reward);
     }
     saveState();
