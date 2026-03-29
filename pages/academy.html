@@ -1669,7 +1669,7 @@ table.assets th.clickable:hover{color:var(--y);}
         <div class="chart-area">
           <div class="chart-header">
             <div class="ch-asset">
-              <div class="ch-name"><span id="chName">—</span><button class="ch-info-btn" id="chInfoBtn" onclick="toggleChInfo(event)" style="display:none">i<span class="ch-info-tooltip" id="chInfoTip"></span></button></div>
+              <div class="ch-name"><span id="chName" onclick="toggleChInfo(event)" style="cursor:pointer">—</span></div>
               <div class="ch-price" id="chPrice">—</div>
               <div class="ch-chg" id="chChg">—</div>
               <div class="ch-pnl-day" id="chPnlDay"></div>
@@ -4534,9 +4534,6 @@ function selectAsset(id){
   const nm=el('oaiNm'),pr=el('oaiPr');
   if(nm)nm.textContent=a.emoji+' '+a.name;
   if(pr)pr.textContent=fmtP(S.prices[id]);
-  const btn=el('chInfoBtn'),tip=el('chInfoTip');
-  if(btn&&tip&&a.desc){tip.textContent=a.desc;btn.style.display='inline-flex';btn.classList.remove('open');}
-  else if(btn){btn.style.display='none';}
   updateOrderSummary();updateChartHeader();
 }
 function toggleChInfo(e){
