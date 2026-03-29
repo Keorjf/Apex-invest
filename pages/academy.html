@@ -750,23 +750,6 @@ table.assets th.clickable:hover{color:var(--y);}
 .ev-close{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:.85rem;padding:.2rem;flex-shrink:0;transition:.15s;}
 .ev-close:hover{color:var(--r);}
 
-/* INFO TOAST (éducatif — indépendant du système de progression) */
-.info-toast{
-  position:fixed;bottom:4.8rem;left:50%;transform:translateX(-50%) translateY(120px);
-  z-index:850;width:min(520px,90vw);
-  background:rgba(8,14,28,.97);border:1px solid rgba(78,194,218,.25);border-radius:12px;
-  padding:.75rem 1rem;display:flex;align-items:flex-start;gap:.8rem;
-  box-shadow:0 8px 32px rgba(0,0,0,.6);
-  opacity:0;transition:transform .4s cubic-bezier(.34,1.2,.64,1),opacity .3s ease;
-  pointer-events:none;
-}
-.info-toast.show{transform:translateX(-50%) translateY(0);opacity:1;pointer-events:auto;}
-.it-icon{font-size:1.4rem;flex-shrink:0;line-height:1.4;}
-.it-body{flex:1;min-width:0;}
-.it-title{font-size:.82rem;font-weight:700;color:var(--txt);margin-bottom:.2rem;}
-.it-desc{font-size:.7rem;color:var(--muted);line-height:1.5;}
-.it-close{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:.85rem;padding:.1rem;flex-shrink:0;transition:.15s;}
-.it-close:hover{color:var(--r);}
 
 /* EVENT DEBRIEF */
 .ev-debrief-btn{display:none;}
@@ -4554,16 +4537,20 @@ function selectAsset(id){
   if(pr)pr.textContent=fmtP(S.prices[id]);
   updateOrderSummary();updateChartHeader();
 }
-function _showInfoToast(icon,title,desc,ms=9000){
-  const t=el('infoToast');if(!t)return;
-  el('itIcon').textContent=icon;
-  el('itTitle').textContent=title;
-  el('itDesc').textContent=desc;
-  t.classList.add('show');
-  clearTimeout(t._hide);
-  t._hide=setTimeout(()=>closeInfoToast(),ms);
+function closeInfoToast(){
+  const t=document.getElementById('infoToast');
+  if(t)t.remove();
+  clearTimeout(window._infoToastTimer);
 }
-function closeInfoToast(){const t=el('infoToast');if(t)t.classList.remove('show');}
+function _showInfoToast(icon,title,desc,ms){
+  closeInfoToast();
+  const t=document.createElement('div');
+  t.id='infoToast';
+  t.style.cssText='position:fixed;bottom:5rem;left:50%;transform:translateX(-50%);z-index:9000;width:min(500px,92vw);background:rgba(8,14,28,.97);border:1px solid rgba(78,194,218,.3);border-radius:12px;padding:.85rem 1rem;display:flex;align-items:flex-start;gap:.8rem;box-shadow:0 8px 32px rgba(0,0,0,.7);animation:rise .3s both;';
+  t.innerHTML=`<span style="font-size:1.4rem;flex-shrink:0">${icon}</span><div style="flex:1;min-width:0"><div style="font-size:.82rem;font-weight:700;color:#F0FBFF;margin-bottom:.25rem">${title}</div><div style="font-size:.72rem;color:rgba(180,230,242,.7);line-height:1.5">${desc}</div></div><button onclick="closeInfoToast()" style="background:transparent;border:none;color:rgba(180,230,242,.6);cursor:pointer;font-size:.9rem;padding:.1rem .3rem;flex-shrink:0">✕</button>`;
+  document.body.appendChild(t);
+  window._infoToastTimer=setTimeout(closeInfoToast, ms||9000);
+}
 function showStatInfo(type,id){
   const a=ASSETS.find(x=>x.id===id);if(!a)return;
   const price=S.prices[id]||a.base;
@@ -7017,12 +7004,6 @@ function deleteAccount(){
 
 <!-- UNLOCK TOAST -->
 <div class="ui-unlock-toast" id="uiUnlockToast"></div>
-<!-- INFO TOAST éducatif -->
-<div class="info-toast" id="infoToast">
-  <span class="it-icon" id="itIcon"></span>
-  <div class="it-body"><div class="it-title" id="itTitle"></div><div class="it-desc" id="itDesc"></div></div>
-  <button class="it-close" onclick="closeInfoToast()">✕</button>
-</div>
 
 <!-- SPOTLIGHT MARCHÉ (Phase 1) -->
 <div id="mktTutoSpotlight"></div>
