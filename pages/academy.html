@@ -4361,7 +4361,7 @@ function buildMarketTable(){
   const list=_catFilter==='Tous'?ASSETS:ASSETS.filter(a=>a.cat===_catFilter);
   tbody.innerHTML=list.map(a=>`
     <tr class="asset-row${a.id===S.selectedAsset?' selected':''}" id="row_${a.id}" onclick="selectAsset('${a.id}')" ondblclick="openOrderPanel()">
-      <td><div class="td-name"><span style="font-size:1.1rem">${a.emoji}</span>${a.name}</div></td>
+      <td><div class="td-name" onclick="event.stopPropagation();showAssetDesc('${a.id}')"><span style="font-size:1.1rem">${a.emoji}</span>${a.name}</div></td>
       <td class="col-cat"><span class="td-cat" data-cat="${a.cat}">${a.cat}</span></td>
       <td class="td-price" id="price_${a.id}">${fmtP(a.base)}</td>
       <td class="td-chg flat" id="chg_${a.id}">—</td>
@@ -4535,6 +4535,17 @@ function selectAsset(id){
   if(nm)nm.textContent=a.emoji+' '+a.name;
   if(pr)pr.textContent=fmtP(S.prices[id]);
   updateOrderSummary();updateChartHeader();
+}
+function showAssetDesc(id){
+  const a=ASSETS.find(x=>x.id===id);if(!a)return;
+  const banner=el('evBanner');if(!banner)return;
+  el('evImpact').textContent=a.emoji;
+  el('evTitle').textContent=a.name;
+  el('evDesc').textContent=a.desc||'';
+  const cta=el('evCta');if(cta)cta.style.display='none';
+  banner.classList.add('show');
+  clearTimeout(banner._autoHide);
+  banner._autoHide=setTimeout(()=>closeEvBanner(),8000);
 }
 function toggleChInfo(e){
   e.stopPropagation();
