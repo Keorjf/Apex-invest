@@ -122,7 +122,7 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 .xp-fill{display:none;}
 
 /* TAB CONTENT */
-.tab{display:none;padding-top:48px;}
+.tab{display:none;padding-top:48px;padding-bottom:72px;}
 .tab.active{display:block;}
 #tabProfil.active{position:fixed;top:46px;left:0;right:0;bottom:0;overflow:hidden;padding-top:0!important;}
 
@@ -1263,7 +1263,7 @@ table.assets th.clickable:hover{color:var(--y);}
 }
 
 /* ── BOTTOM NAV (mobile) ──────────────────────────────────────────────────── */
-.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;height:58px;background:rgba(8,22,32,.97);border-top:1px solid var(--ln);z-index:250;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);}
+.bottom-nav{display:flex;position:fixed;bottom:0;left:0;right:0;height:58px;background:rgba(8,22,32,.97);border-top:1px solid var(--ln);z-index:250;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);}
 .bn-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:none;border:none;color:var(--muted);cursor:pointer;font-family:'Nunito',sans-serif;font-size:.58rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:.4rem 0;transition:color .2s;-webkit-tap-highlight-color:transparent;}
 .bn-btn .bn-icon{font-size:1.35rem;line-height:1;transition:transform .2s;}
 .bn-btn.active{color:var(--y);}
@@ -1553,7 +1553,6 @@ table.assets th.clickable:hover{color:var(--y);}
     <div class="tb-sep"></div>
     <button class="tb-btn active" id="navLearn"    onclick="switchTab('learn')">Apprendre</button>
     <button class="tb-btn" id="navMarket" onclick="switchTab('market')">Marchés</button>
-    <button class="tb-btn" id="navMissions" onclick="switchTab('missions')" style="position:relative">Missions<span id="missionsBadge" class="missions-badge"></span></button>
     <button class="tb-btn" id="navJournal" onclick="switchTab('journal')">Journal</button>
     <button class="tb-btn" id="navCorpus"  onclick="switchTab('corpus')" style="display:none">🧠 Corpus</button>
     <button class="tb-btn" id="navProfil"  onclick="switchTab('profil')">Profils</button>
@@ -5314,9 +5313,7 @@ function checkMissions(){
 
 function updateMissionsBadge(){
   const hasReady=Object.values(S.missions).some(v=>v==='ready');
-  ['missionsBadge','missionsBadgeMobile'].forEach(id=>{
-    const b=el(id);if(b)b.style.display=hasReady?'block':'none';
-  });
+  const b=el('missionsBadgeMobile');if(b)b.style.display=hasReady?'block':'none';
 }
 
 /* ══ CALCULATRICE QUIZ ══ */
