@@ -1758,8 +1758,6 @@ table.assets th.clickable:hover{color:var(--y);}
 
         <div class="sheet-panel" id="sheetPanelPortfolio">
         <div class="positions-panel">
-          <div class="pp-hdr" onclick="openPortfolioModal()"><span data-i18n="portfolioTitle">Portefeuille</span> <span class="pp-hdr-arrow">↗</span></div>
-          <div class="port-summary" id="portSummary"></div>
           <div class="align-bar-wrap" id="alignBarWrap" style="display:none" onclick="openRebalanceModal()">
             <div class="ab-lbl"><span>Alignement profil</span><span id="alignPct">0%</span></div>
             <div class="align-bar"><div class="align-fill" id="alignFill" style="width:0%"></div></div>
@@ -4660,21 +4658,6 @@ function renderPositions(){
 }
 
 function updatePortSummary(val,pnl,cost=0){
-  const e=el('portSummary');if(!e)return;
-  const pct=cost>0?((val-cost)/cost*100):0;
-  e.innerHTML=`
-    <div class="ps-card">
-      <div class="ps-lbl">Montant investi</div>
-      <div class="ps-val y">${fmt(cost)} <span class="ps-coin">🪙</span></div>
-    </div>
-    <div class="ps-card">
-      <div class="ps-lbl">Valeur actuelle</div>
-      <div class="ps-val y">${fmt(val)} <span class="ps-coin">🪙</span></div>
-    </div>
-    <div class="ps-card" style="grid-column:1/-1">
-      <div class="ps-lbl">PnL total <span style="font-size:.6rem;opacity:.7">(${pnl>=0?'+':''}${pct.toFixed(1)}%)</span></div>
-      <div class="ps-val ${pnl>=0?'g':'r'}">${pnl>=0?'+':''}${fmt(pnl)} <span class="ps-coin">🪙</span></div>
-    </div>`;
   // Met à jour le bouton topbar
   const btn=el('mptPnl');
   if(btn){
