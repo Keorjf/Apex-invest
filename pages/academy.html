@@ -4541,7 +4541,15 @@ function selectAsset(id){
 }
 function toggleChInfo(e){
   e.stopPropagation();
-  const btn=el('chInfoBtn');if(btn)btn.classList.toggle('open');
+  const a=ASSETS.find(x=>x.id===S.selectedAsset);if(!a)return;
+  const banner=el('evBanner');if(!banner)return;
+  el('evImpact').textContent=a.emoji;
+  el('evTitle').textContent=a.name;
+  el('evDesc').textContent=a.desc||'';
+  const cta=el('evCta');if(cta)cta.style.display='none';
+  banner.classList.add('show');
+  clearTimeout(banner._autoHide);
+  banner._autoHide=setTimeout(()=>closeEvBanner(),8000);
 }
 document.addEventListener('click',()=>{const b=el('chInfoBtn');if(b)b.classList.remove('open');});
 
