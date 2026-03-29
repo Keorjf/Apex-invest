@@ -283,7 +283,7 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 .mini-next-btn:hover{opacity:.85;}
 .mini-step-num{font-size:.62rem;color:rgba(180,230,242,.4);margin-top:.55rem;text-align:center;}
 /* ══ CHATBOT ══ */
-.chatbot-fab{position:fixed;bottom:1.4rem;right:1.4rem;z-index:4000;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--y),#FF7A00);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.4rem;box-shadow:0 4px 20px rgba(255,122,0,.4);transition:.2s;touch-action:none;user-select:none;}
+.chatbot-fab{position:fixed;bottom:1.4rem;right:1.4rem;z-index:4000;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--y),#FF7A00);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.4rem;box-shadow:0 4px 20px rgba(255,122,0,.4);transition:.2s;}
 .chatbot-fab:hover{transform:scale(1.08);}
 .chatbot-fab.open{background:var(--bg3);border:1.5px solid var(--ln);}
 .chatbot-panel{position:fixed;bottom:5rem;right:1.4rem;z-index:4000;width:310px;max-height:460px;background:var(--bg2);border:1.5px solid var(--ln);border-radius:16px;display:flex;flex-direction:column;box-shadow:0 8px 40px rgba(0,0,0,.5);transform:translateY(20px) scale(.95);opacity:0;pointer-events:none;transition:transform .25s cubic-bezier(.34,1.56,.64,1),opacity .2s;}
@@ -6452,58 +6452,6 @@ function sendBotMsg(txt){
 }
 function chatbotKeydown(e){if(e.key==='Enter'){const v=el('chatbotInput').value.trim();if(v)sendBotMsg(v);}}
 
-/* ══ CHATBOT FAB — GLISSEMENT VERTICAL ══ */
-(function(){
-  const fab=document.getElementById('chatbotFab');
-  if(!fab)return;
-  const S=52;
-  let startY=0,startTop=0,moved=false;
-
-  // Convertit en positionnement top dès le chargement
-  requestAnimationFrame(function(){
-    const saved=localStorage.getItem('fab_top');
-    if(saved){
-      fab.style.bottom='auto';fab.style.top=saved;
-    } else {
-      const r=fab.getBoundingClientRect();
-      fab.style.bottom='auto';fab.style.top=r.top+'px';
-    }
-  });
-
-  fab.addEventListener('pointerdown',function(e){
-    e.preventDefault(); // nécessaire pour que pointermove fonctionne sur mobile
-    this.setPointerCapture(e.pointerId);
-    startY=e.clientY;
-    startTop=parseInt(fab.style.top)||fab.getBoundingClientRect().top;
-    moved=false;
-    fab.style.transition='none';
-  });
-
-  fab.addEventListener('pointermove',function(e){
-    const dy=e.clientY-startY;
-    if(Math.abs(dy)<5&&!moved)return;
-    moved=true;
-    fab.style.top=Math.max(8,Math.min(window.innerHeight-S-8,startTop+dy))+'px';
-  });
-
-  fab.addEventListener('pointerup',function(){
-    fab.style.transition='.2s';
-    if(moved){
-      localStorage.setItem('fab_top',fab.style.top);
-    } else {
-      // C'était un tap : ouvre/ferme le chatbot
-      toggleChatbot();
-      fab.classList.toggle('open');
-    }
-    moved=false;
-  });
-
-  fab.addEventListener('pointercancel',function(){
-    moved=false;fab.style.transition='.2s';
-  });
-
-  fab.addEventListener('contextmenu',function(e){e.preventDefault();});
-})();
 
 // ── LANGUE / i18n ────────────────────────────────────────────────────────────
 const TRANSLATIONS = {
@@ -6806,7 +6754,7 @@ function deleteAccount(){
     <button class="cb-send" onclick="sendBotMsg(el('chatbotInput').value.trim())">➤</button>
   </div>
 </div>
-<button class="chatbot-fab" id="chatbotFab" title="Aide">🤖</button>
+<button class="chatbot-fab" id="chatbotFab" onclick="toggleChatbot();this.classList.toggle('open')" title="Aide">🤖</button>
 
 <!-- UNLOCK TOAST -->
 <div class="ui-unlock-toast" id="uiUnlockToast"></div>
