@@ -3484,6 +3484,7 @@ let S = {
   journal:[], missions:{}, streak:0, lastPlay:null,
   survivedCrash:false, totalLessons:0, totalBuys:0,
   crisisSurvived:0, limitExecuted:0, debriefRead:0,
+  profitSells:0, consecProfits:0, alignScore:0,
   uiLevel:0,
 };
 
@@ -3502,6 +3503,7 @@ function saveState(){
     diagDone:S.diagDone,diagProfile:S.diagProfile,missions:S.missions,dailyDate:S.dailyDate,
     totalLessons:S.totalLessons,totalBuys:S.totalBuys,
     crisisSurvived:S.crisisSurvived,limitExecuted:S.limitExecuted,debriefRead:S.debriefRead,
+    profitSells:S.profitSells,consecProfits:S.consecProfits,alignScore:S.alignScore,
     uiLevel:S.uiLevel,
     journal:S.journal.slice(-200),limitOrders:S.limitOrders,
     positions:S.positions,
@@ -3519,6 +3521,9 @@ function loadState(){
     if(s.crisisSurvived)S.crisisSurvived=s.crisisSurvived;
     if(s.limitExecuted)S.limitExecuted=s.limitExecuted;
     if(s.debriefRead)S.debriefRead=s.debriefRead;
+    if(s.profitSells)S.profitSells=s.profitSells;
+    if(s.consecProfits)S.consecProfits=s.consecProfits;
+    if(s.alignScore)S.alignScore=s.alignScore;
     if(s.uiLevel)S.uiLevel=s.uiLevel;
     if(s.diagProfile){S.diagProfile=s.diagProfile;S.diagDone=true;}
     if(s.limitOrders)S.limitOrders=s.limitOrders;
@@ -3530,6 +3535,8 @@ function loadState(){
       if(s.missions){Object.keys(s.missions).forEach(k=>{if(k.startsWith('d_'))delete s.missions[k];});}
       S.missions=s.missions||{};
       S._dailyPick=null;
+      S.survivedCrash=false;
+      S.consecProfits=0;
     }else{
       if(s.missions)S.missions=s.missions;
     }
@@ -4593,6 +4600,7 @@ function executeOrder(){
     if(!pos||pos.qty<=0){showToast('warn','⚠️','Aucune position',`Tu ne détiens pas de ${a.name}.`);return;}
     const sq=Math.min(qty,pos.qty);const proceeds=sq*p;const pnl=(p-pos.avgPrice)*sq;
     S.coins+=proceeds-fee;pos.qty-=sq;if(pos.qty<0.00001)pos.qty=0;
+    if(pnl>0){S.profitSells++;S.consecProfits++;}else{S.consecProfits=0;}
     addJournal({type:'sell',emoji:a.emoji,asset:a.name,
       note:`Vente ${sq.toFixed(4)} × ${fmtP(p)} — PnL: ${pnl>=0?'+':''}${pnl.toFixed(0)} 🪙`});
     showToast('sell','▼',`Vente ${a.emoji} ${a.name}`,`PnL: ${pnl>=0?'+':''}${pnl.toFixed(0)} 🪙`);
@@ -4837,7 +4845,7 @@ function checkSurvivedCrash(){
   if(S.survivedCrash)return;
   const hasPosn=ASSETS.some(a=>S.positions[a.id]&&S.positions[a.id].qty>0);
   const inCrash=ASSETS.some(a=>S.prices[a.id]<S.sessionOpen[a.id]*0.87);
-  if(hasPosn&&inCrash){S.survivedCrash=true;S.crisisSurvived++;}
+  if(hasPosn&&inCrash){S.survivedCrash=true;S.crisisSurvived++;checkMissions();saveState();}
 }
 
 /* ══ ALLOC PANEL ══ */
@@ -4935,6 +4943,7 @@ function updateAlignScore(){
     score+=Math.max(0,slot.pct-Math.abs(actual-slot.pct));
   });
   score=Math.min(100,score);
+  S.alignScore=score;
   const pEl=el('alignPct'),fEl=el('alignFill'),wEl=el('alignBarWrap');
   if(pEl)pEl.textContent=score.toFixed(0)+'%';
   if(fEl)fEl.style.width=score+'%';
@@ -5262,7 +5271,7 @@ function checkMissions(){
   const nPos=Object.values(S.positions).filter(p=>p.qty>0).length;
   const totalVal=ASSETS.reduce((s,a)=>s+(S.positions[a.id]?.qty||0)*S.prices[a.id],0)+S.coins;
   const allLessons=(LESSONS[S.level]||[]).flatMap(t=>t.lessons);
-  const metFor=t=>({buy_different:nPos>=3,complete_lesson:S.totalLessons>=2,place_limit:S.limitExecuted>=1,read_debrief:S.debriefRead>=2,market_orders:S.totalBuys>=5,profit_sell:false,hold_crisis:false,alignment:false}[t]||false);
+  const metFor=t=>({buy_different:nPos>=3,complete_lesson:S.totalLessons>=2,place_limit:S.limitExecuted>=1,read_debrief:S.debriefRead>=2,market_orders:S.totalBuys>=5,profit_sell:S.profitSells>=1,hold_crisis:S.survivedCrash,alignment:S.alignScore>=70}[t]||false);
   const dailyChecks=(S._dailyPick||[]).map(m=>({key:'d_'+m.id,met:metFor(m.type)}));
   const checks=[
     ...dailyChecks,
@@ -5274,7 +5283,8 @@ function checkMissions(){
     {key:'p_'+PERM_MISSIONS[5].id,      met:allLessons.every(l=>S.done.has(l.id))},
     {key:'p_'+PERM_MISSIONS[6].id,      met:S.crisisSurvived>=3},
     {key:'p_'+PERM_MISSIONS[7].id,      met:S.limitExecuted>=5},
-    {key:'p_'+PERM_MISSIONS[8].id,      met:S.streak>=7},
+    {key:'p_'+PERM_MISSIONS[8].id,      met:S.consecProfits>=3},
+    {key:'p_'+PERM_MISSIONS[9].id,      met:S.streak>=7},
   ];
   checks.forEach(c=>{
     if(!S.missions[c.key]&&c.met){
