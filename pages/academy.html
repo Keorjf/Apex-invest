@@ -6452,6 +6452,91 @@ function sendBotMsg(txt){
 }
 function chatbotKeydown(e){if(e.key==='Enter'){const v=el('chatbotInput').value.trim();if(v)sendBotMsg(v);}}
 
+/* ══ CHATBOT FAB — DRAG PAR APPUI LONG ══ */
+(function(){
+  const fab=document.getElementById('chatbotFab');
+  const panel=document.getElementById('chatbotPanel');
+  if(!fab)return;
+  const FAB=52, LONG_MS=400;
+  let lpTimer=null, dragging=false, wasDragged=false;
+  let startCX,startCY,fabStartL,fabStartT;
+
+  // Gestion du clic (remplace onclick inline)
+  fab.addEventListener('click',e=>{
+    if(wasDragged){wasDragged=false;return;}
+    toggleChatbot();
+    fab.classList.toggle('open');
+  });
+
+  // Restaure la position sauvegardée
+  try{
+    const s=JSON.parse(localStorage.getItem('chatbot_pos')||'null');
+    if(s){fab.style.bottom='auto';fab.style.right='auto';fab.style.top=s.t;fab.style.left=s.l;}
+  }catch(e){}
+
+  function _toTopLeft(){
+    const r=fab.getBoundingClientRect();
+    fab.style.bottom='auto';fab.style.right='auto';
+    fab.style.top=r.top+'px';fab.style.left=r.left+'px';
+    return r;
+  }
+  function _syncPanel(){
+    if(!panel.classList.contains('open'))return;
+    const r=fab.getBoundingClientRect();
+    const vw=window.innerWidth,vh=window.innerHeight,pw=310,ph=460,mg=8;
+    let pt=r.top-ph-mg>0?r.top-ph-mg:r.bottom+mg;
+    pt=Math.max(mg,Math.min(pt,vh-ph-mg));
+    const pl=Math.max(mg,Math.min(r.left+FAB-pw,vw-pw-mg));
+    panel.style.bottom='auto';panel.style.right='auto';
+    panel.style.top=pt+'px';panel.style.left=pl+'px';
+  }
+
+  fab.addEventListener('pointerdown',e=>{
+    if(e.button&&e.button!==0)return;
+    fab.setPointerCapture(e.pointerId);
+    startCX=e.clientX;startCY=e.clientY;
+    wasDragged=false;
+    lpTimer=setTimeout(()=>{
+      const r=_toTopLeft();
+      fabStartL=r.left;fabStartT=r.top;
+      dragging=true;
+      fab.style.transition='none';
+      fab.style.transform='scale(1.18)';
+      fab.style.boxShadow='0 8px 32px rgba(255,122,0,.75)';
+    },LONG_MS);
+  });
+
+  fab.addEventListener('pointermove',e=>{
+    if(!dragging){
+      if(Math.abs(e.clientX-startCX)>8||Math.abs(e.clientY-startCY)>8){clearTimeout(lpTimer);lpTimer=null;}
+      return;
+    }
+    e.preventDefault();
+    const nl=Math.max(0,Math.min(window.innerWidth-FAB,fabStartL+(e.clientX-startCX)));
+    const nt=Math.max(0,Math.min(window.innerHeight-FAB,fabStartT+(e.clientY-startCY)));
+    fab.style.left=nl+'px';fab.style.top=nt+'px';
+    wasDragged=true;
+    _syncPanel();
+  });
+
+  fab.addEventListener('pointerup',()=>{
+    clearTimeout(lpTimer);lpTimer=null;
+    if(!dragging)return;
+    dragging=false;
+    fab.style.transition='.2s';fab.style.transform='';fab.style.boxShadow='';
+    localStorage.setItem('chatbot_pos',JSON.stringify({t:fab.style.top,l:fab.style.left}));
+    _syncPanel();
+  });
+
+  fab.addEventListener('pointercancel',()=>{
+    clearTimeout(lpTimer);lpTimer=null;
+    dragging=false;
+    fab.style.transition='.2s';fab.style.transform='';fab.style.boxShadow='';
+  });
+
+  fab.addEventListener('contextmenu',e=>e.preventDefault());
+})();
+
 // ── LANGUE / i18n ────────────────────────────────────────────────────────────
 const TRANSLATIONS = {
   fr: {
@@ -6753,7 +6838,7 @@ function deleteAccount(){
     <button class="cb-send" onclick="sendBotMsg(el('chatbotInput').value.trim())">➤</button>
   </div>
 </div>
-<button class="chatbot-fab" id="chatbotFab" onclick="toggleChatbot();this.classList.toggle('open')" title="Aide">🤖</button>
+<button class="chatbot-fab" id="chatbotFab" title="Aide">🤖</button>
 
 <!-- UNLOCK TOAST -->
 <div class="ui-unlock-toast" id="uiUnlockToast"></div>
