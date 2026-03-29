@@ -283,7 +283,7 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 .mini-next-btn:hover{opacity:.85;}
 .mini-step-num{font-size:.62rem;color:rgba(180,230,242,.4);margin-top:.55rem;text-align:center;}
 /* ══ CHATBOT ══ */
-.chatbot-fab{position:fixed;bottom:1.4rem;right:1.4rem;z-index:4000;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--y),#FF7A00);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.4rem;box-shadow:0 4px 20px rgba(255,122,0,.4);transition:.2s;}
+.chatbot-fab{position:fixed;bottom:1.4rem;right:1.4rem;z-index:4000;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--y),#FF7A00);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.4rem;box-shadow:0 4px 20px rgba(255,122,0,.4);transition:.2s;touch-action:none;user-select:none;}
 .chatbot-fab:hover{transform:scale(1.08);}
 .chatbot-fab.open{background:var(--bg3);border:1.5px solid var(--ln);}
 .chatbot-panel{position:fixed;bottom:5rem;right:1.4rem;z-index:4000;width:310px;max-height:460px;background:var(--bg2);border:1.5px solid var(--ln);border-radius:16px;display:flex;flex-direction:column;box-shadow:0 8px 40px rgba(0,0,0,.5);transform:translateY(20px) scale(.95);opacity:0;pointer-events:none;transition:transform .25s cubic-bezier(.34,1.56,.64,1),opacity .2s;}
@@ -6452,53 +6452,48 @@ function sendBotMsg(txt){
 }
 function chatbotKeydown(e){if(e.key==='Enter'){const v=el('chatbotInput').value.trim();if(v)sendBotMsg(v);}}
 
-/* ══ CHATBOT FAB — DRAG ══ */
+/* ══ CHATBOT FAB — GLISSEMENT VERTICAL ══ */
 (function(){
   const fab=document.getElementById('chatbotFab');
   if(!fab)return;
-  const S=52, THR=8;
-  let drag=false,sx,sy,fl,ft;
+  const S=52;
+  let startY=0,startTop=0,moved=false;
 
-  // touch-action:none = le navigateur ne gère PAS les gestes sur cet élément
-  fab.style.touchAction='none';
-
-  // Restaure position sauvegardée
-  try{
-    const p=JSON.parse(localStorage.getItem('fab_pos')||'null');
-    if(p){fab.style.bottom='auto';fab.style.right='auto';fab.style.top=p.t;fab.style.left=p.l;}
-  }catch(e){}
+  // Restaure position verticale sauvegardée
+  const savedTop=localStorage.getItem('fab_top');
+  if(savedTop){fab.style.bottom='auto';fab.style.top=savedTop;}
 
   fab.addEventListener('pointerdown',function(e){
-    fab.setPointerCapture(e.pointerId); // capture tous les pointer events même hors de l'élément
+    this.setPointerCapture(e.pointerId);
     const r=fab.getBoundingClientRect();
-    fab.style.bottom='auto';fab.style.right='auto';
-    fab.style.top=r.top+'px';fab.style.left=r.left+'px';
-    fl=r.left;ft=r.top;
-    sx=e.clientX;sy=e.clientY;
-    drag=false;
+    fab.style.bottom='auto';
+    fab.style.top=r.top+'px';
+    startY=e.clientY;
+    startTop=r.top;
+    moved=false;
+    fab.style.transition='none';
   });
 
   fab.addEventListener('pointermove',function(e){
     if(!(e.buttons&1))return;
-    const dx=e.clientX-sx,dy=e.clientY-sy;
-    if(!drag&&Math.abs(dx)<THR&&Math.abs(dy)<THR)return;
-    drag=true;
-    fab.style.transition='none';
-    fab.style.left=Math.max(0,Math.min(window.innerWidth-S, fl+dx))+'px';
-    fab.style.top =Math.max(0,Math.min(window.innerHeight-S,ft+dy))+'px';
+    const dy=e.clientY-startY;
+    if(Math.abs(dy)<4&&!moved)return;
+    moved=true;
+    const newTop=Math.max(8,Math.min(window.innerHeight-S-8,startTop+dy));
+    fab.style.top=newTop+'px';
   });
 
   fab.addEventListener('pointerup',function(){
-    if(drag){
+    fab.style.transition='.2s';
+    if(moved){
       window._fabDragged=true;
-      fab.style.transition='.2s';
-      localStorage.setItem('fab_pos',JSON.stringify({t:fab.style.top,l:fab.style.left}));
-      drag=false;
+      localStorage.setItem('fab_top',fab.style.top);
     }
+    moved=false;
   });
 
   fab.addEventListener('pointercancel',function(){
-    drag=false;fab.style.transition='.2s';
+    moved=false;fab.style.transition='.2s';
   });
 
   fab.addEventListener('contextmenu',function(e){e.preventDefault();});
