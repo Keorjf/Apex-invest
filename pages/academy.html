@@ -6459,43 +6459,45 @@ function chatbotKeydown(e){if(e.key==='Enter'){const v=el('chatbotInput').value.
   const S=52, THR=8;
   let drag=false,sx,sy,fl,ft;
 
+  // touch-action:none = le navigateur ne gère PAS les gestes sur cet élément
+  fab.style.touchAction='none';
+
   // Restaure position sauvegardée
   try{
     const p=JSON.parse(localStorage.getItem('fab_pos')||'null');
     if(p){fab.style.bottom='auto';fab.style.right='auto';fab.style.top=p.t;fab.style.left=p.l;}
   }catch(e){}
 
-  fab.addEventListener('touchstart',function(e){
+  fab.addEventListener('pointerdown',function(e){
+    fab.setPointerCapture(e.pointerId); // capture tous les pointer events même hors de l'élément
     const r=fab.getBoundingClientRect();
     fab.style.bottom='auto';fab.style.right='auto';
     fab.style.top=r.top+'px';fab.style.left=r.left+'px';
     fl=r.left;ft=r.top;
-    sx=e.touches[0].clientX;sy=e.touches[0].clientY;
+    sx=e.clientX;sy=e.clientY;
     drag=false;
-  },{passive:false});
+  });
 
-  fab.addEventListener('touchmove',function(e){
-    e.preventDefault();
-    const t=e.touches[0];
-    const dx=t.clientX-sx,dy=t.clientY-sy;
+  fab.addEventListener('pointermove',function(e){
+    if(!(e.buttons&1))return;
+    const dx=e.clientX-sx,dy=e.clientY-sy;
     if(!drag&&Math.abs(dx)<THR&&Math.abs(dy)<THR)return;
     drag=true;
     fab.style.transition='none';
     fab.style.left=Math.max(0,Math.min(window.innerWidth-S, fl+dx))+'px';
     fab.style.top =Math.max(0,Math.min(window.innerHeight-S,ft+dy))+'px';
-  },{passive:false});
+  });
 
-  fab.addEventListener('touchend',function(e){
+  fab.addEventListener('pointerup',function(){
     if(drag){
-      e.preventDefault();
       window._fabDragged=true;
       fab.style.transition='.2s';
       localStorage.setItem('fab_pos',JSON.stringify({t:fab.style.top,l:fab.style.left}));
+      drag=false;
     }
-    drag=false;
-  },{passive:false});
+  });
 
-  fab.addEventListener('touchcancel',function(){
+  fab.addEventListener('pointercancel',function(){
     drag=false;fab.style.transition='.2s';
   });
 
