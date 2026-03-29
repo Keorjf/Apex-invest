@@ -4692,11 +4692,14 @@ function openPortfolioModal(){
       </div>`;
     }).join('');
     const pct=totalCost>0?((totalVal-totalCost)/totalCost*100):0;
+    // Alignement profil
+    const alignTxt=el('alignPct')?el('alignPct').textContent:'—';
+    const alignW=el('alignFill')?el('alignFill').style.width:'0%';
     pmSummary.innerHTML=`
       <div class="pm-sc"><div class="pm-sl">Montant investi</div><div class="pm-sv" style="color:var(--y)">${fmt(totalCost)}</div></div>
       <div class="pm-sc"><div class="pm-sl">Valeur actuelle</div><div class="pm-sv" style="color:var(--y)">${fmt(totalVal)}</div></div>
       <div class="pm-sc pm-sc-full pm-sc-pnl"><div class="pm-sl">PnL total</div><div style="display:flex;align-items:baseline;gap:.6rem"><div class="pm-sv" style="color:${totalPnl>=0?'var(--g)':'var(--r)'};font-size:1.2rem">${totalPnl>=0?'+':''}${fmt(totalPnl)}</div><span style="font-size:.72rem;color:${totalPnl>=0?'var(--g)':'var(--r)'};opacity:.8">${totalPnl>=0?'+':''}${pct.toFixed(1)}%</span></div></div>
-`;
+      <div class="pm-sc pm-sc-full pm-sc-align" onclick="closePortfolioModal();openRebalanceModal()" style="cursor:pointer"><div class="pm-sl">Alignement profil <span style="font-size:.5rem;opacity:.5;margin-left:.3rem">↗ Rééquilibrer</span></div><div class="pm-align-wrap"><div class="pm-align-bar"><div class="pm-align-fill" style="width:${alignW}"></div></div><span class="pm-sv" style="color:var(--y)">${alignTxt}</span></div></div>`;
   }
   el('portModalOv').classList.add('show');
 }
@@ -4931,7 +4934,6 @@ function updateAlignScore(){
   const pEl=el('alignPct'),fEl=el('alignFill'),wEl=el('alignBarWrap');
   if(pEl)pEl.textContent=score.toFixed(0)+'%';
   if(fEl)fEl.style.width=score+'%';
-  if(wEl)wEl.style.display='block';
 }
 function showAlignDetails(){
   const ov=el('allocModalOv');if(!ov)return;
