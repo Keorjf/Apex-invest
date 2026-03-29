@@ -723,6 +723,8 @@ table.assets th.clickable:hover{color:var(--y);}
 .ch-price.up{color:var(--g);}.ch-price.dn{color:var(--r);}
 .ch-chg{font-size:.75rem;display:flex;gap:.45rem;align-items:center;}
 .ch-pnl-day{font-size:.65rem;color:var(--muted);margin-top:.1rem;}
+.ch-why-btn{font-size:.9rem;background:rgba(255,205,13,.08);border:1px solid rgba(255,205,13,.2);border-radius:6px;padding:.2rem .45rem;cursor:pointer;transition:.15s;line-height:1;}
+.ch-why-btn:hover{background:rgba(255,205,13,.18);border-color:rgba(255,205,13,.4);}
 .ch-tfs{display:flex;gap:.3rem;}
 .tf{font-size:.62rem;padding:.22rem .55rem;border-radius:4px;border:1px solid var(--ln);background:transparent;color:var(--muted);cursor:pointer;transition:.18s;}
 .tf.active{background:var(--gd);border-color:rgba(255,205,13,.3);color:var(--g);}
@@ -1674,10 +1676,13 @@ table.assets th.clickable:hover{color:var(--y);}
               <div class="ch-chg" id="chChg">—</div>
               <div class="ch-pnl-day" id="chPnlDay"></div>
             </div>
-            <div class="ch-tfs">
-              <button class="tf active" onclick="setTF(this,'1J')">1J</button>
-              <button class="tf" onclick="setTF(this,'1S')">1S</button>
-              <button class="tf" onclick="setTF(this,'1M')">1M</button>
+            <div style="display:flex;align-items:center;gap:.5rem;">
+              <button class="ch-why-btn" onclick="showPriceContext()" title="Pourquoi ce mouvement ?">💡</button>
+              <div class="ch-tfs">
+                <button class="tf active" onclick="setTF(this,'1J')">1J</button>
+                <button class="tf" onclick="setTF(this,'1S')">1S</button>
+                <button class="tf" onclick="setTF(this,'1M')">1M</button>
+              </div>
             </div>
           </div>
           <div class="chart-wrap">
@@ -4791,6 +4796,36 @@ function triggerEvent(){
 }
 function closeEvBanner(){const b=el('evBanner');if(b)b.classList.remove('show');}
 function openDebriefFromBanner(e){if(e.target.classList.contains('ev-close'))return;openDebrief();}
+function showPriceContext(){
+  if(S.lastEvent){
+    // Re-affiche l'événement le plus récent avec son impact sur l'actif sélectionné
+    const ev=S.lastEvent;
+    const assetId=S.selectedAsset;
+    const delta=ev.effects&&ev.effects[assetId];
+    let extraDesc=ev.desc;
+    if(delta!==undefined){
+      const pct=Math.round(Math.abs(delta)*100);
+      const dir=delta>0?'hausse':'baisse';
+      extraDesc=ev.desc+` (Impact sur cet actif : ${dir} ~${pct}%)`;
+    }
+    const banner=el('evBanner');if(!banner)return;
+    el('evImpact').textContent=ev.impact==='good'?'+':'-';
+    el('evTitle').textContent=ev.title;
+    el('evDesc').textContent=extraDesc;
+    banner.classList.add('show');
+    clearTimeout(banner._autoHide);
+    banner._autoHide=setTimeout(()=>closeEvBanner(),14000);
+  } else {
+    // Aucun événement récent — affiche un contexte générique
+    const banner=el('evBanner');if(!banner)return;
+    el('evImpact').textContent='~';
+    el('evTitle').textContent='Fluctuation normale du marché';
+    el('evDesc').textContent='Pas d\'événement récent. Les prix fluctuent selon l\'offre et la demande en temps réel.';
+    banner.classList.add('show');
+    clearTimeout(banner._autoHide);
+    banner._autoHide=setTimeout(()=>closeEvBanner(),8000);
+  }
+}
 
 /* ══ COL TIP ══ */
 const COL_TIPS={
