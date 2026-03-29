@@ -981,7 +981,9 @@ table.assets th.clickable:hover{color:var(--y);}
 .journal-wrap{max-width:700px;margin:0 auto;padding:2rem 1.5rem;}
 .jw-title{font-family:'Bungee','Arial Black',impact,sans-serif;font-size:1.8rem;letter-spacing:.04em;margin-bottom:.25rem;}
 .jw-sub{font-size:.78rem;color:var(--muted);margin-bottom:1.5rem;}
-.j-filter{display:flex;gap:.4rem;margin-bottom:1rem;flex-wrap:wrap;}
+.j-filter{display:flex;gap:.4rem;margin-bottom:1rem;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;}
+.j-filter::-webkit-scrollbar{display:none;}
+.j-filter .jf-btn{flex-shrink:0;}
 .jf-btn{font-size:.65rem;padding:.28rem .7rem;border-radius:100px;border:1px solid var(--ln);background:transparent;color:var(--muted);cursor:pointer;transition:.15s;}
 .jf-btn.active{background:var(--gd);border-color:rgba(255,205,13,.3);color:var(--g);}
 .j-entry{background:var(--bg2);border:1px solid var(--ln);border-left:3px solid var(--ln);border-radius:8px;padding:.9rem 1.1rem;margin-bottom:.6rem;transition:border-color .18s;}
