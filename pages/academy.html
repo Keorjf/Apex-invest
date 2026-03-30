@@ -1286,6 +1286,8 @@ table.assets th.clickable:hover{color:var(--y);}
 
   .tab{padding-bottom:72px;}
 
+  .ev-banner{bottom:calc(58px + .6rem);width:calc(100vw - 1.6rem);}
+
   /* ── Topbar ── */
   .tb-brand,.tb-sep{display:none!important;}
   .tb-spacer{display:none!important;}
@@ -1683,12 +1685,12 @@ table.assets th.clickable:hover{color:var(--y);}
           </div>
           <div class="chart-wrap">
             <canvas id="mainChart" onclick="showPriceContext()" ontouchstart="showPriceContext()" style="cursor:crosshair"></canvas>
-            <div class="ev-banner" id="evBanner" onclick="openDebriefFromBanner(event)">
+          </div>
+          <div class="ev-banner" id="evBanner" onclick="openDebriefFromBanner(event)">
               <div class="ev-impact" id="evImpact">—</div>
               <div class="ev-txt"><div class="ev-title" id="evTitle">—</div><div class="ev-desc" id="evDesc">—</div></div>
               <span class="ev-cta" id="evCta">Voir le détail →</span>
               <button class="ev-close" onclick="event.stopPropagation();closeEvBanner()">✕</button>
-            </div>
           </div>
         </div>
         <!-- BARRE ACTION SIMPLIFIÉE -->
