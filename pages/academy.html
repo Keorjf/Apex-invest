@@ -1563,7 +1563,7 @@ table.assets th.clickable:hover{color:var(--y);}
     <span class="tb-center-title" id="tbCenterTitle">TON PARCOURS</span>
     <div class="tb-spacer"></div>
     <div class="tb-wallet" id="tbStreak" style="color:var(--o);border-color:rgba(255,140,0,.3)">🔥 <span id="tbStreakDays">0j</span></div>
-    <div class="tb-wallet" id="tbWallet">🪙 500</div>
+    <div class="tb-wallet" id="tbWallet" style="color:var(--g);border-color:rgba(255,205,13,.3);background:rgba(255,205,13,.1)">🪙 500</div>
   </nav>
 
   <!-- BOTTOM NAV (mobile) -->
@@ -2514,65 +2514,65 @@ Débutant: [
   // ── Track 1 : Ton argent bosse (ou pas) ─────────────────────
   { track: '💸 Ton argent bosse (ou pas)', lessons: [
 
-    { id:'d1', e:'🧱', n:'Actif vs Passif : la règle qui change tout', t:'1 min', coins:80, xp:60, tag:'Base', blocks:[
-      { type:'hook', emo:'💥', text:'<strong>Ton appart te coûte de l\'argent chaque mois ? C\'est un passif.</strong> Ton ETF te rapporte pendant que tu dors ? C\'est un actif. C\'est tout. La richesse se construit en remplissant la colonne actifs — pas en balançant des billets dans la colonne passifs.' },
-      { type:'content', text:'<strong>Actifs</strong> = trucs qui mettent de l\'oseille dans ta poche : actions, immo locatif, ETF, business qui tourne tout seul.<br><strong>Passifs</strong> = trucs qui la sortent : crédit conso, voiture à crédit, abonnements oubliés.<br>Le truc à savoir : la plupart des gens accumulent des passifs en croyant s\'enrichir.' },
-      { type:'tip', text:'Test rapide : liste tout ce que tu possèdes. Pour chaque chose, demande-toi "ça m\'apporte du cash ou ça m\'en coûte ?" Ce qui reste dans la colonne "ça rapporte", c\'est ta vraie richesse.' }
-    ], quiz:{ q:'Lequel est un actif ?', opts:['Une voiture à crédit','Un appart loué 900€/mois','Ta PS5','Un crédit conso à 15%'], correct:1, expl:'L\'appart loué <strong>génère un flux entrant</strong> chaque mois. Les autres sortent du cash. Simple comme bonjour.' } },
+    { id:'d1', e:'🧱', n:'Actif vs Passif : la règle d\'or', t:'1 min', coins:80, xp:60, tag:'Base', blocks:[
+      { type:'hook', emo:'🌟', text:'Imagine que ton argent est une équipe de petits ouvriers.<br>Un <strong>Actif</strong>, c\'est un ouvrier qui travaille pour toi et te ramène des pièces chaque jour.<br>Un <strong>Passif</strong>, c\'est un petit monstre gourmand qui mange tes pièces pour rester en vie.<br>La richesse, c\'est facile : il faut collectionner les ouvriers et éviter les monstres !' },
+      { type:'content', text:'<strong>Les Actifs (Tes Machines à Sous)</strong> : Ce sont les choses qui font grandir ta tirelire sans que tu fasses rien. Par exemple : prêter tes économies contre un petit plus (intérêts).<br><strong>Les Passifs (Tes Aspirateurs à Pièces)</strong> : Ce sont les choses qui te coûtent de l\'argent tout le temps. Par exemple : un abonnement à un jeu auquel tu ne joues plus.' },
+      { type:'tip', text:'Avant d\'acheter quelque chose, pose-toi la question : "Est-ce que cet objet va mettre des pièces dans ma poche ou en sortir ?"' }
+    ], quiz:{ q:'Tu décides d\'acheter un vélo pour faire tes livraisons de journaux et gagner un salaire. Ton vélo est...', opts:['Un Passif (car il faut parfois réparer les pneus).','Un Actif (car il t\'aide à ramener plus d\'argent que ce qu\'il te coûte).','Une décoration.'], correct:1, expl:'<strong>Un Actif !</strong> Même s\'il y a de petits frais, s\'il te permet de gagner ta vie, c\'est un outil qui travaille pour toi.<br>À retenir : Un Actif te rend plus riche pendant que tu dors 😴 — Un Passif te rend plus pauvre si tu n\'y prends pas garde.' } },
 
-    { id:'d2', e:'🔇', n:'L\'inflation : le voleur silencieux', t:'1 min', coins:80, xp:60, tag:'Base', blocks:[
-      { type:'hook', emo:'📉', text:'<strong>Tes 10 000€ sur le compte ? Dans 10 ans ils vaudront 7 800€ de pouvoir d\'achat.</strong> L\'inflation te pique 2-3% par an en douce, sans bruit. C\'est pas dramatique. Mais sur 20 ans, c\'est dévastateur.' },
-      { type:'content', text:'Inflation 4% → ton pouvoir d\'achat divisé par 2 en 18 ans (règle de 72 : 72÷4=18).<br><strong>Qui perd :</strong> les épargnants en cash, les retraités sur livrets.<br><strong>Qui gagne :</strong> les emprunteurs à taux fixe (leur dette fond), les propriétaires, les actionnaires.' },
-      { type:'trap', text:'Grosse erreur classique : confondre "sécurité" et "livret A". Livret à 3% avec inflation à 4% = tu perds 1% de pouvoir d\'achat par an. C\'est de l\'appauvrissement lent, pas de la sécurité.' }
-    ], quiz:{ q:'Inflation 5%, ton livret rapporte 2%. Ton taux d\'intérêt réel ?', opts:['+2%','+3%','-3%','0%'], correct:2, expl:'Taux réel = nominal − inflation = 2% − 5% = <strong>-3%</strong>. Tu perds du pouvoir d\'achat malgré les intérêts.' } },
+    { id:'d2', e:'🔊', n:'L\'inflation : le voleur de bonbons', t:'1 min', coins:80, xp:60, tag:'Base', blocks:[
+      { type:'hook', emo:'🌟', text:'L\'inflation, c\'est comme un petit monstre invisible qui grignote la valeur de tes pièces.<br>Imagine qu\'avec 1€, tu pouvais acheter 10 bonbons l\'année dernière.<br>Cette année, pour le même 1€, tu n\'en as plus que 5.<br>L\'argent est le même, mais les objets deviennent plus chers : c\'est ça, l\'inflation !' },
+      { type:'content', text:'<strong>Le Pouvoir d\'Achat</strong> : C\'est la taille de ton panier. Si l\'inflation monte, ton panier rétrécit. Tu as toujours le même billet de 10€, mais tu mets moins de choses dedans.<br><strong>Le Taux d\'Intérêt Réel</strong> : C\'est ce qu\'il te reste vraiment à la fin. Si ta tirelire te donne 2 pièces mais que les bonbons deviennent plus chers de 5 pièces, tu es en train de perdre de la richesse sans t\'en rendre compte.' },
+      { type:'tip', text:'Pour battre le monstre de l\'inflation, il ne faut pas laisser ton argent dormir dans un tiroir. Il faut le transformer en Actifs (tes ouvriers) qui grandissent plus vite que le monstre ne grignote.' }
+    ], quiz:{ q:'Le monstre de l\'inflation fait grimper les prix de 5% chaque année, mais ta banque ne te donne que 2% de récompense. À la fin de l\'année...', opts:['Tu es plus riche (car tu as gagné 2%).','C\'est pareil qu\'avant.','Tu es plus pauvre (car le prix des choses a monté plus vite que ton gain).'], correct:2, expl:'<strong>Tu es plus pauvre !</strong> Ton "taux réel" est de -3%. C\'est le piège de l\'inflation : on croit gagner un peu, mais on peut acheter beaucoup moins de choses.<br>À retenir : L\'inflation fait monter le prix des choses que tu aimes 🍬 — Si ton argent ne travaille pas, il perd de sa force chaque jour 📉' } },
 
-    { id:'d3', e:'⏰', n:'Les intérêts composés : la machine à richesse', t:'1 min', coins:80, xp:60, tag:'Base', blocks:[
-      { type:'hook', emo:'🚀', text:'<strong>1 000€ à 8%/an composés pendant 30 ans = 10 062€.</strong> Pas 3 400€ comme en intérêts simples. La différence de 6 662€ ? Des intérêts sur les intérêts. C\'est pour ça que commencer tôt, c\'est l\'avantage le plus sous-côté qui existe.' },
-      { type:'content', text:'<strong>Intérêts simples :</strong> 1 000€ × 8% = 80€/an → 3 400€ en 30 ans.<br><strong>Intérêts composés :</strong> les gains génèrent eux-mêmes des gains → 10 062€ en 30 ans.<br>Même taux, même point de départ. L\'écart explose avec le temps.' },
-      { type:'tip', text:'Règle des 72 : divise 72 par ton rendement = années pour doubler. À 8%/an → capital double en 9 ans. À 4% → 18 ans. Le taux, c\'est la variable n°1 de ta richesse future.' }
-    ], quiz:{ q:'10 000€ à 8%/an composés pendant 30 ans. Résultat ?', opts:['34 000€','100 627€','80 000€','24 000€'], correct:1, expl:'10 000 × (1.08)^30 = <strong>100 627€</strong>. En simples : 34 000€. Les 66 627€ de différence, c\'est les intérêts sur les intérêts.' } },
+    { id:'d3', e:'⏰', n:'Les intérêts composés : la machine à boules de neige', t:'1 min', coins:80, xp:60, tag:'Base', blocks:[
+      { type:'hook', emo:'🌟', text:'Imagine que tu lances une toute petite boule de neige en haut d\'une montagne géante. Au début, elle ramasse juste quelques flocons. Mais plus elle roule, plus elle devient grosse. Et plus elle devient grosse, plus elle ramasse de neige super vite ! À la fin, c\'est une boule de neige géante qui dévale la pente toute seule. Les intérêts composés, c\'est ça : chaque pièce que tu gagnes se met au travail pour te ramener d\'autres pièces !' },
+      { type:'content', text:'<strong>Intérêts Simples</strong> : C\'est comme si ta tirelire te donnait 5 pièces chaque année, mais que tu les sortais tout de suite pour les dépenser. Ta tirelire te donnera toujours 5 pièces, ça n\'augmente jamais.<br><strong>Intérêts Composés</strong> : C\'est comme si tu laissais tes 5 pièces dans la tirelire. L\'année d\'après, la tirelire te donne des pièces sur ton argent ET sur les 5 pièces de l\'année dernière. Ton trésor grandit de plus en plus vite, comme une réaction en chaîne !' },
+      { type:'tip', text:'Le secret absolu, c\'est le TEMPS. Plus tu commences tôt, même avec une petite somme, plus ta "boule de neige" a le temps de devenir une montagne. Commencer à 15 ans avec 10€ est souvent plus puissant que commencer à 40 ans avec 100€ ! Laisse le temps faire le travail.' }
+    ], quiz:{ q:'Pourquoi dit-on que les intérêts composés sont une "machine à richesse" ?', opts:['Parce qu\'on gagne exactement la même somme chaque année.','Parce que l\'argent tombe du ciel sans rien faire.','Parce que les gains que tu as déjà gagnés créent eux-mêmes de nouveaux gains, de plus en plus vite.'], correct:2, expl:'<strong>Les gains créent de nouveaux gains !</strong> C\'est l\'effet boule de neige : ton argent fait des petits qui se mettent aussitôt à travailler pour toi.<br>Intérêts simples : une ligne droite 📏 — Intérêts composés : une courbe qui s\'envole vers le ciel 🚀' } },
 
-    { id:'d4', e:'📅', n:'DCA : investir sans se prendre la tête', t:'1 min', coins:80, xp:60, tag:'Stratégie', blocks:[
-      { type:'hook', emo:'🤫', text:'<strong>Même montant. Même jour. Chaque mois. Peu importe si ça monte ou descend.</strong> C\'est la stratégie des investisseurs discrets qui s\'enrichissent tranquillement pendant que les autres essaient de "timer le marché".' },
-      { type:'content', text:'Le DCA (Dollar Cost Averaging) : tu achètes plus d\'unités quand les prix sont bas, moins quand ils sont hauts. Résultat : ton prix moyen d\'achat est toujours meilleur que la moyenne des prix.<br>Des études montrent que ça bat le market timing dans 70% des cas sur 30 ans. Même les pros galèrent à faire mieux.' },
-      { type:'real', title:'Le crash de mars 2020', text:'Marchés -35% en 33 jours. Les investisseurs DCA ont continué leurs virements. Ils achetaient des ETF "en soldes". 12 mois plus tard, les marchés étaient aux plus hauts historiques. Ceux qui avaient suspendu ont raté la remontée.' }
-    ], quiz:{ q:'En DCA, marché -30% pendant 3 mois. Tu fais quoi ?', opts:['Tu suspends — trop risqué','Tu continues — t\'achètes plus d\'unités au rabais','Tu vends tout','Tu attends que ça remonte'], correct:1, expl:'<strong>Tu continues.</strong> La baisse, c\'est ton alliée en DCA. Plus les prix sont bas, plus t\'achètes d\'unités pour le même montant.' } },
+    { id:'d4', e:'📅', n:'Le DCA : ta tirelire automatique', t:'1 min', coins:80, xp:60, tag:'Stratégie', blocks:[
+      { type:'hook', emo:'🌟', text:'Imagine que tu adores des cartes à collectionner. Parfois, le paquet coûte 5€, parfois il est en promotion à 2€.<br>Au lieu de stresser pour savoir quand acheter, tu décides d\'acheter pour 10€ de cartes chaque mois, quoi qu\'il arrive.<br>Quand c\'est cher, tu en as moins. Quand c\'est en solde, tu en reçois plein !<br>À la fin, tu as plus de cartes que si tu avais essayé de deviner le bon moment. Le DCA, c\'est ça : investir la même somme, tout le temps, sans réfléchir.' },
+      { type:'content', text:'<strong>Le DCA (Dollar Cost Averaging)</strong> : C\'est ta machine à acheter. Tu choisis un montant (ex: 20€) et une date (ex: le 1er du mois). La machine achète pour toi, que le marché soit content (prix haut) ou triste (prix bas).<br><strong>Le Prix Moyen</strong> : Comme tu achètes souvent quand c\'est "en solde", ton prix moyen devient très avantageux. Tu ne seras jamais celui qui a tout acheté au plus cher !' },
+      { type:'tip', text:'Le DCA, c\'est le mode "Zen". Pas besoin de regarder les infos ou de stresser devant les graphiques. Tu laisses ta machine travailler pendant que tu profites de ton temps libre. C\'est la stratégie préférée des gens qui s\'enrichissent sans stresser.' }
+    ], quiz:{ q:'Le marché baisse de -30% pendant 3 mois. Si tu fais du DCA, quelle est la meilleure réaction ?', opts:['Tu arrêtes tout (tu as trop peur de perdre).','Tu continues d\'investir la même somme (pour acheter beaucoup plus d\'unités pendant les soldes).','Tu vends tout ton trésor.'], correct:1, expl:'<strong>Tu continues !</strong> En DCA, la baisse est une opportunité : avec tes 20€, tu achètes beaucoup plus de parts qu\'avant. C\'est comme ça que tu prépares tes futurs gains.<br>Le DCA, c\'est comme un robot 🤖 — Prix bas = il achète beaucoup 🛒🛒🛒 — Prix haut = il achète un peu 🛒' } },
 
     { id:'d5', e:'🥚', n:'Ne mets pas tout dans le même panier', t:'1 min', coins:80, xp:60, tag:'Stratégie', blocks:[
-      { type:'hook', emo:'💀', text:'<strong>Des géants absolus ont perdu 99% en quelques mois.</strong> Des entreprises intouchables, des secteurs entiers qui s\'effondrent. Leurs actionnaires concentrés ont tout perdu. La diversification, c\'est pas de la lâcheté — c\'est de la survie.' },
-      { type:'content', text:'Un ETF MSCI World = 1 600 boîtes dans 23 pays pour 0.2%/an. Si l\'une fait faillite, l\'impact sur toi = quasi nul.<br><strong>2022 :</strong> 100% tech USA = -33%. Portefeuille 60/30/10 (actions/oblig/or) = -9%. 3.5× moins de douleur.' },
-      { type:'trap', text:'Grosse erreur classique : croire que 10 actions tech américaines = diversification. C\'est une concentration sectorielle déguisée. La vraie diversif traverse secteurs, pays et classes d\'actifs.' }
-    ], quiz:{ q:'Pourquoi un ETF MSCI World est plus sûr qu\'une seule action ?', opts:['Il ne peut pas baisser','~1 600 boîtes dans 23 pays — risque dilué','Les ETF sont garantis','Moins de frais'], correct:1, expl:'Une boîte fait faillite → impact MSCI World ≈ -0.06%. Avec elle seule → -100%. C\'est ça, la diversification.' } },
+      { type:'hook', emo:'🌟', text:'Imagine que tu dois transporter 10 œufs.<br>Si tu les mets tous dans un seul panier et que tu trébuches : tu perds tout. C\'est la catastrophe.<br>Si tu les partages dans 10 petits paniers différents : même si tu en fais tomber un, il te reste encore 9 œufs. Tu peux toujours faire une omelette !<br>Investir, c\'est pareil : on ne mise jamais tout sur une seule idée pour rester en sécurité.' },
+      { type:'content', text:'<strong>La Diversification</strong> : C\'est ta protection. Au lieu d\'acheter une seule chose, tu éparpilles ton argent sur plein de projets, d\'entreprises et d\'endroits différents.<br><strong>Le Risque Partagé</strong> : C\'est l\'idée que si un projet va mal, ce n\'est pas grave, car tes autres investissements sont là pour protéger ton trésor. C\'est comme avoir plusieurs cordes à son arc.' },
+      { type:'tip', text:'La vraie diversification, c\'est varier les plaisirs. Ne choisis pas que des entreprises de jeux vidéo. Prends un peu de tout : de la technologie, de la nourriture, de l\'énergie et même un peu d\'or. C\'est le mélange qui rend ton trésor solide !' }
+    ], quiz:{ q:'Ton ami te conseille de mettre TOUTES tes économies dans une nouvelle application de baskets connectées. Que fais-tu ?', opts:['Je l\'écoute et je mise tout, car je veux devenir riche d\'un coup.','Je n\'investis rien du tout, j\'ai trop peur.','Je n\'investis qu\'une petite partie et je garde le reste pour d\'autres projets.'], correct:2, expl:'<strong>La réponse sage !</strong> Même si l\'idée est bonne, on ne sait jamais ce qui peut arriver. En gardant tes autres "paniers", tu te protèges si l\'application ne marche pas comme prévu.<br>Un seul panier = Danger 🧺⚠️ — Beaucoup de paniers = Sécurité 🧺🧺🧺' } },
 
-    { id:'d6', e:'🛡️', n:'Ton fonds d\'urgence : la base de tout', t:'1 min', coins:80, xp:60, tag:'Pratique', blocks:[
-      { type:'hook', emo:'⚠️', text:'<strong>Sans fonds d\'urgence, n\'importe quel imprévu te force à vendre tes investissements au pire moment.</strong> Panne de bagnole, licenciement, clim HS — si t\'as pas de coussin, tu vends quand ça baisse. Garantie de perdre.' },
-      { type:'content', text:'<strong>3 à 6 mois de dépenses.</strong> Sur Livret A — liquide en 24h, zéro risque.<br>Cette réserve ne sert pas à "rapporter". Elle sert à ne jamais vendre tes ETF au mauvais moment.<br><strong>Ordre de priorité :</strong> fonds urgence → remboursement dettes chères → investissement.' },
-      { type:'tip', text:'Si t\'as pas encore de fonds d\'urgence, c\'est ta priorité n°1 avant d\'investir 1 seul euro. Marché en baisse + pas de coussin = panique garantie + mauvaises décisions.' }
-    ], quiz:{ q:'Où garder son fonds d\'urgence ?', opts:['En ETF — ça rapporte plus','En crypto — rendement élevé','Sur Livret A — liquide et sécurisé','Sous le matelas'], correct:2, expl:'<strong>Livret A</strong> = disponible en 24h, capital garanti. Les ETF peuvent être en -30% exactement quand t\'as besoin des sous.' } },
+    { id:'d6', e:'🛡️', n:'Ton bouclier de sécurité : le fonds d\'urgence', t:'1 min', coins:80, xp:60, tag:'Pratique', blocks:[
+      { type:'hook', emo:'🌟', text:'Dans la vie, il y a toujours des imprévus. Ton téléphone peut tomber en panne ou ton vélo peut casser. Si tu as mis toutes tes économies dans des projets pour gagner de l\'argent, tu seras obligé de tout arrêter en urgence pour payer les réparations. Le fonds d\'urgence, c\'est ton bouclier : c\'est de l\'argent mis de côté pour payer ces pépins sans toucher à tes autres économies.' },
+      { type:'content', text:'<strong>Le Fonds d\'Urgence</strong> : C\'est une réserve d\'argent cachée dans un endroit sûr, comme un livret à la banque. Cet argent ne sert pas à s\'enrichir, il sert à te protéger des coups durs.<br><strong>L\'Argent de Secours</strong> : C\'est la somme dont tu as besoin pour vivre normalement pendant quelques mois. C\'est ce qui te permet de rester zen, peu importe ce qui arrive.' },
+      { type:'tip', text:'La règle d\'or : D\'abord le bouclier, ensuite les projets ! Ne commence jamais à investir tes pièces d\'or si ta réserve de secours est vide. Si le marché baisse et que tu as une urgence au même moment, tu seras obligé de vendre tes investissements à perte.' }
+    ], quiz:{ q:'À quoi sert ton fonds d\'urgence ?', opts:['À acheter le dernier vêtement à la mode dès qu\'il sort.','À payer une réparation imprévue sans toucher à ses investissements.','À devenir millionnaire en deux jours.'], correct:1, expl:'<strong>C\'est ton filet de sécurité !</strong> Il sert à éponger les imprévus pour que tes projets de long terme puissent continuer à grandir tranquillement.<br>Pas de bouclier = Danger ❌🛡️ — Un bon bouclier = Tranquillité ✅🛡️ — Ton argent de secours doit rester disponible immédiatement ! 💸' } },
 
     { id:'d7', e:'🇫🇷', n:'PEA, AV, CTO : choisis la bonne boîte', t:'2 min', coins:100, xp:80, tag:'Fiscalité', blocks:[
-      { type:'hook', emo:'💶', text:'<strong>Même ETF, mauvaise enveloppe = des milliers d\'euros d\'impôts en plus.</strong> Où tu mets ton argent, c\'est aussi important que ce que t\'achètes. Le choix de l\'enveloppe, c\'est la décision fiscale de ta vie.' },
-      { type:'content', text:'<strong>PEA</strong> : après 5 ans, zéro impôt sur les gains (17.2% PS seulement). Plafond 150k€. Ouvre-le maintenant avec 1€ — le compteur des 5 ans commence à l\'ouverture.<br><strong>Assurance-Vie</strong> : abattement après 8 ans, top pour la transmission.<br><strong>CTO</strong> : flat tax 30%, zéro contrainte, accès à tout.' },
-      { type:'tip', text:'Ordre optimal : remplis d\'abord le PEA, puis l\'AV, puis le CTO. Sur 10 000€ de plus-value, PEA vs CTO = 1 280€ de plus dans ta poche. Pour rien d\'autre qu\'avoir choisi la bonne boîte.' }
-    ], quiz:{ q:'PEA ouvert il y a 6 ans. Plus-value de 10 000€. Imposition ?', opts:['Flat tax 30% = 3 000€','17.2% PS = 1 720€','Zéro impôt','IR progressif'], correct:1, expl:'Après 5 ans de PEA : exonération IR, seuls les <strong>17.2% de prélèvements sociaux</strong>. Économie vs CTO : 1 280€.' } },
+      { type:'hook', emo:'🌟', text:'Imagine que pour ranger tes pièces d\'or, tu as le choix entre trois boîtes différentes. Certaines boîtes sont comme des coffres-forts magiques : si tu laisses tes pièces dedans assez longtemps, l\'État te permet de garder presque tous tes gains sans prendre de taxes. Choisir la mauvaise boîte, c\'est accepter de donner une grosse partie de tes récompenses.' },
+      { type:'content', text:'<strong>Le PEA (La Boîte Française)</strong> : Si tu ne touches pas à ton argent pendant 5 ans, l\'impôt sur tes gains disparaît presque totalement. C\'est la boîte la plus puissante pour faire grandir ton trésor en France.<br><strong>L\'Assurance-Vie (La Boîte Long terme)</strong> : Très souple, elle devient super intéressante après 8 ans. Parfaite pour mettre de l\'argent de côté pour très longtemps.<br><strong>Le CTO (La Boîte Libre)</strong> : Sans règles. Tu peux y mettre ce que tu veux, mais l\'État prendra toujours une part fixe de tes gains (30%).' },
+      { type:'tip', text:'La règle d\'or pour payer moins de taxes : remplis d\'abord ton PEA. Même si tu n\'as que 10€, ouvre-le le plus tôt possible, car c\'est la date d\'ouverture qui compte pour débloquer les avantages magiques après 5 ans !' }
+    ], quiz:{ q:'Quelle boîte permet de ne presque plus payer d\'impôts sur ses gains après 5 ans ?', opts:['Le CTO (la boîte libre).','Le PEA (la boîte française).','Une boîte à chaussures sous mon lit.'], correct:1, expl:'<strong>Le PEA !</strong> C\'est l\'outil le plus efficace pour garder tes profits pour toi, à condition d\'être patient pendant 5 ans.<br>CTO = Liberté totale mais plus de taxes 🗽 — PEA = Le champion pour payer moins de taxes après 5 ans 🏆 — Assurance-Vie = Le couteau suisse pour le très long terme' } },
 
     { id:'d8', e:'🏦', n:'Ta banque n\'est pas ton alliée', t:'1 min', coins:80, xp:60, tag:'Pratique', blocks:[
-      { type:'hook', emo:'🎭', text:'<strong>Ton conseiller bancaire est d\'abord un commercial.</strong> Il est évalué sur les produits maison qu\'il vend, pas sur ta performance. Les fonds à 1.5-2% de frais qu\'il te propose ? Sur 30 ans, c\'est 200 000€ de différence vs un ETF à 0.2%.' },
-      { type:'content', text:'<strong>Simulation 100k€ à 7% brut / 30 ans :</strong><br>Fonds maison (1.8% frais) → 441 000€<br>ETF low-cost (0.2% frais) → 761 000€<br><strong>Écart : 320 000€</strong> — partis en frais de gestion. C\'est le coût réel du conseil "gratuit".' },
-      { type:'tip', text:'3 questions qui fâchent lors du prochain RDV bancaire : "Quels sont les frais totaux ?" / "Quelle est la perf nette vs l\'indice sur 10 ans ?" / "Vous avez un ETF MSCI World ?" Les réponses te diront tout.' }
-    ], quiz:{ q:'Fonds 1.8%/an vs ETF 0.2%/an. 100k€ en 30 ans. Ordre de grandeur de la différence ?', opts:['1 000€','10 000€','50 000€','300 000€+'], correct:3, expl:'<strong>300 000€+</strong>. Les frais annuels "modestes" s\'accumulent de façon dramatique sur 30 ans.' } },
+      { type:'hook', emo:'🌟', text:'Imagine que tu entres dans un magasin de sport. Le vendeur va te proposer les chaussures de la marque du magasin parce que c\'est ce qui lui rapporte le plus, même s\'il y a de meilleures chaussures ailleurs. À la banque, c\'est pareil : ton conseiller est souvent un vendeur. Il te propose les produits de sa banque qui lui coûtent cher en frais, ce qui grignote ton trésor petit à petit.' },
+      { type:'content', text:'<strong>Les Frais de Gestion</strong> : C\'est le "loyer" que tu paies à la banque pour qu\'elle garde tes placements. Si ce loyer est trop élevé, il finit par manger tous tes gains au fil des années.<br><strong>Le Conseil "Gratuit"</strong> : En réalité, rien n\'est gratuit. La banque se paie en prenant une petite part de ton argent chaque année. Sur une longue période, cette "petite part" peut représenter une fortune.' },
+      { type:'tip', text:'Ne demande pas à ton banquier : "Qu\'est-ce qui est bien pour moi ?", mais demande-lui plutôt : "Quels sont les frais totaux par an ?". Si les frais dépassent 1%, c\'est souvent trop cher. Il existe des solutions modernes (comme les ETF) qui coûtent 10 fois moins cher et rapportent souvent plus !' }
+    ], quiz:{ q:'Pourquoi ton conseiller bancaire te propose-t-il souvent les produits de sa propre banque ?', opts:['Parce que ce sont les meilleurs produits du monde.','Parce qu\'il est récompensé pour vendre les produits de son magasin.','Parce qu\'il veut me faire un cadeau.'], correct:1, expl:'<strong>C\'est un vendeur !</strong> Son métier est de vendre les produits de sa banque. C\'est à toi d\'être malin et de comparer pour garder le maximum de pièces dans ta poche.<br>Banquier = Vendeur de magasin 🛍️ — Frais élevés = Ton trésor rétrécit 📉 — Frais bas = Ton trésor grandit pour toi 📈' } },
 
-    { id:'d9', e:'💡', n:'La règle des 50/30/20', t:'1 min', coins:80, xp:60, tag:'Pratique', blocks:[
-      { type:'hook', emo:'📋', text:'<strong>Sans règle budgétaire, l\'argent disparaît mystérieusement.</strong> La méthode 50/30/20 c\'est le système le plus simple et le plus prouvé pour structurer ses finances sans souffrir.' },
-      { type:'content', text:'<strong>50% — Besoins</strong> : loyer, courses, assurances, transport boulot.<br><strong>30% — Envies</strong> : restos, voyages, loisirs, abonnements. Ne pas supprimer = garantie d\'abandon.<br><strong>20% — Futur</strong> : épargne de précaution + investissement. La part <em>sacrée</em>.' },
-      { type:'tip', text:'Si tes besoins dépassent 50% de ton revenu : alarme. La solution n\'est pas de couper les 30% — c\'est d\'augmenter le revenu ou réduire les charges fixes (déménager, renégocier assurances).' }
-    ], quiz:{ q:'Revenu net 2 500€/mois. Budget 50/30/20. Combien pour investir ?', opts:['250€','500€','750€','1 000€'], correct:1, expl:'20% × 2 500€ = <strong>500€</strong>/mois dédiés au futur. Idéalement : fonds urgence d\'abord, puis investissement régulier.' } },
+    { id:'d9', e:'💡', n:'L\'équipe de super-héros : la règle 50/30/20', t:'1 min', coins:80, xp:60, tag:'Pratique', blocks:[
+      { type:'hook', emo:'🌟', text:'Imagine que ton argent est une équipe de trois super-héros. Chacun a un pouvoir unique pour protéger ta vie et ton avenir. Si tu n\'utilises qu\'un seul héros, ton équipe sera déséquilibrée et tu perdras la partie. La règle du 50/30/20, c\'est ta stratégie pour donner à chaque héros la force dont il a besoin pour accomplir sa mission.' },
+      { type:'content', text:'<strong>50% — Capitaine Survie (Les Besoins)</strong> : Son pouvoir est de payer tes choses obligatoires : ton logement, manger, l\'électricité et tes transports. Sans lui, tu ne peux pas vivre l\'aventure.<br><strong>30% — L\'Agent Plaisir (Les Envies)</strong> : Son pouvoir est de te faire profiter : un resto, un cinéma, un nouveau jeu vidéo. Il ne faut pas l\'oublier, sinon l\'aventure devient trop triste.<br><strong>20% — Le Gardien du Futur (Le Magique)</strong> : Son pouvoir est de transformer tes pièces en "ouvriers" pour te ramener encore plus d\'argent plus tard. C\'est lui qui construit ton trésor.' },
+      { type:'tip', text:'Si Capitaine Survie (les besoins) devient trop gourmand et prend plus de la moitié de ton argent, n\'essaie pas de réduire la force de l\'Agent Plaisir. Essaie plutôt de trouver un loyer moins cher ou de réduire tes factures obligatoires pour redonner de l\'équilibre.' }
+    ], quiz:{ q:'Tu reçois 100€ pour ton anniversaire. Si tu suis la règle du 50/30/20, quelle part dois-tu donner au Gardien du Futur pour ton avenir ?', opts:['50€ (la moitié).','30€ (pour s\'amuser).','20€ (le magique).'], correct:2, expl:'<strong>Les 20€ !</strong> C\'est ton investissement pour plus tard. Les 80€ restants servent à tes besoins et à te faire plaisir.<br>50% = Ce que je dois payer 🏠 — 30% = Ce qui me fait plaisir 🍦 — 20% = Mon futur trésor 💎' } },
 
     { id:'d10', e:'🗝️', n:'La règle des 4% : ton chiffre de liberté', t:'1 min', coins:80, xp:60, tag:'Base', blocks:[
-      { type:'hook', emo:'🎯', text:'<strong>Quel capital faut-il pour ne plus jamais avoir besoin de travailler ?</strong> La réponse tient en une formule : Dépenses annuelles × 25. C\'est tout.' },
-      { type:'content', text:'Une étude historique montre qu\'un portefeuille peut supporter un retrait annuel de 4% pendant 30 ans sans s\'épuiser, avec >95% de probabilité de succès.<br><strong>Dépenses : 2 000€/mois = 24 000€/an. Capital nécessaire : 24 000 × 25 = 600 000€.</strong><br>Chaque euro économisé réduit ce chiffre ET accélère son atteinte.' },
-      { type:'trap', text:'La règle des 4% suppose une allocation ~60/40 actions/obligations. 100% livret A : taux de retrait soutenable ≈ 1.5%. Ton argent doit travailler pendant ta retraite aussi, pas juste avant.' }
-    ], quiz:{ q:'Dépenses 2 500€/mois. Capital nécessaire pour l\'indépendance financière ?', opts:['480 000€','600 000€','750 000€','1 000 000€'], correct:2, expl:'2 500 × 12 = 30 000€/an. 30 000 × 25 = <strong>750 000€</strong>.' } }
+      { type:'hook', emo:'🌟', text:'Imagine que tu possèdes un gros coffre rempli de pièces d\'or. Le secret pour que ce coffre ne se vide jamais, même si tu pioches dedans pour vivre, c\'est de ne sortir qu\'une toute petite partie chaque année : exactement 4% de ton trésor par an. Si ton coffre contient assez de pièces d\'or au départ, ce petit prélèvement suffit à payer toutes tes dépenses annuelles. Les 96% restants continuent de grandir, ce qui te permet de vivre ainsi toute ta vie sans jamais avoir besoin de travailler !' },
+      { type:'content', text:'<strong>Ton Chiffre de Liberté</strong> : C\'est la somme totale que tu dois avoir dans ton coffre pour être libre. Pour le trouver, c\'est très simple : prends l\'argent dont tu as besoin pour vivre pendant 1 an et multiplie-le par 25.<br><strong>Le Retrait Infini</strong> : C\'est le fait de prendre 4% de ton trésor chaque année. Comme ton argent est investi, il grandit assez vite pour remplacer les pièces que tu as sorties. Ton coffre reste donc toujours plein.' },
+      { type:'tip', text:'Plus tu dépenses d\'argent chaque mois, plus ton "Chiffre de Liberté" devient énorme et difficile à atteindre. Si tu apprends à être heureux avec des choses simples, tu auras besoin d\'un coffre moins grand et tu seras libre beaucoup plus tôt !' }
+    ], quiz:{ q:'Tu as besoin de 20 000€ par an pour vivre. Quel est le montant que tu dois avoir dans ton coffre pour ne plus jamais travailler ?', opts:['20 000€.','500 000€ (car 20 000 × 25).','40 000€.'], correct:1, expl:'<strong>500 000€ !</strong> Si tu as cette somme, les 4% que tu retires chaque année couvrent tes 20 000€ de dépenses sans jamais vider le coffre.<br>Calcul rapide = Tes besoins de l\'année × 25 💰' } }
 
   ]}, // fin track 1
 
@@ -2760,7 +2760,31 @@ Débutant: [
       { type:'tip', text:'Si tu perds ta seed phrase, tu perds tes crypto pour toujours. Personne ne peut te les récupérer. Pas de service client. Pas de mot de passe oublié. C\'est la responsabilité totale.' }
     ], quiz:{ q:'Qu\'est-ce que la "seed phrase" (phrase de récupération) ?', opts:['Ton mot de passe de compte','24 mots qui donnent accès total à ton wallet — à ne JAMAIS partager','Un code de sécurité temporaire','L\'adresse de ton wallet'], correct:1, expl:'<strong>24 mots = accès total</strong> à toutes tes crypto. Si quelqu\'un l\'a, il contrôle tout. Si tu la perds, tu perds tout. Stocke-la hors ligne, en lieu sûr.' } }
 
-  ]} // fin track 6
+  ]}, // fin track 6
+
+
+  // ── Track 7 : Arnaques & Pièges ─────────────────────────────
+  { track: '🚨 Arnaques & Pièges financiers', lessons: [
+
+    { id:'arm1', e:'💀', n:'Ponzi & Pyramide : reconnaître l\'arnaque avant qu\'il soit trop tard', t:'2 min', coins:80, xp:60, tag:'Sécurité', blocks:[
+      { type:'hook', emo:'🚨', text:'<strong>Les arnaques de type Ponzi ont coûté des milliards à des milliers d\'épargnants.</strong> Madoff, 65 milliards de dollars. Des gens éduqués, des banquiers, des retraités — tous piégés. La règle d\'or : si c\'est trop beau pour être vrai, c\'est une arnaque.' },
+      { type:'content', text:'<strong>Comment ça marche :</strong><br>1. Le "gérant" promet des rendements élevés garantis (10-15%/an "sans risque").<br>2. Il paie les anciens investisseurs avec l\'argent des nouveaux.<br>3. Tant que de nouveaux clients entrent, l\'illusion tient.<br>4. Dès que les retraits dépassent les entrées → effondrement total.<br><strong>Signal d\'alarme ultime :</strong> rendement garanti + "pas de risque" = arnaque certaine.' },
+      { type:'trap', text:'"Mes amis en sont contents et gagnent vraiment." La preuve sociale est le meilleur outil des escrocs. Les premiers investisseurs reçoivent VRAIMENT des gains — pour recruter d\'autres victimes. C\'est le mécanisme classique.' }
+    ], quiz:{ q:'Un gérant te promet 12%/an garanti avec zéro risque. C\'est :', opts:['Une bonne opportunité à saisir','Un schéma Ponzi ou une arnaque certaine','Possible si c\'est un professionnel agréé','Légal si c\'est une banque de réseau'], correct:1, expl:'<strong>Arnaque certaine.</strong> Aucun placement légal ne garantit un rendement élevé sans risque. Rapport rendement/risque = loi fondamentale de la finance. Pas d\'exception.' } },
+
+    { id:'arm2', e:'🕸️', n:'MLM et "bons plans" : identifier les red flags', t:'1 min', coins:80, xp:60, tag:'Sécurité', blocks:[
+      { type:'hook', emo:'⚠️', text:'<strong>Un "ami" te propose de rejoindre son équipe d\'investissement. Tu gagnes plus si tu recrutes des gens.</strong> C\'est un MLM financier — illégal en France sous cette forme. Le vrai argent va vers le sommet de la pyramide, pas toi.' },
+      { type:'content', text:'<strong>Red flags à mémoriser :</strong><br>🔴 Rendement garanti ou "très élevé".<br>🔴 Tu dois recruter pour gagner plus.<br>🔴 Pression temporelle ("offre limitée", "agis maintenant").<br>🔴 Manque de transparence sur la stratégie réelle.<br>🔴 Pas de prospectus officiel ni d\'agrément AMF.' },
+      { type:'tip', text:'Vérification immédiate : cherche le nom du produit/société sur la <strong>liste noire AMF</strong> (amf-france.org → Listes noires). Si c\'est dessus, fuis sans hésiter. Si c\'est pas dessus, ça ne garantit rien mais c\'est un minimum.' }
+    ], quiz:{ q:'Quel signe prouve qu\'un placement est potentiellement fiable ?', opts:['Tes amis l\'ont rejoint et semblent gagner','Il est recommandé sur Instagram','Il a un agrément AMF et un prospectus officiel','Le gérant est disponible 24h/24'], correct:2, expl:'<strong>Agrément AMF + prospectus officiel.</strong> L\'AMF réglemente les investissements en France. Sans agrément = illégal. Sans prospectus = opaque. Ces deux éléments sont le minimum légal requis.' } },
+
+    { id:'arm3', e:'💳', n:'Frais cachés : le vol légal le plus répandu en finance', t:'1 min', coins:80, xp:60, tag:'Pratique', blocks:[
+      { type:'hook', emo:'🔎', text:'<strong>1.5% de frais annuels sur 100 000€ en 30 ans = 350 000€ de manque à gagner.</strong> Et souvent, aucune ligne ne dit "frais prélevés ce mois". Les frais "modestes" sont le drain silencieux de ta richesse.' },
+      { type:'content', text:'<strong>Les frais à traquer :</strong><br>TER (frais annuels ETF) : visible, de 0.1% à 0.8%/an.<br>Frais de gestion fonds actifs : 1-2.5%/an, déduits imperceptiblement chaque jour.<br>Frais d\'entrée/sortie : 0-5% à chaque transaction.<br>Frais de tenue de compte : 0-50€/an selon le courtier.<br><strong>Comparaison choc :</strong> ETF 0.2%/an vs fonds maison 1.8%/an → ~320k€ de différence sur 30 ans.' },
+      { type:'tip', text:'Question magique à poser à ton conseiller : "Quelle est la performance nette de frais de ce fonds vs son indice de référence sur 10 ans ?" Si la perf nette est inférieure à l\'indice → les frais détruisent la valeur.' }
+    ], quiz:{ q:'Fonds à 2%/an de frais sur 100 000€ pendant 20 ans (à 7% brut). Manque à gagner approximatif vs un ETF à 0.2% ?', opts:['2 000€','20 000€','Environ 160 000€','Zéro — les frais sont déductibles'], correct:2, expl:'<strong>~160 000€</strong>. Sans frais excessifs : ~387k€. Avec 2%/an : ~220k€. L\'écart cumulatif sur 20 ans est dévastateur. Les frais composent comme les rendements, mais dans le mauvais sens.' } }
+
+  ]} // fin track 7
 
 ], // fin Débutant
 
@@ -2947,7 +2971,37 @@ Intermédiaire: [
       { type:'tip', text:'Allocation recommandée par la plupart des gestionnaires : 5-10% max. Pas plus — car l\'or n\'a pas de rendement propre. Pas moins si tu veux la protection en cas de crise systémique.' }
     ], quiz:{ q:'Pourquoi l\'or monte souvent lors des crises financières majeures ?', opts:['Parce qu\'il devient plus rare','Fuite vers les actifs réels hors système bancaire — "flight to safety"','Parce que les banques centrales en achètent','Parce que les mineurs produisent moins'], correct:1, expl:'<strong>Flight to safety.</strong> En crise bancaire systémique, les investisseurs fuient vers des actifs hors du système financier. L\'or, physique et non-émetteur, bénéficie de ce statut.' } }
 
-  ]} // fin track macro
+  ]}, // fin track macro
+
+
+  // ── Track 5 : Gestion du risque ─────────────────────────────
+  { track: '⚖️ Gestion du risque pratique', lessons: [
+
+    { id:'risk1', e:'🎯', n:'Position sizing : combien mettre sur une idée ?', t:'2 min', coins:130, xp:100, tag:'Risque', blocks:[
+      { type:'hook', emo:'🎯', text:'<strong>Un seul trade mal dimensionné peut effacer des mois de gains.</strong> Le position sizing — décider combien allouer à chaque position — est la compétence la plus importante et la moins enseignée en investissement.' },
+      { type:'content', text:'<strong>Règle des 2% :</strong> ne jamais risquer plus de 2% de son capital sur un seul trade.<br>Capital 10 000€ → risque max par trade = 200€.<br>Si stop-loss à -10% → position max = 2 000€ (car 2 000 × 10% = 200€).<br><strong>Formule :</strong> Taille = (Capital × % risqué) ÷ Distance au stop en %.' },
+      { type:'trap', text:'"Je mets 50% sur cette idée — je suis sûr à 90%." La certitude n\'élimine pas le risque. Les traders qui ont fait faillite avaient tous une "conviction absolue". Même à 90% de confiance, tu as 10% de chance de tout perdre sur une position énorme.' }
+    ], quiz:{ q:'Capital 5 000€. Règle des 2%. Risque max par position ?', opts:['500€','100€','1 000€','250€'], correct:1, expl:'5 000€ × 2% = <strong>100€</strong> de risque maximum par trade. Si ton stop est à -5%, ta taille de position max = 100 ÷ 5% = 2 000€.' } },
+
+    { id:'risk2', e:'🛑', n:'Stop-loss & take-profit : décider la sortie avant d\'entrer', t:'2 min', coins:130, xp:100, tag:'Risque', blocks:[
+      { type:'hook', emo:'🛑', text:'<strong>Si tu ne sais pas où tu sors avant d\'entrer, tu prendras une décision émotionnelle.</strong> Et les décisions émotionnelles dans un trade perdant sont presque toujours catastrophiques.' },
+      { type:'content', text:'<strong>Stop-loss :</strong> niveau de prix où tu admets avoir tort et limites la perte.<br>Exemple : achète à 100€, stop à 90€ (-10%). Si ça touche 90€ → vente automatique.<br><strong>Take-profit :</strong> niveau cible de sortie gagnante.<br><strong>Ratio Risk/Reward :</strong> toujours > 2:1. Pour gagner 40€ potentiels, tu risques 20€.' },
+      { type:'tip', text:'"Je retire le stop — ça va sûrement revenir." C\'est la phrase qui précède la plupart des catastrophes. Un stop-loss n\'est pas optionnel. C\'est ton contrat avec toi-même pour ne pas laisser l\'émotion décider.' }
+    ], quiz:{ q:'Achète à 200€, stop à 180€, objectif à 240€. Ratio Risk/Reward ?', opts:['1:1','2:1','1:2','4:1'], correct:1, expl:'Risque = 200−180 = 20€. Gain potentiel = 240−200 = 40€. Ratio = 40/20 = <strong>2:1</strong>. Minimum requis pour qu\'un trade soit statistiquement pertinent.' } },
+
+    { id:'risk3', e:'📉', n:'Drawdown : mesurer et accepter les pertes temporaires', t:'2 min', coins:130, xp:100, tag:'Risque', blocks:[
+      { type:'hook', emo:'📉', text:'<strong>Même les meilleurs investisseurs du monde traversent des drawdowns de -30 à -50%.</strong> La vraie question n\'est pas "est-ce que je perds parfois ?" mais "est-ce que mon drawdown est dans la plage attendue de ma stratégie ?"' },
+      { type:'content', text:'<strong>Drawdown :</strong> chute depuis un sommet vers un plus bas, exprimée en %.<br>S&P 500 : drawdown maximum historique -57% (2009).<br>Portefeuille 60/40 : drawdown max ~-40%.<br><strong>Asymétrie des pertes :</strong> pour récupérer d\'un -50%, il faut +100%. Pour un -30%, il faut +43%. Plus tu perds, plus la remontée est difficile.' },
+      { type:'tip', text:'Calcul mental rapide : perte de -X% → récupération nécessaire = X/(100-X) × 100%.<br>Exemple -40% → 40/60 × 100 = +67% pour revenir à zéro. <strong>Limiter les drawdowns vaut souvent plus que viser les gains extrêmes.</strong>' }
+    ], quiz:{ q:'Portefeuille passe de 10 000€ à 6 000€. Drawdown ? Et récupération nécessaire ?', opts:['−40% → +40%','−40% → +67%','−60% → +150%','−4 000€ → +4 000€'], correct:1, expl:'Drawdown = (6 000−10 000) ÷ 10 000 = <strong>−40%</strong>. Récupération = 4 000/6 000 = <strong>+67%</strong> depuis le creux pour revenir à 10 000€.' } },
+
+    { id:'risk4', e:'🔗', n:'Corrélation : vraie vs fausse diversification', t:'2 min', coins:130, xp:100, tag:'Risque', blocks:[
+      { type:'hook', emo:'🔗', text:'<strong>10 ETF sectoriels tech américains = concentration déguisée, pas diversification.</strong> La vraie diversification, c\'est avoir des actifs qui ne bougent pas ensemble — corrélation faible ou négative.' },
+      { type:'content', text:'<strong>Corrélation de +1 :</strong> bougent exactement pareil → zéro bénéfice de diversification.<br><strong>Corrélation de 0 :</strong> indépendants → bonne diversification.<br><strong>Corrélation de -1 :</strong> bougent en sens opposés → protection parfaite.<br><strong>Exemple concret :</strong> actions US + obligations souveraines = corrélation ~-0.2 à 0. Lors d\'un krach actions, les obligations montent souvent.' },
+      { type:'real', title:'2022 — quand la corrélation monte à 1', text:'En 2022, actions ET obligations ont chuté simultanément à cause de l\'inflation. Portefeuille classique 60/40 : -18%. Leçon : les corrélations ne sont pas stables. En crise inflationniste, l\'or et les matières premières ont mieux diversifié.' }
+    ], quiz:{ q:'Corrélation actions/obligations de -0.4. Principal avantage ?', opts:['Rendement amplifié des deux','Quand les actions baissent, les obligations tendent à monter — amortit les chocs','Coût de gestion réduit','Performance garantie en toutes circonstances'], correct:1, expl:'<strong>Corrélation négative = amortissement des chocs.</strong> Quand une classe d\'actifs baisse, l\'autre monte partiellement, réduisant la volatilité globale du portefeuille.' } }
+
+  ]} // fin track risque
 
 ] // fin Intermédiaire
 
@@ -3016,7 +3070,30 @@ Intermédiaire: [
       { type:'real', head:'Utilisé par les pros', body:'Les traders institutionnels et <em>market makers</em> lisent l\'orderflow en permanence. <strong>Sur les marchés à terme</strong> (CME, Euronext), cette information est publique et accessible.' }
     ], quiz:{ q:'Le POC (Point of Control) dans un Volume Profile représente :', opts:['Le point le plus haut du graphique','Le niveau de prix le plus échangé sur la période','Le premier ordre du carnet','Le prix d\'ouverture de session'], correct:1, expl:'<strong>POC = niveau avec le plus grand volume échangé.</strong> Il représente la zone de "valeur perçue" par les participants. Les prix ont tendance à y revenir.' } }
 
-  ]}
+  ]},
+
+  // ── Track 4 : Construction de portefeuille ───────────────────
+  { track: '🗂️ Construction de portefeuille', lessons: [
+
+    { id:'pf1', e:'🌤️', n:'All Weather de Ray Dalio : résister à tous les cycles', t:'2 min', coins:200, xp:150, tag:'Portefeuille', blocks:[
+      { type:'hook', emo:'🌤️', text:'<strong>Ray Dalio a passé des années à chercher un portefeuille qui survive à n\'importe quelle condition économique.</strong> Sa réponse : l\'All Weather — conçu pour performer dans les 4 phases du cycle économique.' },
+      { type:'content', text:'<strong>Allocation All Weather :</strong><br>30% Actions — croissance économique normale.<br>40% Obligations long terme — déflation/récession.<br>15% Obligations intermédiaires — stabilité.<br>7.5% Or — stagflation/crise systémique.<br>7.5% Matières premières — inflation forte.<br><strong>Logique :</strong> chaque actif excelle dans une phase spécifique du cycle.' },
+      { type:'tip', text:'L\'All Weather pondère chaque actif par sa <strong>contribution au risque</strong>, pas son poids nominal. Les obligations sont plus nombreuses car elles sont moins volatiles. L\'objectif : chaque actif pèse autant dans le risque total.' }
+    ], quiz:{ q:'Pourquoi l\'All Weather met 55% en obligations malgré leur faible rendement attendu ?', opts:['Pour la liquidité maximale','Pour équilibrer le risque — les obligations sont moins volatiles que les actions','Pour éviter les impôts','Parce que Dalio est pessimiste sur les actions'], correct:1, expl:'Les obligations ont une <strong>volatilité bien plus faible que les actions</strong>. Pour qu\'elles contribuent autant au risque total, il faut en mettre davantage en poids nominal. C\'est la logique de la parité de risque.' } },
+
+    { id:'pf2', e:'🔱', n:'Portefeuille Permanent de Harry Browne : 4 quarts égaux', t:'2 min', coins:200, xp:150, tag:'Portefeuille', blocks:[
+      { type:'hook', emo:'🔱', text:'<strong>25% actions. 25% obligations long terme. 25% cash. 25% or.</strong> Cette allocation simple a traversé crises pétrolières, effondrements boursiers et pics d\'inflation en ne perdant jamais plus de -6% sur 12 mois consécutifs.' },
+      { type:'content', text:'<strong>Logique des 4 actifs :</strong><br>Actions → prospérité économique.<br>Obligations LT → déflation / récession.<br>Cash (T-Bills) → contraction / crise.<br>Or → inflation forte / crise systémique.<br>Chaque phase du cycle est couverte par au moins un actif.<br><strong>Rééquilibrage :</strong> une fois par an, ramener chaque actif à 25%.' },
+      { type:'real', title:'Performance 1972-2022', text:'Sur 50 ans, le Portefeuille Permanent a produit ~6-7%/an net d\'inflation avec une <strong>volatilité 2× inférieure au S&P 500</strong>. Son pire drawdown sur 12 mois consécutifs : environ -6%. Idéal pour les investisseurs qui veulent dormir tranquille.' }
+    ], quiz:{ q:'Quel actif du Portefeuille Permanent protège contre la forte inflation et les crises systémiques ?', opts:['Actions','Obligations long terme','Cash','Or'], correct:3, expl:'<strong>L\'or</strong> est la couverture contre l\'inflation forte et les crises systémiques. Lors des chocs inflationnistes des années 70, l\'or a multiplié sa valeur par 20 pendant que les actions et obligations perdaient.' } },
+
+    { id:'pf3', e:'⚡', n:'Equal Weight & Risk Parity : alternatives à la capitalisation', t:'2 min', coins:200, xp:150, tag:'Portefeuille', blocks:[
+      { type:'hook', emo:'⚡', text:'<strong>La plupart des ETF pondèrent par capitalisation boursière — les plus grosses boîtes ont le plus de poids.</strong> Résultat automatique : tu surpondères ce qui est le plus cher. Deux alternatives systématiques existent.' },
+      { type:'content', text:'<strong>Equal Weight :</strong> même poids pour chaque action. Surpond les small caps. Perf historiquement supérieure sur longue période, mais plus de turnover.<br><strong>Risk Parity :</strong> chaque actif contribue également au risque total du portefeuille. Nécessite du levier sur les actifs peu volatils (obligations).<br><strong>Minimum Variance :</strong> optimise le portefeuille pour minimiser la volatilité globale.' },
+      { type:'tip', text:'L\'<strong>ETF Equal Weight S&P 500</strong> a surperformé l\'ETF classique pondéré par capitalisation sur la plupart des périodes de 20+ ans. Le rebalancement forcé vers les petites caps génère un alpha systématique appelé "rebalancing bonus".' }
+    ], quiz:{ q:'Pourquoi un ETF Equal Weight peut surperformer l\'ETF classique pondéré par capitalisation sur le long terme ?', opts:['Il a moins de frais de gestion','Il rééquilibre en permanence vers les small caps — "vendre haut, acheter bas" automatique','Il évite les crises financières','Il est garanti de surperformer par la réglementation'], correct:1, expl:'Le <strong>rééquilibrage automatique</strong> d\'un Equal Weight revient à "vendre haut, acheter bas" de façon systématique. Ce "rebalancing bonus" est un alpha réel et documenté sur les longues périodes historiques.' } }
+
+  ]} // fin track portefeuille
 
 ], // fin Avancé
 
@@ -6222,29 +6299,185 @@ function closeStreakAnim(){
 
 /* ══ CHATBOT ══ */
 const BOT_KB=[
-  {k:['tacoin','tacoins','monnaie','pièce','pièces'],r:'Les <b>Tacoins</b> sont la monnaie virtuelle de TACTIC. Tu en gagnes en complétant des leçons, en lisant les news éco, en maintenant ton streak et en accomplissant des missions.'},
-  {k:['streak','série','jours','connexion'],r:'Le <b>streak</b> compte tes jours de connexion consécutifs. Connecte-toi chaque jour pour le maintenir. À chaque nouveau jour tu reçois des Tacoins bonus + une animation.'},
-  {k:['acheter','achat','buy','ordre achat'],r:'Pour <b>acheter</b> un actif : clique sur un actif dans la table marché → clique sur <b>Passer un ordre</b> → sélectionne <b>Acheter</b> → entre le montant → confirme.'},
-  {k:['vendre','vente','sell'],r:'Pour <b>vendre</b> un actif : clique sur l\'actif dans ta table → <b>Passer un ordre</b> → <b>Vendre</b> → entre le montant → confirme.'},
-  {k:['portefeuille','portfolio','positions'],r:'Ton <b>portefeuille</b> est visible dans l\'onglet Marchés. Il affiche ta valeur totale, ton PnL et l\'alignement avec ton profil investisseur.'},
-  {k:['profil','investisseur','diagnostic','risque'],r:'Ton <b>profil investisseur</b> est défini via le diagnostic (onglet Profil). Il analyse ton âge, tes objectifs, ta tolérance au risque et ton niveau. Il génère une allocation cible.'},
-  {k:['mission','missions','objectif'],r:'Les <b>missions</b> sont dans l\'onglet Missions. Complète-les pour gagner des Tacoins. Les missions accomplies passent en bas de la liste.'},
-  {k:['leçon','lecons','apprendre','cours','module'],r:'Les <b>leçons</b> sont dans l\'onglet Parcours. Chaque leçon te donne des Tacoins et débloque les suivantes. Tu peux filtrer par thème.'},
-  {k:['news','actualité','économique','événement','event'],r:'Les <b>news économiques</b> apparaissent automatiquement pendant ta session. Clique sur la bannière → lis le débrief → clique <b>Compris</b> pour gagner 30 Tacoins. Elles sont archivées dans le Journal.'},
-  {k:['journal','historique','log'],r:'Le <b>Journal de Bord</b> (onglet Journal) enregistre tous tes trades, leçons, missions et news éco. Tu peux filtrer par catégorie.'},
-  {k:['rééquilibrage','rebalancing','alignement','allocation'],r:'Le <b>rééquilibrage</b> t\'aide à aligner ton portefeuille sur ton profil. Dans l\'onglet Marchés, la barre "Alignement Profil" indique le score. Clique sur ▲ Acheter ou ▼ Vendre sur chaque ligne pour rééquilibrer.'},
-  {k:['ordre limite','limit order','ordre conditionnel'],r:'Un <b>ordre limite</b> s\'exécute automatiquement quand le prix atteint ton seuil. Dans Passer un ordre, sélectionne "Limite" et fixe ton prix cible.'},
-  {k:['niveau','débutant','intermédiaire','expert','avancé'],r:'Ton <b>niveau</b> est visible dans le profil investisseur (barre latérale). Tu peux le changer via le menu déroulant : Débutant → Intermédiaire → Avancé → Expert.'},
-  {k:['parcours','chemin','map','bulle'],r:'Le <b>parcours</b> (onglet Ton Parcours) est une carte visuelle de ta progression. Clique sur chaque bulle pour démarrer une leçon.'},
-  {k:['pnl','gain','perte','performance'],r:'Le <b>PnL</b> (Profit & Loss) indique la performance de tes positions depuis leur achat. Il est affiché en Tacoins dans le portefeuille.'},
-  {k:['aide','help','comment','quoi','?'],r:'Je suis le bot de TACTIC 🤖. Pose-moi une question sur : les <b>Tacoins</b>, le <b>streak</b>, <b>acheter/vendre</b>, les <b>missions</b>, le <b>journal</b>, les <b>news éco</b>, le <b>rééquilibrage</b>...'},
+  // ── App ──
+  {k:['tacoin','tacoins','monnaie','pièce','pièces'],r:'Les <b>Tacoins</b> 🪙 c\'est ta monnaie virtuelle ici. Tu en gagnes en finissant des leçons, en lisant les news éco, en gardant ton streak actif et en cochant des missions. Plus t\'en as, mieux c\'est — c\'est ton score d\'engagement. Continue comme ça !'},
+  {k:['streak','série','jours','connexion'],r:'Ton <b>streak</b> 🔥 c\'est ton compteur de jours consécutifs. Franchement, c\'est l\'une des meilleures habitudes que tu puisses prendre : revenir chaque jour, même 5 minutes. Les cerveaux qui reviennent régulièrement retiennent 3× mieux. Mon conseil : mets-toi une alarme à la même heure chaque jour.'},
+  {k:['acheter','achat','buy','ordre achat'],r:'Pour acheter c\'est simple : sélectionne un actif dans le tableau → clique <b>"Passer un ordre"</b> → entre le montant → <b>ACHETER</b>. Si tu veux plus de contrôle, utilise un <b>ordre limite</b> pour fixer le prix d\'achat à l\'avance. Pour débuter, commence petit — l\'idée c\'est d\'apprendre le geste.'},
+  {k:['vendre','vente','sell'],r:'Pour vendre : sélectionne l\'actif dans ton portefeuille → <b>"Passer un ordre"</b> → entre le montant → <b>VENDRE</b>. Mon conseil : avant de vendre, pose-toi une question — est-ce que tu vends parce que ta thèse a changé, ou juste parce que t\'as peur ? Les deux ne méritent pas la même décision.'},
+  {k:['portefeuille','portfolio','positions'],r:'Ton <b>portefeuille</b> 💼 c\'est ta vue d\'ensemble : valeur totale, PnL sur chaque position, et alignement avec ton profil. Si la barre d\'alignement est basse, ça veut dire que ta répartition actuelle ne correspond pas au profil que tu t\'es fixé. C\'est pas une urgence, mais c\'est utile de le corriger progressivement.'},
+  {k:['profil','investisseur','diagnostic','risque'],r:'Ton <b>profil investisseur</b> c\'est dans l\'onglet Profil → Diagnostic. En 5 questions sur ton âge, tes objectifs et ta tolérance au risque, ça te génère une allocation cible personnalisée. Fais-le si c\'est pas encore fait — ça te donne un cap, une direction. Sans ça tu navigues un peu à l\'aveugle.'},
+  {k:['mission','missions','objectif'],r:'Les <b>missions</b> 🎯 sont dans leur onglet dédié. Ce sont des défis concrets (passer X ordres, lire Y news...) qui récompensent en Tacoins. Le badge rouge = récompense à collecter, clique dessus. Mon conseil : fais-en au moins une par jour, elles sont calibrées pour être réalisables.'},
+  {k:['leçon','lecons','apprendre','cours','module'],r:'Les <b>leçons</b> 📚 sont dans l\'onglet Parcours. Chaque leçon prend 1-2 minutes, te donne des Tacoins et débloque les suivantes. Mon honnête conseil : ne saute pas les leçons de psychologie. 90% des erreurs en bourse viennent des émotions, pas du manque de connaissances techniques.'},
+  {k:['news','actualité','économique','événement','event'],r:'Les <b>news économiques</b> apparaissent sous forme de bannière quand un événement de marché se déclenche. Clique dessus → lis le débrief → "Compris" = +30 Tacoins et une vraie leçon sur comment les marchés réagissent à l\'actualité. Ne les ignore surtout pas — c\'est de la finance appliquée en temps réel.'},
+  {k:['journal','historique','log'],r:'Le <b>Journal de Bord</b> 📋 garde une trace de tout : tes achats, ventes, leçons, missions, news. C\'est précieux. Les meilleurs investisseurs tiennent un journal — ça te force à voir tes patterns, à remarquer si tu prends des décisions émotionnelles. Je t\'y donne accès directement si tu me demandes "montre mon journal".'},
+  {k:['rééquilibrage','rebalancing','alignement','allocation'],r:'Le <b>rééquilibrage</b> c\'est ramener ton portefeuille à son allocation cible quand il s\'en éloigne. La barre "Alignement Profil" te dit où t\'en es. C\'est pas urgent d\'être à 100%, mais l\'idée c\'est de corriger progressivement — en orientant tes nouveaux achats vers ce qui est sous-représenté plutôt qu\'en vendant.'},
+  {k:['ordre limite','limit order','conditionnel'],r:'Un <b>ordre limite</b> c\'est malin : tu fixes le prix auquel tu veux acheter ou vendre, et l\'ordre s\'exécute automatiquement quand le marché atteint ce niveau. Idéal pour ne pas surveiller l\'écran en permanence. Dans "Passer un ordre" → sélectionne "Limite" → entre ton prix cible. C\'est comme tendre un piège et attendre.'},
+  {k:['pnl','gain','perte','performance'],r:'Ton <b>PnL</b> (Profit & Loss) c\'est ta vraie performance : valeur actuelle des positions moins ce que tu as payé. Un PnL négatif, c\'est pas une catastrophe — c\'est une moins-value <i>latente</i>, elle devient réelle seulement quand tu vends. La question à se poser : est-ce que ma thèse initiale tient encore ? Si oui, tu peux tenir.'},
+  // ── Concepts financiers (ton humain, conseils concrets) ──
+  {k:['actif','passif','richesse'],r:'La distinction actif/passif c\'est littéralement la base de tout. Un <b>actif</b> met du cash dans ta poche (ETF, immo qui génère des loyers, business). Un <b>passif</b> en sort (crédit conso, voiture à crédit). La plupart des gens accumulent des passifs en croyant s\'enrichir. Mon conseil : avant chaque achat important, demande-toi "ça rapporte ou ça coûte ?" 📘 Cours d1'},
+  {k:['inflation','pouvoir d\'achat','livret'],r:'L\'<b>inflation</b>, c\'est le voleur silencieux. Tes 10 000€ sur un livret à 2% avec une inflation à 4% ? Tu perds 2% de pouvoir d\'achat chaque année. Dans 10 ans ton argent vaut 20% moins. Ce n\'est pas dramatique sur un an, mais dévastateur sur 20 ans. Mon conseil : garde 3-6 mois de dépenses sur livret (fonds d\'urgence), le reste dans des actifs qui battent l\'inflation. 📘 Cours d2'},
+  {k:['intérêt','composé','composés','exponentiel'],r:'Les <b>intérêts composés</b> c\'est la 8ème merveille du monde selon Einstein. 1 000€ à 8%/an → 10 062€ en 30 ans. Pas 3 400€ comme en intérêts simples — 10 062€. La différence vient des intérêts sur les intérêts. Ce qui rend ça magique ? Commencer tôt. 100€/mois à 25 ans = ~320k€ à 65 ans. Attendre jusqu\'à 35 ans = ~160k€. 10 ans de retard = -160k€. 📘 Cours d3'},
+  {k:['etf','tracker','indice','msci','world'],r:'Un <b>ETF</b> c\'est probablement le meilleur ami de l\'investisseur particulier. En un seul achat, tu possèdes des centaines d\'entreprises mondiales. Un ETF MSCI World = 1 600 entreprises dans 23 pays pour 0.2%/an de frais. Des études montrent que 90% des gérants actifs font moins bien que l\'indice sur 15 ans. Mon conseil pour débuter : commence par un ETF MSCI World et dormez bien la nuit. 📘 Cours etf1'},
+  {k:['diversification','diversifier','risque','répartir'],r:'La diversification, c\'est pas juste "avoir plusieurs choses". C\'est avoir des choses <i>différentes</i> qui ne bougent pas ensemble. 5 ETF tech américains = concentration déguisée. La vraie diversif croise les secteurs, les pays, et les classes d\'actifs (actions + obligations + or). Résultat concret : pendant le krach 2022, un portefeuille 60/40 perdait -9% pendant qu\'un 100% tech US perdait -33%. 📘 Cours d5'},
+  {k:['action','actions','bourse','titre'],r:'Une <b>action</b> = t\'es copropriétaire d\'une entreprise. Si elle performe, tu gagnes. Si elle coule, tu peux tout perdre. Rendement historique des actions mondiales : ~7-8%/an sur le long terme, mais avec des années à -40%. Mon conseil : si tu achètes des actions individuelles, ne mets pas plus de 5% de ton portefeuille sur une seule. La diversification protège mieux que la conviction.'},
+  {k:['obligation','bond','taux','intérêt fixe'],r:'Une <b>obligation</b> c\'est un prêt que tu fais à un État ou une entreprise. Ils te remboursent avec des intérêts. Moins risqué que les actions, moins rentable. Mais la règle contre-intuitive à retenir : <i>quand les taux montent, les obligations baissent</i>. En 2022, des gens "prudents" en obligations ont perdu -30%. Rien n\'est vraiment sans risque. 📘 Cours m6'},
+  {k:['or','gold','valeur refuge','crise'],r:'L\'<b>or</b> c\'est un actif bizarre : il ne génère aucun revenu (pas de dividende, pas de coupon), mais il monte quand tout le reste s\'effondre. C\'est une assurance. Mon conseil : 5-10% max en or dans un portefeuille. Pas plus parce qu\'il ne rapporte rien à long terme. Pas moins si tu veux une vraie protection contre les crises systémiques. 📘 Cours m7'},
+  {k:['bitcoin','crypto','cryptomonnaie','btc'],r:'Le <b>Bitcoin</b> c\'est l\'actif le plus volatil des marchés mainstream. -80% en quelques mois, ×10 en quelques années — les deux sont arrivés. Certains y voient "l\'or numérique du 21ème siècle". Peut-être. Mon conseil : si tu veux en avoir, plafonne à 1-5% de ton portefeuille. Que ça monte ou s\'effondre, ça ne te ruine pas. Au-delà de 10%, t\'as pas un portefeuille, t\'as un pari. 📘 Cours c1'},
+  {k:['scpi','immobilier','pierre papier'],r:'Les <b>SCPI</b> c\'est de l\'immo sans les emmerdes : pas de locataires à gérer, pas de travaux urgents à 22h. Tu achètes des parts d\'un fonds immobilier, tu touches des loyers proportionnels. Rendement historique : 4-5%/an. Mais attention : c\'est illiquide (revente difficile), et les frais d\'entrée sont élevés (8-12%). C\'est un investissement de long terme, pas un placement qui se revend en 3 mois. 📘 Cours immo2'},
+  {k:['volatilité','volatile','risque marché'],r:'La <b>volatilité</b>, c\'est juste l\'amplitude des montagnes russes. Bitcoin : ±10%/jour. Actions : ±1-3%/jour. Livret A : 0%. La volatilité n\'est pas intrinsèquement mauvaise — sur un horizon de 20 ans, la volatilité des actions est une opportunité, pas un risque. Le vrai risque, c\'est d\'être obligé de vendre au mauvais moment. D\'où l\'importance du fonds d\'urgence. 📘 Cours v1'},
+  {k:['stratégie','long terme','horizon','patience'],r:'La stratégie long terme, c\'est pas compliquée — c\'est juste psychologiquement difficile. Les marchés ont TOUJOURS récupéré après chaque crise (1929, 2000, 2008, 2020). Ce qui détruit les investisseurs c\'est pas les crises, c\'est la panique. Mon conseil concret : décide maintenant ce que tu ferais si ton portefeuille perdait -40%. Si la réponse c\'est "je vendrais tout", ton allocation est trop risquée. 📘 Cours m2'},
+  {k:['dca','dollar cost','investir régulier','mensuel'],r:'Le <b>DCA</b> c\'est la stratégie des gens qui ont compris qu\'ils ne peuvent pas timer le marché (personne ne peut vraiment). Principe : même montant, même jour, chaque mois, peu importe le prix. Quand ça baisse tu achètes plus d\'unités. Quand ça monte tu en achètes moins. Résultat : ton prix moyen est toujours meilleur que la moyenne des prix. Et tu élimines le stress du "c\'est le bon moment ?". 📘 Cours d4'},
+  {k:['crise','krach','chute','baisse marché'],r:'Je vais être honnête avec toi : les crises sont normales. En 100 ans de marchés financiers, il y en a eu des dizaines. Et les marchés ont récupéré 100% des fois. Ce qui est pas normal, c\'est d\'y être exposé à 100% avec de l\'argent dont t\'as besoin dans 6 mois. Mon conseil : si le marché baisse de -20% et que t\'es stressé, soit ton allocation est trop risquée, soit t\'as pas de fonds d\'urgence. Les deux, ça se corrige. 📘 Cours d2'},
+  {k:['retraite','épargne','avenir','pension'],r:'La <b>retraite</b> c\'est l\'un des sujets les plus urgents et les plus procrastinés. Voilà le chiffre qui devrait te motiver : 100€/mois à 25 ans = ~320 000€ à 65 ans (à 7%/an). Attendre 35 ans = ~160 000€. Chaque décennie de retard divise par 2 le résultat final. La vraie question c\'est pas "est-ce que j\'ai les moyens d\'épargner ?" — c\'est "est-ce que j\'ai les moyens de ne pas le faire ?". 📘 Cours d3'},
+  {k:['aide','help','comment','quoi','bonjour','salut','coucou'],r:'Salut ! 👋 Je suis <b>Tact</b>, ton assistant perso sur TACTIC. Je suis là pour répondre à tes questions sur l\'investissement, t\'expliquer les concepts des cours, ou t\'aider à naviguer dans l\'app. Pose-moi n\'importe quoi : <b>ETF, inflation, DCA, crypto, retraite, arnaques, comment acheter</b>… Ou demande-moi "montre mon journal" pour voir ton résumé personnalisé.'},
+  // ── Nouveaux concepts ──
+  {k:['arnaque','ponzi','escroquerie','fraude','scam','piège'],r:'🚨 Méfie-toi des <b>arnaques financières</b> — elles se ressemblent toutes. Le signal d\'alarme n°1 : <i>"rendement élevé GARANTI sans risque"</i>. Ça n\'existe pas. Madoff promettait 10%/an sans volatilité. 65 milliards de dollars envolés. Mon conseil : vérifie l\'agrément AMF sur amf-france.org avant d\'investir dans quoi que ce soit. Si c\'est pas dessus, fuis. 📘 Cours arm1'},
+  {k:['frais','taux frais','cher','coût gestion','ter'],r:'Les <b>frais</b> c\'est le truc le plus sous-estimé en finance. 1.8% vs 0.2%/an sur 100k€ en 30 ans = 320 000€ de différence. Trois fois le capital initial. La règle simple : cherche toujours le TER (Total Expense Ratio) avant d\'acheter un fonds. Un ETF MSCI World = 0.12-0.20%/an. Les fonds actifs de ta banque = 1.5-2.5%/an. Pour rien de plus comme performance. 📘 Cours arm3'},
+  {k:['stop loss','stop-loss','stoploss','sortir position','quand vendre'],r:'Un <b>stop-loss</b>, c\'est ton garde-fou émotionnel. Tu définis à l\'avance le niveau de prix où tu admets avoir eu tort — et tu sors automatiquement. Sans ça, en situation de perte tu vas toujours te dire "ça va remonter" jusqu\'à ce que ce soit trop tard. Règle pro : définis ta sortie AVANT d\'entrer. Toujours. C\'est ton contrat avec toi-même. 📘 Cours risk2'},
+  {k:['position','sizing','mise','combien investir','taille position'],r:'La question "combien je mets ?" est souvent celle à laquelle on répond au feeling. Erreur. La règle des 2% : ne risque jamais plus de 2% de ton capital sur une seule position. Capital 10 000€ → max 200€ de risque. Si ton stop-loss est à -10%, ta taille max = 2 000€. C\'est pas sexy, mais c\'est ce qui t\'empêche de te faire ruiner sur un mauvais trade. 📘 Cours risk1'},
+  {k:['all weather','dalio','portefeuille permanent','browne','risk parity'],r:'Le <b>portefeuille All Weather</b> de Ray Dalio c\'est fascinant : 30% actions, 40% obligations long terme, 15% obligations CT, 7.5% or, 7.5% matières premières. Pas pour maximiser les gains, mais pour survivre à n\'importe quelle condition économique. Drawdown max historique ~-12% quand le marché actions perdait -50%. Idéal si tu veux dormir tranquille. 📘 Cours pf1'},
+  {k:['drawdown','perte maximale','chute portefeuille','recul'],r:'Le <b>drawdown</b> c\'est la perte depuis un sommet. Ce qui est crucial à comprendre : l\'asymétrie. Perdre -50% oblige à faire +100% pour récupérer. Perdre -30% → il faut +43%. C\'est pour ça que limiter les drawdowns vaut souvent plus que viser des gains élevés. Un portefeuille qui ne perd jamais plus de -15% dort bien la nuit et récupère vite. 📘 Cours risk3'},
+  {k:['corrélation','correle','corrélé','décorrélé'],r:'La <b>corrélation</b>, c\'est ce qui fait la vraie diversification. Si tous tes actifs montent et baissent ensemble (corrélation +1), t\'as pas diversifié, t\'as juste multiplié les lignes. La valeur ajoutée vient des actifs qui se comportent différemment : actions + obligations souveraines ont souvent une corrélation négative — quand l\'une baisse, l\'autre monte. 📘 Cours risk4'},
+  {k:['mlm','pyramide','recrutement','parrainage'],r:'Si quelqu\'un te propose un "plan d\'investissement" où <b>tu gagnes plus en recrutant des gens</b>, c\'est un MLM financier. Illégal en France sous cette forme. L\'argent ne vient pas de vrais investissements — il vient des nouveaux entrants. Quand il n\'y a plus de nouveaux, tout s\'effondre. Mon conseil : aucune exception. Si y\'a du recrutement dans le modèle, c\'est une pyramide. 📘 Cours arm2'},
+  {k:['fomo','peur de rater','euphorie','bulle'],r:'Le <b>FOMO</b> (Fear Of Missing Out), c\'est l\'émotion qui te fait acheter au sommet. Un actif ×3 en 6 mois, partout dans les médias, ton cousin en parle — tu craques et tu achètes. C\'est exactement là que les prix sont au plus haut et les opportunités au plus bas. Règle anti-FOMO : écris en une phrase pourquoi tu achètes. Si la réponse c\'est "parce que ça monte", pose le téléphone. 📘 Cours p1'},
+  {k:['fonds urgence','urgence','épargne sécurité','coussin'],r:'Le <b>fonds d\'urgence</b> c\'est la fondation de tout. Sans lui, n\'importe quelle tuile (voiture en panne, licenciement) te force à vendre tes investissements au pire moment — quand les marchés baissent. Règle : 3 à 6 mois de dépenses sur Livret A. C\'est la première priorité avant d\'investir 1 seul euro en bourse. 📘 Cours d6'},
+  {k:['pea','assurance vie','enveloppe','fiscalité','impôt'],r:'Le choix de l\'enveloppe fiscale peut valoir des dizaines de milliers d\'euros. Mon conseil d\'ordre de priorité : ouvre d\'abord le <b>PEA</b> (même avec 1€ — le compteur des 5 ans démarre), puis une <b>Assurance-Vie</b>, puis un CTO. Après 5 ans de PEA : 0% d\'impôt sur les gains, juste 17.2% de prélèvements sociaux. Sur 50k€ de plus-value, ça fait 6 400€ de plus dans ta poche vs un CTO. 📘 Cours fisc1'},
 ];
+
+// ── Lecture structurée du journal ──────────────────────────────
+function _readJournal(){
+  if(!S) return {totalBuys:0,totalSells:0,profitSells:0,topAssets:[],posCount:0,coins:0,streak:0,lessonsCount:0,eventsCount:0,completedLessons:new Set()};
+  const j=(S.journal||[]).slice(0,100);
+  const buys=j.filter(e=>e.type==='buy');
+  const sells=j.filter(e=>e.type==='sell');
+  const lessons=j.filter(e=>e.type==='lesson');
+  const events=j.filter(e=>e.type==='event');
+  // Top assets achetés
+  const assetCounts={};
+  buys.forEach(e=>{ assetCounts[e.asset]=(assetCounts[e.asset]||0)+1; });
+  const topAssets=Object.entries(assetCounts).sort((a,b)=>b[1]-a[1]).slice(0,3).map(e=>e[0]);
+  // Positions actuelles
+  const positions=S.positions||{};
+  const posCount=Object.keys(positions).filter(k=>(positions[k]||0)>0).length;
+  // Leçons complétées (IDs)
+  const completedLessons=new Set(lessons.map(e=>e.ref||'').filter(Boolean));
+  return {
+    totalBuys:buys.length, totalSells:sells.length,
+    profitSells:S.profitSells||0,
+    topAssets, posCount,
+    coins:S.coins||0, streak:S.streak||0,
+    lessonsCount:lessons.length, eventsCount:events.length,
+    completedLessons, rawLessons:lessons
+  };
+}
+
+function _buildJournalContext(){
+  if(!S||!S.journal||!S.journal.length) return null;
+  const jd=_readJournal();
+  const parts=[];
+  if(jd.totalBuys>0){
+    const assets=jd.topAssets.slice(0,3).join(', ');
+    parts.push(`Acheté : <b>${assets}</b> (${jd.totalBuys} ordre${jd.totalBuys>1?'s':''})`);
+  }
+  if(jd.totalSells>0){
+    const pnlNote=jd.profitSells>0?` dont ${jd.profitSells} profitable${jd.profitSells>1?'s':''}`:'';
+    parts.push(`${jd.totalSells} vente${jd.totalSells>1?'s':''}${pnlNote}`);
+  }
+  if(jd.lessonsCount>0){
+    const lnames=[...new Set(jd.rawLessons.map(e=>e.asset))].slice(0,2).join(', ');
+    parts.push(`Leçons : <b>${lnames}</b>${jd.lessonsCount>2?' + '+(jd.lessonsCount-2)+' autres':''}`);
+  }
+  if(jd.eventsCount>0){
+    parts.push(`${jd.eventsCount} news éco lue${jd.eventsCount>1?'s':''}`);
+  }
+  return parts.length?parts.join(' · '):null;
+}
+
+function _journalPersonalize(baseReply){
+  const jd=_readJournal();
+  const ctx=_buildJournalContext();
+  if(!ctx) return baseReply;
+  const streak=jd.streak; const coins=jd.coins;
+  let badge='';
+  if(streak>=7) badge='🏆 ';
+  else if(streak>=3) badge='🔥 ';
+  const suffix=`<br><br><span style="font-size:.68rem;color:rgba(160,210,230,.45)">📖 ${ctx}${streak>1?' · '+badge+streak+'j streak':''} · 🪙 ${coins}</span>`;
+  return baseReply+suffix;
+}
+
 function botReply(msg){
   const m=msg.toLowerCase();
-  for(const entry of BOT_KB){
-    if(entry.k.some(k=>m.includes(k)))return entry.r;
+  // ══ Lecture du journal en premier — toujours ══
+  const jd=_readJournal();
+  const ctx=_buildJournalContext();
+
+  // ── Demande directe sur le journal / bilan ──
+  if(['journal','historique','mes trades','bilan','mon bilan','ce que j\'ai fait','résumé'].some(k=>m.includes(k))){
+    if(ctx){
+      const comment=jd.totalBuys===0?'Tu n\'as pas encore passé d\'ordre — c\'est le moment de commencer 🚀':
+                    jd.totalBuys<5?`Bon départ avec ${jd.totalBuys} ordre${jd.totalBuys>1?'s':''}. Continue à explorer !`:
+                    `${jd.totalBuys} ordres — tu prends de bonnes habitudes 💪`;
+      return `📋 <b>Ton résumé :</b><br><br>${ctx}${jd.streak>1?`<br>🔥 <b>${jd.streak} jours</b> de streak`:''}${jd.coins?`<br>🪙 <b>${jd.coins} Tacoins</b>`:''}<br><br><span style="font-size:.78rem;color:rgba(180,230,242,.7)">${comment}</span>`;
+    }
+    return 'Ton journal est vide pour l\'instant — c\'est normal au début ! Explore le marché, lis une leçon ou passe ton premier ordre. Je te suivrai pas à pas 🚀';
   }
-  return 'Je n\'ai pas bien compris 🤔 Essaie de me poser une question sur : <b>acheter</b>, <b>vendre</b>, <b>streak</b>, <b>tacoins</b>, <b>missions</b>, <b>news éco</b>, <b>journal</b>, <b>profil</b>...';
+
+  // ── Premier investissement ──
+  if(jd.totalBuys===0 && ['acheter','achat','buy','commencer','débuter','premier','comment investir','par où'].some(k=>m.includes(k))){
+    const theoryNote=jd.lessonsCount>0?`T\'as déjà ${jd.lessonsCount} leçon${jd.lessonsCount>1?'s':''} derrière toi — t\'as les bases. `:'Avant d\'acheter, 2 min sur la leçon "Actif vs Passif" si c\'est pas fait. ';
+    return `${theoryNote}Pour ton <b>premier achat</b> 🎯 : sélectionne un actif dans le tableau → <b>"Passer un ordre"</b> → entre le montant → clique ACHETER.<br><br>Mon conseil de départ : commence par un <b>ETF MSCI World</b> — 1 600 entreprises mondiales, 0.2%/an de frais. C\'est le choix le plus solide pour démarrer sans stress.`;
+  }
+
+  // ── Portefeuille concentré sur 1 actif ──
+  if(jd.posCount===1 && ['diversif','répartir','risque','comment réduire','sécuriser'].some(k=>m.includes(k))){
+    const asset=jd.topAssets[0]||'cet actif';
+    return `Je vois que tu es concentré sur <b>${asset}</b> uniquement. C\'est pas catastrophique, mais ça veut dire que si cet actif chute, tout ton portefeuille trinque.<br><br>Mon conseil : commence à diversifier en ajoutant une 2ème ligne avec une corrélation différente — une <b>obligation souveraine</b> ou de l\'<b>or</b> par exemple. Ça amortit les chocs sans sacrifier le rendement long terme. 📘 Cours d5 & risk4`;
+  }
+
+  // ── Performance et résultats ──
+  if(jd.totalBuys>0 && ['pnl','gain','perte','performance','résultat','profit','combien j\'ai','comment je m\'en sors'].some(k=>m.includes(k))){
+    const profitRate=jd.totalSells>0?Math.round((jd.profitSells/jd.totalSells)*100):null;
+    const perf=profitRate===null?'Tu n\'as pas encore vendu — ton PnL est latent (pas encore réalisé).':
+               profitRate>=60?`${profitRate}% de tes ventes ont été profitables — bonne discipline 👌`:
+               profitRate>=40?`${profitRate}% de ventes profitables — dans la moyenne normale.`:
+               `${profitRate}% de ventes profitables. Pas de panique — chaque erreur est une leçon. Regarde ce qui n\'a pas marché et ajuste.`;
+    return `${perf}<br><br>Pour voir ton <b>PnL en temps réel</b>, ouvre l\'onglet <b>Portefeuille 💼</b> — tu y vois la plus-value/moins-value sur chaque position. N\'oublie pas : une moins-value est latente tant que tu ne vends pas.`+(_buildJournalContext()?`<br><br><span style="font-size:.68rem;color:rgba(160,210,230,.45)">📖 ${_buildJournalContext()}</span>`:'');
+  }
+
+  // ── Que faire / suggestions / par où commencer ──
+  if(['que faire','quoi faire','quoi apprendre','prochaine étape','suggestion','par où commencer','aide-moi','guide moi'].some(k=>m.includes(k))){
+    if(jd.totalBuys===0 && jd.lessonsCount===0){
+      return 'On commence de zéro — parfait, c\'est le meilleur moment pour bien faire les choses. Mon plan en 3 étapes :<br><br><b>1.</b> Lis la leçon "Actif vs Passif" (1 min) dans Parcours 📚<br><b>2.</b> Passe ton premier ordre sur le marché 🎯<br><b>3.</b> Lis la première news éco qui apparaît 📰<br><br>Chaque étape te donne des Tacoins et te construit une vraie base.';
+    }
+    if(jd.totalBuys>0 && jd.lessonsCount<3){
+      return _journalPersonalize(`T\'es en train de faire les choses dans le bon ordre — tu pratiques <i>et</i> t\'apprends. Ma suggestion : passe par les leçons de <b>Psychologie</b> et de <b>Gestion du risque</b>. Pourquoi ? Parce que les erreurs coûteuses en bourse viennent rarement du manque de connaissances techniques — elles viennent des émotions. 📘 Onglet Parcours`);
+    }
+    if(jd.streak<3){
+      return _journalPersonalize(`Continue dans l\'onglet <b>Parcours 📚</b>. Et si je peux te donner un conseil : mets-toi une petite alarme pour revenir chaque jour — même 5 minutes. Ton streak, c\'est ton meilleur indicateur d\'engagement. Les gens qui maintiennent leur streak retiennent 3× mieux ce qu\'ils apprennent.`);
+    }
+    return _journalPersonalize(`Tu avances bien 💪 Ma suggestion : si t\'as fini les bases Débutant, attaque le niveau Intermédiaire — les leçons sur les ETF et la fiscalité te feront gagner concrètement de l\'argent (ou en économiser). 📘 Onglet Parcours`);
+  }
+
+  // ── Stress / panique / peur ──
+  if(['stressé','peur','paniqué','angoissé','inquiet','j\'ai perdu','ça baisse','catastrophe'].some(k=>m.includes(k))){
+    return _journalPersonalize(`Je t\'entends. Voir son portefeuille baisser, c\'est désagréable — c\'est humain. Mais voilà ce que les données disent : les marchés ont récupéré 100% des crises en 100 ans. La panique et la vente au creux, c\'est l\'erreur n°1 des investisseurs.<br><br>Ma question pour toi : est-ce que ta thèse d\'investissement a changé ? Si non, la baisse est temporaire. Si oui, alors là t\'as une vraie raison de reconsidérer. Mais jamais vendre par peur pure.`);
+  }
+
+  // ── Motivation / découragement ──
+  if(['décourageant','dur','compliqué','difficile','j\'y comprends rien','je comprends pas','trop complexe'].some(k=>m.includes(k))){
+    return `C\'est normal de se sentir dépassé au début — la finance, ça semble complexe parce qu\'on nous en parle avec des mots compliqués pour rien. Mais la vérité ? Les bases qui créent 80% des résultats tiennent en 3 idées : invester régulièrement, diversifier, et ne pas paniquer.<br><br>On avance ensemble, une leçon à la fois. Pose-moi une question concrète — n\'importe laquelle — et je te l\'explique simplement 👊`;
+  }
+
+  // ══ Matching dans la base de connaissances ══
+  for(const entry of BOT_KB){
+    if(entry.k.some(k=>m.includes(k))) return _journalPersonalize(entry.r);
+  }
+
+  // ══ Fallback humain ══
+  const suggestions=['ETF','inflation','DCA','crypto','retraite','arnaque','stop-loss','diversification'];
+  const pick=suggestions[Math.floor(Math.random()*suggestions.length)];
+  const base=`Hmm, je ne suis pas sûr d\'avoir compris ta question 🤔 Reformule ou essaie un de ces sujets : <b>actif/passif</b>, <b>inflation</b>, <b>ETF</b>, <b>diversification</b>, <b>Bitcoin</b>, <b>DCA</b>, <b>arnaques</b>… Ou demande-moi <b>"montre mon journal"</b> pour ton résumé perso.`;
+  return ctx?base+`<br><br><span style="font-size:.68rem;color:rgba(160,210,230,.45)">📖 ${ctx}</span>`:base;
 }
 /* ══ PROGRESSIVE DISCLOSURE ══ */
 const UI_LEVELS=[
@@ -6581,7 +6814,21 @@ function toggleChatbot(){
   if(p.classList.contains('open')){
     _positionChatPanel();
     if(el('chatbotMessages').children.length===0){
-      botAppend('bot','Salut ! Je suis <b>TACT</b>, ton assistant TACTIC 🤖<br>Comment puis-je t\'aider ?');
+      const jd=_readJournal();
+      let greeting='';
+      if(jd.totalBuys===0 && jd.lessonsCount===0){
+        greeting='Salut ! 👋 Je suis <b>TACT</b>, ton assistant perso. Tu viens d\'arriver — bienvenue. Je suis là pour t\'expliquer les concepts, te donner des conseils, et t\'aider à progresser. Pose-moi n\'importe quelle question, même "par où je commence ?"';
+      } else if(jd.streak>=3){
+        greeting=`Salut ! 🔥 ${jd.streak} jours de streak — respect. Je suis là si t\'as des questions sur ce que tu apprends ou sur tes investissements. Qu\'est-ce qui t\'amène ?`;
+      } else if(jd.totalBuys>0){
+        const asset=jd.topAssets[0]||'le marché';
+        greeting=`Salut ! 👋 Je vois que tu as déjà mis les mains dans <b>${asset}</b>. C\'est bien d\'expérimenter en pratiquant. Tu veux qu\'on parle stratégie, risque, ou autre chose ?`;
+      } else if(jd.lessonsCount>0){
+        greeting=`Salut ! 📚 Tu progresses en théorie. Si t\'as des questions sur ce que tu as appris, je suis là. Et si tu veux passer à la pratique — passer ton premier ordre — je t\'explique comment.`;
+      } else {
+        greeting='Salut ! 👋 Je suis <b>TACT</b>, ton assistant sur TACTIC. Pose-moi tes questions sur l\'investissement, les cours, ou l\'app. Je réponds honnêtement, sans jargon inutile.';
+      }
+      botAppend('bot',greeting);
       renderBotSuggestions();
     }
   }
@@ -6686,7 +6933,18 @@ function botAppend(who,html){
   wrap.scrollTop=wrap.scrollHeight;
 }
 function renderBotSuggestions(){
-  const sugs=['Acheter un actif','Gagner des Tacoins','C\'est quoi le streak ?','Mes missions','Rééquilibrage'];
+  const jd=_readJournal();
+  // Suggestions adaptées selon l'état du joueur
+  let sugs;
+  if(jd.totalBuys===0 && jd.lessonsCount===0){
+    sugs=['Par où je commence ?','C\'est quoi un ETF ?','Comment acheter ?','Arnaques à éviter'];
+  } else if(jd.totalBuys===0){
+    sugs=['Comment passer mon 1er ordre ?','C\'est quoi le DCA ?','Quel actif pour débuter ?','Montre mon journal'];
+  } else if(jd.totalBuys<5){
+    sugs=['Comment je m\'en sors ?','Comment diversifier ?','C\'est quoi le PnL ?','Que faire ensuite ?'];
+  } else {
+    sugs=['Montre mon journal','Stratégie long terme','C\'est quoi le rééquilibrage ?','All Weather Dalio'];
+  }
   const wrap=el('chatbotMessages');
   const row=document.createElement('div');
   row.className='cb-sugs';

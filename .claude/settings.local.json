@@ -4,7 +4,30 @@
       "Bash(mv \"c:/Users/ocean/Downloads/apex onboarding/apex-github/\"* \"c:/Users/ocean/Downloads/apex onboarding/\")",
       "Bash(mv \"c:/Users/ocean/Downloads/apex onboarding/apex-github/\".* \"c:/Users/ocean/Downloads/apex onboarding/\")",
       "Bash(git -C \"c:/Users/ocean/Downloads/apex onboarding\" rev-parse --show-toplevel)",
-      "Bash(gh auth:*)"
+      "Bash(gh auth:*)",
+      "Bash(python3 -:*)",
+      "Bash(node -e \":*)",
+      "Bash(where python:*)",
+      "Bash(where python3:*)",
+      "Bash(where node:*)",
+      "Bash(where powershell:*)",
+      "Bash(powershell.exe -Command \":*)",
+      "Bash(powershell.exe -Command \"Get-ChildItem ''c:\\\\Users\\\\ocean\\\\Downloads\\\\apex onboarding\\\\'' | Select-Object Name\")",
+      "Bash(where nodejs:*)",
+      "Bash(powershell -Command \"Get-Command python,python3,node -ErrorAction SilentlyContinue | Select-Object Name,Source\")",
+      "Bash(powershell -Command \":*)",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File \"c:/Users/ocean/Downloads/apex onboarding/make_academy.ps1\")",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File \"c:/Users/ocean/Downloads/apex onboarding/fix_academy.ps1\")",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File \"c:/Users/ocean/Downloads/apex onboarding/rebrand.ps1\" -file \"c:/Users/ocean/Downloads/apex onboarding/pages/academy.html\")",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File \"c:/Users/ocean/Downloads/apex onboarding/rebrand.ps1\" -file \"c:/Users/ocean/Downloads/apex onboarding/pages/login.html\")",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File \"c:/Users/ocean/Downloads/apex onboarding/rebrand.ps1\" -file \"c:/Users/ocean/Downloads/apex onboarding/pages/register.html\")",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File \"c:/Users/ocean/Downloads/apex onboarding/recolor.ps1\" -file \"c:/Users/ocean/Downloads/apex onboarding/pages/academy.html\")",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File \"c:/Users/ocean/Downloads/apex onboarding/recolor.ps1\" -file \"c:/Users/ocean/Downloads/apex onboarding/pages/login.html\")",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File \"c:/Users/ocean/Downloads/apex onboarding/recolor.ps1\" -file \"c:/Users/ocean/Downloads/apex onboarding/pages/register.html\")",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File \"c:/Users/ocean/Downloads/apex onboarding/recolor2.ps1\" -file \"c:/Users/ocean/Downloads/apex onboarding/pages/academy.html\")",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File \"c:/Users/ocean/Downloads/apex onboarding/recolor2.ps1\" -file \"c:/Users/ocean/Downloads/apex onboarding/pages/login.html\")",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File \"c:/Users/ocean/Downloads/apex onboarding/recolor2.ps1\" -file \"c:/Users/ocean/Downloads/apex onboarding/pages/register.html\")",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -Command \":*)"
     ]
   }
 }
