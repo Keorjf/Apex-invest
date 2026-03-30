@@ -1286,7 +1286,8 @@ table.assets th.clickable:hover{color:var(--y);}
 
   .tab{padding-bottom:72px;}
 
-  .ev-banner{bottom:calc(58px + .6rem);width:calc(100vw - 1.6rem);}
+  .ev-banner{bottom:calc(58px + .6rem);left:.8rem;right:.8rem;width:auto;transform:translateY(120px);}
+  .ev-banner.show{transform:translateY(0);opacity:1;}
 
   /* ── Topbar ── */
   .tb-brand,.tb-sep{display:none!important;}
@@ -1692,11 +1693,6 @@ table.assets th.clickable:hover{color:var(--y);}
               <span class="ev-cta" id="evCta">Voir le détail →</span>
               <button class="ev-close" onclick="event.stopPropagation();closeEvBanner()">✕</button>
           </div>
-        </div>
-        <!-- BARRE ACTION SIMPLIFIÉE -->
-        <div class="simple-action-bar" id="simpleActionBar">
-          <button class="simple-buy-btn" onclick="setOrderSide('buy');openOrderPanel();switchTab('market')">▲ ACHETER</button>
-          <button class="simple-sell-btn" onclick="setOrderSide('sell');openOrderPanel();switchTab('market')">▼ VENDRE</button>
         </div>
         <div id="etItems" style="display:none"></div>
       </div>
