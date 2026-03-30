@@ -724,20 +724,19 @@ table.assets th.clickable:hover{color:var(--y);}
 #mainChart{display:block;width:100%;height:100%;}
 
 /* EVENT BANNER */
-/* EVENT NOTIFICATION (bottom of screen) */
 .ev-banner{
-  position:fixed;bottom:1.2rem;left:50%;transform:translateX(-50%) translateY(120px);
-  z-index:800;width:min(520px,90vw);
+  position:fixed;bottom:1.2rem;left:50%;transform:translateX(-50%) translateY(140px);
+  z-index:1200;width:min(520px,92vw);
   background:rgba(8,14,28,.97);border:1px solid var(--ln2);border-radius:12px;
   padding:.75rem 1rem;display:flex;align-items:center;gap:.8rem;
   box-shadow:0 8px 32px rgba(0,0,0,.6);
   opacity:0;transition:transform .45s cubic-bezier(.34,1.2,.64,1),opacity .35s ease;
-  cursor:pointer;
+  cursor:pointer;pointer-events:none;
 }
-.ev-banner.show{transform:translateX(-50%) translateY(0);opacity:1;}
+.ev-banner.show{transform:translateX(-50%) translateY(0);opacity:1;pointer-events:auto;}
 .ev-banner:hover{border-color:var(--ln2);background:rgba(12,20,38,.98);}
 .ev-impact{font-size:1.4rem;flex-shrink:0;}
-.ev-txt{flex:1;min-width:0;}
+.ev-txt{flex:1;min-width:0;overflow:hidden;}
 .ev-title{font-size:.82rem;font-weight:700;color:var(--txt);margin-bottom:.12rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .ev-desc{font-size:.65rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .ev-cta{font-size:.6rem;color:var(--y);border:1px solid rgba(255,205,13,.3);background:rgba(255,205,13,.07);padding:.2rem .55rem;border-radius:20px;white-space:nowrap;flex-shrink:0;}
@@ -1280,8 +1279,22 @@ table.assets th.clickable:hover{color:var(--y);}
 
   .tab{padding-bottom:72px;}
 
-  .ev-banner{bottom:calc(58px + .6rem);left:.8rem;right:.8rem;width:auto;transform:translateY(120px);}
-  .ev-banner.show{transform:translateY(0);opacity:1;}
+  .ev-banner{
+    bottom:calc(58px + .5rem);
+    left:.8rem !important;
+    right:.8rem !important;
+    width:auto !important;
+    transform:translateY(140px) !important;
+    border-radius:10px;
+  }
+  .ev-banner.show{
+    transform:translateY(0) !important;
+    opacity:1;
+  }
+  .ev-title{font-size:.78rem;}
+  .ev-desc{font-size:.62rem;}
+  .ev-cta{display:none;}
+  .ev-impact{font-size:1.2rem;}
 
   /* ── Topbar ── */
   .tb-brand,.tb-sep{display:none!important;}
@@ -1680,12 +1693,6 @@ table.assets th.clickable:hover{color:var(--y);}
           </div>
           <div class="chart-wrap">
             <canvas id="mainChart" onclick="showPriceContext()" ontouchstart="showPriceContext()" style="cursor:crosshair"></canvas>
-          </div>
-          <div class="ev-banner" id="evBanner" onclick="openDebriefFromBanner(event)">
-              <div class="ev-impact" id="evImpact">—</div>
-              <div class="ev-txt"><div class="ev-title" id="evTitle">—</div><div class="ev-desc" id="evDesc">—</div></div>
-              <span class="ev-cta" id="evCta">Voir le détail →</span>
-              <button class="ev-close" onclick="event.stopPropagation();closeEvBanner()">✕</button>
           </div>
         </div>
         <div id="etItems" style="display:none"></div>
@@ -7309,5 +7316,14 @@ function deleteAccount(){
   </div>
 </div>
 
+<div class="ev-banner" id="evBanner" onclick="openDebriefFromBanner(event)">
+  <div class="ev-impact" id="evImpact">—</div>
+  <div class="ev-txt">
+    <div class="ev-title" id="evTitle">—</div>
+    <div class="ev-desc" id="evDesc">—</div>
+  </div>
+  <span class="ev-cta" id="evCta">Voir le détail →</span>
+  <button class="ev-close" onclick="event.stopPropagation();closeEvBanner()">✕</button>
+</div>
 </body>
 </html>
