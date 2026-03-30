@@ -4357,43 +4357,27 @@ document.addEventListener('click',e=>{
   const dd=el('catDropdown');
   if(dd&&!dd.closest('th').contains(e.target))dd.classList.remove('open');
 });
+function handleRowClick(e,id){
+  selectAsset(id);
+  const td=e.target.closest('td');
+  if(!td)return;
+  const act=td.dataset.action;
+  if(act==='desc')showAssetDesc(id);
+  else if(act==='price'||act==='chg'||act==='sess')showStatInfo(act,id);
+}
 function buildMarketTable(){
   const tbody=el('assetBody');if(!tbody)return;
   const list=_catFilter==='Tous'?ASSETS:ASSETS.filter(a=>a.cat===_catFilter);
   tbody.innerHTML=list.map(a=>`
-    <tr class="asset-row${a.id===S.selectedAsset?' selected':''}" id="row_${a.id}" data-id="${a.id}">
+    <tr class="asset-row${a.id===S.selectedAsset?' selected':''}" id="row_${a.id}" onclick="handleRowClick(event,'${a.id}')" ondblclick="openOrderPanel()">
       <td data-action="desc"><div class="td-name"><span style="font-size:1.1rem">${a.emoji}</span>${a.name}</div></td>
       <td class="col-cat"><span class="td-cat" data-cat="${a.cat}">${a.cat}</span></td>
-      <td class="td-price" id="price_${a.id}" data-action="price">${fmtP(a.base)}</td>
-      <td class="td-chg flat" id="chg_${a.id}" data-action="chg">—</td>
+      <td class="td-price" id="price_${a.id}" data-action="price" style="cursor:pointer">${fmtP(a.base)}</td>
+      <td class="td-chg flat" id="chg_${a.id}" data-action="chg" style="cursor:pointer">—</td>
       <td class="col-spark"><canvas class="spark-canvas" id="spark_${a.id}" width="80" height="32"></canvas></td>
-      <td class="col-cap td-chg flat" id="sess_${a.id}" data-action="sess">—</td>
+      <td class="col-cap td-chg flat" id="sess_${a.id}" data-action="sess" style="cursor:pointer">—</td>
     </tr>`).join('');
 }
-// Listener délégué unique sur le tbody — fiable sur mobile
-(function(){
-  function initTableListener(){
-    const tbody=el('assetBody');if(!tbody||tbody._hasListener)return;
-    tbody._hasListener=true;
-    tbody.addEventListener('click',function(e){
-      const tr=e.target.closest('tr[data-id]');if(!tr)return;
-      const id=tr.dataset.id;
-      selectAsset(id);
-      const td=e.target.closest('td[data-action]');
-      if(!td)return;
-      const act=td.dataset.action;
-      if(act==='desc')showAssetDesc(id);
-      else if(act==='price'||act==='chg'||act==='sess')showStatInfo(act,id);
-    });
-    tbody.addEventListener('dblclick',function(e){
-      const tr=e.target.closest('tr[data-id]');if(!tr)return;
-      openOrderPanel();
-    });
-  }
-  // Appeler après chaque rebuild de la table
-  const _origBuild=buildMarketTable;
-  buildMarketTable=function(){_origBuild();initTableListener();};
-})();
 
 /* ══ MARKET SIM ══ */
 function startMarketSim(){
