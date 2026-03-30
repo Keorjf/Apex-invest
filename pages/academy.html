@@ -609,12 +609,6 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 /* En mode simplifié : cache Cat/Spark/Cap dans le tableau */
 .mkt-left.simplified .col-cat,.mkt-left.simplified .col-spark,.mkt-left.simplified .col-cap{display:none;}
 /* Barre d'action rapide en bas du graphique */
-.simple-action-bar{display:none;gap:.7rem;padding:.7rem .8rem;background:var(--bg2);border-top:1px solid var(--ln);flex-shrink:0;}
-.mkt-left.simplified .simple-action-bar{display:flex;}
-.simple-buy-btn{flex:1;background:var(--y);color:#0F2E3D;font-family:'Bungee',sans-serif;font-size:1rem;letter-spacing:.08em;border:none;border-radius:12px;padding:.8rem;cursor:pointer;transition:.15s;}
-.simple-buy-btn:hover{opacity:.88;}
-.simple-sell-btn{flex:1;background:rgba(255,59,92,.12);color:var(--r);font-family:'Bungee',sans-serif;font-size:1rem;letter-spacing:.08em;border:1px solid rgba(255,59,92,.3);border-radius:12px;padding:.8rem;cursor:pointer;transition:.15s;}
-.simple-sell-btn:hover{background:rgba(255,59,92,.2);}
 /* ══ PROGRESSIVE DISCLOSURE ══ */
 /* Niveaux 0 et 1 : masquer les éléments avancés */
 .ui-locked{display:none!important;}
@@ -6505,7 +6499,6 @@ function applyUILevel(){
   const alignWrap=el('alignBarWrap');
   const lq=el('limitQueue');
   const otLmt=el('otLmt');
-  const sab=el('simpleActionBar');
   const btn=el('mktModeBtn');
 
   // Niveau 0 : tutoriel pas encore vu — tout masquer sauf le tutoriel
@@ -6516,12 +6509,11 @@ function applyUILevel(){
     if(lq)lq.classList.add('ui-locked');
     if(otLmt)otLmt.classList.add('ui-locked');
     if(mktLeft){mktLeft.classList.add('simplified');_simpleMode=true;}
-    if(sab)sab.style.display='flex';
     if(btn){btn.style.display='none';}
     return;
   }
 
-  // Niveau 1 : tableau simplifié + graphique + bouton acheter/vendre
+  // Niveau 1 : tableau simplifié + graphique
   if(lvl===1){
     if(mktLeft){mktLeft.classList.add('simplified');_simpleMode=true;}
     if(btn){btn.style.display='none';}
@@ -6530,7 +6522,6 @@ function applyUILevel(){
     if(alignWrap)alignWrap.classList.add('ui-locked');
     if(lq)lq.classList.add('ui-locked');
     if(otLmt)otLmt.classList.add('ui-locked');
-    if(sab)sab.style.display='flex';
     return;
   }
 
@@ -6539,7 +6530,6 @@ function applyUILevel(){
   if(btn){btn.style.display='';btn.textContent='⊞ Simplifié';btn.classList.remove('simple');}
   if(mktRight)mktRight.classList.remove('ui-locked');
   if(alignWrap)alignWrap.classList.remove('ui-locked');
-  if(sab)sab.style.display='none';
 
   // Niveau 3+ : ordres limites
   if(lvl>=3){
