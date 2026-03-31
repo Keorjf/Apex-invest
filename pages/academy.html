@@ -37,7 +37,7 @@
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html{height:100%;}
-body{font-family:var(--body-font);background:var(--bg);color:var(--txt);min-height:100vh;overflow-x:hidden;line-height:1.6;}
+body{font-family:var(--body-font);background:var(--bg);color:var(--txt);min-height:100vh;overflow-x:clip;line-height:1.6;}
 ::-webkit-scrollbar{width:4px;height:4px;}
 ::-webkit-scrollbar-thumb{background:rgba(255,205,13,.4);border-radius:4px;}
 button{font-family:var(--body-font);}
@@ -1280,20 +1280,26 @@ table.assets th.clickable:hover{color:var(--y);}
   .tab{padding-bottom:72px;}
 
   .ev-banner{
-    bottom:calc(58px + .5rem);
+    position:fixed !important;
+    bottom:calc(58px + .5rem) !important;
     left:.8rem !important;
     right:.8rem !important;
+    top:auto !important;
     width:auto !important;
+    max-width:none !important;
     transform:translateY(140px) !important;
     border-radius:10px;
+    z-index:1200 !important;
   }
   .ev-banner.show{
+    display:flex !important;
     transform:translateY(0) !important;
-    opacity:1;
+    opacity:1 !important;
+    pointer-events:auto !important;
   }
   .ev-title{font-size:.78rem;}
   .ev-desc{font-size:.62rem;}
-  .ev-cta{display:none;}
+  .ev-cta{display:none !important;}
   .ev-impact{font-size:1.2rem;}
 
   /* ── Topbar ── */
@@ -4889,9 +4895,10 @@ function closePortfolioModal(){el('portModalOv').classList.remove('show');}
 /* ══ ÉVÉNEMENTS ══ */
 function _showEvBanner(ev){
   const banner=el('evBanner');if(!banner)return;
-  el('evImpact').textContent=ev.impact==='good'?'+':'-';
+  el('evImpact').textContent=ev.impact==='good'?'📈':'📉';
   el('evTitle').textContent=ev.title;
   el('evDesc').textContent=ev.desc;
+  banner.classList.remove('ui-locked');
   banner.classList.add('show');
   clearTimeout(banner._autoHide);
   banner._autoHide=setTimeout(()=>closeEvBanner(),12000);
@@ -4908,7 +4915,7 @@ function triggerEvent(){
   addJournal({type:'event',emoji:'🌐',asset:ev.title.replace(/^\p{Emoji}\s*/u,''),note:`${sentiment} — ${ev.desc}`});
   renderJournal();
 }
-function closeEvBanner(){const b=el('evBanner');if(b)b.classList.remove('show');}
+function closeEvBanner(){const b=el('evBanner');if(!b)return;b.classList.remove('show');}
 function openDebriefFromBanner(e){if(e.target.classList.contains('ev-close'))return;openDebrief();}
 function showPriceContext(){
   if(S.lastEvent){
