@@ -860,6 +860,27 @@ table.assets th.clickable:hover{color:var(--y);}
 .pm-val{font-family:'JetBrains Mono','Courier New',monospace;font-size:.82rem;font-weight:700;color:var(--txt);}
 .pm-pnl{font-size:.65rem;margin-top:.15rem;}
 .pm-empty{text-align:center;padding:2rem;color:var(--muted);font-size:.78rem;font-style:italic;}
+/* SAVINGS MODAL */
+.sav-modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1150;align-items:center;justify-content:center;padding:1rem;}
+.sav-modal-ov.show{display:flex;}
+.sav-modal{background:var(--bg1);border:1px solid rgba(255,205,13,.25);border-radius:16px;width:100%;max-width:400px;max-height:88vh;overflow-y:auto;padding:1.4rem 1.2rem 1.6rem;position:relative;}
+.sav-title{font-family:'Bungee',sans-serif;font-size:1.1rem;letter-spacing:.06em;color:var(--g);margin-bottom:1.2rem;}
+.sav-row{display:flex;align-items:center;justify-content:space-between;background:var(--bg2);border:1px solid var(--ln);border-radius:10px;padding:.75rem 1rem;margin-bottom:.6rem;}
+.sav-row-lbl{font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.2rem;}
+.sav-row-val{font-family:'JetBrains Mono',monospace;font-size:.95rem;font-weight:700;}
+.sav-section-title{font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin:1.1rem 0 .6rem;}
+.sav-precaution-box{background:rgba(78,194,218,.07);border:1px solid rgba(78,194,218,.2);border-radius:12px;padding:1rem;}
+.sav-prec-amount{font-family:'JetBrains Mono',monospace;font-size:1.5rem;font-weight:700;color:var(--y);text-align:center;margin:.5rem 0;}
+.sav-prec-sub{font-size:.6rem;color:var(--muted);text-align:center;margin-bottom:.9rem;}
+.sav-inp-row{display:flex;gap:.5rem;align-items:center;}
+.sav-inp{flex:1;background:var(--bg);border:1px solid var(--ln2);border-radius:8px;color:var(--txt);font-family:'JetBrains Mono',monospace;font-size:.82rem;padding:.45rem .7rem;outline:none;}
+.sav-btn{padding:.45rem .9rem;border:none;border-radius:8px;font-family:'Bungee',sans-serif;font-size:.65rem;letter-spacing:.05em;cursor:pointer;transition:.15s;}
+.sav-btn-dep{background:var(--y);color:#0F2E3D;}
+.sav-btn-dep:hover{opacity:.85;}
+.sav-btn-ret{background:rgba(255,59,92,.12);color:var(--r);border:1px solid rgba(255,59,92,.3);}
+.sav-btn-ret:hover{background:rgba(255,59,92,.22);}
+.sav-msg{font-size:.65rem;color:var(--r);margin-top:.4rem;min-height:.9rem;}
+
 /* REBALANCE MODAL */
 .reb-modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1100;align-items:center;justify-content:center;}
 .reb-modal-ov.show{display:flex;}
@@ -1854,6 +1875,39 @@ table.assets th.clickable:hover{color:var(--y);}
       <div class="pm-title">Portefeuille</div>
       <div class="pm-summary" id="pmSummary"></div>
       <div class="pm-list" id="pmList"></div>
+    </div>
+  </div>
+
+  <!-- SAVINGS MODAL -->
+  <div class="sav-modal-ov" id="savModalOv" onclick="if(event.target===this)closeSavingsModal()">
+    <div class="sav-modal">
+      <button class="pm-close" onclick="closeSavingsModal()">✕</button>
+      <div class="sav-title">🏦 Enveloppe Épargne</div>
+
+      <div class="sav-row">
+        <div><div class="sav-row-lbl">Disponible 🪙</div><div class="sav-row-val" style="color:var(--g)" id="savDisponible">—</div></div>
+        <span style="font-size:.6rem;color:var(--muted)">Tacoins libres</span>
+      </div>
+      <div class="sav-row">
+        <div><div class="sav-row-lbl">Investi 📈</div><div class="sav-row-val" style="color:var(--y)" id="savInvesti">—</div></div>
+        <span style="font-size:.6rem;color:var(--muted)">Valeur positions</span>
+      </div>
+      <div class="sav-row">
+        <div><div class="sav-row-lbl">Patrimoine 💼</div><div class="sav-row-val" style="color:var(--soft)" id="savPatrimoine">—</div></div>
+        <span style="font-size:.6rem;color:var(--muted)">Total</span>
+      </div>
+
+      <div class="sav-section-title">🛡️ Épargne de précaution</div>
+      <div class="sav-precaution-box">
+        <div class="sav-prec-amount" id="savPrecAmount">0</div>
+        <div class="sav-prec-sub">Réserve mise de côté (non investie)</div>
+        <div class="sav-inp-row">
+          <input class="sav-inp" id="savInput" type="number" min="1" placeholder="Montant...">
+          <button class="sav-btn sav-btn-dep" onclick="depositPrecaution()">Déposer</button>
+          <button class="sav-btn sav-btn-ret" onclick="withdrawPrecaution()">Retirer</button>
+        </div>
+        <div class="sav-msg" id="savMsg"></div>
+      </div>
     </div>
   </div>
 
@@ -3602,7 +3656,7 @@ LESSONS['Intermédiaire'].push({ track: '🚀 Aller plus loin', lessons: [
 
 /* ══ ÉTAT ══ */
 let S = {
-  level:'Débutant', coins:500, xp:0,
+  level:'Débutant', coins:500, xp:0, precaution:0,
   done:new Set(), currentLesson:null, activeTab:'learn',
   prices:{}, history:{}, sessionOpen:{},
   positions:{}, limitOrders:[],
@@ -4883,29 +4937,50 @@ function openPortfolioModal(){
     // Alignement profil
     const alignTxt=el('alignPct')?el('alignPct').textContent:'—';
     const alignW=el('alignFill')?el('alignFill').style.width:'0%';
-    const patriTotal=S.coins+totalVal;
-    const savingsPct=patriTotal>0?Math.round(S.coins/patriTotal*100):0;
     pmSummary.innerHTML=`
       <div class="pm-sc"><div class="pm-sl">Montant investi</div><div class="pm-sv" style="color:var(--y)">${fmt(totalCost)}</div></div>
       <div class="pm-sc"><div class="pm-sl">Valeur actuelle</div><div class="pm-sv" style="color:var(--y)">${fmt(totalVal)}</div></div>
       <div class="pm-sc pm-sc-full pm-sc-pnl"><div class="pm-sl">PnL total</div><div style="display:flex;align-items:baseline;gap:.6rem"><div class="pm-sv" style="color:${totalPnl>=0?'var(--g)':'var(--r)'};font-size:1.2rem">${totalPnl>=0?'+':''}${fmt(totalPnl)}</div><span style="font-size:.72rem;color:${totalPnl>=0?'var(--g)':'var(--r)'};opacity:.8">${totalPnl>=0?'+':''}${pct.toFixed(1)}%</span></div></div>
-      <div class="pm-sc pm-sc-full" style="background:rgba(255,205,13,.07);border-color:rgba(255,205,13,.22);">
-        <div class="pm-sl">🏦 Enveloppe épargne</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem;margin-top:.4rem;">
-          <div><div style="font-size:.52rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.2rem;">Disponible</div><div style="font-family:'JetBrains Mono',monospace;font-size:.9rem;font-weight:700;color:var(--g);">🪙 ${fmt(S.coins)}</div></div>
-          <div><div style="font-size:.52rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.2rem;">Investi</div><div style="font-family:'JetBrains Mono',monospace;font-size:.9rem;font-weight:700;color:var(--y);">📈 ${fmt(totalVal)}</div></div>
-          <div><div style="font-size:.52rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.2rem;">Patrimoine</div><div style="font-family:'JetBrains Mono',monospace;font-size:.9rem;font-weight:700;color:var(--soft);">💼 ${fmt(patriTotal)}</div></div>
-        </div>
-        <div style="margin-top:.7rem;">
-          <div style="display:flex;justify-content:space-between;font-size:.55rem;color:var(--muted);margin-bottom:.3rem;"><span>Liquidités ${savingsPct}%</span><span>Investi ${100-savingsPct}%</span></div>
-          <div style="height:5px;background:var(--ln);border-radius:3px;overflow:hidden;"><div style="height:100%;width:${savingsPct}%;background:linear-gradient(to right,var(--g),var(--y));border-radius:3px;transition:width .6s ease;"></div></div>
-        </div>
+      <div class="pm-sc pm-sc-full pm-sc-sav" onclick="openSavingsModal()" style="cursor:pointer;background:rgba(255,205,13,.07);border-color:rgba(255,205,13,.22);display:flex;align-items:center;justify-content:space-between;">
+        <span style="font-size:.82rem;font-weight:700;color:var(--g);">🏦 Enveloppe épargne</span>
+        <span style="font-size:.7rem;color:var(--muted);">Voir →</span>
       </div>
       <div class="pm-sc pm-sc-full pm-sc-align" onclick="closePortfolioModal();openRebalanceModal()" style="cursor:pointer"><div class="pm-sl">Alignement profil <span style="font-size:.5rem;opacity:.5;margin-left:.3rem">↗ Rééquilibrer</span></div><div class="pm-align-wrap"><div class="pm-align-bar"><div class="pm-align-fill" style="width:${alignW}"></div></div><span class="pm-sv" style="color:var(--y)">${alignTxt}</span></div></div>`;
   }
   el('portModalOv').classList.add('show');
 }
 function closePortfolioModal(){el('portModalOv').classList.remove('show');}
+function openSavingsModal(){
+  const pos=Object.values(S.positions);
+  const totalVal=pos.reduce((s,p)=>{const a=ASSETS.find(x=>x.id===p.assetId);return s+(a?p.qty*S.prices[a.id]:0);},0);
+  const patrimoine=S.coins+totalVal+(S.precaution||0);
+  el('savDisponible').textContent='🪙 '+fmt(S.coins);
+  el('savInvesti').textContent='📈 '+fmt(totalVal);
+  el('savPatrimoine').textContent='💼 '+fmt(patrimoine);
+  el('savPrecAmount').textContent='🛡️ '+fmt(S.precaution||0)+' Tacoins';
+  el('savMsg').textContent='';
+  el('savInput').value='';
+  el('savModalOv').classList.add('show');
+}
+function closeSavingsModal(){el('savModalOv').classList.remove('show');}
+function depositPrecaution(){
+  const n=Math.floor(Number(el('savInput').value));
+  const msg=el('savMsg');
+  if(!n||n<=0){msg.textContent='Montant invalide.';return;}
+  if(n>S.coins){msg.textContent='Pas assez de Tacoins disponibles.';return;}
+  S.coins-=n;S.precaution=(S.precaution||0)+n;
+  saveState();updateWalletUI();openSavingsModal();
+  msg.style.color='var(--g)';msg.textContent='+'+fmt(n)+' déposés ✓';
+}
+function withdrawPrecaution(){
+  const n=Math.floor(Number(el('savInput').value));
+  const msg=el('savMsg');
+  if(!n||n<=0){msg.textContent='Montant invalide.';return;}
+  if(n>(S.precaution||0)){msg.textContent='Montant supérieur à l\'épargne.';return;}
+  S.precaution-=n;S.coins+=n;
+  saveState();updateWalletUI();openSavingsModal();
+  msg.style.color='var(--g)';msg.textContent='+'+fmt(n)+' retirés ✓';
+}
 
 /* ══ ÉVÉNEMENTS ══ */
 function _showEvBanner(ev){
