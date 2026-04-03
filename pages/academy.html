@@ -108,7 +108,9 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 .tb-streak{display:flex;align-items:center;gap:.3rem;font-size:.7rem;color:var(--o);font-weight:700;}
 .tb-wallet{display:flex;align-items:center;gap:.35rem;background:var(--yd);border:1px solid rgba(78,194,218,.18);padding:.25rem .8rem;border-radius:100px;font-family:'JetBrains Mono','Courier New',monospace;font-size:.75rem;font-weight:700;color:var(--y);transition:.3s;}
 .tb-wallet.pulse{animation:wpulse .45s ease;}
-.tc-coin{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:radial-gradient(circle at 40% 30%,#FFF0A0,#FFCC00 45%,#E6A800 75%,#B87800);border:1.5px solid #9A6500;box-shadow:0 1px 3px rgba(0,0,0,.5),inset 0 1.5px 2px rgba(255,255,200,.6),inset 0 -1px 2px rgba(100,50,0,.3);vertical-align:middle;flex-shrink:0;font-size:8px;font-weight:900;color:#7A4800;line-height:1;font-family:Arial,sans-serif;}
+.tc-coin{position:relative;display:inline-block;width:16px;height:16px;border-radius:50%;background:radial-gradient(circle at 38% 28%,#FFFAC0,#FFD700 38%,#E6A800 65%,#A06000 100%);border:1.5px solid #7A4D00;box-shadow:0 2px 5px rgba(0,0,0,.55),inset 0 0 0 2px rgba(255,210,50,.35),inset 0 -2px 3px rgba(80,30,0,.3);vertical-align:middle;flex-shrink:0;}
+.tc-coin::before{content:'';position:absolute;top:2px;left:3px;width:5px;height:3px;background:rgba(255,255,255,.65);border-radius:50%;transform:rotate(-25deg);}
+.tc-coin::after{content:'';position:absolute;inset:2px;border-radius:50%;border:1px solid rgba(255,200,50,.4);}
 @keyframes wpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07);box-shadow:0 0 18px rgba(78,194,218,.4)}}
 .tb-lvl{font-size:.62rem;letter-spacing:.08em;padding:.22rem .6rem;border-radius:4px;border:1px solid var(--ln2);color:var(--soft);cursor:pointer;position:relative;user-select:none;}
 .tb-lvl:hover{border-color:var(--y);color:var(--y);}
@@ -1134,7 +1136,9 @@ table.assets th.clickable:hover{color:var(--y);}
 .mc-claim-btn{background:linear-gradient(135deg,var(--y),#ff9800);color:#000;border:none;border-radius:7px;padding:.42rem 1rem;font-size:.72rem;font-weight:800;cursor:pointer;letter-spacing:.02em;box-shadow:0 0 14px rgba(255,205,13,.4);animation:claimPulse 1.4s ease-in-out infinite;white-space:nowrap;}
 @keyframes claimPulse{0%,100%{box-shadow:0 0 10px rgba(255,205,13,.35);transform:scale(1);}50%{box-shadow:0 0 22px rgba(255,205,13,.7);transform:scale(1.04);}}
 .mc-claim-btn:active{transform:scale(.96);}
-.coin-fly{position:fixed;pointer-events:none;z-index:9999;transition:none;will-change:transform,opacity;display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 40% 30%,#FFF0A0,#FFCC00 45%,#E6A800 75%,#B87800);border:2px solid #9A6500;box-shadow:0 2px 6px rgba(0,0,0,.5),inset 0 2px 3px rgba(255,255,200,.6),inset 0 -1px 2px rgba(100,50,0,.3);font-size:10px;font-weight:900;color:#7A4800;font-family:Arial,sans-serif;}
+.coin-fly{position:fixed;pointer-events:none;z-index:9999;transition:none;will-change:transform,opacity;display:inline-block;width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 38% 28%,#FFFAC0,#FFD700 38%,#E6A800 65%,#A06000 100%);border:2px solid #7A4D00;box-shadow:0 3px 8px rgba(0,0,0,.6),inset 0 0 0 3px rgba(255,210,50,.35),inset 0 -2px 4px rgba(80,30,0,.3);}
+.coin-fly::before{content:'';position:absolute;top:3px;left:4px;width:7px;height:4px;background:rgba(255,255,255,.65);border-radius:50%;transform:rotate(-25deg);}
+.coin-fly::after{content:'';position:absolute;inset:3px;border-radius:50%;border:1.5px solid rgba(255,200,50,.4);}
 @keyframes flyToWallet{0%{transform:translate(0,0) scale(1);opacity:1;}80%{opacity:1;}100%{transform:translate(var(--fx),var(--fy)) scale(.4);opacity:0;}}
 .mc-icon{font-size:1.5rem;flex-shrink:0;margin-top:.1rem;}
 .mc-content{flex:1;}
@@ -1669,7 +1673,7 @@ table.assets th.clickable:hover{color:var(--y);}
     <span class="tb-center-title" id="tbCenterTitle">TON PARCOURS</span>
     <div class="tb-spacer"></div>
     <div class="tb-wallet" id="tbStreak" style="color:var(--o);border-color:rgba(255,140,0,.3)">🔥 <span id="tbStreakDays">0j</span></div>
-    <div class="tb-wallet" id="tbWallet" style="color:var(--y);border-color:rgba(255,205,13,.3);background:rgba(255,205,13,.1)"><span class="tc-coin">T</span> <span id="tbWalletAmt">500</span></div>
+    <div class="tb-wallet" id="tbWallet" style="color:var(--y);border-color:rgba(255,205,13,.3);background:rgba(255,205,13,.1)"><span class="tc-coin"></span> <span id="tbWalletAmt">500</span></div>
     <div class="tb-wallet" onclick="openSavingsModal()" style="cursor:pointer;color:var(--muted);border-color:rgba(78,194,218,.25);background:rgba(78,194,218,.07)">💼 <span style="font-size:.72rem;font-family:'JetBrains Mono',monospace;font-weight:700">Patrimoine</span></div>
   </nav>
 
@@ -1887,7 +1891,7 @@ table.assets th.clickable:hover{color:var(--y);}
             </div>
             <div class="wallet-row">
               <span data-i18n="orderAvail">Disponible</span>
-              <span class="wr-coins"><span class="tc-coin">T</span> <span id="opWallet">500</span></span>
+              <span class="wr-coins"><span class="tc-coin"></span> <span id="opWallet">500</span></span>
             </div>
             <div class="order-tabs" style="display:none">
               <button class="otab buy active" id="oBuy" onclick="setOrderSide('buy')" data-i18n="orderBuy">▲ ACHETER</button>
@@ -2365,7 +2369,7 @@ table.assets th.clickable:hover{color:var(--y);}
   <div class="mission-banner-body">
     <div class="mission-banner-label" id="missionBannerLabel">Mission complétée</div>
     <div class="mission-banner-name" id="missionBannerName">—</div>
-    <div class="mission-banner-reward" id="missionBannerReward">+0 <span class="tc-coin">T</span></div>
+    <div class="mission-banner-reward" id="missionBannerReward">+0 <span class="tc-coin"></span></div>
   </div>
 </div>
 <div class="low-nudge" id="lowNudge">
@@ -3819,7 +3823,7 @@ let S = {
 };
 
 /* ══ UTILS ══ */
-const _TC='<span class="tc-coin">T</span>';
+const _TC='<span class="tc-coin"></span>';
 function fmt(n){return Math.floor(n).toLocaleString('fr-FR');}
 function fmtP(n){if(n>=10000)return fmt(n);if(n>=100)return n.toFixed(1);return n.toFixed(2);}
 function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
@@ -4135,7 +4139,7 @@ function addCoins(n,ref){
 function spawnCoins(ref){
   const r=ref?ref.getBoundingClientRect():{left:window.innerWidth/2,top:80};
   for(let i=0;i<5;i++)setTimeout(()=>{
-    const p=document.createElement('div');p.className='coin-p tc-coin';p.textContent='T';
+    const p=document.createElement('div');p.className='coin-p tc-coin';p.textContent='';
     p.style.left=(r.left+Math.random()*50-10)+'px';p.style.top=(r.top+Math.random()*20)+'px';
     document.body.appendChild(p);setTimeout(()=>p.remove(),1200);
   },i*80);
@@ -5640,7 +5644,7 @@ function closeDebriefWithReward(){
     setTimeout(()=>{
       const coin=document.createElement('div');
       coin.className='coin-fly';
-      coin.textContent='T';
+      coin.textContent='';
       const ox=(Math.random()-.5)*60;
       const oy=(Math.random()-.5)*40;
       const fx=(toR.left+toR.width/2)-(fromX+ox);
@@ -6294,7 +6298,7 @@ function claimMission(key,reward,btnEl){
     setTimeout(()=>{
       const coin=document.createElement('div');
       coin.className='coin-fly';
-      coin.textContent='T';
+      coin.textContent='';
       const ox=(Math.random()-.5)*40;
       const oy=(Math.random()-.5)*20;
       coin.style.cssText=`left:${fromR.left+fromR.width/2+ox}px;top:${fromR.top+fromR.height/2+oy}px;--fx:${fx-ox}px;--fy:${fy-oy}px;`;
@@ -6974,7 +6978,7 @@ function closeStreakAnim(){
     for(let i=0;i<count;i++){
       setTimeout(()=>{
         const coin=document.createElement('div');
-        coin.textContent='T';
+        coin.textContent='';
         Object.assign(coin.style,{position:'fixed',left:startX+'px',top:startY+'px',zIndex:'9999',pointerEvents:'none',width:'22px',height:'22px',borderRadius:'50%',background:'radial-gradient(circle at 40% 30%,#FFF0A0,#FFCC00 45%,#E6A800 75%,#B87800)',border:'2px solid #9A6500',boxShadow:'0 2px 6px rgba(0,0,0,.5)',display:'inline-flex',alignItems:'center',justifyContent:'center',fontSize:'10px',fontWeight:'900',color:'#7A4800',fontFamily:'Arial,sans-serif',transition:'left .7s cubic-bezier(.2,.8,.3,1),top .7s cubic-bezier(.2,.8,.3,1),opacity .3s .5s,transform .7s',transform:'scale(1.2)'});
         document.body.appendChild(coin);
         requestAnimationFrame(()=>{
