@@ -1737,7 +1737,7 @@ table.assets th.clickable:hover{color:var(--y);}
           <div class="mkt-time" id="mktTime">--:--:--</div>
           <div class="mkt-btn-group">
             <button class="mkt-port-topbtn" id="mktPortTopBtn" onclick="openPortfolioModal()">
-              <span class="mpt-label">💼</span>
+
               <span class="mpt-pnl" id="mptPnl">—</span>
               <span class="mpt-arrow">↗</span>
             </button>
@@ -6739,23 +6739,46 @@ function renderProfilPage(){
   if(!deck)return;
   deck.innerHTML=PROFILE_ORDER.map((key,i)=>{
     const p=PROFILES[key];
-    const allocRows=p.alloc.map(a=>`
-      <div class="prof-card-alloc-row">
-        <div style="width:8px;height:8px;border-radius:50%;background:${a.color};flex-shrink:0;"></div>
-        <div style="flex:1;color:rgba(255,255,255,.75)">${a.name}</div>
-        <div class="prof-card-alloc-bar-wrap"><div class="prof-card-alloc-bar" style="width:${a.pct}%;background:${a.color};"></div></div>
-        <div class="prof-card-alloc-pct" style="color:${a.color}">${a.pct}%</div>
-      </div>`).join('');
+    const CARD_PALETTE=['#FFCD0D','#4EC2DA','#FF3B5C','#A78BFA','#76FF03','#FF9800','#00BCD4','#E040FB','#4D9EFF','#50C878'];
+    const pieId=`pie_${key}`;
+    const lblId=`pielbl_${key}`;
+    const _pie=(()=>{
+      const cx=54,cy=54,r=48,inner=28,total=p.alloc.reduce((s,a)=>s+a.pct,0);
+      let angle=-Math.PI/2,paths='';
+      p.alloc.forEach((a,idx)=>{
+        const color=CARD_PALETTE[idx%CARD_PALETTE.length];
+        const sweep=2*Math.PI*(a.pct/total);
+        const x1=cx+r*Math.cos(angle),y1=cy+r*Math.sin(angle);
+        const x2=cx+r*Math.cos(angle+sweep),y2=cy+r*Math.sin(angle+sweep);
+        const xi1=cx+inner*Math.cos(angle),yi1=cy+inner*Math.sin(angle);
+        const xi2=cx+inner*Math.cos(angle+sweep),yi2=cy+inner*Math.sin(angle+sweep);
+        const large=sweep>Math.PI?1:0;
+        const safeName=a.name.replace(/'/g,'').replace(/"/g,'');
+        paths+=`<path d="M${xi1},${yi1} L${x1},${y1} A${r},${r} 0 ${large} 1 ${x2},${y2} L${xi2},${yi2} A${inner},${inner} 0 ${large} 0 ${xi1},${yi1} Z"
+          fill="${color}" opacity=".85" style="cursor:pointer;transition:opacity .15s,transform .15s;transform-origin:54px 54px"
+          onmouseover="this.setAttribute('opacity','1');this.style.transform='scale(1.07)';document.getElementById('${lblId}').innerHTML='<tspan x=\\'54\\' dy=\\'-6\\'>${safeName}</tspan><tspan x=\\'54\\' dy=\\'13\\' style=\\'font-weight:bold\\'>${a.pct}%</tspan>'"
+          onmouseout="this.setAttribute('opacity','.85');this.style.transform='scale(1)';document.getElementById('${lblId}').innerHTML=''"/>`;
+        angle+=sweep;
+      });
+      return `<svg width="108" height="108" viewBox="0 0 108 108" style="flex-shrink:0;overflow:visible">${paths}<text id="${lblId}" x="54" y="57" text-anchor="middle" font-size="7" fill="#fff" font-family="JetBrains Mono,monospace" pointer-events="none"></text></svg>`;
+    })();
+    const legend=p.alloc.map((a,idx)=>{
+      const color=CARD_PALETTE[idx%CARD_PALETTE.length];
+      return `<div style="display:flex;align-items:center;gap:.45rem;padding:.18rem 0">
+        <span style="width:7px;height:7px;border-radius:50%;background:${color};flex-shrink:0"></span>
+        <span style="flex:1;font-size:.65rem;color:rgba(255,255,255,.75)">${a.name}</span>
+        <span style="font-size:.68rem;font-weight:700;color:${color};font-family:'JetBrains Mono',monospace">${a.pct}%</span>
+      </div>`;}).join('');
     const cls=i===_profIdx?'active':i<_profIdx?'prev':'next';
     return `<div class="prof-card ${cls}" id="pcard${i}" style="background:${PROFILE_BG[i]};border:2px solid ${PROFILE_BORDER[i]};"
       data-idx="${i}" ontouchstart="profTouchStart(event)" ontouchmove="profTouchMove(event)" ontouchend="profTouchEnd(event)"
       onmousedown="profMouseDown(event)">
 
-      <div class="prof-card-risk" style="color:${p.color}">Risque · ${PROFILE_RISK[i]}</div>
+
       <div class="prof-card-name" style="color:${p.color}">${p.name}</div>
       <div class="prof-card-badge" style="color:${p.color};border-color:${p.color}">${i===0?'Ultra Conservateur':i===1?'Conservateur':i===2?'Modéré':i===3?'Dynamique':'Offensif'}</div>
       <div class="prof-card-advice" style="border-color:${p.color}">${p.advice}</div>
-      <div class="prof-card-alloc">${allocRows}</div>
+      <div style="display:flex;align-items:center;gap:.8rem;width:100%;margin-top:.4rem">${_pie}<div style="display:flex;flex-direction:column;flex:1">${legend}</div></div>
     </div>`;
   }).join('');
   if(dots)dots.innerHTML=PROFILE_ORDER.map((_,i)=>`<div class="profile-dot${i===_profIdx?' active':''}" onclick="goProfilCard(${i})"></div>`).join('');
