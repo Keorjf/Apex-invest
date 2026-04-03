@@ -108,6 +108,7 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 .tb-streak{display:flex;align-items:center;gap:.3rem;font-size:.7rem;color:var(--o);font-weight:700;}
 .tb-wallet{display:flex;align-items:center;gap:.35rem;background:var(--yd);border:1px solid rgba(78,194,218,.18);padding:.25rem .8rem;border-radius:100px;font-family:'JetBrains Mono','Courier New',monospace;font-size:.75rem;font-weight:700;color:var(--y);transition:.3s;}
 .tb-wallet.pulse{animation:wpulse .45s ease;}
+.tc-coin{display:inline-block;width:14px;height:14px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#FFE566,#FFB020 60%,#CC8800);box-shadow:0 1px 3px rgba(0,0,0,.4),inset 0 1px 1px rgba(255,255,255,.4);vertical-align:middle;flex-shrink:0;}
 @keyframes wpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07);box-shadow:0 0 18px rgba(78,194,218,.4)}}
 .tb-lvl{font-size:.62rem;letter-spacing:.08em;padding:.22rem .6rem;border-radius:4px;border:1px solid var(--ln2);color:var(--soft);cursor:pointer;position:relative;user-select:none;}
 .tb-lvl:hover{border-color:var(--y);color:var(--y);}
@@ -1404,7 +1405,7 @@ table.assets th.clickable:hover{color:var(--y);}
   /* Sidebar toggle : taille confortable */
   #sidebarToggle{min-height:40px;padding:.35rem .65rem;font-size:.9rem;}
   .tb-wallet{min-height:32px;font-size:.72rem;padding:.25rem .6rem;border-radius:8px;}
-  #tbWallet{color:var(--g)!important;border-color:rgba(255,205,13,.3)!important;background:rgba(255,205,13,.1)!important;}
+  #tbWallet{color:var(--y)!important;border-color:rgba(255,205,13,.3)!important;background:rgba(255,205,13,.1)!important;}
   .wr-coins{color:var(--g)!important;}
   #tbStreak{margin-left:auto;}
   .tb-btn{min-height:40px;padding:.45rem .7rem;font-size:.72rem;}
@@ -8030,7 +8031,8 @@ function deleteAccount(){
     <div class="ev-title" id="evTitle">—</div>
     <div class="ev-desc" id="evDesc">—</div>
   </div>
-  <span class="ev-cta" id="evCta">Voir le détail →</span>
+  <span cla
+  ss="ev-cta" id="evCta">Voir le détail →</span>
   <button class="ev-close" onclick="event.stopPropagation();closeEvBanner()">✕</button>
 </div>
 </body>
