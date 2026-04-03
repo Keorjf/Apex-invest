@@ -1134,7 +1134,7 @@ table.assets th.clickable:hover{color:var(--y);}
 .mc-claim-btn{background:linear-gradient(135deg,var(--y),#ff9800);color:#000;border:none;border-radius:7px;padding:.42rem 1rem;font-size:.72rem;font-weight:800;cursor:pointer;letter-spacing:.02em;box-shadow:0 0 14px rgba(255,205,13,.4);animation:claimPulse 1.4s ease-in-out infinite;white-space:nowrap;}
 @keyframes claimPulse{0%,100%{box-shadow:0 0 10px rgba(255,205,13,.35);transform:scale(1);}50%{box-shadow:0 0 22px rgba(255,205,13,.7);transform:scale(1.04);}}
 .mc-claim-btn:active{transform:scale(.96);}
-.coin-fly{position:fixed;pointer-events:none;z-index:9999;font-size:1.5rem;transition:none;will-change:transform,opacity;}
+.coin-fly{position:fixed;pointer-events:none;z-index:9999;transition:none;will-change:transform,opacity;display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 40% 30%,#FFF0A0,#FFCC00 45%,#E6A800 75%,#B87800);border:2px solid #9A6500;box-shadow:0 2px 6px rgba(0,0,0,.5),inset 0 2px 3px rgba(255,255,200,.6),inset 0 -1px 2px rgba(100,50,0,.3);font-size:10px;font-weight:900;color:#7A4800;font-family:Arial,sans-serif;}
 @keyframes flyToWallet{0%{transform:translate(0,0) scale(1);opacity:1;}80%{opacity:1;}100%{transform:translate(var(--fx),var(--fy)) scale(.4);opacity:0;}}
 .mc-icon{font-size:1.5rem;flex-shrink:0;margin-top:.1rem;}
 .mc-content{flex:1;}
@@ -4134,7 +4134,7 @@ function addCoins(n,ref){
 function spawnCoins(ref){
   const r=ref?ref.getBoundingClientRect():{left:window.innerWidth/2,top:80};
   for(let i=0;i<5;i++)setTimeout(()=>{
-    const p=document.createElement('div');p.className='coin-p';p.textContent='🪙';
+    const p=document.createElement('div');p.className='coin-p tc-coin';p.textContent='T';
     p.style.left=(r.left+Math.random()*50-10)+'px';p.style.top=(r.top+Math.random()*20)+'px';
     document.body.appendChild(p);setTimeout(()=>p.remove(),1200);
   },i*80);
@@ -5639,7 +5639,7 @@ function closeDebriefWithReward(){
     setTimeout(()=>{
       const coin=document.createElement('div');
       coin.className='coin-fly';
-      coin.textContent='🪙';
+      coin.textContent='T';
       const ox=(Math.random()-.5)*60;
       const oy=(Math.random()-.5)*40;
       const fx=(toR.left+toR.width/2)-(fromX+ox);
@@ -6293,7 +6293,7 @@ function claimMission(key,reward,btnEl){
     setTimeout(()=>{
       const coin=document.createElement('div');
       coin.className='coin-fly';
-      coin.textContent='🪙';
+      coin.textContent='T';
       const ox=(Math.random()-.5)*40;
       const oy=(Math.random()-.5)*20;
       coin.style.cssText=`left:${fromR.left+fromR.width/2+ox}px;top:${fromR.top+fromR.height/2+oy}px;--fx:${fx-ox}px;--fy:${fy-oy}px;`;
@@ -6973,8 +6973,8 @@ function closeStreakAnim(){
     for(let i=0;i<count;i++){
       setTimeout(()=>{
         const coin=document.createElement('div');
-        coin.textContent='🪙';
-        coin.style.cssText=`position:fixed;left:${startX}px;top:${startY}px;font-size:1.4rem;z-index:9999;pointer-events:none;transition:left .7s cubic-bezier(.2,.8,.3,1),top .7s cubic-bezier(.2,.8,.3,1),opacity .3s .5s,transform .7s;transform:scale(1.2);`;
+        coin.textContent='T';
+        Object.assign(coin.style,{position:'fixed',left:startX+'px',top:startY+'px',zIndex:'9999',pointerEvents:'none',width:'22px',height:'22px',borderRadius:'50%',background:'radial-gradient(circle at 40% 30%,#FFF0A0,#FFCC00 45%,#E6A800 75%,#B87800)',border:'2px solid #9A6500',boxShadow:'0 2px 6px rgba(0,0,0,.5)',display:'inline-flex',alignItems:'center',justifyContent:'center',fontSize:'10px',fontWeight:'900',color:'#7A4800',fontFamily:'Arial,sans-serif',transition:'left .7s cubic-bezier(.2,.8,.3,1),top .7s cubic-bezier(.2,.8,.3,1),opacity .3s .5s,transform .7s',transform:'scale(1.2)'});
         document.body.appendChild(coin);
         requestAnimationFrame(()=>{
           const tx=wRect?wRect.left+wRect.width/2:window.innerWidth-60;
