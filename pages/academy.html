@@ -1887,7 +1887,7 @@ table.assets th.clickable:hover{color:var(--y);}
             </div>
             <div class="wallet-row">
               <span data-i18n="orderAvail">Disponible</span>
-              <span class="wr-coins">🪙 <span id="opWallet">500</span></span>
+              <span class="wr-coins"><span class="tc-coin">T</span> <span id="opWallet">500</span></span>
             </div>
             <div class="order-tabs" style="display:none">
               <button class="otab buy active" id="oBuy" onclick="setOrderSide('buy')" data-i18n="orderBuy">▲ ACHETER</button>
@@ -2365,7 +2365,7 @@ table.assets th.clickable:hover{color:var(--y);}
   <div class="mission-banner-body">
     <div class="mission-banner-label" id="missionBannerLabel">Mission complétée</div>
     <div class="mission-banner-name" id="missionBannerName">—</div>
-    <div class="mission-banner-reward" id="missionBannerReward">+0 🪙</div>
+    <div class="mission-banner-reward" id="missionBannerReward">+0 <span class="tc-coin">T</span></div>
   </div>
 </div>
 <div class="low-nudge" id="lowNudge">
@@ -3819,6 +3819,7 @@ let S = {
 };
 
 /* ══ UTILS ══ */
+const _TC='<span class="tc-coin">T</span>';
 function fmt(n){return Math.floor(n).toLocaleString('fr-FR');}
 function fmtP(n){if(n>=10000)return fmt(n);if(n>=100)return n.toFixed(1);return n.toFixed(2);}
 function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
@@ -4057,7 +4058,7 @@ let lowNudgeShown=false;
 function updateWalletUI(){
   const _wa=el('tbWalletAmt');if(_wa)_wa.textContent=fmt(S.coins);
   const ow=el('opWallet');if(ow)ow.textContent=fmt(S.coins);
-  const ob=el('ofBal');if(ob)ob.textContent='Dispo : 🪙'+fmt(S.coins);
+  const ob=el('ofBal');if(ob)ob.innerHTML='Dispo : '+_TC+fmt(S.coins);
   if(S.coins>=NUDGE_THRESHOLD&&!nudgeShown){showInvestNudge();}
   if(S.coins<NUDGE_THRESHOLD){nudgeShown=false;}
   if(S.coins<=LOW_THRESHOLD&&!lowNudgeShown){showLowNudge();}
@@ -4087,7 +4088,7 @@ function showMissionBanner(icon,label,name,reward){
   el('missionBannerIcon').textContent=icon;
   el('missionBannerLabel').textContent=label;
   el('missionBannerName').textContent=name;
-  el('missionBannerReward').textContent=reward>0?'+'+reward+' 🪙':'';
+  el('missionBannerReward').innerHTML=reward>0?'+'+reward+' '+_TC:'';
   b.classList.add('show');
   _missionBannerTimer=setTimeout(()=>b.classList.remove('show'),4000);
 }
@@ -4453,7 +4454,7 @@ function openTrackDetail(idx){
       <div class="lc-n">${tl.n}</div>
       <div class="lc-foot">
         <span class="lc-t">${l.tag||''}</span>
-        <span class="lc-r">🪙 ${l.coins}</span>
+        <span class="lc-r">${_TC} ${l.coins}</span>
       </div>
     </div>`;
   }).join('');
@@ -4609,14 +4610,14 @@ function openLesson(id){
         </div>
         <div class="quiz-expl" id="quizExpl">${q.expl}</div>
         <button class="quiz-cta" id="quizCta" onclick="completeLesson('${lesson.id}')">
-          🪙 Récupérer mes ${coins} Tacoins →
+          ${_TC} Récupérer mes ${coins} Tacoins →
         </button>
       </div>
       <div class="complete-card" id="completeCard">
         <div class="cc-emo">🎉</div>
         <div class="cc-title">Leçon terminée !</div>
         <div class="cc-sub">"${lesson.n}"</div>
-        <div class="cc-reward">+${coins} 🪙</div>
+        <div class="cc-reward">+${coins} ${_TC}</div>
         <div class="cc-btns" id="ccBtns"></div>
       </div>
     </div>`;
@@ -5096,7 +5097,7 @@ function updatePortSummary(val,pnl,cost=0){
   // Met à jour le bouton topbar
   const btn=el('mptPnl');
   if(btn){
-    btn.textContent=(pnl>=0?'+':'')+fmt(pnl)+' 🪙';
+    btn.innerHTML=(pnl>=0?'+':'')+fmt(pnl)+' '+_TC;
     btn.className='mpt-pnl '+(pnl>0?'pos':pnl<0?'neg':'neu');
   }
 }
@@ -5124,7 +5125,7 @@ function openPortfolioModal(){
           <div class="pm-sub">${pos.qty.toFixed(4)} u. · PRU ${fmtP(pos.avgPrice)}</div>
         </div>
         <div class="pm-right">
-          <div class="pm-val">${fmt(val)} 🪙</div>
+          <div class="pm-val">${fmt(val)} ${_TC}</div>
           <div class="pm-pnl" style="color:${pnl>=0?'var(--g)':'var(--r)'}">${pnl>=0?'+':''}${fmt(pnl)} (${pnl>=0?'+':''}${pct.toFixed(1)}%)</div>
         </div>
       </div>`;
@@ -5169,7 +5170,7 @@ function openAssetDetail(assetId){
       <span class="port-child-emo">${a.emoji}</span>
       <div>
         <div style="font-size:.7rem;color:var(--muted);margin-bottom:.1rem">${a.name}</div>
-        <div class="port-child-val">${fmt(val)} 🪙</div>
+        <div class="port-child-val">${fmt(val)} ${_TC}</div>
         <div class="port-child-pnl" style="color:${pnl>=0?'var(--g)':'var(--r)'}">${pnl>=0?'+':''}${fmt(pnl)} (${pnl>=0?'+':''}${pct.toFixed(1)}%)</div>
       </div>
     </div>
@@ -5180,7 +5181,7 @@ function openAssetDetail(assetId){
       </div>
       <div onclick="showInfoPop('pru')" style="flex:1;background:var(--bg2);border-radius:8px;padding:.5rem .7rem;cursor:pointer;transition:.15s" onmouseover="this.style.borderColor='var(--ln2)'" onmouseout="this.style.borderColor='transparent'">
         <div style="font-size:.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">PRU ℹ</div>
-        <div style="font-size:.82rem;font-weight:700;color:var(--txt);font-family:'JetBrains Mono',monospace">${fmtP(pos.avgPrice)} 🪙</div>
+        <div style="font-size:.82rem;font-weight:700;color:var(--txt);font-family:'JetBrains Mono',monospace">${fmtP(pos.avgPrice)} ${_TC}</div>
       </div>
     </div>
     <div class="port-child-section">Historique des opérations</div>
@@ -5775,7 +5776,7 @@ function _rebCashAmt(){
 }
 function updateRebCash(){
   const amt=_rebCashAmt();
-  const disp=el('rebCashDisplay');if(disp)disp.textContent=fmt(amt)+' 🪙';
+  const disp=el('rebCashDisplay');if(disp)disp.innerHTML=fmt(amt)+' '+_TC;
   document.querySelectorAll('.reb-cash-pill').forEach(b=>b.classList.remove('active'));
   _renderRebList();
 }
@@ -5821,8 +5822,8 @@ function _renderRebList(){
     const idx=p.alloc.indexOf(slot);
     const actionHtml=aligned
       ?`<span class="reb-action ok">✓ Aligné</span>`
-      :needBuy?`<button class="reb-action buy reb-action-btn" onclick="executeRebalanceSlot(${idx})">▲ Acheter ${fmt(Math.abs(diff))} 🪙</button>`
-      :needSell?`<button class="reb-action sell reb-action-btn" onclick="executeRebalanceSlot(${idx})">▼ Vendre ${fmt(Math.abs(diff))} 🪙</button>`
+      :needBuy?`<button class="reb-action buy reb-action-btn" onclick="executeRebalanceSlot(${idx})">▲ Acheter ${fmt(Math.abs(diff))} ${_TC}</button>`
+      :needSell?`<button class="reb-action sell reb-action-btn" onclick="executeRebalanceSlot(${idx})">▼ Vendre ${fmt(Math.abs(diff))} ${_TC}</button>`
       :`<span class="reb-action ok">≈ OK</span>`;
     const targetPct=investable>0?targetVal/totalPortfolio*100:0;
     const barPct=Math.min(100,curPct/Math.max(targetPct,0.1)*100);
@@ -6091,8 +6092,8 @@ function renderMissions(){
     const claimed=state==='claimed', ready=state==='ready';
     let rewardHtml;
     if(claimed) rewardHtml='<span class="mc-done-tag">✅ Récupéré</span>';
-    else if(ready) rewardHtml=`<button class="mc-claim-btn" onclick="claimMission('d_${m.id}',${m.reward},this)">🪙 Collecter +${m.reward}</button>`;
-    else rewardHtml=`<span class="mc-coins">+${m.reward} 🪙</span>`;
+    else if(ready) rewardHtml=`<button class="mc-claim-btn" onclick="claimMission('d_${m.id}',${m.reward},this)">${_TC} Collecter +${m.reward}</button>`;
+    else rewardHtml=`<span class="mc-coins">+${m.reward} ${_TC}</span>`;
     return {claimed, html:`<div class="mission-card${claimed?' done':'  daily'}">
       <span class="mc-icon">${m.icon}</span>
       <div class="mc-content">
@@ -6108,8 +6109,8 @@ function renderMissions(){
     const ready=state==='ready';
     let rewardHtml;
     if(claimed) rewardHtml='<span class="mc-done-tag">✅ Récupéré</span>';
-    else if(ready) rewardHtml=`<button class="mc-claim-btn" onclick="claimMission('p_${m.id}',${m.reward},this)">🪙 Collecter +${m.reward}</button>`;
-    else rewardHtml=`<span class="mc-coins">+${m.reward} 🪙</span>`;
+    else if(ready) rewardHtml=`<button class="mc-claim-btn" onclick="claimMission('p_${m.id}',${m.reward},this)">${_TC} Collecter +${m.reward}</button>`;
+    else rewardHtml=`<span class="mc-coins">+${m.reward} ${_TC}</span>`;
     return {claimed, ready, html:`<div class="mission-card${claimed?' claimed':ready?' ready':''}">
       <span class="mc-icon">${m.icon}</span>
       <div class="mc-content">
