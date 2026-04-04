@@ -3830,11 +3830,35 @@ let S = {
 };
 
 /* ══ UTILS ══ */
-function _mkCoin(w=18,h=15){
-  const id='tc'+(Math.random()*1e9|0);
-  return `<svg width="${w}" height="${h}" viewBox="0 0 18 15" style="vertical-align:middle;flex-shrink:0;display:inline-block;overflow:visible"><defs><radialGradient id="${id}" cx="40%" cy="35%" r="65%"><stop offset="0%" stop-color="#FFFCB0"/><stop offset="30%" stop-color="#FFD700"/><stop offset="65%" stop-color="#E6A000"/><stop offset="100%" stop-color="#A86000"/></radialGradient></defs><ellipse cx="9" cy="11.5" rx="8.5" ry="3.2" fill="#7A4400"/><ellipse cx="9" cy="8" rx="8.5" ry="5.5" fill="url(#${id})" stroke="#6B3C00" stroke-width=".6"/><ellipse cx="9" cy="8" rx="7.2" ry="4.5" fill="none" stroke="rgba(255,220,60,.35)" stroke-width=".8"/><ellipse cx="7.2" cy="5.5" rx="3.2" ry="1.6" fill="rgba(255,255,255,.45)" transform="rotate(-15,7.2,5.5)"/></svg>`;
+let _coinDataURL='';
+function _buildCoinCanvas(size=40){
+  const c=document.createElement('canvas');c.width=size;c.height=size;
+  const g=c.getContext('2d');
+  const cx=size/2,cy=size*0.48,rx=size*0.44,ry=size*0.44;
+  // Ombre portée (tranche de la pièce)
+  g.beginPath();g.ellipse(cx,cy+size*0.08,rx,ry*0.3,0,0,Math.PI*2);
+  g.fillStyle='#7A4400';g.fill();
+  // Face principale (gradient radial)
+  const rg=g.createRadialGradient(cx-rx*0.2,cy-ry*0.2,ry*0.05,cx,cy,ry);
+  rg.addColorStop(0,'#FFFCB0');rg.addColorStop(0.3,'#FFD700');
+  rg.addColorStop(0.65,'#E6A000');rg.addColorStop(1,'#A86000');
+  g.beginPath();g.ellipse(cx,cy,rx,ry,0,0,Math.PI*2);
+  g.fillStyle=rg;g.fill();
+  g.strokeStyle='#6B3C00';g.lineWidth=size*0.04;g.stroke();
+  // Anneau intérieur
+  g.beginPath();g.ellipse(cx,cy,rx*0.84,ry*0.84,0,0,Math.PI*2);
+  g.strokeStyle='rgba(255,220,60,.4)';g.lineWidth=size*0.03;g.stroke();
+  // Reflet
+  g.save();g.translate(cx-rx*0.2,cy-ry*0.25);g.rotate(-0.5);
+  g.beginPath();g.ellipse(0,0,rx*0.32,ry*0.16,0,0,Math.PI*2);
+  g.fillStyle='rgba(255,255,255,.5)';g.fill();g.restore();
+  return c.toDataURL();
 }
-const _TC=_mkCoin();
+function _mkCoin(size=18){
+  if(!_coinDataURL)_coinDataURL=_buildCoinCanvas(80);
+  return `<img src="${_coinDataURL}" width="${size}" height="${size}" style="vertical-align:middle;flex-shrink:0;display:inline-block">`;
+}
+const _TC=_mkCoin(18);
 function fmt(n){return Math.floor(n).toLocaleString('fr-FR');}
 function fmtP(n){if(n>=10000)return fmt(n);if(n>=100)return n.toFixed(1);return n.toFixed(2);}
 function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
@@ -3981,7 +4005,8 @@ function boot(level){
   el('splash').style.display='none';
   el('app').style.display='flex';
   const tbLvlLbl=el('tbLvlLabel');if(tbLvlLbl)tbLvlLbl.textContent=level;
-  const _tci=el('tbCoinIcon');if(_tci)_tci.innerHTML=_mkCoin(18,15);
+  _coinDataURL=_buildCoinCanvas(80);
+  const _tci=el('tbCoinIcon');if(_tci)_tci.innerHTML=_mkCoin(18);
   updateWalletUI();updateXPUI();updateStreakUI();
   buildLearnSidebar();showLessonMap();
   buildMarketTable();selectAsset('msci');
@@ -4151,7 +4176,7 @@ function addCoins(n,ref){
 function spawnCoins(ref){
   const r=ref?ref.getBoundingClientRect():{left:window.innerWidth/2,top:80};
   for(let i=0;i<5;i++)setTimeout(()=>{
-    const p=document.createElement('div');p.className='coin-p';p.innerHTML=_mkCoin(22,18);
+    const p=document.createElement('div');p.className='coin-p';p.innerHTML=_mkCoin(22);
     p.style.left=(r.left+Math.random()*50-10)+'px';p.style.top=(r.top+Math.random()*20)+'px';
     document.body.appendChild(p);setTimeout(()=>p.remove(),1200);
   },i*80);
@@ -5656,7 +5681,7 @@ function closeDebriefWithReward(){
     setTimeout(()=>{
       const coin=document.createElement('div');
       coin.className='coin-fly';
-      coin.innerHTML=_mkCoin(26,22);
+      coin.innerHTML=_mkCoin(26);
       const ox=(Math.random()-.5)*60;
       const oy=(Math.random()-.5)*40;
       const fx=(toR.left+toR.width/2)-(fromX+ox);
@@ -6310,7 +6335,7 @@ function claimMission(key,reward,btnEl){
     setTimeout(()=>{
       const coin=document.createElement('div');
       coin.className='coin-fly';
-      coin.innerHTML=_mkCoin(26,22);
+      coin.innerHTML=_mkCoin(26);
       const ox=(Math.random()-.5)*40;
       const oy=(Math.random()-.5)*20;
       coin.style.cssText=`left:${fromR.left+fromR.width/2+ox}px;top:${fromR.top+fromR.height/2+oy}px;--fx:${fx-ox}px;--fy:${fy-oy}px;`;
@@ -6990,7 +7015,7 @@ function closeStreakAnim(){
     for(let i=0;i<count;i++){
       setTimeout(()=>{
         const coin=document.createElement('div');
-        coin.innerHTML=_mkCoin(26,22);
+        coin.innerHTML=_mkCoin(26);
         Object.assign(coin.style,{position:'fixed',left:startX+'px',top:startY+'px',zIndex:'9999',pointerEvents:'none',width:'22px',height:'22px',borderRadius:'50%',background:'radial-gradient(circle at 40% 30%,#FFF0A0,#FFCC00 45%,#E6A800 75%,#B87800)',border:'2px solid #9A6500',boxShadow:'0 2px 6px rgba(0,0,0,.5)',display:'inline-flex',alignItems:'center',justifyContent:'center',fontSize:'10px',fontWeight:'900',color:'#7A4800',fontFamily:'Arial,sans-serif',transition:'left .7s cubic-bezier(.2,.8,.3,1),top .7s cubic-bezier(.2,.8,.3,1),opacity .3s .5s,transform .7s',transform:'scale(1.2)'});
         document.body.appendChild(coin);
         requestAnimationFrame(()=>{
