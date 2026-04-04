@@ -1680,7 +1680,7 @@ table.assets th.clickable:hover{color:var(--y);}
     <span class="tb-center-title" id="tbCenterTitle">TON PARCOURS</span>
     <div class="tb-spacer"></div>
     <div class="tb-wallet" id="tbStreak" style="color:var(--o);border-color:rgba(255,140,0,.3)">🔥 <span id="tbStreakDays">0j</span></div>
-    <div class="tb-wallet" id="tbWallet" style="color:var(--y);border-color:rgba(255,205,13,.3);background:rgba(255,205,13,.1)"><span class="tc-coin">🪙</span> <span id="tbWalletAmt">500</span></div>
+    <div class="tb-wallet" id="tbWallet" style="color:var(--y);border-color:rgba(255,205,13,.3);background:rgba(255,205,13,.1)<span id="tbCoinIcon"></span> <span id="tbWalletAmt">500</span></div>
     <div class="tb-wallet" onclick="openSavingsModal()" style="cursor:pointer;color:var(--muted);border-color:rgba(78,194,218,.25);background:rgba(78,194,218,.07)">💼 <span style="font-size:.72rem;font-family:'JetBrains Mono',monospace;font-weight:700">Patrimoine</span></div>
   </nav>
 
@@ -3830,7 +3830,11 @@ let S = {
 };
 
 /* ══ UTILS ══ */
-const _TC='<span class="tc-coin">🪙</span>';
+function _mkCoin(w=18,h=15){
+  const id='tc'+(Math.random()*1e9|0);
+  return `<svg width="${w}" height="${h}" viewBox="0 0 18 15" style="vertical-align:middle;flex-shrink:0;display:inline-block;overflow:visible"><defs><radialGradient id="${id}" cx="40%" cy="35%" r="65%"><stop offset="0%" stop-color="#FFFCB0"/><stop offset="30%" stop-color="#FFD700"/><stop offset="65%" stop-color="#E6A000"/><stop offset="100%" stop-color="#A86000"/></radialGradient></defs><ellipse cx="9" cy="11.5" rx="8.5" ry="3.2" fill="#7A4400"/><ellipse cx="9" cy="8" rx="8.5" ry="5.5" fill="url(#${id})" stroke="#6B3C00" stroke-width=".6"/><ellipse cx="9" cy="8" rx="7.2" ry="4.5" fill="none" stroke="rgba(255,220,60,.35)" stroke-width=".8"/><ellipse cx="7.2" cy="5.5" rx="3.2" ry="1.6" fill="rgba(255,255,255,.45)" transform="rotate(-15,7.2,5.5)"/></svg>`;
+}
+const _TC=_mkCoin();
 function fmt(n){return Math.floor(n).toLocaleString('fr-FR');}
 function fmtP(n){if(n>=10000)return fmt(n);if(n>=100)return n.toFixed(1);return n.toFixed(2);}
 function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
@@ -3977,6 +3981,7 @@ function boot(level){
   el('splash').style.display='none';
   el('app').style.display='flex';
   const tbLvlLbl=el('tbLvlLabel');if(tbLvlLbl)tbLvlLbl.textContent=level;
+  const _tci=el('tbCoinIcon');if(_tci)_tci.innerHTML=_mkCoin(18,15);
   updateWalletUI();updateXPUI();updateStreakUI();
   buildLearnSidebar();showLessonMap();
   buildMarketTable();selectAsset('msci');
@@ -4146,7 +4151,7 @@ function addCoins(n,ref){
 function spawnCoins(ref){
   const r=ref?ref.getBoundingClientRect():{left:window.innerWidth/2,top:80};
   for(let i=0;i<5;i++)setTimeout(()=>{
-    const p=document.createElement('div');p.className='coin-p tc-coin';p.textContent='🪙';
+    const p=document.createElement('div');p.className='coin-p';p.innerHTML=_mkCoin(22,18);
     p.style.left=(r.left+Math.random()*50-10)+'px';p.style.top=(r.top+Math.random()*20)+'px';
     document.body.appendChild(p);setTimeout(()=>p.remove(),1200);
   },i*80);
@@ -5651,7 +5656,7 @@ function closeDebriefWithReward(){
     setTimeout(()=>{
       const coin=document.createElement('div');
       coin.className='coin-fly';
-      coin.style.fontSize='1.4rem';coin.style.filter='hue-rotate(0deg) saturate(2) brightness(1.1)';coin.textContent='🪙';
+      coin.innerHTML=_mkCoin(26,22);
       const ox=(Math.random()-.5)*60;
       const oy=(Math.random()-.5)*40;
       const fx=(toR.left+toR.width/2)-(fromX+ox);
@@ -6305,7 +6310,7 @@ function claimMission(key,reward,btnEl){
     setTimeout(()=>{
       const coin=document.createElement('div');
       coin.className='coin-fly';
-      coin.style.fontSize='1.4rem';coin.style.filter='hue-rotate(0deg) saturate(2) brightness(1.1)';coin.textContent='🪙';
+      coin.innerHTML=_mkCoin(26,22);
       const ox=(Math.random()-.5)*40;
       const oy=(Math.random()-.5)*20;
       coin.style.cssText=`left:${fromR.left+fromR.width/2+ox}px;top:${fromR.top+fromR.height/2+oy}px;--fx:${fx-ox}px;--fy:${fy-oy}px;`;
@@ -6985,7 +6990,7 @@ function closeStreakAnim(){
     for(let i=0;i<count;i++){
       setTimeout(()=>{
         const coin=document.createElement('div');
-        coin.style.fontSize='1.4rem';coin.style.filter='hue-rotate(0deg) saturate(2) brightness(1.1)';coin.textContent='🪙';
+        coin.innerHTML=_mkCoin(26,22);
         Object.assign(coin.style,{position:'fixed',left:startX+'px',top:startY+'px',zIndex:'9999',pointerEvents:'none',width:'22px',height:'22px',borderRadius:'50%',background:'radial-gradient(circle at 40% 30%,#FFF0A0,#FFCC00 45%,#E6A800 75%,#B87800)',border:'2px solid #9A6500',boxShadow:'0 2px 6px rgba(0,0,0,.5)',display:'inline-flex',alignItems:'center',justifyContent:'center',fontSize:'10px',fontWeight:'900',color:'#7A4800',fontFamily:'Arial,sans-serif',transition:'left .7s cubic-bezier(.2,.8,.3,1),top .7s cubic-bezier(.2,.8,.3,1),opacity .3s .5s,transform .7s',transform:'scale(1.2)'});
         document.body.appendChild(coin);
         requestAnimationFrame(()=>{
