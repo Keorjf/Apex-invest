@@ -2392,7 +2392,7 @@ table.assets th.clickable:hover{color:var(--y);}
   <div class="invest-nudge-icon">💰</div>
   <div class="invest-nudge-body">
     <div class="invest-nudge-title">Il est temps d'investir, non ?</div>
-    <div class="invest-nudge-sub" id="investNudgeSub">Tu as <strong id="investNudgeAmt"></strong> 🪙 disponibles.</div>
+    <div class="invest-nudge-sub" id="investNudgeSub">Tu as <strong id="investNudgeAmt"></strong> <span id="investNudgeCoin"></span> disponibles.</div>
     <button onclick="closeInvestNudge();switchTab('market')" style="margin-top:.5rem;padding:.35rem .85rem;background:var(--g);color:#000;font-family:'Bungee';font-size:.65rem;letter-spacing:.06em;border:none;border-radius:6px;cursor:pointer">Salle des marchés →</button>
   </div>
   <button class="invest-nudge-close" onclick="closeInvestNudge()">✕</button>
@@ -4116,6 +4116,7 @@ function showInvestNudge(){
   if(!nudge)return;
   hideAllNotifs();
   if(amt)amt.textContent=fmt(S.coins);
+  const nc=el('investNudgeCoin');if(nc)nc.innerHTML=_mkCoin(16);
   nudge.classList.add('show');
   setTimeout(()=>nudge.classList.remove('show'),6000);
 }
