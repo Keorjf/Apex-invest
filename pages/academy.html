@@ -4006,7 +4006,10 @@ function boot(level){
   el('app').style.display='flex';
   const tbLvlLbl=el('tbLvlLabel');if(tbLvlLbl)tbLvlLbl.textContent=level;
   _coinDataURL=_buildCoinCanvas(80);
+  // Rafraîchit _TC avec le vrai canvas maintenant disponible
   const _tci=el('tbCoinIcon');if(_tci)_tci.innerHTML=_mkCoin(18);
+  // Met à jour tous les éléments _TC déjà dans le DOM
+  document.querySelectorAll('.tc-dyn').forEach(el=>el.innerHTML=_mkCoin(18));
   updateWalletUI();updateXPUI();updateStreakUI();
   buildLearnSidebar();showLessonMap();
   buildMarketTable();selectAsset('msci');
@@ -6391,7 +6394,7 @@ function renderJournal(){
         <span class="je-asset">${j.asset||''}</span>
         <span class="je-time">${j.ts||''}</span>
       </div>
-      <div class="je-details">${j.note||''}</div>
+      <div class="je-details">${(j.note||'').replace(/🪙/g,_mkCoin(14))}</div>
     </div>`;
   }).join('');
 }
