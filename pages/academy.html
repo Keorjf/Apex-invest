@@ -1440,17 +1440,15 @@ table.assets th.clickable:hover{color:var(--y);}
   #sheetTabBtnPortfolio{display:none!important;}
   .mkt-mode-btn{padding:.5rem .75rem;font-size:.7rem;}
   table.assets{width:100%;table-layout:fixed;border-collapse:collapse;}
-  table.assets th:nth-child(1){width:42%;padding:.45rem .2rem .45rem .6rem;text-align:left;}
-  table.assets th:nth-child(2){width:0;padding:0;overflow:hidden;font-size:0;border:none;}
-  table.assets th:nth-child(3){width:22%;padding:.45rem .2rem;}
-  table.assets th:nth-child(4){width:16%;padding:.45rem .2rem;}
-  table.assets th:nth-child(5){width:0;padding:0;overflow:hidden;font-size:0;border:none;}
-  table.assets th:nth-child(6){width:20%;padding:.45rem .2rem;}
-  table.assets td:nth-child(2),table.assets td:nth-child(5){width:0;padding:0;overflow:hidden;font-size:0;border:none;}
-  table.assets td,table.assets th{font-size:.58rem;text-align:center;vertical-align:middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+  table.assets .cg-cat{visibility:collapse;}
+  table.assets .cg-spark{visibility:collapse;}
+  table.assets .cg-actif{width:40%;}
+  table.assets .cg-prix{width:22%;}
+  table.assets .cg-24h{width:18%;}
+  table.assets .cg-cap{width:20%;}
+  table.assets td,table.assets th{font-size:.58rem;text-align:center;vertical-align:middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;padding:.45rem .2rem;}
   table.assets th{letter-spacing:.04em;color:var(--muted);font-weight:700;}
-  table.assets td:nth-child(1){padding:.45rem .2rem .45rem .6rem;text-align:left;}
-  table.assets td:nth-child(3),table.assets td:nth-child(4),table.assets td:nth-child(6){padding:.45rem .2rem;}
+  table.assets td:first-child,table.assets th:first-child{text-align:left;padding-left:.6rem;}
   .td-name{gap:.3rem;font-size:.75rem;}
   .asset-row.selected td{background:rgba(255,205,13,.06);}
 
@@ -1766,6 +1764,14 @@ table.assets th.clickable:hover{color:var(--y);}
         </div>
         <div class="asset-wrap">
           <table class="assets">
+            <colgroup>
+              <col class="cg-actif">
+              <col class="cg-cat">
+              <col class="cg-prix">
+              <col class="cg-24h">
+              <col class="cg-spark">
+              <col class="cg-cap">
+            </colgroup>
             <thead><tr>
               <th class="clickable" onclick="showColTip('actif')" data-i18n="mktAsset">Actif ℹ</th>
               <th class="col-cat">
