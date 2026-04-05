@@ -1440,14 +1440,8 @@ table.assets th.clickable:hover{color:var(--y);}
   #sheetTabBtnPortfolio{display:none!important;}
   .mkt-mode-btn{padding:.5rem .75rem;font-size:.7rem;}
   table.assets{width:100%;table-layout:fixed;border-collapse:collapse;}
-  table.assets .cg-cat{visibility:collapse;}
-  table.assets .cg-spark{visibility:collapse;}
-  table.assets .cg-actif{width:40%;}
-  table.assets .cg-prix{width:22%;}
-  table.assets .cg-24h{width:18%;}
-  table.assets .cg-cap{width:20%;}
   table.assets td,table.assets th{font-size:.58rem;text-align:center;vertical-align:middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;padding:.45rem .2rem;}
-  table.assets th{letter-spacing:.04em;color:var(--muted);font-weight:700;}
+  table.assets th{letter-spacing:.04em;color:var(--muted);font-weight:700;position:static;}
   table.assets td:first-child,table.assets th:first-child{text-align:left;padding-left:.6rem;}
   .td-name{gap:.3rem;font-size:.75rem;}
   .asset-row.selected td{background:rgba(255,205,13,.06);}
@@ -1764,14 +1758,6 @@ table.assets th.clickable:hover{color:var(--y);}
         </div>
         <div class="asset-wrap">
           <table class="assets">
-            <colgroup>
-              <col class="cg-actif">
-              <col class="cg-cat">
-              <col class="cg-prix">
-              <col class="cg-24h">
-              <col class="cg-spark">
-              <col class="cg-cap">
-            </colgroup>
             <thead><tr>
               <th class="clickable" onclick="showColTip('actif')" data-i18n="mktAsset">Actif ℹ</th>
               <th class="col-cat">
@@ -4720,17 +4706,39 @@ function handleRowClick(e,id){
   else if(act==='price'||act==='chg'||act==='sess')showStatInfo(act,id);
 }
 function buildMarketTable(){
+  const mob=window.innerWidth<=768;
+  const thead=document.querySelector('table.assets thead tr');
+  if(thead){
+    thead.innerHTML=mob
+      ?`<th style="width:40%;text-align:left;cursor:pointer" onclick="showColTip('actif')">Actif ℹ</th>
+        <th style="width:22%;text-align:center;cursor:pointer" onclick="showColTip('prix')">Prix ℹ</th>
+        <th style="width:18%;text-align:center;cursor:pointer" onclick="showColTip('24h')">24h ℹ</th>
+        <th style="width:20%;text-align:center;cursor:pointer" onclick="showColTip('cap')">Cap. ℹ</th>`
+      :`<th class="clickable" onclick="showColTip('actif')" data-i18n="mktAsset">Actif ℹ</th>
+        <th class="col-cat"><div class="cat-th-wrap"><span id="catThLabel" onclick="toggleCatDd()">Cat.</span><span class="cat-th-arrow" onclick="toggleCatDd()">▾</span><div class="cat-dropdown" id="catDropdown"><div class="cat-opt active" onclick="filterCatDd(this,'Tous')">Toutes</div><div class="cat-opt" onclick="filterCatDd(this,'ETF')" style="color:#FFCD0D">ETF</div><div class="cat-opt" onclick="filterCatDd(this,'ETF Thém.')" style="color:#E040FB">ETF Thém.</div><div class="cat-opt" onclick="filterCatDd(this,'Indice')" style="color:#4D9EFF">Indice</div><div class="cat-opt" onclick="filterCatDd(this,'Action')" style="color:#4EC2DA">Action</div><div class="cat-opt" onclick="filterCatDd(this,'Crypto')" style="color:#FF9800">Crypto</div><div class="cat-opt" onclick="filterCatDd(this,'Matière 1re')" style="color:#FFB300">Matière 1re</div><div class="cat-opt" onclick="filterCatDd(this,'Obligation')" style="color:#76FF03">Obligation</div><div class="cat-opt" onclick="filterCatDd(this,'Immobilier')" style="color:#FF7A00">Immobilier</div></div></div></th>
+        <th class="clickable" onclick="showColTip('prix')" data-i18n="mktPrice">Prix ℹ</th>
+        <th class="clickable" onclick="showColTip('24h')" data-i18n="mkt24h">24h ℹ</th>
+        <th class="col-spark clickable" onclick="showColTip('spark')" data-i18n="mktSpark">7j Spark ℹ</th>
+        <th class="col-cap clickable" onclick="showColTip('cap')" data-i18n="mktCap">Cap. ℹ</th>`;
+  }
   const tbody=el('assetBody');if(!tbody)return;
   const list=_catFilter==='Tous'?ASSETS:ASSETS.filter(a=>a.cat===_catFilter);
-  tbody.innerHTML=list.map(a=>`
-    <tr class="asset-row${a.id===S.selectedAsset?' selected':''}" id="row_${a.id}" onclick="handleRowClick(event,'${a.id}')" ondblclick="openOrderPanel()">
-      <td data-action="desc"><div class="td-name"><span style="font-size:1.1rem">${a.emoji}</span>${a.name}</div></td>
-      <td class="col-cat"><span class="td-cat" data-cat="${a.cat}">${a.cat}</span></td>
-      <td class="td-price" id="price_${a.id}" data-action="price" style="cursor:pointer">${fmtP(a.base)}</td>
-      <td class="td-chg flat" id="chg_${a.id}" data-action="chg" style="cursor:pointer">—</td>
-      <td class="col-spark"><canvas class="spark-canvas" id="spark_${a.id}" width="80" height="32"></canvas></td>
-      <td class="col-cap td-chg flat" id="sess_${a.id}" data-action="sess" style="cursor:pointer">—</td>
-    </tr>`).join('');
+  tbody.innerHTML=list.map(a=>mob
+    ?`<tr class="asset-row${a.id===S.selectedAsset?' selected':''}" id="row_${a.id}" onclick="handleRowClick(event,'${a.id}')" ondblclick="openOrderPanel()">
+        <td data-action="desc" style="text-align:left"><div class="td-name"><span style="font-size:1.1rem">${a.emoji}</span>${a.name}</div></td>
+        <td class="td-price" id="price_${a.id}" data-action="price" style="cursor:pointer;text-align:center">${fmtP(a.base)}</td>
+        <td class="td-chg flat" id="chg_${a.id}" data-action="chg" style="cursor:pointer;text-align:center">—</td>
+        <td class="col-cap td-chg flat" id="sess_${a.id}" data-action="sess" style="cursor:pointer;text-align:center">—</td>
+      </tr>`
+    :`<tr class="asset-row${a.id===S.selectedAsset?' selected':''}" id="row_${a.id}" onclick="handleRowClick(event,'${a.id}')" ondblclick="openOrderPanel()">
+        <td data-action="desc"><div class="td-name"><span style="font-size:1.1rem">${a.emoji}</span>${a.name}</div></td>
+        <td class="col-cat"><span class="td-cat" data-cat="${a.cat}">${a.cat}</span></td>
+        <td class="td-price" id="price_${a.id}" data-action="price" style="cursor:pointer">${fmtP(a.base)}</td>
+        <td class="td-chg flat" id="chg_${a.id}" data-action="chg" style="cursor:pointer">—</td>
+        <td class="col-spark"><canvas class="spark-canvas" id="spark_${a.id}" width="80" height="32"></canvas></td>
+        <td class="col-cap td-chg flat" id="sess_${a.id}" data-action="sess" style="cursor:pointer">—</td>
+      </tr>`
+  ).join('');
 }
 
 /* ══ MARKET SIM ══ */
