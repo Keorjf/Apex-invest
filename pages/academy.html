@@ -4581,7 +4581,6 @@ function openLesson(id){
   el('learnMain').innerHTML=`
     <div style="padding:1.5rem 2rem 4rem;max-width:760px;margin:0 auto;width:100%">
       <button class="btn-ghost" onclick="showLessonMap()" style="margin-bottom:1rem;padding:.4rem .9rem;font-size:.72rem">← Carte</button>
-      <div class="lh-tag">🏷️ ${lesson.tag}</div>
       <div class="lh-title">${lesson.e} ${lesson.n}</div>
       <div class="lh-meta">
         ${doneAlready?'<span style="color:var(--g)">✓ Déjà complétée</span>':''}
