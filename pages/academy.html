@@ -318,8 +318,9 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 .cb-send:hover{opacity:.85;}
 /* STREAK DAYS DOTS */
 .streak-days-row{display:flex;gap:.45rem;justify-content:center;margin-bottom:1.1rem;}
-.streak-day-dot{width:28px;height:28px;border-radius:50%;border:2px solid rgba(255,122,0,.3);background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:.55rem;font-family:'Bungee',sans-serif;color:var(--muted);transition:background .4s,border-color .4s,transform .4s;}
+.streak-day-dot{width:28px;height:28px;border-radius:50%;border:2px solid rgba(255,122,0,.2);background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:.55rem;font-family:'Bungee',sans-serif;color:var(--muted);transition:background .4s,border-color .4s,transform .4s;}
 .streak-day-dot.lit{background:linear-gradient(135deg,#FF7A00,#FFCD0D);border-color:#FF7A00;color:#000;transform:scale(1.12);}
+.streak-day-dot.missed{background:rgba(90,90,100,.35);border-color:rgba(120,120,130,.35);color:rgba(160,160,170,.5);}
 .streak-day-dot.today{box-shadow:0 0 12px rgba(255,122,0,.8);}
 .streak-coins-reward{font-size:.7rem;font-family:'Nunito',sans-serif;color:#FFCD0D;margin-bottom:.8rem;opacity:0;transition:opacity .4s .3s;}
 .streak-coins-reward.show{opacity:1;}
@@ -3820,7 +3821,7 @@ let S = {
   selectedAsset:'msci', orderSide:'buy', limitMode:false,
   currentTF:'1J', lastEvent:null,
   diagDone:false, diagProfile:null, diagAnswers:{}, diagStep:0,
-  journal:[], missions:{}, streak:0, lastPlay:null,
+  journal:[], missions:{}, streak:0, lastPlay:null, loginDates:[],
   survivedCrash:false, totalLessons:0, totalBuys:0,
   crisisSurvived:0, limitExecuted:0, limitPlaced:0, debriefRead:0,
   todayBuys:0, todayLimitPlaced:0, todayProfitSells:0, todayLessons:0, todayDebriefRead:0, todayAssets:[],
@@ -3843,7 +3844,7 @@ function el(id){return document.getElementById(id);}
 /* ══ PERSISTANCE ══ */
 function saveState(){
   try{localStorage.setItem('apex_v3',JSON.stringify({
-    coins:S.coins,xp:S.xp,done:[...S.done],streak:S.streak,lastPlay:S.lastPlay,
+    coins:S.coins,xp:S.xp,done:[...S.done],streak:S.streak,lastPlay:S.lastPlay,loginDates:S.loginDates||[],
     diagDone:S.diagDone,diagProfile:S.diagProfile,missions:S.missions,dailyDate:S.dailyDate,
     totalLessons:S.totalLessons,totalBuys:S.totalBuys,
     crisisSurvived:S.crisisSurvived,limitExecuted:S.limitExecuted,limitPlaced:S.limitPlaced||0,debriefRead:S.debriefRead,
@@ -3900,6 +3901,10 @@ function loadState(){
       if(s.missions)S.missions=s.missions;
     }
     S.dailyDate=today;
+    // Restore & update loginDates
+    S.loginDates=s.loginDates||[];
+    if(!S.loginDates.includes(today))S.loginDates.push(today);
+    S.loginDates=S.loginDates.slice(-90); // garde 90 jours max
     if(s.lastPlay){
       const diff=Math.floor((new Date()-new Date(s.lastPlay))/86400000);
       if(diff===0){
@@ -4134,6 +4139,9 @@ function updateXPUI(){}
 function updateStreakUI(){
   const sd=el('tbStreakDays');if(sd)sd.textContent=S.streak+'j';
   const st=el('tbStreak');if(st)st.style.display=S.streak>0?'flex':'none';
+  refreshWeekDots(el('streakDotRow'),false);
+  // Met à jour tous les autres affichages de dots streak dans la page
+  document.querySelectorAll('.streak-days-row:not(#streakDotRow)').forEach(w=>refreshWeekDots(w,false));
 }
 function addXP(n){S.xp+=n;updateXPUI();}
 function addCoins(n,ref){
@@ -6948,6 +6956,37 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 
 /* ══ STREAK ANIMATION ══ */
+/* ── Streak week helpers ── */
+function _weekMonday(d){
+  const day=d.getDay();// 0=dim
+  const diff=day===0?-6:1-day;
+  const m=new Date(d);m.setDate(d.getDate()+diff);m.setHours(0,0,0,0);return m;
+}
+function _weekDates(){
+  const mon=_weekMonday(new Date());
+  return Array.from({length:7},(_,i)=>{const d=new Date(mon);d.setDate(mon.getDate()+i);return d.toISOString().split('T')[0];});
+}
+function refreshWeekDots(wrap,animate){
+  if(!wrap)return;
+  const todayStr=new Date().toISOString().split('T')[0];
+  const weekDates=_weekDates();
+  const loginSet=new Set(S.loginDates||[]);
+  const labels=['L','M','M','J','V','S','D'];
+  wrap.innerHTML='';
+  weekDates.forEach((ds,i)=>{
+    const d=document.createElement('div');
+    const connected=loginSet.has(ds);
+    const past=ds<todayStr;
+    const isToday=ds===todayStr;
+    let cls='streak-day-dot';
+    if(connected)cls+=' lit';
+    else if(past)cls+=' missed';
+    if(isToday)cls+=' today';
+    d.className=cls;d.textContent=labels[i];
+    if(animate&&connected){d.classList.remove('lit','today');setTimeout(()=>{d.classList.add('lit');if(isToday)d.classList.add('today');},300+i*180);}
+    wrap.appendChild(d);
+  });
+}
 function showStreakAnim(days){
   const ov=el('streakAnimOv');if(!ov)return;
   el('streakAnimCount').textContent=days;
@@ -6961,20 +7000,8 @@ function showStreakAnim(days){
   el('streakCoinsReward').classList.remove('show');
   el('streakAnimBtn').dataset.reward=reward;
   el('streakAnimBtn').disabled=false;
-  // Cercles jours (max 7 affichés)
-  const showDays=Math.min(days,7);
-  const dotsWrap=el('streakDotRow');
-  dotsWrap.innerHTML='';
-  const dayLabels=['L','M','M','J','V','S','D'];
-  for(let i=0;i<7;i++){
-    const d=document.createElement('div');
-    d.className='streak-day-dot'+(i<showDays?' lit':'')+(i===showDays-1?' today':'');
-    d.textContent=dayLabels[i];
-    dotsWrap.appendChild(d);
-  }
-  // Animer les cercles un par un
-  const dots=dotsWrap.querySelectorAll('.streak-day-dot.lit');
-  dots.forEach((d,i)=>{d.classList.remove('lit','today');setTimeout(()=>{d.classList.add('lit');if(i===dots.length-1)d.classList.add('today');},300+i*200);});
+  // Cercles — semaine en cours synchronisée avec les vraies dates
+  refreshWeekDots(el('streakDotRow'),true);
   // pas d'affichage reward texte
   ov.classList.add('show');
   // Particles
