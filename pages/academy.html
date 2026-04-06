@@ -4288,18 +4288,20 @@ function buildSidebarProfile(){
     });
     return `<svg width="110" height="110" viewBox="0 0 110 110">${paths}</svg>`;
   })();
+  const _lvlI18n={'Débutant':{en:'Beginner',es:'Principiante'},'Intermédiaire':{en:'Intermediate',es:'Intermedio'},'Avancé':{en:'Advanced',es:'Avanzado'},'Expert':{en:'Expert',es:'Experto'}};
   const levels = ['Débutant','Intermédiaire','Avancé','Expert'];
-  const lvlOpts = levels.map(l=>`<div class="sp-lvl-opt${S.level===l?' sp-lvl-active':''}" onclick="spSwitchLevel('${l}',this)">${l}</div>`).join('');
+  const _trLvl=l=>(_lang!=='fr'&&_lvlI18n[l]?_lvlI18n[l][_lang]||l:l);
+  const lvlOpts = levels.map(l=>`<div class="sp-lvl-opt${S.level===l?' sp-lvl-active':''}" onclick="spSwitchLevel('${l}',this)">${_trLvl(l)}</div>`).join('');
   return `<div class="sp-profile">
     <div class="sp-hero">
       <span class="sp-emo">${p.emoji}</span>
-      <div class="sp-name">${p.name}</div>
-      <span class="sp-badge" style="background:rgba(20,60,100,.55);color:var(--b);border:1px solid rgba(78,194,218,.3)">${m.style}</span>
+      <div class="sp-name">${tr(PROFILE_I18N.name,p.name)}</div>
+      <span class="sp-badge" style="background:rgba(20,60,100,.55);color:var(--b);border:1px solid rgba(78,194,218,.3)">${tr(PROFILE_I18N.style,m.style)}</span>
     </div>
 
     <div style="position:relative;margin-bottom:.8rem" id="spLvlWrap">
       <div onclick="toggleSpLvlMenu(event)" style="display:flex;justify-content:space-between;align-items:center;padding:.5rem .8rem;background:rgba(20,60,100,.55);border:1px solid rgba(78,194,218,.25);border-radius:7px;cursor:pointer;font-size:.78rem;font-weight:700;color:var(--b);letter-spacing:.04em">
-        <span id="spLvlLabel">${S.level}</span><span style="font-size:.65rem;opacity:.7">▾</span>
+        <span id="spLvlLabel">${_trLvl(S.level)}</span><span style="font-size:.65rem;opacity:.7">▾</span>
       </div>
       <div id="spLvlMenu" style="display:none;position:absolute;top:100%;left:0;right:0;background:#0d2033;border:1px solid rgba(78,194,218,.25);border-radius:7px;z-index:50;overflow:hidden;margin-top:2px">
         ${lvlOpts}
@@ -7841,6 +7843,20 @@ let _lang = localStorage.getItem('apex_lang') || 'fr';
 
 // Maps de traduction pour les données dynamiques du profil investisseur
 const PROFILE_I18N = {
+  name: {
+    'Gardien du Capital':      {en:'Capital Guardian',    es:'Guardián del Capital'},
+    'Investisseur Prudent':    {en:'Cautious Investor',   es:'Inversor Prudente'},
+    'Investisseur Équilibré':  {en:'Balanced Investor',   es:'Inversor Equilibrado'},
+    'Investisseur Dynamique':  {en:'Dynamic Investor',    es:'Inversor Dinámico'},
+    "Chasseur d'Alpha":        {en:'Alpha Hunter',        es:'Cazador de Alpha'},
+  },
+  style: {
+    'Défensif':   {en:'Defensive',  es:'Defensivo'},
+    'Prudent':    {en:'Cautious',   es:'Prudente'},
+    'Équilibré':  {en:'Balanced',   es:'Equilibrado'},
+    'Offensif':   {en:'Offensive',  es:'Ofensivo'},
+    'Agressif':   {en:'Aggressive', es:'Agresivo'},
+  },
   horizon: {
     'Court / Moyen terme (< 5 ans)':         {en:'Short / Medium term (< 5 yrs)',  es:'Corto / Medio plazo (< 5 años)'},
     'Moyen terme (5-10 ans)':                 {en:'Medium term (5-10 yrs)',          es:'Medio plazo (5-10 años)'},
