@@ -1,4 +1,4 @@
-# APEX Invest — Auth System
+# Tactic Academy — Auth System
 ## Stack : Supabase (Auth + BDD) · GitHub Pages (Hébergement statique)
 
 ---
@@ -6,7 +6,7 @@
 ## 📁 Structure
 
 ```
-apex-auth/
+Tactic-auth/
 ├── pages/
 │   ├── auth-helper.js        ← ⚠️ À configurer (tes clés Supabase)
 │   ├── login.html
