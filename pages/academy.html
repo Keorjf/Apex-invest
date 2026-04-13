@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>APEX — Trading Academy v3</title>
+<title>Tactic Academy</title>
 <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Press+Start+2P&family=VT323&family=DotGothic16&family=Nunito:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
 /* ═══════════════════════════════════
@@ -946,7 +946,9 @@ table.assets th.clickable:hover{color:var(--y);}
 .sav-child-page.show{transform:translateX(0);}
 .sav-child-back{background:none;border:none;color:var(--muted);font-size:.78rem;cursor:pointer;padding:0;margin-bottom:1.1rem;display:flex;align-items:center;gap:.35rem;font-family:'JetBrains Mono',monospace;}
 .sav-child-back:hover{color:var(--txt);}
-.env-add-inp{width:100%;box-sizing:border-box;background:var(--bg);border:1px solid var(--ln2);border-radius:8px;color:var(--txt);font-size:.82rem;padding:.45rem .7rem;outline:none;margin-bottom:.5rem;}
+.env-add-inp{width:100%;box-sizing:border-box;background:var(--bg);border:1px solid var(--ln2);border-radius:8px;color:var(--txt);font-size:.82rem;padding:.45rem .7rem;outline:none;margin-bottom:.5rem;transition:border-color .15s;}
+.env-add-inp.shake,.sav-inp.shake{animation:envShake .4s ease;border-color:var(--r);}
+@keyframes envShake{0%,100%{transform:translateX(0);}20%{transform:translateX(-8px);}40%{transform:translateX(8px);}60%{transform:translateX(-5px);}80%{transform:translateX(5px);}}
 .env-icon-row{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.6rem;}
 .env-icon-btn{font-size:1.2rem;background:transparent;border:1px solid var(--ln2);border-radius:7px;padding:.3rem .45rem;cursor:pointer;}
 .env-icon-btn.sel{border-color:var(--y);background:rgba(255,205,13,.1);}
@@ -1649,6 +1651,10 @@ table.assets th.clickable:hover{color:var(--y);}
 @media(max-width:500px){.cc-row{flex-direction:column;}.cprev-header{flex-direction:column;align-items:flex-start;}}
 
 </style>
+<script src="../wrong-answer-data.js"></script>
+<script src="../right-answer-data.js?v=2"></script>
+<script src="../news-audio-data.js"></script>
+<script src="../coin-audio-data.js"></script>
 </head>
 <body>
 <!-- Gradient defs partagés pour toutes les pièces SVG -->
@@ -1663,16 +1669,6 @@ table.assets th.clickable:hover{color:var(--y);}
   </defs>
 </svg>
 
-<!-- ═══════════════════════════════════
-     SPLASH
-═══════════════════════════════════ -->
-
-<div id="splash">
-  <div class="sp-ticker"><div class="sp-tinner" id="spTicker"></div></div>
-  <div class="sp-logo">TACTIC ACADEMY</div>
-  <h1 class="sp-h1" style="text-align:center;">APPRENDS.<br><span class="hi">GAGNE.</span><br>INVESTIS.<span class="sub" data-i18n="splashSub">Zéro blabla, 100 % Tactic<br>La seule salle de marché qui te transforme en pro.</span></h1>
-  <button class="btn-g" style="margin-top:2.2rem;font-size:.9rem;padding:.9rem 2.5rem;" onclick="boot('Débutant')"><span style="color:#0F2E3D" data-i18n="splashStart">Commencer →</span></button>
-</div>
 
 <!-- ═══════════════════════════════════
      APP
@@ -2015,10 +2011,6 @@ table.assets th.clickable:hover{color:var(--y);}
           <div id="savPieLegend" style="display:flex;flex-direction:column;gap:.4rem;flex:1"></div>
         </div>
 
-        <div class="sav-row" onclick="showInfoPop('cost')" style="cursor:pointer">
-          <div><div class="sav-row-lbl">Investi</div><div class="sav-row-val" style="color:#7EC8E3" id="savDisponible">—</div></div>
-          <span style="font-size:.6rem;color:var(--muted)">Tacoins dépensés</span>
-        </div>
         <div class="sav-row" onclick="showInfoPop('val')" style="cursor:pointer">
           <div><div class="sav-row-lbl">Valeur actuelle</div><div class="sav-row-val" style="color:#7EC8E3" id="savInvesti">—</div></div>
           <span style="font-size:.6rem;color:var(--muted)">Prix du marché</span>
@@ -3985,7 +3977,7 @@ function boot(level){
   const hasPos=ASSETS.some(a=>S.positions[a.id]&&S.positions[a.id].qty>0.00001);
   const hasBuys=S.journal.some(e=>e.type==='buy'||e.type==='limit');
   if(!hasPos&&hasBuys){const n=recoverPositionsFromJournal();if(n>0){saveState();console.log('Positions récupérées depuis le journal:',n);}}
-  el('splash').style.display='none';
+  const _sp=el('splash');if(_sp)_sp.style.display='none';
   el('app').style.display='flex';
   const tbLvlLbl=el('tbLvlLabel');if(tbLvlLbl)tbLvlLbl.textContent=level;
   const _tci=el('tbCoinIcon');if(_tci)_tci.innerHTML=_mkCoin(18);
@@ -4004,7 +3996,7 @@ function boot(level){
     saveState();localStorage.setItem('env_migration_v1','done');
   }
   _initEnvelopes();
-  setInterval(triggerEvent,90000+Math.random()*60000);
+  setInterval(triggerEvent,300000+Math.random()*120000);
   setInterval(checkLimitOrders,1800);
   saveState();
   if(S._newStreakDay)setTimeout(()=>showStreakAnim(S.streak),1200);
@@ -4044,7 +4036,7 @@ document.addEventListener('click',()=>{
 function goSplash(){
   clearInterval(window._mktSim);clearInterval(window._clock);
   saveState();
-  el('splash').style.display='flex';el('app').style.display='none';
+  const _sp2=el('splash');if(_sp2)_sp2.style.display='flex';el('app').style.display='none';
 }
 
 /* ══ TABS ══ */
@@ -4148,11 +4140,13 @@ function updateStreakUI(){
   document.querySelectorAll('.streak-days-row:not(#streakDotRow)').forEach(w=>refreshWeekDots(w,false));
 }
 function addXP(n){S.xp+=n;updateXPUI();}
+const _coinAudio=(()=>{try{const a=new Audio(COIN_AUDIO_SRC);a.volume=0.6;a.load();return a;}catch(e){return null;}})();
 function addCoins(n,ref){
   S.coins+=n;updateWalletUI();
   const w=el('tbWallet');w.classList.remove('pulse');
   setTimeout(()=>w.classList.add('pulse'),10);
   spawnCoins(ref||w);
+  try{if(_coinAudio){_coinAudio.currentTime=0;_coinAudio.play().catch(()=>{});}}catch(e){}
 }
 function spawnCoins(ref){
   const r=ref?ref.getBoundingClientRect():{left:window.innerWidth/2,top:80};
@@ -4645,6 +4639,14 @@ function openLesson(id){
     </div>`;
 }
 
+const _wrongAudio=(()=>{try{const a=new Audio(WRONG_AUDIO_SRC);a.volume=0.8;return a;}catch(e){return null;}})();
+const _rightAudio=(()=>{try{const a=new Audio(RIGHT_AUDIO_SRC);a.volume=0.8;return a;}catch(e){return null;}})();
+function _playWrongSound(){
+  try{if(!_wrongAudio)return;_wrongAudio.currentTime=0;_wrongAudio.play().catch(()=>{});}catch(e){}
+}
+function _playRightSound(){
+  try{if(!_rightAudio)return;_rightAudio.currentTime=0;_rightAudio.play().catch(()=>{});}catch(e){}
+}
 function _spawnCorrectSparks(btn){
   const rect=btn.getBoundingClientRect();
   const cx=rect.left+rect.width/2;
@@ -4674,11 +4676,15 @@ function answerQuiz(chosen,correct){
     if(j===correct){e.classList.add('ok');correctBtn=e;}
     else if(j===chosen&&chosen!==correct)e.classList.add('no');
   });
-  el('quizExpl').classList.add('show');
-  el('quizCta').classList.add('show');
-  if(chosen===correct){
+  const reveal=()=>{el('quizExpl').classList.add('show');el('quizCta').classList.add('show');};
+  if(chosen!==correct){
+    _playWrongSound();
+    const delay=(_wrongAudio&&_wrongAudio.duration>0)?Math.ceil(_wrongAudio.duration*1000)+300:2800;
+    setTimeout(reveal,delay);
+  }else{
+    _playRightSound();
     if(correctBtn)_spawnCorrectSparks(correctBtn);
-    addXP(20);
+    reveal();addXP(20);
   }
 }
 
@@ -5311,7 +5317,7 @@ function openSavingsModal(){
   const envTotal=_envTotal();
   const patrimoine=S.coins+totalVal+envTotal;
   const totalCost=Object.entries(S.positions).reduce((s,[id,p])=>s+(p.qty*(p.avgPrice||0)),0);
-  el('savDisponible').textContent=fmt(totalCost);
+  if(el('savDisponible'))el('savDisponible').textContent=fmt(totalCost);
   el('savInvesti').textContent=fmt(totalVal);
   el('savPatrimoine').textContent=fmt(patrimoine);
   // Dynamic envelopes in Vue d'ensemble
@@ -5501,8 +5507,8 @@ function depositGlobal(){
   const env=(S.envelopes||[]).find(e=>e.id===_selectedEnvId);if(!env)return;
   const n=Math.floor(Number(el('envGlobalInput').value));
   const msg=el('envGlobalMsg');
-  if(!n||n<=0){msg.style.color='var(--r)';msg.textContent='Montant invalide.';return;}
-  if(n>S.coins){msg.style.color='var(--r)';msg.textContent='Pas assez de Tacoins.';return;}
+  if(!n||n<=0){shakeEl(el('envGlobalInput'));msg.style.color='var(--r)';msg.textContent='Montant invalide.';return;}
+  if(n>S.coins){shakeEl(el('envGlobalInput'));msg.style.color='var(--r)';msg.textContent='Pas assez de Tacoins.';return;}
   S.coins-=n;env.amount+=n;
   if(env.id==='prec')S.precaution=env.amount;
   addJournal({type:'save',emoji:env.icon,asset:env.name,note:`Dépôt +${fmt(n)} 🪙 → solde ${fmt(env.amount)} 🪙`});
@@ -5514,8 +5520,8 @@ function withdrawGlobal(){
   const env=(S.envelopes||[]).find(e=>e.id===_selectedEnvId);if(!env)return;
   const n=Math.floor(Number(el('envGlobalInput').value));
   const msg=el('envGlobalMsg');
-  if(!n||n<=0){msg.style.color='var(--r)';msg.textContent='Montant invalide.';return;}
-  if(n>env.amount){msg.style.color='var(--r)';msg.textContent='Montant supérieur au solde.';return;}
+  if(!n||n<=0){shakeEl(el('envGlobalInput'));msg.style.color='var(--r)';msg.textContent='Montant invalide.';return;}
+  if(n>env.amount){shakeEl(el('envGlobalInput'));msg.style.color='var(--r)';msg.textContent='Montant supérieur au solde.';return;}
   env.amount-=n;S.coins+=n;
   if(env.id==='prec')S.precaution=env.amount;
   addJournal({type:'save',emoji:env.icon,asset:env.name,note:`Retrait -${fmt(n)} 🪙 → solde ${fmt(env.amount)} 🪙`});
@@ -5570,15 +5576,22 @@ function selEnvIcon(icon,btn){
   document.querySelectorAll('.env-icon-btn').forEach(b=>b.classList.remove('sel'));
   btn.classList.add('sel');
 }
+function shakeEl(inp){inp.classList.remove('shake');void inp.offsetWidth;inp.classList.add('shake');inp.addEventListener('animationend',()=>inp.classList.remove('shake'),{once:true});}
 function confirmAddEnv(){
   const name=(el('envNameInp').value||'').trim();
-  if(!name)return;
+  if(!name){shakeEl(el('envNameInp'));return;}
   _initEnvelopes();
   const id='env_'+Date.now();
   S.envelopes.push({id,name,icon:_envIconSel,amount:0});
   saveState();
+  el('envChildPage').classList.remove('show');
   _selectedEnvId=id;
-  openSavingsModal();switchSavTab('prec');
+  openSavingsModal();
+  switchSavTab('prec');
+  const sel=el('envSelector');
+  if(sel){sel.value=id;}
+  _selectedEnvId=id;
+  renderEnvDetail();
 }
 function fillPct(pct,src){
   const base=src==='coins'?S.coins:(S.precaution||0);
@@ -5589,6 +5602,19 @@ function depositPrecaution(){depositEnv('prec');}
 function withdrawPrecaution(){withdrawEnv('prec');}
 
 /* ══ ÉVÉNEMENTS ══ */
+/* -- Son news éco : auto-déverrouillé, indépendant -- */
+const _newsSound=(()=>{
+  try{
+    const a=new Audio(NEWS_AUDIO_SRC);
+    a.volume=0.8;
+    const unlock=()=>{
+      a.play().then(()=>{a.pause();a.currentTime=0;}).catch(()=>{});
+      document.removeEventListener('click',unlock,true);
+    };
+    document.addEventListener('click',unlock,true);
+    return a;
+  }catch(e){return null;}
+})();
 function _showEvBanner(ev){
   const banner=el('evBanner');if(!banner)return;
   el('evImpact').textContent=ev.impact==='good'?'📈':'📉';
@@ -5598,18 +5624,18 @@ function _showEvBanner(ev){
   banner.classList.add('show');
   clearTimeout(banner._autoHide);
   banner._autoHide=setTimeout(()=>closeEvBanner(),12000);
+  try{if(_newsSound){_newsSound.currentTime=0;_newsSound.play().catch(()=>{});}}catch(e){}
 }
 function triggerEvent(){
   const ev=EVENTS[Math.floor(Math.random()*EVENTS.length)];S.lastEvent=ev;
-  _showEvBanner(ev);
   Object.entries(ev.effects).forEach(([id,delta])=>{
     if(S.prices[id]!==undefined){S.prices[id]*=(1+delta);S.history[id].push(S.prices[id]);}
   });
   refreshMarketUI();
-  // Log dans le journal
   const sentiment=ev.impact==='good'?'📈 Haussier':'📉 Baissier';
   addJournal({type:'event',emoji:'🌐',asset:ev.title.replace(/^\p{Emoji}\s*/u,''),note:`${sentiment} — ${ev.desc}`});
   renderJournal();
+  if(S.activeTab==='market')_showEvBanner(ev);
 }
 function closeEvBanner(){const b=el('evBanner');if(!b)return;b.classList.remove('show');}
 function openDebriefFromBanner(e){if(e.target.classList.contains('ev-close'))return;openDebrief();}
@@ -5943,81 +5969,96 @@ function executeRebalanceSlot(slotIdx){
   const p=PROFILES[S.diagProfile];if(!p)return;
   const slot=p.alloc[slotIdx];if(!slot||!slot.assetId)return;
   const a=ASSETS.find(x=>x.id===slot.assetId);if(!a)return;
+  if(!S.positions[a.id])S.positions[a.id]={qty:0,avgPrice:S.prices[a.id]};
   const totalPortfolio=ASSETS.reduce((s,a2)=>s+(S.positions[a2.id]?.qty||0)*S.prices[a2.id],0)+S.coins;
   const cashReserve=_rebCashAmt();
   const availableCash=Math.max(0,S.coins-cashReserve);
   const investable=totalPortfolio-cashReserve;
-  const curVal=(S.positions[a.id]?.qty||0)*S.prices[a.id];
+  const curVal=S.positions[a.id].qty*S.prices[a.id];
   const targetVal=investable*slot.pct/100;
   const diff=targetVal-curVal;
   if(diff>1){
-    const amt=Math.floor(Math.min(diff,availableCash));if(amt<=0){showToast('sell','⚠️','Fonds insuffisants',`Pas assez de coins pour acheter ${a.name}.`);return;}
-    const fee=amt*0.001,tot=amt+fee;if(tot>availableCash){showToast('sell','⚠️','Fonds insuffisants',`Pas assez de coins pour acheter ${a.name}.`);return;}
+    const amt=Math.floor(Math.min(diff,availableCash));
+    if(amt<=0){showToast('sell','⚠️','Fonds insuffisants',`Pas assez de coins pour acheter ${a.name}.`);return;}
+    const tot=amt*1.001;if(tot>availableCash){showToast('sell','⚠️','Fonds insuffisants',`Pas assez de coins pour acheter ${a.name}.`);return;}
     const qty=amt/S.prices[a.id];
+    const prevQty=S.positions[a.id].qty,prevAvg=S.positions[a.id].avgPrice||S.prices[a.id];
     S.coins-=tot;S.positions[a.id].qty+=qty;
-    const prev=S.positions[a.id].avgPrice||S.prices[a.id];
-    S.positions[a.id].avgPrice=(prev*(S.positions[a.id].qty-qty)+qty*S.prices[a.id])/S.positions[a.id].qty;
-    addJournal({type:'buy',emoji:a.emoji,asset:a.name,note:`Rééquilibrage → ${slot.pct}% · ${amt} 🪙`});
+    S.positions[a.id].avgPrice=(prevAvg*prevQty+S.prices[a.id]*qty)/(prevQty+qty);
+    addJournal({type:'buy',emoji:a.emoji,asset:a.name,note:`Rééquilibrage ▲ → cible ${slot.pct}% · ${amt} 🪙`});
     showToast('buy','▲',`Acheté ${a.name}`,`+${amt} 🪙 investis`);
   } else if(diff<-1&&curVal>0){
     const sellVal=Math.min(Math.abs(diff),curVal);
-    const qty=sellVal/S.prices[a.id];const sq=Math.min(qty,S.positions[a.id].qty);
-    const proceeds=sq*S.prices[a.id];const fee=proceeds*0.001;
-    S.coins+=proceeds-fee;S.positions[a.id].qty=Math.max(0,S.positions[a.id].qty-sq);
-    addJournal({type:'sell',emoji:a.emoji,asset:a.name,note:`Rééquilibrage → ${slot.pct}% · ${fmt(sellVal)} 🪙`});
-    showToast('sell','▼',`Vendu ${a.name}`,`+${fmt(proceeds-fee)} 🪙 récupérés`);
+    const sq=Math.min(sellVal/S.prices[a.id],S.positions[a.id].qty);
+    const proceeds=sq*S.prices[a.id];
+    S.coins+=proceeds*0.999;S.positions[a.id].qty=Math.max(0,S.positions[a.id].qty-sq);
+    addJournal({type:'sell',emoji:a.emoji,asset:a.name,note:`Rééquilibrage ▼ → cible ${slot.pct}% · ${fmt(sellVal)} 🪙`});
+    showToast('sell','▼',`Vendu ${a.name}`,`+${fmt(proceeds*0.999)} 🪙 récupérés`);
   }
   updateWalletUI();renderPositions();updateAlignScore();saveState();
   _renderRebList();
 }
 function executeRebalance(){
   const p=PROFILES[S.diagProfile];if(!p)return;
-  const totalPortfolio=ASSETS.reduce((s,a)=>s+(S.positions[a.id]?.qty||0)*S.prices[a.id],0)+S.coins;
   const cashReserve=_rebCashAmt();
-  const investable=totalPortfolio-cashReserve;
+  const totalPortfolio=ASSETS.reduce((s,a)=>s+(S.positions[a.id]?.qty||0)*S.prices[a.id],0)+S.coins;
+  const investable=Math.max(0,totalPortfolio-cashReserve);
+  if(investable<=0)return;
   let ops=0;
-  // Étape 1 : ventes (libèrent du cash)
+
+  // Étape 1 : vendre les actifs EN SUR-PONDÉRATION par rapport à la valeur allouée
   p.alloc.forEach(slot=>{
     if(!slot.assetId)return;
     const a=ASSETS.find(x=>x.id===slot.assetId);if(!a)return;
-    const curVal=(S.positions[a.id]?.qty||0)*S.prices[a.id];
-    const diff=investable*slot.pct/100-curVal;
-    if(diff<-1&&curVal>0){
-      const sellVal=Math.min(Math.abs(diff),curVal);
-      const qty=sellVal/S.prices[a.id];const sq=Math.min(qty,S.positions[a.id].qty);
-      const proceeds=sq*S.prices[a.id];const fee=proceeds*0.001;
-      S.coins+=proceeds-fee;S.positions[a.id].qty=Math.max(0,S.positions[a.id].qty-sq);
-      addJournal({type:'sell',emoji:a.emoji,asset:a.name,note:`Rééquilibrage → ${slot.pct}% · ${fmt(sellVal)} 🪙`});ops++;
+    if(!S.positions[a.id])S.positions[a.id]={qty:0,avgPrice:S.prices[a.id]};
+    const curVal=S.positions[a.id].qty*S.prices[a.id];
+    const targetVal=investable*slot.pct/100;
+    const surplus=curVal-targetVal;
+    if(surplus>5){
+      const sq=Math.min(surplus/S.prices[a.id],S.positions[a.id].qty);
+      S.coins+=sq*S.prices[a.id]*0.999;
+      S.positions[a.id].qty=Math.max(0,S.positions[a.id].qty-sq);
+      addJournal({type:'sell',emoji:a.emoji,asset:a.name,note:`Rééquilibrage ▼ cible ${slot.pct}% · ${fmt(surplus)} 🪙`});
+      ops++;
     }
   });
-  // Étape 2 : achats pro-rata avec le cash disponible après ventes
-  const totalBuyNeeded=p.alloc.reduce((sum,slot)=>{
+
+  // Étape 2 : acheter les actifs EN SOUS-PONDÉRATION avec le cash disponible
+  const availCash=Math.max(0,S.coins-cashReserve);
+  const totalNeed=p.alloc.reduce((sum,slot)=>{
     if(!slot.assetId)return sum;
     const curVal=(S.positions[slot.assetId]?.qty||0)*S.prices[slot.assetId];
     const diff=investable*slot.pct/100-curVal;
-    return diff>1?sum+diff:sum;
+    return diff>5?sum+diff:sum;
   },0);
-  const availAfterSells=Math.max(0,S.coins-cashReserve);
-  const buyRatio=totalBuyNeeded>availAfterSells&&totalBuyNeeded>0?availAfterSells/totalBuyNeeded:1;
+  // Ratio pour distribuer le cash dispo proportionnellement (frais inclus)
+  const buyRatio=totalNeed>0?Math.min(1,(availCash/1.001)/totalNeed):0;
+
   p.alloc.forEach(slot=>{
     if(!slot.assetId)return;
     const a=ASSETS.find(x=>x.id===slot.assetId);if(!a)return;
-    const curVal=(S.positions[a.id]?.qty||0)*S.prices[a.id];
-    const rawDiff=investable*slot.pct/100-curVal;
-    if(rawDiff>1){
-      const amt=Math.floor(rawDiff*buyRatio);if(amt<=0)return;
-      const fee=amt*0.001,tot=amt+fee;if(tot>Math.max(0,S.coins-cashReserve))return;
-      const qty=amt/S.prices[a.id];
-      S.coins-=tot;S.positions[a.id].qty+=qty;
-      const prev=S.positions[a.id].avgPrice||S.prices[a.id];
-      S.positions[a.id].avgPrice=(prev*(S.positions[a.id].qty-qty)+qty*S.prices[a.id])/S.positions[a.id].qty;
-      addJournal({type:'buy',emoji:a.emoji,asset:a.name,note:`Rééquilibrage → ${slot.pct}% · ${amt} 🪙`});ops++;
-    }
+    if(!S.positions[a.id])S.positions[a.id]={qty:0,avgPrice:S.prices[a.id]};
+    const curVal=S.positions[a.id].qty*S.prices[a.id];
+    const diff=investable*slot.pct/100-curVal;
+    if(diff<=5)return;
+    const amt=Math.floor(diff*buyRatio);if(amt<1)return;
+    const tot=amt*1.001;if(tot>Math.max(0,S.coins-cashReserve))return;
+    const prevQty=S.positions[a.id].qty;
+    const prevAvg=S.positions[a.id].avgPrice||S.prices[a.id];
+    const qty=amt/S.prices[a.id];
+    S.coins-=tot;
+    S.positions[a.id].qty+=qty;
+    S.positions[a.id].avgPrice=prevQty+qty>0?(prevAvg*prevQty+S.prices[a.id]*qty)/(prevQty+qty):S.prices[a.id];
+    addJournal({type:'buy',emoji:a.emoji,asset:a.name,note:`Rééquilibrage ▲ cible ${slot.pct}% · ${amt} 🪙`});
+    ops++;
   });
+
   if(ops>0){
     showToast('buy','⚖️','Rééquilibrage effectué',`${ops} opération${ops>1?'s':''} exécutée${ops>1?'s':''}`);
     updateWalletUI();renderPositions();updateAlignScore();saveState();
     openRebalanceModal();
+  }else{
+    showToast('buy','✓','Déjà équilibré','Aucune opération nécessaire.');
   }
 }
 function closeAllocModal(){
@@ -6983,7 +7024,6 @@ function playTacticJingle(){
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
-  document.getElementById('splash').style.display='none';
   boot('Débutant');
 });
 
@@ -8046,6 +8086,7 @@ function deleteAccount(){
   if(typeof db!=='undefined'&&db){
     try{ db.auth.admin?.deleteUser(sess?.id).catch(()=>{}); }catch(_){}
   }
+
   window.location.href='../index.html';
 }
 </script>
