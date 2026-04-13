@@ -421,10 +421,14 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 .qo{background:var(--bg3);border:1px solid var(--ln);border-radius:7px;padding:.7rem .95rem;font-size:.76rem;cursor:pointer;transition:.18s;text-align:left;display:flex;align-items:center;gap:.65rem;color:#ffffff !important;-webkit-text-fill-color:#ffffff !important;}
 .qo:hover:not(.dis){border-color:rgba(255,205,13,.35);background:var(--gd);}
 .qo-k{width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.07);border:1px solid var(--ln);display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;flex-shrink:0;transition:.18s;}
-.qo.ok{border-color:var(--g);background:var(--gd);}
+.qo.ok{border-color:var(--g);background:var(--gd);animation:qoCorrect .65s cubic-bezier(.25,.8,.25,1) both;}
 .qo.ok .qo-k{background:var(--g);color:#000;border-color:var(--g);}
-.qo.no{border-color:var(--r);background:var(--rd);}
+.qo.no{border-color:var(--r);background:var(--rd);animation:qoShake .45s ease;}
 .qo.no .qo-k{background:var(--r);color:#fff;border-color:var(--r);}
+@keyframes qoShake{0%,100%{transform:translateX(0);}15%{transform:translateX(-9px);}30%{transform:translateX(9px);}45%{transform:translateX(-6px);}60%{transform:translateX(6px);}75%{transform:translateX(-3px);}90%{transform:translateX(3px);}}
+@keyframes qoCorrect{0%{transform:scale(1);}25%{transform:scale(1.07);box-shadow:0 0 0 5px rgba(0,210,120,.4),0 0 28px rgba(0,210,120,.55);}60%{transform:scale(.97);}80%{transform:scale(1.03);box-shadow:0 0 0 2px rgba(0,210,120,.2);}100%{transform:scale(1);box-shadow:none;}}
+.qo-spark{position:fixed;pointer-events:none;font-size:1.4rem;z-index:6000;animation:qoSparkFly var(--dur,1s) ease-out forwards;}
+@keyframes qoSparkFly{0%{transform:translate(0,0) scale(1) rotate(0deg);opacity:1;}100%{transform:translate(var(--tx,0px),var(--ty,-100px)) scale(0) rotate(var(--rot,360deg));opacity:0;}}
 .qo.dis{pointer-events:none;}
 .quiz-expl{display:none;margin:.4rem 1.1rem .9rem;padding:.8rem;border-radius:7px;background:rgba(255,205,13,.08);border-left:3px solid var(--g);font-size:.74rem;line-height:1.6;color:var(--soft);}
 .quiz-expl.show{display:block;}
@@ -4641,16 +4645,41 @@ function openLesson(id){
     </div>`;
 }
 
+function _spawnCorrectSparks(btn){
+  const rect=btn.getBoundingClientRect();
+  const cx=rect.left+rect.width/2;
+  const cy=rect.top+rect.height/2;
+  const emojis=['✨','⭐','🌟','💛','🎉','✅','💫'];
+  const count=14;
+  for(let i=0;i<count;i++){
+    const s=document.createElement('span');
+    s.className='qo-spark';
+    s.textContent=emojis[i%emojis.length];
+    const angle=(i/count)*2*Math.PI;
+    const dist=70+Math.random()*60;
+    const tx=Math.cos(angle)*dist;
+    const ty=Math.sin(angle)*dist-50;
+    const dur=(0.7+Math.random()*0.5).toFixed(2);
+    const rot=Math.round(Math.random()*720-360);
+    s.style.cssText=`left:${cx}px;top:${cy}px;--tx:${tx}px;--ty:${ty}px;--dur:${dur}s;--rot:${rot}deg;`;
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),parseFloat(dur)*1000+100);
+  }
+}
 function answerQuiz(chosen,correct){
   if(window._quizDone)return;window._quizDone=true;
+  let correctBtn=null;
   document.querySelectorAll('.qo').forEach((e,j)=>{
     e.classList.add('dis');
-    if(j===correct)e.classList.add('ok');
+    if(j===correct){e.classList.add('ok');correctBtn=e;}
     else if(j===chosen&&chosen!==correct)e.classList.add('no');
   });
   el('quizExpl').classList.add('show');
   el('quizCta').classList.add('show');
-  if(chosen===correct)addXP(20);
+  if(chosen===correct){
+    if(correctBtn)_spawnCorrectSparks(correctBtn);
+    addXP(20);
+  }
 }
 
 function completeLesson(id){
