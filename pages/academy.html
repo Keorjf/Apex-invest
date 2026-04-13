@@ -421,12 +421,12 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 .qo{background:var(--bg3);border:1px solid var(--ln);border-radius:7px;padding:.7rem .95rem;font-size:.76rem;cursor:pointer;transition:.18s;text-align:left;display:flex;align-items:center;gap:.65rem;color:#ffffff !important;-webkit-text-fill-color:#ffffff !important;}
 .qo:hover:not(.dis){border-color:rgba(255,205,13,.35);background:var(--gd);}
 .qo-k{width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.07);border:1px solid var(--ln);display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;flex-shrink:0;transition:.18s;}
-.qo.ok{border-color:var(--g);background:var(--gd);animation:qoCorrect .65s cubic-bezier(.25,.8,.25,1) both;}
+.qo.ok{border-color:var(--g);background:var(--gd);animation:qoCorrect .5s ease-out both;}
 .qo.ok .qo-k{background:var(--g);color:#000;border-color:var(--g);}
-.qo.no{border-color:var(--r);background:var(--rd);animation:qoShake .45s ease;}
+.qo.no{border-color:var(--r);background:var(--rd);animation:qoShake .4s ease;}
 .qo.no .qo-k{background:var(--r);color:#fff;border-color:var(--r);}
-@keyframes qoShake{0%,100%{transform:translateX(0);}15%{transform:translateX(-9px);}30%{transform:translateX(9px);}45%{transform:translateX(-6px);}60%{transform:translateX(6px);}75%{transform:translateX(-3px);}90%{transform:translateX(3px);}}
-@keyframes qoCorrect{0%{transform:scale(1);}25%{transform:scale(1.07);box-shadow:0 0 0 5px rgba(0,210,120,.4),0 0 28px rgba(0,210,120,.55);}60%{transform:scale(.97);}80%{transform:scale(1.03);box-shadow:0 0 0 2px rgba(0,210,120,.2);}100%{transform:scale(1);box-shadow:none;}}
+@keyframes qoShake{0%,100%{transform:translateX(0);}15%{transform:translateX(-8px);}35%{transform:translateX(8px);}55%{transform:translateX(-5px);}75%{transform:translateX(5px);}90%{transform:translateX(-2px);}}
+@keyframes qoCorrect{0%{transform:scale(1.08);box-shadow:0 0 0 6px rgba(0,210,120,.5),0 0 30px rgba(0,210,120,.6);}50%{transform:scale(.97);}75%{transform:scale(1.03);box-shadow:0 0 0 3px rgba(0,210,120,.25);}100%{transform:scale(1);box-shadow:none;}}
 .qo-spark{position:fixed;pointer-events:none;font-size:1.4rem;z-index:6000;animation:qoSparkFly var(--dur,1s) ease-out forwards;}
 @keyframes qoSparkFly{0%{transform:translate(0,0) scale(1) rotate(0deg);opacity:1;}100%{transform:translate(var(--tx,0px),var(--ty,-100px)) scale(0) rotate(var(--rot,360deg));opacity:0;}}
 .qo.dis{pointer-events:none;}
@@ -1655,6 +1655,10 @@ table.assets th.clickable:hover{color:var(--y);}
 <script>var RIGHT_AUDIO_SRC="../right-answer.mp3";</script>
 <script>var NEWS_AUDIO_SRC="../news-audio.mp3";</script>
 <script>var COIN_AUDIO_SRC="../coin-audio.wav";</script>
+<link rel="preload" href="../wrong-answer.mp3" as="audio" type="audio/mpeg">
+<link rel="preload" href="../right-answer.mp3" as="audio" type="audio/mpeg">
+<link rel="preload" href="../news-audio.mp3" as="audio" type="audio/mpeg">
+<link rel="preload" href="../coin-audio.wav" as="audio" type="audio/wav">
 </head>
 <body>
 <!-- Gradient defs partagés pour toutes les pièces SVG -->
@@ -4639,8 +4643,8 @@ function openLesson(id){
     </div>`;
 }
 
-const _wrongAudio=(()=>{try{const a=new Audio(WRONG_AUDIO_SRC);a.volume=0.8;return a;}catch(e){return null;}})();
-const _rightAudio=(()=>{try{const a=new Audio(RIGHT_AUDIO_SRC);a.volume=0.8;return a;}catch(e){return null;}})();
+const _wrongAudio=(()=>{try{const a=new Audio(WRONG_AUDIO_SRC);a.volume=0.8;a.preload='auto';a.load();return a;}catch(e){return null;}})();
+const _rightAudio=(()=>{try{const a=new Audio(RIGHT_AUDIO_SRC);a.volume=0.8;a.preload='auto';a.load();return a;}catch(e){return null;}})();
 function _playWrongSound(){
   try{if(!_wrongAudio)return;_wrongAudio.currentTime=0;_wrongAudio.play().catch(()=>{});}catch(e){}
 }
@@ -4671,20 +4675,25 @@ function _spawnCorrectSparks(btn){
 function answerQuiz(chosen,correct){
   if(window._quizDone)return;window._quizDone=true;
   let correctBtn=null;
+  // 1. Animation CSS immédiate (synchrone, rendu dès le prochain frame)
   document.querySelectorAll('.qo').forEach((e,j)=>{
     e.classList.add('dis');
     if(j===correct){e.classList.add('ok');correctBtn=e;}
     else if(j===chosen&&chosen!==correct)e.classList.add('no');
   });
-  const reveal=()=>{el('quizExpl').classList.add('show');el('quizCta').classList.add('show');};
-  if(chosen!==correct){
-    _playWrongSound();
-    const delay=(_wrongAudio&&_wrongAudio.duration>0)?Math.ceil(_wrongAudio.duration*1000)+300:2800;
-    setTimeout(reveal,delay);
-  }else{
-    _playRightSound();
+  if(chosen===correct){
+    // 2. Sparks et XP immédiats
     if(correctBtn)_spawnCorrectSparks(correctBtn);
-    reveal();addXP(20);
+    el('quizExpl').classList.add('show');
+    el('quizCta').classList.add('show');
+    addXP(20);
+    // 3. Audio découplé — ne bloque pas le rendu
+    setTimeout(()=>_playRightSound(),0);
+  }else{
+    // Audio découplé
+    setTimeout(()=>_playWrongSound(),0);
+    const delay=(_wrongAudio&&_wrongAudio.duration>0)?Math.ceil(_wrongAudio.duration*1000)+300:2800;
+    setTimeout(()=>{el('quizExpl').classList.add('show');el('quizCta').classList.add('show');},delay);
   }
 }
 
