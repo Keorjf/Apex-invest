@@ -4144,13 +4144,36 @@ function updateStreakUI(){
   document.querySelectorAll('.streak-days-row:not(#streakDotRow)').forEach(w=>refreshWeekDots(w,false));
 }
 function addXP(n){S.xp+=n;updateXPUI();}
-const _coinAudio=(()=>{try{const a=new Audio(COIN_AUDIO_SRC);a.volume=0.6;a.load();return a;}catch(e){return null;}})();
+/* ══ WEB AUDIO ENGINE — préchargé en mémoire, lecture instantanée ══ */
+const _audioCtx=(()=>{try{return new(window.AudioContext||window.webkitAudioContext)();}catch(e){return null;}})();
+const _audioBufs={};
+(async function _preloadAudio(){
+  if(!_audioCtx)return;
+  const files={wrong:WRONG_AUDIO_SRC,right:RIGHT_AUDIO_SRC,news:NEWS_AUDIO_SRC,coin:COIN_AUDIO_SRC};
+  for(const[k,url]of Object.entries(files)){
+    try{const r=await fetch(url);const ab=await r.arrayBuffer();_audioBufs[k]=await _audioCtx.decodeAudioData(ab);}catch(e){}
+  }
+})();
+document.addEventListener('click',()=>{if(_audioCtx&&_audioCtx.state==='suspended')_audioCtx.resume();},{once:true});
+function _playAudio(key,vol=0.8){
+  try{
+    const buf=_audioBufs[key];if(!buf||!_audioCtx)return;
+    if(_audioCtx.state==='suspended')_audioCtx.resume();
+    const src=_audioCtx.createBufferSource();
+    src.buffer=buf;
+    const gain=_audioCtx.createGain();gain.gain.value=vol;
+    src.connect(gain);gain.connect(_audioCtx.destination);
+    src.start(0);
+  }catch(e){}
+}
+function _playWrongSound(){_playAudio('wrong',0.8);}
+function _playRightSound(){_playAudio('right',0.8);}
 function addCoins(n,ref){
   S.coins+=n;updateWalletUI();
   const w=el('tbWallet');w.classList.remove('pulse');
   setTimeout(()=>w.classList.add('pulse'),10);
   spawnCoins(ref||w);
-  try{if(_coinAudio){_coinAudio.currentTime=0;_coinAudio.play().catch(()=>{});}}catch(e){}
+  setTimeout(()=>_playAudio('coin',0.6),0);
 }
 function spawnCoins(ref){
   const r=ref?ref.getBoundingClientRect():{left:window.innerWidth/2,top:80};
@@ -4643,14 +4666,6 @@ function openLesson(id){
     </div>`;
 }
 
-const _wrongAudio=(()=>{try{const a=new Audio(WRONG_AUDIO_SRC);a.volume=0.8;a.preload='auto';a.load();return a;}catch(e){return null;}})();
-const _rightAudio=(()=>{try{const a=new Audio(RIGHT_AUDIO_SRC);a.volume=0.8;a.preload='auto';a.load();return a;}catch(e){return null;}})();
-function _playWrongSound(){
-  try{if(!_wrongAudio)return;_wrongAudio.currentTime=0;_wrongAudio.play().catch(()=>{});}catch(e){}
-}
-function _playRightSound(){
-  try{if(!_rightAudio)return;_rightAudio.currentTime=0;_rightAudio.play().catch(()=>{});}catch(e){}
-}
 function _spawnCorrectSparks(btn){
   const rect=btn.getBoundingClientRect();
   const cx=rect.left+rect.width/2;
@@ -4690,9 +4705,8 @@ function answerQuiz(chosen,correct){
     // 3. Audio découplé — ne bloque pas le rendu
     setTimeout(()=>_playRightSound(),0);
   }else{
-    // Audio découplé
     setTimeout(()=>_playWrongSound(),0);
-    const delay=(_wrongAudio&&_wrongAudio.duration>0)?Math.ceil(_wrongAudio.duration*1000)+300:2800;
+    const delay=(_audioBufs.wrong)?Math.round(_audioBufs.wrong.duration*1000)+300:2800;
     setTimeout(()=>{el('quizExpl').classList.add('show');el('quizCta').classList.add('show');},delay);
   }
 }
@@ -5612,18 +5626,6 @@ function withdrawPrecaution(){withdrawEnv('prec');}
 
 /* ══ ÉVÉNEMENTS ══ */
 /* -- Son news éco : auto-déverrouillé, indépendant -- */
-const _newsSound=(()=>{
-  try{
-    const a=new Audio(NEWS_AUDIO_SRC);
-    a.volume=0.8;
-    const unlock=()=>{
-      a.play().then(()=>{a.pause();a.currentTime=0;}).catch(()=>{});
-      document.removeEventListener('click',unlock,true);
-    };
-    document.addEventListener('click',unlock,true);
-    return a;
-  }catch(e){return null;}
-})();
 function _showEvBanner(ev){
   const banner=el('evBanner');if(!banner)return;
   el('evImpact').textContent=ev.impact==='good'?'📈':'📉';
@@ -5633,7 +5635,7 @@ function _showEvBanner(ev){
   banner.classList.add('show');
   clearTimeout(banner._autoHide);
   banner._autoHide=setTimeout(()=>closeEvBanner(),12000);
-  try{if(_newsSound){_newsSound.currentTime=0;_newsSound.play().catch(()=>{});}}catch(e){}
+  setTimeout(()=>_playAudio('news',0.8),0);
 }
 function triggerEvent(){
   const ev=EVENTS[Math.floor(Math.random()*EVENTS.length)];S.lastEvent=ev;
