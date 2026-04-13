@@ -4690,25 +4690,27 @@ function _spawnCorrectSparks(btn){
 function answerQuiz(chosen,correct){
   if(window._quizDone)return;window._quizDone=true;
   let correctBtn=null;
-  // 1. Animation CSS immédiate (synchrone, rendu dès le prochain frame)
+  // Étape 1 : uniquement les classes CSS — le navigateur peut peindre immédiatement
   document.querySelectorAll('.qo').forEach((e,j)=>{
     e.classList.add('dis');
     if(j===correct){e.classList.add('ok');correctBtn=e;}
     else if(j===chosen&&chosen!==correct)e.classList.add('no');
   });
-  if(chosen===correct){
-    // 2. Sparks et XP immédiats
-    if(correctBtn)_spawnCorrectSparks(correctBtn);
-    el('quizExpl').classList.add('show');
-    el('quizCta').classList.add('show');
-    addXP(20);
-    // 3. Audio découplé — ne bloque pas le rendu
-    setTimeout(()=>_playRightSound(),0);
-  }else{
-    setTimeout(()=>_playWrongSound(),0);
-    const delay=(_audioBufs.wrong)?Math.round(_audioBufs.wrong.duration*1000)+300:2800;
-    setTimeout(()=>{el('quizExpl').classList.add('show');el('quizCta').classList.add('show');},delay);
-  }
+  // Étape 2 : après le premier paint (requestAnimationFrame) — tout le reste
+  const _cb=correctBtn;
+  requestAnimationFrame(()=>{
+    if(chosen===correct){
+      _playRightSound();
+      if(_cb)_spawnCorrectSparks(_cb);
+      el('quizExpl').classList.add('show');
+      el('quizCta').classList.add('show');
+      addXP(20);
+    }else{
+      _playWrongSound();
+      const delay=(_audioBufs.wrong)?Math.round(_audioBufs.wrong.duration*1000)+300:2800;
+      setTimeout(()=>{el('quizExpl').classList.add('show');el('quizCta').classList.add('show');},delay);
+    }
+  });
 }
 
 function completeLesson(id){
