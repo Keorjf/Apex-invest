@@ -4006,6 +4006,7 @@ function boot(level){
   document.querySelectorAll('.tc-dyn').forEach(el=>el.innerHTML=_mkCoin(18));
   updateWalletUI();updateXPUI();updateStreakUI();
   buildLearnSidebar();showLessonMap();
+  setTimeout(closeMb, 100);
   buildMarketTable();selectAsset('msci');
   startMarketSim();startClock();renderMissions();renderLimitQueue();initFabDrag();
   if(S.diagDone&&S.diagProfile)showAllocPanel();
@@ -4042,12 +4043,14 @@ function spSwitchLevel(lvl,optEl){
   document.querySelectorAll('.sp-lvl-opt').forEach(o=>o.classList.remove('sp-lvl-active'));
   optEl.classList.add('sp-lvl-active');
   const lbl=el('spLvlLabel');if(lbl)lbl.textContent=lvl;
+  closeMb();
   boot(lvl);
 }
 function switchLevel(lvl, optEl){
   const m=el('lvlMenu');if(m)m.classList.remove('open');
   document.querySelectorAll('.lvl-opt').forEach(o=>o.classList.remove('active'));
   optEl.classList.add('active');
+  closeMb();
   boot(lvl);
 }
 document.addEventListener('click',()=>{
@@ -4205,7 +4208,7 @@ function _playTactMoveSound(vol=0.28){
   const buf=_audioBufs.robot;
   if(!_audioCtx||!buf) return;
   const now=_audioCtx.currentTime;
-  const minGap=0.8 + Math.random()*0.8; // 0.8-1.6s minimum between interruptions
+  const minGap=1.8 + Math.random()*1.0; // 1.8-2.8s minimum between interruptions
   if(now < _lastTactMoveSound) return;
   _lastTactMoveSound = now + minGap;
   const fullDur=Math.max(0.08, buf.duration);
@@ -4523,13 +4526,20 @@ function openTrackDrawer(idx){
   el('mbColTitle').textContent=name;
   el('mbColFill').style.width=pct+'%';
   el('mbColLbl').textContent=doneTr+'/'+track.lessons.length;
-  el('miniBanner').classList.remove('collapsed');
-  el('mbMinBtn').textContent='▼';
-  el('miniBanner').classList.add('open');
+  const mb=el('miniBanner');
+  if(mb){
+    mb.style.display='block';
+    mb.classList.remove('collapsed');
+    el('mbMinBtn').textContent='▼';
+    mb.classList.add('open');
+  }
 }
 function closeMb(){
-  el('miniBanner').classList.remove('open');
-  el('miniBanner').classList.remove('collapsed');
+  const mb = el('miniBanner');
+  if(!mb) return;
+  mb.classList.remove('open');
+  mb.classList.remove('collapsed');
+  mb.style.display = 'none';
 }
 function toggleMbCollapse(){
   const mb=el('miniBanner');
@@ -4580,6 +4590,7 @@ function openTrackDetail(idx){
 }
 
 function showLessonMap(){
+  closeMb();
   S.currentLesson=null;buildLearnSidebar();
   const tracks=LESSONS[S.level]||[];
   const all=tracks.flatMap(t=>t.lessons);
@@ -7831,9 +7842,9 @@ function initFabDrag(){
     fab.addEventListener('animationend',()=>fab.classList.remove(cls),{once:true});
   }
   function _schedFabAnim(){
-    setTimeout(()=>{_doFabAnim();_schedFabAnim();},15000+Math.random()*25000);
+    setTimeout(()=>{_doFabAnim();_schedFabAnim();},25000+Math.random()*30000);
   }
-  setTimeout(_schedFabAnim, 8000); // première fois après 8s
+  setTimeout(_schedFabAnim, 12000); // première fois après 12s
 }
 function botAppend(who,html){
   const wrap=el('chatbotMessages');
