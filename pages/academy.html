@@ -518,7 +518,7 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 .lesson-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,260px));gap:1rem;justify-content:center;}
 .track-emo{font-size:1.1rem;filter:sepia(1) hue-rotate(5deg) saturate(3) brightness(1.1);}
 .track-dsc{font-size:.68rem;color:var(--muted);}
-.lc{background:var(--bg2);border:1px solid var(--ln);border-radius:9px;padding:.85rem;cursor:pointer;transition:.22s;position:relative;overflow:hidden;}
+.lc{background:var(--bg2);border:1px solid var(--ln);border-radius:9px;padding:.85rem;cursor:pointer;transition:.22s;position:relative;overflow:hidden;text-align:center;}
 .lc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--g);transform:scaleX(0);transform-origin:left;transition:.3s;}
 .lc:hover{border-color:rgba(255,205,13,.26);transform:translateY(-2px);}
 .lc:hover::before{transform:scaleX(1);}
@@ -526,10 +526,8 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 .lc.done::before{transform:scaleX(1);opacity:.35;}
 .lc.locked{opacity:.4;cursor:not-allowed;}
 .lc.locked:hover{transform:none;}
-.lc-e{font-size:1.1rem;display:block;margin-bottom:.45rem;filter:sepia(1) hue-rotate(5deg) saturate(3) brightness(1.1);}
-.lc-n{font-size:.76rem;font-weight:700;line-height:1.3;margin-bottom:.35rem;}
-.lc-foot{display:flex;align-items:center;justify-content:space-between;}
-.lc-t{font-size:.58rem;color:var(--muted);}
+.lc-e{font-size:1.1rem;display:block;margin-bottom:.45rem;filter:sepia(1) hue-rotate(5deg) saturate(3) brightness(1.1);text-align:center;}
+.lc-n{font-size:.76rem;font-weight:700;line-height:1.3;margin-bottom:.35rem;text-align:center;}
 .lc-r{font-size:.58rem;color:var(--y);display:flex;align-items:center;gap:.15rem;}
 .lc-check{position:absolute;top:.45rem;right:.45rem;width:15px;height:15px;border-radius:50%;background:var(--g);color:#000;font-size:.5rem;font-weight:900;display:flex;align-items:center;justify-content:center;}
 .lc-lock{position:absolute;top:.45rem;right:.45rem;font-size:.8rem;opacity:.5;}
@@ -3560,6 +3558,23 @@ function trTrackName(trackStr) {
   if (_lang === 'fr') return trackStr;
   return LESSON_I18N[_lang]?.tracks?.[trackStr] || trackStr;
 }
+function shortLessonTitle(title){
+  if (!title) return '';
+  const overrides = {
+    "L'équipe de super-héros : la règle 50/30/20": 'La règle du 50/30/20'
+  };
+  if (overrides[title]) return overrides[title];
+  const parts = title.split(/[:–—-]/).map(s=>s.trim()).filter(Boolean);
+  let primary = parts[0] || '';
+  if (parts.length > 1) {
+    const [left, right] = parts;
+    const genericLeft = /^(l'?équipe|la place|le guide|le secret|la recette|ton|tes|mes|la règle)\b/i;
+    if (genericLeft.test(left) && right.length > 0) {
+      primary = right;
+    }
+  }
+  return primary;
+}
 // ═══ LEÇONS SUPPLÉMENTAIRES — 38 leçons pour atteindre 100 ═══
 
 // Ajout dans Débutant : track Retraite & Long terme (8 leçons)
@@ -4454,6 +4469,7 @@ function openTrackDrawer(idx){
   const btn=el('mbStartBtn');
   if(firstUnlocked){
     btn.textContent=doneTr>0?'Continuer →':'Commencer →';
+    btn.disabled=false;
     btn.onclick=()=>{closeMb();openLesson(firstUnlocked.id);};
   } else {
     // Cherche le module en cours (partiellement commencé) sinon le premier non commencé
@@ -4468,7 +4484,15 @@ function openTrackDrawer(idx){
       btn.textContent='→ '+nName;btn.disabled=false;
       btn.onclick=()=>{closeMb();openTrackDrawer(targetIdx);};
     } else {
-      btn.textContent='✓ Tout terminé';btn.disabled=true;
+      const levels=['Débutant','Intermédiaire','Avancé','Expert'];
+      const currentIdx=levels.indexOf(S.level);
+      const nextLevel=currentIdx!==-1&&currentIdx<levels.length-1?levels[currentIdx+1]:null;
+      if(nextLevel && LESSONS[nextLevel] && LESSONS[nextLevel].length>0){
+        btn.textContent='Niveau suivant →';btn.disabled=false;
+        btn.onclick=()=>{closeMb();boot(nextLevel);};
+      } else {
+        btn.textContent='✓ Tout terminé';btn.disabled=true;
+      }
     }
   }
   el('mbDetailBtn').onclick=()=>{closeMb();openTrackDetail(idx);};
@@ -4508,10 +4532,7 @@ function openTrackDetail(idx){
     return `<div class="lc${isDone?' done':''}" onclick="openLesson('${l.id}')">
       ${isDone?'<div class="lc-check">✓</div>':''}
       <span class="lc-e">${tl.e}</span>
-      <div class="lc-n">${tl.n}</div>
-      <div class="lc-foot">
-        <span class="lc-t">${l.tag||''}</span>
-      </div>
+      <div class="lc-n">${shortLessonTitle(tl.n)}</div>
     </div>`;
   }).join('');
   el('learnMain').innerHTML=`
