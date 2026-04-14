@@ -933,6 +933,8 @@ table.assets th.clickable:hover{color:var(--y);}
 .env-pct-go:hover{border-color:var(--y);color:var(--y);}
 .env-select{width:100%;background:var(--bg2);border:1px solid var(--ln2);border-radius:9px;color:var(--txt);font-size:.82rem;padding:.5rem .7rem;outline:none;cursor:pointer;margin-bottom:.7rem;appearance:none;-webkit-appearance:none;}
 .env-select-wrap{position:relative;margin-bottom:.7rem;}
+.env-select-wrap.flash-error .env-select{animation:envSelectFlash .55s ease forwards;}
+@keyframes envSelectFlash{0%{border-color:var(--r);background:rgba(255,59,92,.18);box-shadow:0 0 0 3px rgba(255,59,92,.35);}40%{border-color:var(--r);background:rgba(255,59,92,.28);box-shadow:0 0 0 5px rgba(255,59,92,.2);}100%{border-color:var(--ln2);background:var(--bg2);box-shadow:none;}}
 .env-select-wrap::after{content:'▾';position:absolute;right:.8rem;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;font-size:.7rem;}
 .env-detail{background:rgba(78,194,218,.06);border:1px solid rgba(78,194,218,.18);border-radius:12px;padding:.85rem 1rem;margin-bottom:.7rem;}
 .env-detail-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:.3rem;}
@@ -5528,8 +5530,14 @@ function fillGlobalPctCustom(){
   if(!pct)return;
   fillGlobalPct(pct);
 }
+function _flashEnvSelect(){
+  const w=el('envSelector')?.closest('.env-select-wrap');if(!w)return;
+  w.classList.remove('flash-error');void w.offsetWidth;
+  w.classList.add('flash-error');
+  w.addEventListener('animationend',()=>w.classList.remove('flash-error'),{once:true});
+}
 function depositGlobal(){
-  if(!_selectedEnvId||_selectedEnvId==='new'){el('envGlobalMsg').textContent='Sélectionne une enveloppe.';return;}
+  if(!_selectedEnvId||_selectedEnvId==='new'){_flashEnvSelect();el('envGlobalMsg').style.color='var(--r)';el('envGlobalMsg').textContent='Sélectionne une enveloppe.';return;}
   const env=(S.envelopes||[]).find(e=>e.id===_selectedEnvId);if(!env)return;
   const n=Math.floor(Number(el('envGlobalInput').value));
   const msg=el('envGlobalMsg');
@@ -5542,7 +5550,7 @@ function depositGlobal(){
   el('envGlobalMsg').style.color='var(--g)';el('envGlobalMsg').textContent=`+${fmt(n)} déposés dans ${env.name} ✓`;
 }
 function withdrawGlobal(){
-  if(!_selectedEnvId||_selectedEnvId==='new'){el('envGlobalMsg').textContent='Sélectionne une enveloppe.';return;}
+  if(!_selectedEnvId||_selectedEnvId==='new'){_flashEnvSelect();el('envGlobalMsg').style.color='var(--r)';el('envGlobalMsg').textContent='Sélectionne une enveloppe.';return;}
   const env=(S.envelopes||[]).find(e=>e.id===_selectedEnvId);if(!env)return;
   const n=Math.floor(Number(el('envGlobalInput').value));
   const msg=el('envGlobalMsg');
