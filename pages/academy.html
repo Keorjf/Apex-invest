@@ -1966,17 +1966,6 @@ table.assets th.clickable:hover{color:var(--y);}
     </div>
   </div>
 
-  <!-- LIMIT TUTO -->
-  <div class="info-pop-ov" id="limitTutoOv" onclick="if(event.target===this)el('limitTutoOv').classList.remove('show')">
-    <div class="info-pop">
-      <div class="info-pop-icon" id="ltIcon"></div>
-      <div class="info-pop-title" id="ltTitle"></div>
-      <div class="info-pop-body" id="ltBody"></div>
-      <div id="ltDots" style="text-align:center;margin:.9rem 0 .4rem"></div>
-      <button class="info-pop-close" id="ltBtn" onclick="nextLimitTuto()">Suivant →</button>
-    </div>
-  </div>
-
   <!-- EVENT DETAIL POP -->
   <div class="info-pop-ov" id="evDetailOv" onclick="if(event.target===this)closeEvDetail()">
     <div class="info-pop">
@@ -2099,7 +2088,7 @@ table.assets th.clickable:hover{color:var(--y);}
         <button class="jf-btn active" onclick="filterJournal('all',this)" data-i18n="jfAll">Tout</button>
         <button class="jf-btn" onclick="filterJournal('buy',this)" data-i18n="jfBuy">Achats</button>
         <button class="jf-btn" onclick="filterJournal('sell',this)" data-i18n="jfSell">Ventes</button>
-        <button class="jf-btn" onclick="filterJournal('limit',this);showLimitTuto()" data-i18n="jfLimit">Ordres limites</button>
+        <button class="jf-btn" onclick="filterJournal('limit',this)" data-i18n="jfLimit">Ordres limites</button>
         <button class="jf-btn" onclick="filterJournal('event',this)" data-i18n="jfEvents">Événements</button>
         <button class="jf-btn" onclick="filterJournal('mission',this)" data-i18n="jfMissions">Missions</button>
         <button class="jf-btn" onclick="filterJournal('lesson',this)">Leçons</button>
@@ -5410,31 +5399,6 @@ function renderSavPie(coins,investi,precaution){
       <span style="font-size:.65rem;color:var(--muted);flex:1">${s.label}</span>
       <span style="font-size:.7rem;font-weight:700;color:${s.color};font-family:'JetBrains Mono',monospace">${Math.round(s.val/total*100)}%</span>
     </div>`).join('');
-}
-const LIMIT_TUTO_STEPS=[
-  {icon:'📋',title:"C'est quoi un ordre limite ?",body:"Un ordre limite te permet d'acheter ou vendre un actif à un prix précis que tu fixes toi-même. Contrairement à un ordre au marché (exécuté immédiatement au prix actuel), l'ordre limite attend que le marché atteigne ton prix cible."},
-  {icon:'🎯',title:"Comment ça marche ?",body:"Tu choisis un actif, un montant, et un prix cible. L'ordre est placé en attente. Dès que le prix du marché atteint ton prix limite, l'ordre s'exécute automatiquement — même si tu n'es pas connecté."},
-  {icon:'💡',title:"Pourquoi l'utiliser ?",body:"Pour acheter moins cher que le prix actuel en anticipant une baisse, ou pour vendre plus cher en attendant une hausse. C'est un outil de patience : tu décides de ton prix, et le marché vient à toi."},
-  {icon:'⚠️',title:"À savoir",body:"Si le prix n'atteint jamais ton niveau cible, l'ordre reste en attente indéfiniment. Tu peux l'annuler à tout moment depuis la file d'attente des ordres limites."},
-];
-let _limitTutoStep=0;
-function showLimitTuto(filterBtn){
-  _limitTutoStep=0;
-  _renderLimitTutoStep();
-  el('limitTutoOv').classList.add('show');
-  el('limitTutoOv').dataset.filterBtn=filterBtn?'1':'0';
-}
-function _renderLimitTutoStep(){
-  const s=LIMIT_TUTO_STEPS[_limitTutoStep];
-  el('ltIcon').textContent=s.icon;
-  el('ltTitle').textContent=s.title;
-  el('ltBody').textContent=s.body;
-  el('ltDots').innerHTML=LIMIT_TUTO_STEPS.map((_,i)=>`<span style="width:7px;height:7px;border-radius:50%;background:${i===_limitTutoStep?'var(--y)':'var(--ln2)'};display:inline-block;margin:0 3px"></span>`).join('');
-  el('ltBtn').textContent=_limitTutoStep<LIMIT_TUTO_STEPS.length-1?'Suivant →':'Compris ✓';
-}
-function nextLimitTuto(){
-  if(_limitTutoStep<LIMIT_TUTO_STEPS.length-1){_limitTutoStep++;_renderLimitTutoStep();}
-  else{el('limitTutoOv').classList.remove('show');}
 }
 function showInfoPop(key){
   const d=INFO_CARDS[key];if(!d)return;
