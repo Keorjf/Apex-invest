@@ -369,6 +369,12 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 .b-tip-lbl{font-size:.56rem;letter-spacing:.13em;text-transform:uppercase;color:var(--y);margin-bottom:.2rem;}
 .b-tip-txt{font-size:.76rem;line-height:1.6;color:var(--soft);font-family:'JetBrains Mono','Courier New',monospace;}
 .b-tip-txt strong{color:var(--y);}
+.voir-plus-wrap{margin-top:.4rem;}
+.voir-plus-btn{background:transparent;border:1px solid rgba(77,158,255,.3);color:var(--b);font-size:.72rem;font-family:'JetBrains Mono','Courier New',monospace;padding:.35rem .85rem;border-radius:6px;cursor:pointer;display:block;width:100%;text-align:center;letter-spacing:.04em;transition:background .18s,border-color .18s;}
+.voir-plus-btn:hover{background:rgba(77,158,255,.08);border-color:rgba(77,158,255,.55);}
+.voir-plus-btn.open{color:var(--soft);}
+.voir-plus-content{display:none;margin-top:.5rem;}
+.voir-plus-content.open{display:block;}
 .b-info{background:var(--bd);border:1px solid rgba(77,158,255,.16);padding:.9rem 1.1rem;display:flex;gap:.7rem;align-items:flex-start;}
 .b-info-lbl{font-size:.56rem;letter-spacing:.13em;text-transform:uppercase;color:var(--b);margin-bottom:.2rem;}
 .b-info-txt{font-size:.76rem;line-height:1.6;color:var(--soft);font-family:'JetBrains Mono','Courier New',monospace;}
@@ -4593,27 +4599,31 @@ function openLesson(id){
   S.currentLesson=lesson;buildLearnSidebar();window._quizDone=false;
   const mult=streakMult();
   const coins=Math.round(lesson.coins*mult);
-  let blocks='';
+  let hookBlocks='';
+  let moreBlocks='';
   lesson.blocks.forEach(b=>{
-    if(b.type==='hook')
-      blocks+=`<div class="block b-hook"><span class="emo">${b.emo}</span><p>${b.text}</p></div>`;
-    else if(b.type==='content')
-      blocks+=`<div class="block b-content"><p>${b.text}</p></div>`;
-    else if(b.type==='tip')
-      blocks+=`<div class="block b-tip"><span class="b-tip-icon">💡</span><div><div class="b-tip-lbl">Astuce Pro</div><div class="b-tip-txt">${b.text}</div></div></div>`;
-    else if(b.type==='trap')
-      blocks+=`<div class="block b-trap"><div class="b-trap-lbl">⚠️ Piège à éviter</div><p>${b.text}</p></div>`;
-    else if(b.type==='real')
-      blocks+=`<div class="block b-real"><div class="b-real-head"><span class="b-real-dot"></span>Exemple réel · ${b.title}</div><div class="b-real-body"><p>${b.text}</p></div></div>`;
-    else if(b.type==='info')
-      blocks+=`<div class="block b-content"><p>${b.text}</p></div>`;
+    if(b.type==='hook'){
+      hookBlocks+=`<div class="block b-hook"><span class="emo">${b.emo}</span><p>${b.text}</p></div>`;
+    } else if(b.type==='content'){
+      moreBlocks+=`<div class="block b-content"><p>${b.text}</p></div>`;
+    } else if(b.type==='tip'){
+      moreBlocks+=`<div class="block b-tip"><span class="b-tip-icon">💡</span><div><div class="b-tip-lbl">Astuce Pro</div><div class="b-tip-txt">${b.text}</div></div></div>`;
+    } else if(b.type==='trap'){
+      moreBlocks+=`<div class="block b-trap"><div class="b-trap-lbl">⚠️ Piège à éviter</div><p>${b.text}</p></div>`;
+    } else if(b.type==='real'){
+      moreBlocks+=`<div class="block b-real"><div class="b-real-head"><span class="b-real-dot"></span>Exemple réel · ${b.title}</div><div class="b-real-body"><p>${b.text}</p></div></div>`;
+    } else if(b.type==='info'){
+      moreBlocks+=`<div class="block b-content"><p>${b.text}</p></div>`;
+    }
   });
+  const hasMore=moreBlocks.length>0;
+  const blocks=hookBlocks+(hasMore?`<div class="voir-plus-wrap"><div class="voir-plus-content">${moreBlocks}</div><button class="voir-plus-btn" onclick="toggleVoirPlus(this)">Voir plus ▾</button></div>`:'');
   const q=lesson.quiz;
   const doneAlready=S.done.has(lesson.id);
   el('learnMain').innerHTML=`
     <div style="padding:1.5rem 2rem 4rem;max-width:760px;margin:0 auto;width:100%">
       <button class="btn-ghost" onclick="showLessonMap()" style="margin-bottom:1rem;padding:.4rem .9rem;font-size:.72rem">← Carte</button>
-      <div class="lh-title">${lesson.e} ${lesson.n}</div>
+      <div class="lh-title">${lesson.e} ${lesson.n.split(' : ')[0]}</div>
       <div class="lh-meta">
         ${doneAlready?'<span style="color:var(--g)">✓ Déjà complétée</span>':''}
       </div>
@@ -6346,6 +6356,12 @@ const QUIZ_HELP={
     {label:'Trouver le taux',formula:'(Valeur finale / Valeur initiale − 1) × 100',tip:'Ex : 1 200€ / 1 000€ − 1 = 0,20 → +20%'},
   ]
 };
+function toggleVoirPlus(btn){
+  const content=btn.previousElementSibling;
+  const open=content.classList.toggle('open');
+  btn.classList.toggle('open',open);
+  btn.textContent=open?'Voir moins ▴':'Voir plus ▾';
+}
 function toggleHelp(tag){
   const p=el('quizHelpPanel');if(!p)return;
   if(p.classList.contains('open')){p.classList.remove('open');return;}
