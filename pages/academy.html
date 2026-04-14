@@ -1905,8 +1905,8 @@ table.assets th.clickable:hover{color:var(--y);}
               <div class="oai-dropdown" id="oaiDropdown"></div>
             </div>
             <div class="wallet-row">
-              <span data-i18n="orderAvail">Disponible</span>
-              <span class="wr-coins"><span class="tc-coin"></span> <span id="opWallet">500</span></span>
+              <span>En portefeuille</span>
+              <span class="wr-coins"><span id="opWallet">—</span></span>
             </div>
             <div class="order-tabs" style="display:none">
               <button class="otab buy active" id="oBuy" onclick="setOrderSide('buy')" data-i18n="orderBuy">▲ ACHETER</button>
@@ -4063,9 +4063,19 @@ const NUDGE_THRESHOLD=1000;
 const LOW_THRESHOLD=250;
 let nudgeShown=false;
 let lowNudgeShown=false;
+function updateOpPosition(){
+  const ow=el('opWallet');if(!ow)return;
+  const id=S.selectedAsset;
+  if(!id){ow.textContent='—';return;}
+  const pos=S.positions[id];
+  const qty=pos?pos.qty:0;
+  const price=S.prices[id]||0;
+  const val=qty*price;
+  ow.textContent=qty>0?fmt(val)+' 🪙 ('+fmtP(qty)+' u.)':'—';
+}
 function updateWalletUI(){
   const _wa=el('tbWalletAmt');if(_wa)_wa.textContent=fmt(S.coins);
-  const ow=el('opWallet');if(ow)ow.textContent=fmt(S.coins);
+  updateOpPosition();
   const ob=el('ofBal');if(ob)ob.innerHTML='Dispo : '+_TC+fmt(S.coins);
   if(S.coins>=NUDGE_THRESHOLD&&!nudgeShown){showInvestNudge();}
   if(S.coins<NUDGE_THRESHOLD){nudgeShown=false;}
@@ -4831,7 +4841,7 @@ function refreshMarketUI(){
     if(capEl&&a.capB){const cur=a.capB*(p/a.base);capEl.textContent=fmtMktCap(cur);}
     drawSparkline('spark_'+a.id,hist.slice(-40));
   });
-  updateChartHeader();renderPositions();
+  updateChartHeader();renderPositions();updateOpPosition();
 }
 
 function updateChartHeader(){
@@ -4967,7 +4977,7 @@ function selectAsset(id){
   const nm=el('oaiNm'),pr=el('oaiPr');
   if(nm)nm.textContent=a.emoji+' '+a.name;
   if(pr)pr.textContent=fmtP(S.prices[id]);
-  updateOrderSummary();updateChartHeader();
+  updateOrderSummary();updateChartHeader();updateOpPosition();
 }
 function closeInfoToast(){
   const t=document.getElementById('infoToast');
