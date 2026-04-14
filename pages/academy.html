@@ -1662,10 +1662,12 @@ table.assets th.clickable:hover{color:var(--y);}
 <script>var RIGHT_AUDIO_SRC="../right-answer.mp3";</script>
 <script>var NEWS_AUDIO_SRC="../news-audio.mp3";</script>
 <script>var COIN_AUDIO_SRC="../coin-audio.wav";</script>
+<script>var ROBOT_AUDIO_SRC="../robot-damaged.mp3";</script>
 <link rel="preload" href="../wrong-answer.mp3" as="audio" type="audio/mpeg">
 <link rel="preload" href="../right-answer.mp3" as="audio" type="audio/mpeg">
 <link rel="preload" href="../news-audio.mp3" as="audio" type="audio/mpeg">
 <link rel="preload" href="../coin-audio.wav" as="audio" type="audio/wav">
+<link rel="preload" href="../robot-damaged.mp3" as="audio" type="audio/mpeg">
 </head>
 <body>
 <!-- Gradient defs partagés pour toutes les pièces SVG -->
@@ -3987,6 +3989,7 @@ function recoverPositionsFromJournal(){
 /* ══ BOOT ══ */
 function boot(level){
   S.level=level;
+  closeMb();
   loadState();
   ASSETS.forEach(a=>{
     S.prices[a.id]=a.base;S.history[a.id]=[a.base];S.sessionOpen[a.id]=a.base;
@@ -4174,15 +4177,16 @@ function addXP(n){S.xp+=n;updateXPUI();}
 /* ══ WEB AUDIO ENGINE — préchargé en mémoire, lecture instantanée ══ */
 const _audioCtx=(()=>{try{return new(window.AudioContext||window.webkitAudioContext)();}catch(e){return null;}})();
 const _audioBufs={};
+let _lastTactMoveSound=0;
 (async function _preloadAudio(){
   if(!_audioCtx)return;
-  const files={wrong:WRONG_AUDIO_SRC,right:RIGHT_AUDIO_SRC,news:NEWS_AUDIO_SRC,coin:COIN_AUDIO_SRC};
+  const files={wrong:WRONG_AUDIO_SRC,right:RIGHT_AUDIO_SRC,news:NEWS_AUDIO_SRC,coin:COIN_AUDIO_SRC,robot:ROBOT_AUDIO_SRC};
   for(const[k,url]of Object.entries(files)){
     try{const r=await fetch(url);const ab=await r.arrayBuffer();_audioBufs[k]=await _audioCtx.decodeAudioData(ab);}catch(e){}
   }
 })();
 document.addEventListener('click',()=>{if(_audioCtx&&_audioCtx.state==='suspended')_audioCtx.resume();},{once:true});
-function _playAudio(key,vol=0.8){
+function _playAudio(key,vol=0.8,offset=0,duration){
   try{
     const buf=_audioBufs[key];if(!buf||!_audioCtx)return;
     if(_audioCtx.state==='suspended')_audioCtx.resume();
@@ -4190,8 +4194,26 @@ function _playAudio(key,vol=0.8){
     src.buffer=buf;
     const gain=_audioCtx.createGain();gain.gain.value=vol;
     src.connect(gain);gain.connect(_audioCtx.destination);
-    src.start(0);
+    if(typeof duration==='number'){
+      src.start(_audioCtx.currentTime, offset, duration);
+    } else {
+      src.start(_audioCtx.currentTime);
+    }
   }catch(e){}
+}
+function _playTactMoveSound(vol=0.28){
+  const buf=_audioBufs.robot;
+  if(!_audioCtx||!buf) return;
+  const now=_audioCtx.currentTime;
+  const minGap=0.8 + Math.random()*0.8; // 0.8-1.6s minimum between interruptions
+  if(now < _lastTactMoveSound) return;
+  _lastTactMoveSound = now + minGap;
+  const fullDur=Math.max(0.08, buf.duration);
+  const segLen=0.1 + Math.random()*0.14; // 100-240ms
+  const dur=Math.min(segLen, fullDur);
+  const maxStart=Math.max(0, fullDur - dur);
+  const offset=Math.random()*maxStart;
+  _playAudio('robot', vol, offset, dur);
 }
 function _playWrongSound(){_playAudio('wrong',0.8);}
 function _playRightSound(){_playAudio('right',0.8);}
@@ -4768,7 +4790,16 @@ function completeLesson(id){
     el('quizCta').style.display='none';
     const nextAll=all.filter(l=>!S.done.has(l.id));
     let btns='';
-    if(nextAll.length>0)btns+=`<button class="btn-g" onclick="openLesson('${nextAll[0].id}')">Leçon suivante →</button>`;
+    if(nextAll.length>0){
+      btns+=`<button class="btn-g" onclick="openLesson('${nextAll[0].id}')">Leçon suivante →</button>`;
+    } else {
+      const levels=['Débutant','Intermédiaire','Avancé','Expert'];
+      const currentIdx=levels.indexOf(S.level);
+      const nextLevel=currentIdx!==-1&&currentIdx<levels.length-1?levels[currentIdx+1]:null;
+      if(nextLevel && LESSONS[nextLevel] && LESSONS[nextLevel].flatMap(t=>t.lessons).length>0){
+        btns+=`<button class="btn-g" onclick="boot('${nextLevel}')">Niveau suivant →</button>`;
+      }
+    }
     btns+=`<button class="btn-ghost" onclick="switchTab('market')">📊 Investir</button>`;
     btns+=`<button class="btn-ghost" onclick="showLessonMap()">↩ Carte</button>`;
     el('ccBtns').innerHTML=btns;
@@ -7727,7 +7758,7 @@ function _positionChatPanel(){
 }
 function initFabDrag(){
   const fab=el('chatbotFab'); if(!fab) return;
-  let ptId=null,sX,sY,fLeft,fTop,dragging=false;
+  let ptId=null,sX,sY,fLeft,fTop,dragging=false,moveSoundTriggered=false;
   const THR=8,SIZE=52,PAD=14;
   function snapTo(cx,cy){
     const W=window.innerWidth,H=window.innerHeight;
@@ -7759,6 +7790,10 @@ function initFabDrag(){
       dragging=true;
       fab.style.transition='none';
       fab.style.cursor='grabbing';
+      if(!moveSoundTriggered){
+        _playTactMoveSound(0.28);
+        moveSoundTriggered=true;
+      }
     }
     fab.style.left=(fLeft+dx)+'px';
     fab.style.top=(fTop+dy)+'px';
@@ -7771,7 +7806,9 @@ function initFabDrag(){
     if(dragging){
       const r=fab.getBoundingClientRect();
       snapTo(r.left+SIZE/2,r.top+SIZE/2);
+      _playTactMoveSound(0.22);
       dragging=false;
+      moveSoundTriggered=false;
     } else {
       toggleChatbot();
       fab.classList.toggle('open');
@@ -7779,7 +7816,7 @@ function initFabDrag(){
   });
   fab.addEventListener('pointercancel',e=>{
     if(e.pointerId!==ptId) return;
-    ptId=null; dragging=false;
+    ptId=null; dragging=false; moveSoundTriggered=false;
     fab.style.cursor='grab';
     const r=fab.getBoundingClientRect();
     snapTo(r.left+SIZE/2,r.top+SIZE/2);
@@ -7790,6 +7827,7 @@ function initFabDrag(){
     if(dragging||el('chatbotPanel')?.classList.contains('open')) return;
     const cls=_anims[Math.floor(Math.random()*_anims.length)];
     fab.classList.add(cls);
+    _playTactMoveSound(0.18);
     fab.addEventListener('animationend',()=>fab.classList.remove(cls),{once:true});
   }
   function _schedFabAnim(){
