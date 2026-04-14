@@ -4065,6 +4065,9 @@ let nudgeShown=false;
 let lowNudgeShown=false;
 function updateOpPosition(){
   const ow=el('opWallet');if(!ow)return;
+  // Only show position if user explicitly picked an asset in the order panel
+  const pr=el('oaiPr');
+  if(!pr||pr.textContent==='—'){ow.textContent='—';return;}
   const id=S.selectedAsset;
   if(!id){ow.textContent='—';return;}
   const pos=S.positions[id];
