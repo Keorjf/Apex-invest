@@ -615,7 +615,7 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 .mkt-mode-btn:hover{border-color:var(--y);color:var(--y);}
 .mkt-mode-btn.simple{border-color:rgba(78,194,218,.4);color:var(--y);background:rgba(78,194,218,.08);}
 /* En mode simplifié : cache Cat/Spark/Cap dans le tableau */
-.mkt-left.simplified .col-cat,.mkt-left.simplified .col-spark,.mkt-left.simplified .col-cap{display:none;}
+.mkt-left.simplified .col-cat,.mkt-left.simplified .col-spark{display:none;}
 /* Barre d'action rapide en bas du graphique */
 /* ══ PROGRESSIVE DISCLOSURE ══ */
 /* Niveaux 0 et 1 : masquer les éléments avancés */
@@ -1785,7 +1785,7 @@ table.assets th.clickable:hover{color:var(--y);}
               <th class="clickable" onclick="showColTip('prix')" data-i18n="mktPrice">Prix ℹ</th>
               <th class="clickable" onclick="showColTip('24h')" data-i18n="mkt24h">24h ℹ</th>
               <th class="col-spark clickable" onclick="showColTip('spark')" data-i18n="mktSpark">7j Spark ℹ</th>
-              <th class="col-cap clickable" onclick="showColTip('cap')" data-i18n="mktCap">Cap. ℹ</th>
+              <th class="col-cap clickable" onclick="showColTip('cap')" data-i18n="mktCap">Capitalisation ℹ</th>
             </tr></thead>
             <tbody id="assetBody"></tbody>
           </table>
@@ -2404,18 +2404,18 @@ table.assets th.clickable:hover{color:var(--y);}
    ASSETS
 ═══════════════════════════════════ */
 const ASSETS=[
-  {id:'msci', name:'MSCI World ETF',  desc:'Fonds qui réplique 1 500 grandes entreprises mondiales',   cat:'ETF',         base:485.2,   vol:.004, color:'#FFCD0D', emoji:'🌍', unlockXP:0},
-  {id:'cac',  name:'CAC 40',          desc:'Indice des 40 plus grandes entreprises de la Bourse de Paris', cat:'Indice',  base:7820,    vol:.005, color:'#4D9EFF', emoji:'🇫🇷', unlockXP:0},
-  {id:'lvmh', name:'LVMH',            desc:'Géant mondial du luxe (Louis Vuitton, Dior, Moët…)',         cat:'Action',      base:672.4,   vol:.007, color:'#4EC2DA', emoji:'💎', unlockXP:0},
-  {id:'aapl', name:'Apple',           desc:'Fabricant de l\'iPhone, Mac et services numériques',          cat:'Action',      base:182.3,   vol:.008, color:'#A78BFA', emoji:'🍎', unlockXP:0},
-  {id:'gold', name:'Or',              desc:'Métal précieux, valeur refuge en période d\'incertitude',     cat:'Matière 1re', base:2340.8,  vol:.003, color:'#FFD700', emoji:'🪙', unlockXP:0},
-  {id:'tnx',  name:'OAT 10 ans',      desc:'Emprunt d\'État français à 10 ans (taux sans risque)',        cat:'Obligation',  base:100.2,   vol:.002, color:'#00BCD4', emoji:'📜', unlockXP:0},
-  {id:'btc',  name:'Bitcoin',         desc:'Première crypto-monnaie décentralisée au monde',              cat:'Crypto',      base:67400,   vol:.025, color:'#FF9800', emoji:'₿',  unlockXP:150},
-  {id:'tsla', name:'Tesla',           desc:'Leader des véhicules électriques et de l\'énergie propre',    cat:'Action',      base:172.1,   vol:.018, color:'#FF3B5C', emoji:'⚡', unlockXP:150},
-  {id:'nvda', name:'Nvidia',          desc:'Fabricant de puces GPU, moteur de l\'intelligence artificielle', cat:'Action',  base:875.4,   vol:.015, color:'#76FF03', emoji:'🖥️', unlockXP:300},
-  {id:'scpi', name:'SCPI Immo',       desc:'Parts d\'un fonds d\'immobilier locatif géré collectivement', cat:'Immobilier',  base:210.5,   vol:.001, color:'#FF7A00', emoji:'🏢', unlockXP:300},
-  {id:'iaetf',name:'ETF IA & Tech',   desc:'Fonds thématique sur les entreprises d\'IA et de technologie', cat:'ETF Thém.', base:324.6,   vol:.012, color:'#E040FB', emoji:'🤖', unlockXP:500},
-  {id:'em',   name:'ETF Émer. (Inde)',desc:'Fonds exposé aux marchés émergents, dont l\'Inde en priorité', cat:'ETF',       base:445.8,   vol:.009, color:'#FF6F00', emoji:'🌏', unlockXP:500}
+  {id:'msci', name:'MSCI World ETF',  desc:'Fonds qui réplique 1 500 grandes entreprises mondiales',   cat:'ETF',         base:485.2,   vol:.004, color:'#FFCD0D', emoji:'🌍', unlockXP:0,   capB:68},
+  {id:'cac',  name:'CAC 40',          desc:'Indice des 40 plus grandes entreprises de la Bourse de Paris', cat:'Indice',  base:7820,    vol:.005, color:'#4D9EFF', emoji:'🇫🇷', unlockXP:0,   capB:2180},
+  {id:'lvmh', name:'LVMH',            desc:'Géant mondial du luxe (Louis Vuitton, Dior, Moët…)',         cat:'Action',      base:672.4,   vol:.007, color:'#4EC2DA', emoji:'💎', unlockXP:0,   capB:318},
+  {id:'aapl', name:'Apple',           desc:'Fabricant de l\'iPhone, Mac et services numériques',          cat:'Action',      base:182.3,   vol:.008, color:'#A78BFA', emoji:'🍎', unlockXP:0,   capB:2820},
+  {id:'gold', name:'Or',              desc:'Métal précieux, valeur refuge en période d\'incertitude',     cat:'Matière 1re', base:2340.8,  vol:.003, color:'#FFD700', emoji:'🪙', unlockXP:0,   capB:14200},
+  {id:'tnx',  name:'OAT 10 ans',      desc:'Emprunt d\'État français à 10 ans (taux sans risque)',        cat:'Obligation',  base:100.2,   vol:.002, color:'#00BCD4', emoji:'📜', unlockXP:0,   capB:2050},
+  {id:'btc',  name:'Bitcoin',         desc:'Première crypto-monnaie décentralisée au monde',              cat:'Crypto',      base:67400,   vol:.025, color:'#FF9800', emoji:'₿',  unlockXP:150, capB:1320},
+  {id:'tsla', name:'Tesla',           desc:'Leader des véhicules électriques et de l\'énergie propre',    cat:'Action',      base:172.1,   vol:.018, color:'#FF3B5C', emoji:'⚡', unlockXP:150, capB:548},
+  {id:'nvda', name:'Nvidia',          desc:'Fabricant de puces GPU, moteur de l\'intelligence artificielle', cat:'Action',  base:875.4,   vol:.015, color:'#76FF03', emoji:'🖥️', unlockXP:300, capB:2160},
+  {id:'scpi', name:'SCPI Immo',       desc:'Parts d\'un fonds d\'immobilier locatif géré collectivement', cat:'Immobilier',  base:210.5,   vol:.001, color:'#FF7A00', emoji:'🏢', unlockXP:300, capB:82},
+  {id:'iaetf',name:'ETF IA & Tech',   desc:'Fonds thématique sur les entreprises d\'IA et de technologie', cat:'ETF Thém.', base:324.6,   vol:.012, color:'#E040FB', emoji:'🤖', unlockXP:500, capB:44},
+  {id:'em',   name:'ETF Émer. (Inde)',desc:'Fonds exposé aux marchés émergents, dont l\'Inde en priorité', cat:'ETF',       base:445.8,   vol:.009, color:'#FF6F00', emoji:'🌏', unlockXP:500, capB:37}
 ];
 
 /* ═══════════════════════════════════
@@ -3836,6 +3836,7 @@ function _mkCoin(size=18){return '<img src="'+_coinDataURL+'" width="'+size+'" h
 const _TC=_mkCoin(18);
 function fmt(n){return Math.floor(n).toLocaleString('fr-FR');}
 function fmtP(n){if(n>=10000)return fmt(n);if(n>=100)return n.toFixed(1);return n.toFixed(2);}
+function fmtMktCap(md){if(md>=1000)return (md/1000).toFixed(1).replace('.',',')+' 000 Md';return Math.round(md)+' Md';}
 function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
 function dir(v){return v>0.001?'up':v<-0.001?'dn':'flat';}
 function sign(v){return v>0?'+':'';}
@@ -4781,13 +4782,13 @@ function buildMarketTable(){
       ?`<th style="width:40%;text-align:left;cursor:pointer" onclick="showColTip('actif')">Actif ℹ</th>
         <th style="width:22%;text-align:center;cursor:pointer" onclick="showColTip('prix')">Prix ℹ</th>
         <th style="width:18%;text-align:center;cursor:pointer" onclick="showColTip('24h')">24h ℹ</th>
-        <th style="width:20%;text-align:center;cursor:pointer" onclick="showColTip('cap')">Cap. ℹ</th>`
+        <th style="width:20%;text-align:center;cursor:pointer" onclick="showColTip('cap')">Capitalisation ℹ</th>`
       :`<th class="clickable" onclick="showColTip('actif')" data-i18n="mktAsset">Actif ℹ</th>
         <th class="col-cat"><div class="cat-th-wrap"><span id="catThLabel" onclick="toggleCatDd()">Cat.</span><span class="cat-th-arrow" onclick="toggleCatDd()">▾</span><div class="cat-dropdown" id="catDropdown"><div class="cat-opt active" onclick="filterCatDd(this,'Tous')">Toutes</div><div class="cat-opt" onclick="filterCatDd(this,'ETF')" style="color:#FFCD0D">ETF</div><div class="cat-opt" onclick="filterCatDd(this,'ETF Thém.')" style="color:#E040FB">ETF Thém.</div><div class="cat-opt" onclick="filterCatDd(this,'Indice')" style="color:#4D9EFF">Indice</div><div class="cat-opt" onclick="filterCatDd(this,'Action')" style="color:#4EC2DA">Action</div><div class="cat-opt" onclick="filterCatDd(this,'Crypto')" style="color:#FF9800">Crypto</div><div class="cat-opt" onclick="filterCatDd(this,'Matière 1re')" style="color:#FFB300">Matière 1re</div><div class="cat-opt" onclick="filterCatDd(this,'Obligation')" style="color:#76FF03">Obligation</div><div class="cat-opt" onclick="filterCatDd(this,'Immobilier')" style="color:#FF7A00">Immobilier</div></div></div></th>
         <th class="clickable" onclick="showColTip('prix')" data-i18n="mktPrice">Prix ℹ</th>
         <th class="clickable" onclick="showColTip('24h')" data-i18n="mkt24h">24h ℹ</th>
         <th class="col-spark clickable" onclick="showColTip('spark')" data-i18n="mktSpark">7j Spark ℹ</th>
-        <th class="col-cap clickable" onclick="showColTip('cap')" data-i18n="mktCap">Cap. ℹ</th>`;
+        <th class="col-cap clickable" onclick="showColTip('cap')" data-i18n="mktCap">Capitalisation ℹ</th>`;
   }
   const tbody=el('assetBody');if(!tbody)return;
   const list=_catFilter==='Tous'?ASSETS:ASSETS.filter(a=>a.cat===_catFilter);
@@ -4796,7 +4797,7 @@ function buildMarketTable(){
         <td data-action="desc" style="text-align:left"><div class="td-name"><span style="font-size:1.1rem">${a.emoji}</span>${a.name}</div></td>
         <td class="td-price" id="price_${a.id}" data-action="price" style="cursor:pointer;text-align:center">${fmtP(a.base)}</td>
         <td class="td-chg flat" id="chg_${a.id}" data-action="chg" style="cursor:pointer;text-align:center">—</td>
-        <td class="col-cap td-chg flat" id="sess_${a.id}" data-action="sess" style="cursor:pointer;text-align:center">—</td>
+        <td class="col-cap" id="cap_${a.id}" style="text-align:center;font-size:.72rem;color:var(--soft)">—</td>
       </tr>`
     :`<tr class="asset-row${a.id===S.selectedAsset?' selected':''}" id="row_${a.id}" onclick="handleRowClick(event,'${a.id}')" ondblclick="openOrderPanel()">
         <td data-action="desc"><div class="td-name"><span style="font-size:1.1rem">${a.emoji}</span>${a.name}</div></td>
@@ -4804,7 +4805,7 @@ function buildMarketTable(){
         <td class="td-price" id="price_${a.id}" data-action="price" style="cursor:pointer">${fmtP(a.base)}</td>
         <td class="td-chg flat" id="chg_${a.id}" data-action="chg" style="cursor:pointer">—</td>
         <td class="col-spark"><canvas class="spark-canvas" id="spark_${a.id}" width="80" height="32"></canvas></td>
-        <td class="col-cap td-chg flat" id="sess_${a.id}" data-action="sess" style="cursor:pointer">—</td>
+        <td class="col-cap" id="cap_${a.id}" style="font-size:.72rem;color:var(--soft)">—</td>
       </tr>`
   ).join('');
 }
@@ -4833,8 +4834,8 @@ function refreshMarketUI(){
     const pEl=el('price_'+a.id);if(pEl)pEl.textContent=fmtP(p);
     const cEl=el('chg_'+a.id);
     if(cEl){cEl.className='td-chg '+dir(chg);cEl.textContent=sign(chg)+chg.toFixed(2)+'%';}
-    const sEl=el('sess_'+a.id);
-    if(sEl){sEl.className='td-chg '+dir(sess);sEl.textContent=sign(sess)+sess.toFixed(2)+'%';}
+    const capEl=el('cap_'+a.id);
+    if(capEl&&a.capB){const cur=a.capB*(p/a.base);capEl.textContent=fmtMktCap(cur);}
     drawSparkline('spark_'+a.id,hist.slice(-40));
   });
   updateChartHeader();renderPositions();
