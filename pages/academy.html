@@ -4063,11 +4063,10 @@ const NUDGE_THRESHOLD=1000;
 const LOW_THRESHOLD=250;
 let nudgeShown=false;
 let lowNudgeShown=false;
+let _orderAssetPicked=false;
 function updateOpPosition(){
   const ow=el('opWallet');if(!ow)return;
-  // Only show position if user explicitly picked an asset in the order panel
-  const pr=el('oaiPr');
-  if(!pr||pr.textContent==='—'){ow.textContent='—';return;}
+  if(!_orderAssetPicked){ow.textContent='—';return;}
   const id=S.selectedAsset;
   if(!id){ow.textContent='—';return;}
   const pos=S.positions[id];
@@ -4773,7 +4772,7 @@ document.addEventListener('click',e=>{
   if(dd&&!dd.closest('th').contains(e.target))dd.classList.remove('open');
 });
 function handleRowClick(e,id){
-  selectAsset(id);
+  _orderAssetPicked=true;selectAsset(id);
   const td=e.target.closest('td');
   if(!td)return;
   const act=td.dataset.action;
@@ -4951,7 +4950,7 @@ function setTF(btn,tf){
 function buildAssetDd(){
   const dd=el('oaiDropdown');if(!dd)return;
   dd.innerHTML=ASSETS.map(a=>`
-    <div class="oai-opt${a.id===S.selectedAsset?' active':''}" onclick="selectAsset('${a.id}');closeAssetDd()">
+    <div class="oai-opt${a.id===S.selectedAsset?' active':''}" onclick="_orderAssetPicked=true;selectAsset('${a.id}');closeAssetDd()">
       <div class="oai-opt-left"><span>${a.emoji}</span><span>${a.name}</span></div>
       <span class="oai-opt-price">${fmtP(S.prices[a.id])}</span>
     </div>`).join('');
