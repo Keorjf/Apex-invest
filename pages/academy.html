@@ -1830,7 +1830,7 @@ table.assets th.clickable:hover{color:var(--y);}
           </div>
           <div class="sheet-tabs">
             <button class="sheet-tab active" id="sheetTabBtnOrder" onclick="switchSheetTab('order')">Ordre</button>
-            <button class="sheet-tab" id="sheetTabBtnPortfolio" onclick="switchSheetTab('portfolio')">Portefeuille</button>
+            <button class="sheet-tab" id="sheetTabBtnPortfolio" onclick="switchSheetTab('portfolio')" data-i18n="portfolioTitle">Portefeuille</button>
           </div>
         </div>
         <div class="sheet-panel active" id="sheetPanelOrder" style="display:none"></div><!-- /sheetPanelOrder -->
@@ -1957,16 +1957,16 @@ table.assets th.clickable:hover{color:var(--y);}
   <div class="port-modal-ov" id="portModalOv" onclick="if(event.target===this)closePortfolioModal()">
     <div class="port-modal">
       <button class="pm-close" onclick="closePortfolioModal()">✕</button>
-      <div class="pm-title">Portefeuille</div>
+      <div class="pm-title" data-i18n="portModalTitle">Portefeuille</div>
       <div class="pm-summary" id="pmSummary"></div>
       <div id="pmPieWrap" style="display:flex;align-items:center;gap:1rem;padding:.8rem 0;border-top:1px solid var(--ln)"></div>
       <button id="pmDetailToggle" onclick="togglePmDetail()" style="width:100%;background:none;border:none;border-top:1px solid var(--ln);border-bottom:1px solid var(--ln);color:var(--muted);font-size:.7rem;font-family:'JetBrains Mono',monospace;padding:.5rem;cursor:pointer;text-align:center;letter-spacing:.05em;display:flex;align-items:center;justify-content:center;gap:.4rem;margin-bottom:.5rem">
-        <span id="pmDetailArrow">▼</span> Détail des positions
+        <span id="pmDetailArrow">▼</span> <span data-i18n="portDetails">Détail des positions</span>
       </button>
       <div class="pm-list" id="pmList" style="display:none"></div>
       <!-- Page enfant détail actif -->
       <div class="port-child" id="portChildPage">
-        <button class="port-child-back" onclick="closeAssetDetail()">← Retour</button>
+        <button class="port-child-back" onclick="closeAssetDetail()" data-i18n="portBack">← Retour</button>
         <div id="portChildContent"></div>
       </div>
     </div>
@@ -3472,124 +3472,592 @@ const LESSON_I18N = {
         ],
         quiz: { q:'According to CFA Standards, what should an analyst do when receiving non-public information about a company?', opts:['Use it quickly before others','Refrain from trading and contact the compliance officer','Share it with selected clients','Ignore it and continue normally'], correct:1, expl:'<strong>Non-public information = Chinese wall.</strong> The analyst must refrain from any transaction and consult their compliance department. Using this information constitutes insider trading.' }
       },
-      // ── Lesson name translations (title only) ──────────────────
-      d1:{n:'Assets vs. Liabilities: the golden rule'},
-      d2:{n:'Inflation: the silent thief'},
-      d3:{n:'Compound interest: the snowball machine'},
-      d4:{n:'DCA: your automatic savings plan'},
-      d5:{n:"Don't put all your eggs in one basket"},
-      d6:{n:'Your safety shield: the emergency fund'},
-      d7:{n:'PEA, AV, CTO: pick the right account'},
-      d8:{n:'Your bank is not your ally'},
-      d9:{n:'The 50/30/20 rule: your financial super-team'},
-      d10:{n:'The 4% rule: your freedom number'},
-      p1:{n:'FOMO: the fear of missing out trap'},
-      p2:{n:'Mental anchoring: the past price trap'},
-      p3:{n:'Loss aversion: the "not even hurt" trap'},
-      p4:{n:'Confirmation bias: the magic glasses trap'},
-      p5:{n:"Overconfidence: don't think you're invincible"},
-      p6:{n:"Herd behavior: don't be a sheep"},
-      p7:{n:"Delayed gratification: the rich person's superpower"},
-      p8:{n:'The Diderot Effect: why one purchase leads to ten'},
-      v1:{n:'Liquidity & Volatility: two things not to confuse'},
-      v2:{n:'Bull & Bear: the two moods of the market'},
-      v3:{n:'Dividends: getting paid to sit still'},
-      v4:{n:'Stocks, ETFs, Bonds: the 3 main families'},
-      v5:{n:'PEA, AV, CTO, PER: what\'s the difference?'},
-      v6:{n:'Capital gains, losses, PnL: speaking the right language'},
-      v7:{n:'Risk vs. Return: the fundamental trade-off'},
-      a1:{n:'Your first investment in 4 steps'},
-      a2:{n:'Rebalancing: sell high, buy low automatically'},
-      a3:{n:'Calculate your real risk tolerance'},
-      a4:{n:'Limit orders: buy or sell at the right price'},
-      a5:{n:'Choosing your broker: the criteria that really matter'},
-      immo1:{n:'Buy vs. Rent: the real answer'},
-      immo2:{n:'REITs / SCPIs: real estate without the hassle'},
-      immo3:{n:'Rental property: numbers first'},
-      c1:{n:'Blockchain: what it really is'},
-      c2:{n:'Why Bitcoin is so volatile'},
-      c3:{n:'How to secure your crypto (without getting hacked)'},
-      arm1:{n:'Ponzi & Pyramid: recognizing the perfect scam'},
-      arm2:{n:'MLM and "great deals": spotting red flags'},
-      arm3:{n:'Hidden fees: the most widespread legal theft in finance'},
-      etf1:{n:'What is an ETF? (clear explanation)'},
-      etf2:{n:'Physical vs. synthetic ETF: the difference that matters'},
-      etf3:{n:'Fees: the silent killer of returns'},
-      etf4:{n:'MSCI World: the only ETF you need?'},
-      etf5:{n:'Acc vs. Dist: it changes thousands of euros'},
-      etf6:{n:'Thematic ETFs: opportunity or trap?'},
-      etf7:{n:'Smart Beta & Factor Investing: the next level'},
-      fisc1:{n:'PEA: the tax benefit you must know'},
-      fisc2:{n:'Life insurance: the Swiss army knife for estate planning'},
-      fisc3:{n:'CTO: flat tax and total freedom'},
-      fisc4:{n:'PER: deduct your taxes while investing'},
-      fisc5:{n:'Optimizing your taxes: the complete plan'},
-      fa1:{n:'P/E ratio: how much are you paying for €1 of earnings?'},
-      fa2:{n:'Free Cash Flow: cash never lies'},
-      fa3:{n:'Beta: does your stock surf or amplify market waves?'},
-      fa4:{n:'Sharpe Ratio: the true measure of performance'},
-      fa5:{n:'Reading a balance sheet in 5 minutes'},
-      fa6:{n:'Value, Growth, Momentum: choosing your style'},
-      fa7:{n:'Analyzing a stock in 30 minutes'},
-      m1:{n:'Time value of money: discounting explained'},
-      m2:{n:'Economic cycles: know where you are on the map'},
-      m3:{n:'Central banks: how they influence your portfolio'},
-      m4:{n:'Leverage: the double-edged weapon'},
-      m5:{n:'Geopolitics and markets: what to watch'},
-      m6:{n:'Bonds and rates: the inverse relationship'},
-      m7:{n:'Gold in a portfolio: really useful?'},
-      risk1:{n:'Position sizing: how much to put on one idea'},
-      risk2:{n:'Stop-loss & take-profit: plan your exit before entering'},
-      risk3:{n:'Drawdown: measuring and accepting temporary losses'},
-      risk4:{n:'Correlation: real vs. fake diversification'},
-      av1:{n:'Options: calls, puts, strike & premium'},
-      av2:{n:'The Greeks: Delta, Gamma, Theta, Vega'},
-      av3:{n:'Strategies: covered call, protective put, straddle'},
-      av4:{n:'Factors: Value, Momentum, Quality, Low Vol'},
-      av5:{n:'Smart Beta: factor ETFs explained'},
-      av6:{n:'Support, resistance and Fibonacci levels'},
-      av7:{n:'Elliott Waves and harmonic patterns'},
-      av8:{n:'Order flow, order book and DOM'},
-      pf1:{n:"Ray Dalio's All Weather: surviving all cycles"},
-      pf2:{n:"Harry Browne's Permanent Portfolio: 4 equal quarters"},
-      pf3:{n:'Equal Weight & Risk Parity: beyond market cap'},
-      r1:{n:'How much to save each month for retirement?'},
-      r2:{n:'The French pension system: what it will really give you'},
-      r3:{n:'Retirement simulation: calculate your number'},
-      r4:{n:'Time horizon: everything changes based on when you need the money'},
-      r5:{n:'Decumulation: how to use your capital in retirement'},
-      r6:{n:'Investing for your children: the options'},
-      r7:{n:'Self-employed and retirement: the specific challenge'},
-      r8:{n:'FIRE: financial independence before 50'},
-      s1:{n:'Asset allocation: building a solid portfolio'},
-      s2:{n:'The 60/40 portfolio: classic but still valid?'},
-      s3:{n:'Buy & Hold: never selling as a strategy'},
-      s4:{n:'Stock picking: rules for those who try it'},
-      s5:{n:'Options: the advanced tool (or trap for beginners)'},
-      s6:{n:'Risk management: never lose everything'},
-      s7:{n:'Investing internationally: opportunities and pitfalls'},
-      s8:{n:'Tax loss harvesting: reduce your taxes legally'},
-      s9:{n:'Technical analysis: reading charts without getting lost'},
-      s10:{n:'SRI & ESG: really investing by your values?'},
-      s11:{n:'Passive income: the real definition and how to get there'},
-      s12:{n:'Building a permanent portfolio that survives anything'},
-      s13:{n:'Managing a big loss: the protocol'},
-      s14:{n:'Robo-advisors: entrusting your money to an algorithm'},
-      s15:{n:'Momentum: buying what\'s really rising'},
-      e1:{n:'Building a bond portfolio'},
-      e2:{n:'Duration: measuring interest rate risk in bonds'},
-      e3:{n:'VIX: the market\'s fear thermometer'},
-      e4:{n:'Asset correlation: building true diversification'},
-      e5:{n:'DCF analysis: valuing a company like the pros'},
-      e6:{n:'WACC: the cost of capital, key to valuation'},
-      e7:{n:'Financial crises: what we can learn'},
-      e8:{n:'Backtesting: testing your strategy on historical data'},
-      q1:{n:'Debts: which ones to pay off first'},
-      q2:{n:'Negotiating your salary: the first investment'},
-      q3:{n:'Optimizing fixed expenses: the quick wins'},
-      q4:{n:'Taxes: understanding your tax assessment'},
-      x1:{n:'ESG vs. performance: the honest verdict'},
-      x2:{n:'Time diversification: smoothing entry points'},
+      // ── Full lesson translations ──────────────────────────────
+      d1:{n:'Assets vs. Liabilities: the golden rule',blocks:[
+        {type:'hook',emo:'🌟',text:'Imagine your money is a team of little workers.<br>An <strong>Asset</strong> is a worker that works for you and brings you coins every day.<br>A <strong>Liability</strong> is a greedy little monster that eats your coins to stay alive.<br>Building wealth is simple: collect workers and avoid monsters!'},
+        {type:'content',text:'<strong>Assets (Your Money Machines)</strong>: Things that grow your savings without you lifting a finger — for example, lending your money in exchange for interest.<br><strong>Liabilities (Your Coin Vacuums)</strong>: Things that cost you money continuously — for example, a subscription to a game you no longer play.'},
+        {type:'tip',text:'Before buying anything, ask yourself: "Will this put coins in my pocket or take them out?"'}
+      ],quiz:{q:'You buy a bike to deliver newspapers and earn wages. Your bike is…',opts:['A Liability (tires need fixing sometimes).','An Asset (it earns you more than it costs).','A decoration.'],correct:1,expl:'<strong>An Asset!</strong> Even with small costs, if it earns you money, it\'s a tool working for you.<br>An Asset makes you richer while you sleep 😴 — A Liability quietly drains you 📉'}},
+      d2:{n:'Inflation: the silent thief',blocks:[
+        {type:'hook',emo:'🌟',text:'Inflation is like an invisible monster that nibbles at the value of your money.<br>Imagine you could buy 10 candies with €1 last year.<br>This year, that same €1 only buys 5.<br>The money is the same, but things cost more — that\'s inflation!'},
+        {type:'content',text:'<strong>Purchasing Power</strong>: The size of your shopping basket. If inflation rises, your basket shrinks — you have the same €10 note, but you put less in it.<br><strong>Real Interest Rate</strong>: What you actually keep. If your savings earn 2% but prices rise 5%, you\'re getting poorer without realising it.'},
+        {type:'tip',text:'To beat the inflation monster, don\'t let your money sleep in a drawer. Turn it into Assets (your workers) that grow faster than inflation nibbles.'}
+      ],quiz:{q:'Inflation is 5%/year but your bank pays only 2%. At year end…',opts:['You\'re richer (you earned 2%).','Same as before.','You\'re poorer (prices rose faster than your gain).'],correct:2,expl:'<strong>You\'re poorer!</strong> Your "real rate" is −3%. Inflation is the trap: you think you\'re earning a little, but you can buy much less.<br>Inflation raises the price of things you love 🍬 — idle money loses strength every day 📉'}},
+      d3:{n:'Compound interest: the snowball machine',blocks:[
+        {type:'hook',emo:'🌟',text:'Imagine rolling a tiny snowball down a giant mountain. At first it picks up just a few flakes. But the bigger it gets, the faster it collects snow — until it\'s a massive boulder charging downhill on its own. Compound interest works the same way: every coin you earn immediately starts earning more coins!'},
+        {type:'content',text:'<strong>Simple Interest</strong>: Your savings earn 5 coins every year, but you withdraw them immediately. Your savings always produce 5 coins — it never accelerates.<br><strong>Compound Interest</strong>: You leave those 5 coins in. Next year the savings pay you interest on your original amount AND on those 5 coins. Your treasure grows faster and faster — a chain reaction!'},
+        {type:'tip',text:'The absolute secret is TIME. The earlier you start, even with a tiny sum, the bigger your snowball becomes. Starting at 15 with €10 often beats starting at 40 with €100! Let time do the work.'}
+      ],quiz:{q:'Why is compound interest called a "wealth machine"?',opts:['Because you earn the exact same amount every year.','Because money falls from the sky.','Because gains you\'ve already earned create new gains, faster and faster.'],correct:2,expl:'<strong>Gains create new gains!</strong> The snowball effect: your money has offspring that start working immediately.<br>Simple interest: a straight line 📏 — Compound interest: a curve that rockets skyward 🚀'}},
+      d4:{n:'DCA: your automatic savings plan',blocks:[
+        {type:'hook',emo:'🌟',text:'Imagine you love collecting cards. Sometimes a pack costs €5, sometimes it\'s on sale for €2.<br>Instead of stressing about when to buy, you decide to spend €10 on cards every month, no matter what.<br>When prices are high, you get fewer. When they\'re on sale, you get a lot!<br>In the end, you have more cards than if you\'d tried to time the market. That\'s DCA.'},
+        {type:'content',text:'<strong>DCA (Dollar Cost Averaging)</strong>: You pick an amount (e.g. €20) and a date (e.g. the 1st of each month). The machine buys for you whether the market is happy (high prices) or sad (low prices).<br><strong>Average Price</strong>: Because you often buy "on sale", your average cost becomes very favourable. You\'ll never be the person who bought everything at the top!'},
+        {type:'tip',text:'DCA is "Zen mode". No need to watch the news or stress over charts. Let the machine work while you enjoy your free time. It\'s the strategy of people who get rich without stress.'}
+      ],quiz:{q:'The market drops −30% for 3 months. If you\'re doing DCA, the best move is:',opts:['Stop everything (too scared to lose).','Keep investing the same amount (buy many more units on sale).','Sell everything.'],correct:1,expl:'<strong>Keep going!</strong> In DCA, a drop is an opportunity: your €20 buys far more units than before. That\'s how you prepare your future gains.<br>DCA is like a robot 🤖 — Low prices = buys a lot 🛒🛒🛒 — High prices = buys a little 🛒'}},
+      d5:{n:"Don't put all your eggs in one basket",blocks:[
+        {type:'hook',emo:'🌟',text:'You need to carry 10 eggs.<br>If you put them all in one basket and you trip — you lose everything.<br>If you spread them across 10 small baskets — even if you drop one, you still have 9 eggs. You can still make an omelette!<br>Investing works the same way: never bet everything on a single idea.'},
+        {type:'content',text:'<strong>Diversification</strong>: Your protection. Instead of buying one thing, you spread your money across many different projects, companies, and geographies.<br><strong>Shared Risk</strong>: If one project goes badly, it doesn\'t matter much because your other investments protect your treasure. It\'s like having several strings to your bow.'},
+        {type:'tip',text:'True diversification means mixing it up. Don\'t only pick video game companies. Take a bit of everything: technology, food, energy, and even some gold. The mix is what makes your treasure solid!'}
+      ],quiz:{q:'A friend advises you to put ALL your savings into a new connected-sneaker app. You:',opts:['Listen and go all-in — I want to get rich fast.','Invest nothing — I\'m too scared.','Only invest a small portion and keep the rest for other projects.'],correct:2,expl:'<strong>The wise answer!</strong> Even if the idea is great, you never know what could happen. Keeping your other "baskets" protects you if the app doesn\'t work out.<br>One basket = Danger 🧺⚠️ — Many baskets = Safety 🧺🧺🧺'}},
+      d6:{n:'Your safety shield: the emergency fund',blocks:[
+        {type:'hook',emo:'🌟',text:'Life always has surprises. Your phone can break or your bike can fail. If you\'ve put all your savings into growth projects, you\'ll be forced to liquidate them urgently to pay for repairs. The emergency fund is your shield: money set aside to cover these hiccups without touching your other savings.'},
+        {type:'content',text:'<strong>Emergency Fund</strong>: A cash reserve in a safe place, like a savings account. This money isn\'t meant to grow — it\'s meant to protect you from hard knocks.<br><strong>Emergency Cash</strong>: The amount you need to live normally for several months. It\'s what keeps you calm, whatever happens.'},
+        {type:'tip',text:'Golden rule: Shield first, then invest! Never start investing your gold coins if your emergency reserve is empty. If the market falls and you have an emergency at the same time, you\'ll be forced to sell at a loss.'}
+      ],quiz:{q:'What is your emergency fund for?',opts:['Buying the latest fashion item the moment it drops.','Paying for an unexpected expense without touching your investments.','Becoming a millionaire in two days.'],correct:1,expl:'<strong>It\'s your safety net!</strong> It absorbs surprises so your long-term projects can keep growing steadily.<br>No shield = Danger ❌🛡️ — Good shield = Peace of mind ✅🛡️ — Your emergency cash must be available immediately! 💸'}},
+      d7:{n:'PEA, AV, CTO: pick the right account',blocks:[
+        {type:'hook',emo:'🌟',text:'Imagine you have three different boxes to store your gold coins. Some boxes are like magic safes: leave your coins inside long enough and the government lets you keep almost all your gains tax-free. Choosing the wrong box means giving away a big chunk of your rewards.'},
+        {type:'content',text:'<strong>PEA (French Box)</strong>: Leave your money for 5 years and income tax on gains almost disappears. The most powerful box for growing your treasure in France.<br><strong>Life Insurance (Long-term Box)</strong>: Very flexible, becomes highly advantageous after 8 years. Perfect for very long-term savings.<br><strong>CTO (Free Box)</strong>: No rules. You can hold anything, but the government always takes a fixed 30% of your gains.'},
+        {type:'tip',text:'Golden rule for paying less tax: fill your PEA first. Even if you only have €10, open it as early as possible — the opening date is what starts the 5-year clock to unlock the tax advantages!'}
+      ],quiz:{q:'Which account lets you pay almost no tax on gains after 5 years?',opts:['CTO (the free box).','PEA (the French box).','A shoebox under my bed.'],correct:1,expl:'<strong>The PEA!</strong> The most efficient tool to keep your profits, provided you\'re patient for 5 years.<br>CTO = Total freedom but more tax 🗽 — PEA = Tax champion after 5 years 🏆 — Life insurance = Swiss army knife for the very long term'}},
+      d8:{n:'Your bank is not your ally',blocks:[
+        {type:'hook',emo:'🌟',text:'Imagine entering a sports store. The salesperson will push the store\'s own brand because that\'s what earns them the most — even if there are better shoes elsewhere. Banks work the same way: your advisor is often a salesperson. They\'ll recommend their bank\'s expensive products, which quietly eat into your treasure.'},
+        {type:'content',text:'<strong>Management Fees</strong>: The "rent" you pay the bank to hold your investments. If that rent is too high, it ends up consuming all your gains over the years.<br><strong>"Free" Advice</strong>: Nothing is actually free. The bank pays itself by taking a small cut of your money every year. Over the long term, that "small cut" can represent a fortune.'},
+        {type:'tip',text:'Don\'t ask your banker "What\'s good for me?" — ask "What are the total annual fees?" If fees exceed 1%, it\'s usually too expensive. There are modern solutions (like ETFs) that cost 10× less and often perform better!'}
+      ],quiz:{q:'Why does your bank advisor often recommend their own bank\'s products?',opts:['Because they\'re the best products in the world.','Because they\'re rewarded for selling their store\'s products.','Because they want to give you a gift.'],correct:1,expl:'<strong>They\'re a salesperson!</strong> Their job is to sell their bank\'s products. Be smart and compare to keep the maximum coins in your pocket.<br>Banker = Store salesperson 🛍️ — High fees = Your treasure shrinks 📉 — Low fees = Your treasure grows for you 📈'}},
+      d9:{n:'The 50/30/20 rule: your financial super-team',blocks:[
+        {type:'hook',emo:'🌟',text:'Imagine your money is a team of three superheroes. Each has a unique power to protect your life and future. If you only use one hero, your team is unbalanced and you\'ll lose the game. The 50/30/20 rule is your strategy for giving each hero the strength they need to complete their mission.'},
+        {type:'content',text:'<strong>50% — Captain Survival (Needs)</strong>: Pays your mandatory expenses: rent, food, electricity, and transport. Without them, you can\'t live the adventure.<br><strong>30% — The Fun Agent (Wants)</strong>: Lets you enjoy life: a restaurant, a movie, a new video game. Don\'t neglect them, or the adventure becomes too gloomy.<br><strong>20% — Guardian of the Future (Magic)</strong>: Turns your coins into "workers" that bring you even more money later. This one builds your treasure.'},
+        {type:'tip',text:'If Captain Survival (needs) gets too greedy and takes more than half your money, don\'t try to cut the Fun Agent\'s budget. Instead, look for cheaper rent or reduce mandatory bills to restore balance.'}
+      ],quiz:{q:'You receive €100 for your birthday. Following the 50/30/20 rule, how much goes to your future?',opts:['€50 (half).','€30 (for fun).','€20 (the magic).'],correct:2,expl:'<strong>The €20!</strong> That\'s your investment for later. The remaining €80 covers your needs and enjoyment.<br>50% = What I must pay 🏠 — 30% = What I enjoy 🍦 — 20% = My future treasure 💎'}},
+      d10:{n:'The 4% rule: your freedom number',blocks:[
+        {type:'hook',emo:'🌟',text:'Imagine you own a big chest full of gold coins. The secret to never emptying it — even while drawing from it to live — is to only take out a tiny portion each year: exactly 4%. If your chest holds enough coins, that small withdrawal covers all your yearly expenses. The remaining 96% keeps growing, letting you live this way forever without ever needing to work!'},
+        {type:'content',text:'<strong>Your Freedom Number</strong>: The total sum you need in your chest to be free. To find it: take the money you need to live for 1 year and multiply by 25.<br><strong>Infinite Withdrawal</strong>: Taking 4% of your treasure each year. Because your money is invested, it grows fast enough to replace what you take out. Your chest stays perpetually full.'},
+        {type:'tip',text:'The more you spend each month, the bigger and harder to reach your "Freedom Number" becomes. Learn to be happy with simpler things — you\'ll need a smaller chest and achieve freedom much sooner!'}
+      ],quiz:{q:'You need €20,000/year to live. How much must be in your chest to never work again?',opts:['€20,000.','€500,000 (because 20,000 × 25).','€40,000.'],correct:1,expl:'<strong>€500,000!</strong> With that sum, the 4% you withdraw each year covers your €20,000 expenses without ever emptying the chest.<br>Quick calc = Annual needs × 25 💰'}},
+      p1:{n:'FOMO: the fear of missing out trap',blocks:[
+        {type:'hook',emo:'🌟',text:'Imagine at recess everyone is scrambling for a new game card. The price keeps rising, everyone wants one, and you\'re afraid of being the only one left out. You end up buying it expensively with all your savings… but the next day the craze passes and your card is worthless. FOMO is that little voice that makes you do silly things because you\'re afraid of missing a chance to get rich.'},
+        {type:'content',text:'<strong>FOMO (Fear Of Missing Out)</strong>: Buying an asset purely because its price is rising and everyone on social media is talking about it.<br><strong>The Peak</strong>: The moment when price is highest. That\'s often when FOMO buyers rush in — just before the price crashes down.'},
+        {type:'tip',text:'If everyone is talking about it (your cousin, friends, YouTube), it\'s often already too late to buy. Golden rule: never buy something just "because the price is rising." Always ask: "Do I actually understand what I\'m buying?"'}
+      ],quiz:{q:'A new crypto pumps +200% in two days and every celebrity mentions it on TikTok. You:',opts:['Buy immediately with everything — I can\'t miss this.','Stay calm and wonder if it\'s a real project or just hype.','Cry because I\'m late.'],correct:1,expl:'<strong>Keep your cool!</strong> Excitement is your portfolio\'s worst enemy. The best deals happen in calm, not in crowd panic.<br>The crowd often runs the wrong direction 🏃‍♂️💨 — If you feel you MUST buy now or never, that\'s probably the moment to do nothing 🛑'}},
+      p2:{n:'Mental anchoring: the past price trap',blocks:[
+        {type:'hook',emo:'🌟',text:'You see jeans in a shop with a tag: "Old price: €100 / New price: €50." Instantly you think: "What a deal!" But the jeans may only be worth €20. Your brain "anchored" to the first number (€100) and compares everything against it. In investing, the same thing happens: we think something is cheap just because it used to cost more.'},
+        {type:'content',text:'<strong>Anchoring</strong>: When your brain gets stuck on past information (like your purchase price or a historical high) instead of evaluating the current situation.<br><strong>Real Value</strong>: What something is genuinely worth today. What it cost yesterday is irrelevant to its future.'},
+        {type:'tip',text:'The market doesn\'t know — or care — what price you paid. If you hold something losing value, ask: "If I didn\'t already own this, would I buy it at today\'s price?" If the answer is No, sell.'}
+      ],quiz:{q:'You bought a share at €100. Now it\'s worth €50. You refuse to sell because "you\'re waiting for it to come back to €100." Which trap are you falling into?',opts:['FOMO (fear of missing out).','Mental anchoring (stuck on the €100 price).','Good luck.'],correct:1,expl:'<strong>Anchoring!</strong> You\'re stuck on your purchase price. But the share could fall to €10 or stay at €50 for years. The past is over!<br>The old price is an anchor holding you back ⚓ — Always look at what it\'s worth now 🕰️'}},
+      p3:{n:'Loss aversion: the "not even hurt" trap',blocks:[
+        {type:'hook',emo:'🌟',text:'Imagine a game where losing 10 coins makes you twice as sad as winning 10 coins makes you happy. That\'s a bug in our brain: we\'re so afraid of losses that we\'d rather wait months for a share to recover than accept a small loss now. Meanwhile, we miss better opportunities elsewhere!'},
+        {type:'content',text:'<strong>Loss Aversion</strong>: When your brain fixates on what it lost. This pushes you to hold worthless investments just to avoid saying "I lost."<br><strong>Disposition Effect</strong>: The bad habit of selling winners (to lock in a gain) and holding losers. Result: you keep the worst and throw away the best!'},
+        {type:'tip',text:'Your money has no feelings. If you hold a stock that keeps falling, ask: "If I were investing fresh money today, would I choose this?" If No, sell and move on to something stronger.'}
+      ],quiz:{q:'Your stock is down −40%. You refuse to sell because "as long as I haven\'t sold, I haven\'t really lost." Which trap is your brain setting?',opts:['Overconfidence.','Loss aversion (fleeing the pain of loss).','Financial genius.'],correct:1,expl:'<strong>Loss aversion!</strong> By refusing to face reality, you lock money in a sinking project instead of putting it in something rising.<br>An accepted loss is a lesson learned 📖 — Holding a sinking project empties your own piggy bank 🕳️'}},
+      p4:{n:'Confirmation bias: the magic glasses trap',blocks:[
+        {type:'hook',emo:'🌟',text:'Imagine you buy your favourite brand\'s sneakers. From that moment, your brain puts on "magic glasses": you only notice people saying they\'re great and plug your ears whenever someone mentions they wear out too fast. In investing it\'s the same: once you\'ve chosen a project, you only read good news and ignore the warnings.'},
+        {type:'content',text:'<strong>Confirmation Bias</strong>: When your brain curates information — keeping what pleases it (confirming you\'re right) and trashing anything uncomfortable.<br><strong>Echo Chamber</strong>: When you only listen to people who think exactly like you. Like an echo, you only hear your own voice reflected back.'},
+        {type:'tip',text:'To become a pro, do the opposite of everyone else: be the devil\'s advocate! Before buying a stock, find someone who hates that company. If you can\'t explain why your project could fail, you still have your "magic glasses" on.'}
+      ],quiz:{q:'You want to buy Bitcoin. The best thing to do for your analysis is:',opts:['Watch only YouTube videos saying Bitcoin is going to the moon.','Read opinions from people who think Bitcoin is dangerous, to understand their arguments.','Ask my best friend who knows nothing but always agrees with me.'],correct:1,expl:'<strong>Listen to the critics!</strong> Good decisions require knowing both strengths and weaknesses. If your idea survives criticism, it\'s truly solid.<br>Your brain wants to be right, but your goal is to earn Tacoins 🪙 — Seek truth, not compliments! 🔍'}},
+      p5:{n:"Overconfidence: don't think you're invincible",blocks:[
+        {type:'hook',emo:'🌟',text:'Imagine you\'re playing football and a strong wind is at your back. You score from super far away and think: "I\'m the best player in the world!" In reality, it was mostly the wind. In investing, when the whole market rises (a "Bull Market"), it\'s easy to make money. The trap is thinking you\'re a genius when you actually just got lucky.'},
+        {type:'content',text:'<strong>Overconfidence</strong>: Thinking you\'re more skilled than others after winning a few times. This pushes you to take enormous risks and make reckless money decisions.<br><strong>Bull Market (The Lucky Market)</strong>: A period when almost everything rises. Even bad decisions earn coins, making everyone too confident.'},
+        {type:'tip',text:'Keep a small notebook where you write down why you buy a stock. After a few months, re-read your notes. Did you win because your analysis was good, or just because the whole market rose? A true investor\'s strength shows when the wind changes.'}
+      ],quiz:{q:'You\'ve made a lot of money in 6 months as all your stocks rose. What\'s your biggest risk now?',opts:['Having to pay too much tax.','Becoming overconfident, taking too much risk, and losing everything at the next turn.','Needing a bigger chest for your money.'],correct:1,expl:'<strong>Overconfidence!</strong> That\'s when you become reckless. Stay calm: winning when everything rises is easy — not losing when everything falls is the real challenge.<br>Don\'t confuse luck with talent 🍀🚫🧠 — Stay humble to keep your treasure! 👑➡️🧢'}},
+      p6:{n:"Herd behavior: don't be a sheep",blocks:[
+        {type:'hook',emo:'🌟',text:'Imagine you\'re in a schoolyard and suddenly everyone runs left. Your first instinct is to run with them without knowing why. That\'s herd instinct. In investing, if you follow the crowd, you buy when things are most expensive (everyone is happy) and sell when things are cheapest (everyone is panicking). That\'s the best way to lose your coins!'},
+        {type:'content',text:'<strong>Herd Behavior</strong>: Imitating others instead of thinking for yourself. Our brains think "if everyone does it, it must be a good idea" — but in finance, it\'s often the opposite.<br><strong>Going Against the Grain</strong>: Having the courage not to follow the crowd. Staying calm when everyone panics, and staying cautious when everyone is euphoric.'},
+        {type:'tip',text:'When you feel an urge to do "what everyone else is doing" (buy because it\'s trending, or sell because everyone is scared), force yourself to wait 48 hours. That pause lets your brain calm down and make a logical decision — not a sheep decision.'}
+      ],quiz:{q:'Everyone is selling because the TV news is scary. What should you do?',opts:['Rush to sell like everyone else.','Stay calm, analyse the situation, and maybe even buy cheaper.','Delete my banking app and cry.'],correct:1,expl:'<strong>Keep your cool!</strong> The best opportunities often arise when others are afraid. Don\'t let other people\'s panic decide for your money.<br>Buying in euphoria = Buying too high 📈💸 — Selling in panic = Selling at a loss 📉😭'}},
+      p7:{n:"Delayed gratification: the rich person's superpower",blocks:[
+        {type:'hook',emo:'🌟',text:'Imagine a marshmallow is placed in front of you. You have two choices:<br>1. Eat it now.<br>2. Wait 15 minutes without touching it, and get a second one.<br>Those who know how to wait succeed best in life. With money, it\'s the same: if you don\'t buy that useless gadget today, you\'ll have funds for a giant project later.'},
+        {type:'content',text:'<strong>Delayed Gratification</strong>: Saying "no" to a small immediate pleasure to say "YES" to a huge pleasure later.<br><strong>The Snowball Effect</strong>: Your money roughly doubles every 10 years when invested. 1 marshmallow today = 4 marshmallows in 20 years. The earlier you start, the bigger the pile.'},
+        {type:'tip',text:'Don\'t wait until you\'re "rich" to start. Setting aside €10 a month when young earns far more than €100 a month when old — because your money has more time to grow!'}
+      ],quiz:{q:'What\'s the biggest trap stopping you from becoming wealthy?',opts:['Not earning enough money.','Wanting everything immediately (not knowing how to wait).','The rising price of marshmallows.'],correct:1,expl:'<strong>Wanting everything now!</strong> Learning to wait is the #1 skill for building real wealth.<br>Wait = Earn more ⏳💰 — Time is your best ally for growing your coins! 📈'}},
+      p8:{n:'The Diderot Effect: why one purchase leads to ten',blocks:[
+        {type:'hook',emo:'🌟',text:'You buy a new phone. Suddenly your old case doesn\'t fit. You buy a great new case. But now your old earbuds look out of place. You buy wireless earbuds. Then a matching tablet… That\'s the Diderot Effect. One new item creates a chain reaction pushing you to replace everything so it all "matches." Your brain wants consistency — and your wallet suffers!'},
+        {type:'content',text:'<strong>The Diderot Effect</strong>: When one "modern" purchase makes all your old stuff feel dated, forcing you to spend even more.<br><strong>The Consumption Spiral</strong>: The cycle where each purchase calls for another. You\'re never truly satisfied — you just want to complete the collection.'},
+        {type:'tip',text:'To break the cycle, use the "One in, one out" rule. If you buy a new item, you must sell or give away an old one. This forces you to ask: "Is this new thing really worth parting with something else?"'}
+      ],quiz:{q:'You just bought a new gaming keyboard and now want a matching mouse and mousepad. This is…',opts:['A great decorating idea.','The Diderot Effect (a trap to make you spend more).','Your parents\' fault.'],correct:1,expl:'<strong>The Diderot Effect!</strong> Your brain wants everything to match. If you fall in, you\'ll empty your piggy bank just for aesthetics.<br>New item = Danger of chain reaction ⛓️⚠️ — Break the spiral before it drains your account! 🌀🚫'}},
+      v1:{n:'Liquidity & Volatility: two things not to confuse',blocks:[
+        {type:'hook',emo:'⚡',text:'<strong>An asset can be excellent and yet impossible to sell quickly without taking a hit.</strong> Liquidity is your freedom to exit when you want. Volatility is how wild the ride is. They\'re not the same thing.'},
+        {type:'content',text:'<strong>Liquidity:</strong> Listed shares = sold in seconds. ETFs = same. Apartment = 3–6 months. Non-listed REIT = 6–18 months.<br><strong>Volatility:</strong> Bitcoin ±10%/day. Stocks ±1–3%/day. Gold ±0.5–1%/day. Savings account: zero volatility, negative real return.'},
+        {type:'tip',text:'Keep 3–6 months of expenses in a hyper-liquid asset. Not for the yield — so you\'re never forced to sell investments at the worst possible moment.'}
+      ],quiz:{q:'You need €5,000 in 48 hours. What do you sell?',opts:['Your rental apartment','A non-listed REIT','Shares in a brokerage account','Your share of a forest'],correct:2,expl:'<strong>Shares in a brokerage account</strong>: order placed in seconds, funds in T+2. Apartment = months. REIT = even longer.'}},
+      v2:{n:'Bull & Bear: the two moods of the market',blocks:[
+        {type:'hook',emo:'📊',text:'<strong>Bull = charging bull driving prices up. Bear = bear swiping prices down.</strong> These cycles have repeated for 400 years. The real question: are you ready when the bear arrives?'},
+        {type:'content',text:'<strong>Bull market:</strong> +20% gain from a low. Euphoria. Everyone "invests."<br><strong>Bear market:</strong> −20% drop from a high. Panic. Doom-and-gloom media. Often the best opportunities.<br><strong>Average duration:</strong> bull ~9 years, bear ~9 months.'},
+        {type:'tip',text:'Late bull market signal: your plumber, hairdresser, or Uber driver talks about stock market gains. That\'s the moment to stay calm and not panic.'}
+      ],quiz:{q:'Bear market −25%, going on 6 months. Long-term strategy?',opts:['Sell everything','Continue DCA — it\'s sale season','Go 100% gold','Wait for a recovery'],correct:1,expl:'<strong>Continue DCA.</strong> In a bear market, every monthly transfer buys more units at a discount.'}},
+      v3:{n:'Dividends: getting paid to sit still',blocks:[
+        {type:'hook',emo:'🛋️',text:'<strong>Some shares pay you just for holding them.</strong> Each quarter or year, the company pays you a share of its profits. You did nothing. You just bought and waited.'},
+        {type:'content',text:'<strong>Accumulating ETFs (Acc)</strong>: automatically reinvest dividends → compound interest → better for the growth phase.<br><strong>Distributing ETFs (Dist)</strong>: pay dividends as cash → immediately taxed in a standard brokerage account.'},
+        {type:'trap',text:'Dividend >7% = alarm signal. If the share price has collapsed, the calculated yield rises mechanically. An unsustainable dividend can be cut overnight.'}
+      ],quiz:{q:'Growth phase, PEA, 20-year horizon. Accumulating or distributing ETFs?',opts:['Distributing — I like receiving cash','Accumulating — auto reinvestment, zero immediate tax','Doesn\'t matter','Depends'],correct:1,expl:'<strong>Accumulating (Acc)</strong>. Dividends reinvested automatically, with no tax impact inside the PEA.'}},
+      v4:{n:'Stocks, ETFs, Bonds: the 3 main families',blocks:[
+        {type:'hook',emo:'🎯',text:'<strong>Three asset families are enough to build a portfolio that beats 90% of investors.</strong> No need to complicate things.'},
+        {type:'content',text:'<strong>Stock</strong> = a share of a company. If it grows, you gain. It can also fall to zero.<br><strong>Bond</strong> = a loan to a government or company. Fixed coupons + repayment at maturity. Less risky, less profitable (3–5%/yr).<br><strong>ETF</strong> = a basket of hundreds of assets in one click. MSCI World = 1,600 companies in 23 countries for 0.2% in fees/yr.'},
+        {type:'tip',text:'90% of active managers underperform their benchmark over 15 years. Not because they\'re bad — because fees and human errors accumulate. An ETF at 0.2% vs an active fund at 1.5% = hundreds of thousands of euros difference over 30 years.'}
+      ],quiz:{q:'Main advantage of an MSCI World ETF vs a single stock?',opts:['Guaranteed gains','Diversification across ~1,600 companies','Zero risk','Reserved for pros'],correct:1,expl:'1,600 companies in 23 countries. If one goes bankrupt → near-zero impact. With a single stock → total loss possible.'}},
+      v5:{n:"PEA, AV, CTO, PER: what's the difference?",blocks:[
+        {type:'hook',emo:'🔤',text:'<strong>French finance loves acronyms.</strong> But behind each one there\'s a simple logic. In 2 minutes, you\'ll understand everything.'},
+        {type:'content',text:'<strong>PEA</strong> = Equity Savings Plan. Zero income tax on gains after 5 years (social charges remain).<br><strong>PER</strong> = Retirement Savings Plan. Tax deduction on contributions, taxed at withdrawal.<br><strong>AV</strong> = Life Insurance. Allowance after 8 years + inheritance advantage.<br><strong>CTO</strong> = Standard brokerage account. Anything goes, flat tax 30%.'},
+        {type:'tip',text:'Optimal opening order: PEA first (the 5-year clock starts now), then AV, then CTO. PER depends on your marginal tax rate.'}
+      ],quiz:{q:'Which account allows investing with zero income tax on gains after 5 years?',opts:['CTO','Savings account','PEA','PER'],correct:2,expl:'<strong>PEA</strong>. After 5 years: income tax exemption on capital gains. Only 17.2% social charges remain.'}},
+      v6:{n:'Capital gains, losses, PnL: speaking the right language',blocks:[
+        {type:'hook',emo:'🗣️',text:'<strong>Before trading, master the vocabulary.</strong> Capital gain, capital loss, average cost, PnL — these terms come up everywhere. 3 minutes to understand them all.'},
+        {type:'content',text:'<strong>Capital gain</strong> = profit on a sale (sale price > purchase price).<br><strong>Capital loss</strong> = loss on a sale.<br><strong>Unrealised</strong> = not yet booked — you still hold the asset.<br><strong>Average cost (PRU)</strong> = your average purchase price.<br><strong>PnL</strong> (Profit & Loss) = your total gains or losses.'},
+        {type:'tip',text:'A capital gain is taxable only when you SELL. While you hold, it\'s an unrealised gain — no tax. Buy & Hold has a real tax advantage.'}
+      ],quiz:{q:'You buy 100 shares at €10; they\'re now worth €15. You have:',opts:['An unrealised capital gain of €500','A realised capital gain of €500','A PnL of −€500','An average cost of €15'],correct:0,expl:'<strong>Unrealised capital gain of €500</strong>. Unrealised = not sold yet = no tax for now. If you sell → realised → taxable.'}},
+      v7:{n:'Risk vs. Return: the fundamental trade-off',blocks:[
+        {type:'hook',emo:'🎲',text:'<strong>There is no high-return asset without high risk.</strong> Anyone promising otherwise is lying. This is the fundamental law of finance. Always.'},
+        {type:'content',text:'<strong>Low return + low risk</strong>: savings accounts, life insurance money-market funds.<br><strong>Medium return + medium risk</strong>: government bonds, bond ETFs.<br><strong>High return + high risk</strong>: stocks, equity ETFs, real estate.<br><strong>Very high return + extreme risk</strong>: crypto, options, leverage.'},
+        {type:'tip',text:'Risk tolerance isn\'t fixed. It depends on your time horizon. Over 30 years, an equity ETF\'s risk profile looks very different than over 1 year.'}
+      ],quiz:{q:'A product promises 20%/year guaranteed and risk-free. That\'s:',opts:['An excellent opportunity','A certain scam','A premium ETF','A legal hedge fund'],correct:1,expl:'<strong>A scam.</strong> High guaranteed return + zero risk = impossible in an efficient market. That\'s the definition of a Ponzi scheme.'}},
+      a1:{n:'Your first investment in 4 steps',blocks:[
+        {type:'hook',emo:'🎬',text:'<strong>Every month spent "getting ready" is a month of compound interest lost.</strong> The best strategy is the one you actually execute. Here are the exact 4 steps to start today.'},
+        {type:'content',text:'<strong>1.</strong> Open a PEA with an online broker (free, €0 transaction fees on ETFs).<br><strong>2.</strong> Search "Amundi MSCI World" or "BNP MSCI World" → PEA-eligible, fees < 0.5%/yr.<br><strong>3.</strong> Place a market order (immediate execution).<br><strong>4.</strong> Set up an automatic monthly transfer — even €50.'},
+        {type:'tip',text:'Only invest money you won\'t need for at least 5 years. Your emergency fund (3–6 months of expenses) stays in a savings account.'}
+      ],quiz:{q:'Advantage of opening your PEA now with €1 instead of waiting?',opts:['More assets available','The 5-year clock starts today','Reduced fees','Guaranteed returns'],correct:1,expl:'<strong>The 5-year delay starts at opening.</strong> In 5 years, every euro withdrawn will be income-tax-free.'}},
+      a2:{n:'Rebalancing: sell high, buy low automatically',blocks:[
+        {type:'hook',emo:'⚖️',text:'<strong>After a bull market, your 60/40 became 80/20 without you doing anything.</strong> You\'re overexposed to stocks exactly when they\'re most expensive. Rebalancing fixes this mechanically.'},
+        {type:'content',text:'Once a year → sell what outperformed → buy back what underperformed.<br>Result: you sell high and buy low automatically. No emotional decision needed.<br>Studies show 91% of long-term performance comes from asset allocation, not stock picking.'},
+        {type:'tip',text:'During the accumulation phase, direct your monthly DCA transfers toward the underrepresented asset. You rebalance without triggering taxes or transaction fees.'}
+      ],quiz:{q:'Target 70/30. After bull market: 85/15. What do you do?',opts:['Hold — it\'s performing','Sell 15% stocks, buy 15% bonds','Change target to 85/15','Sell everything'],correct:1,expl:'<strong>Classic rebalancing.</strong> Sell high, buy low — mechanically. Counter-intuitive but optimal.'}},
+      a3:{n:'Calculate your real risk tolerance',blocks:[
+        {type:'hook',emo:'🎯',text:'<strong>Your real risk tolerance reveals itself during a crash — not before.</strong> But there are concrete questions to estimate it without waiting for the next crisis.'},
+        {type:'content',text:'<strong>Question 1:</strong> Your portfolio drops −30% in 1 month. You: (A) Buy more (B) Do nothing (C) Sell part (D) Sell everything.<br><strong>Question 2:</strong> Max loss you\'d accept in 1 year? >−25% / −15 to −25% / −5 to −15% / <−5%.<br>Your answers define your real profile.'},
+        {type:'tip',text:'Golden rule: only invest what you wouldn\'t panic over if it dropped −50%. If the thought keeps you awake at night, you have too much risk in your portfolio.'}
+      ],quiz:{q:'Your portfolio drops −50%. You can\'t sleep. What does this tell you?',opts:['That the market is irrational','That your risk allocation is too high for you','That you must sell immediately','That you must hold no matter what'],correct:1,expl:'<strong>Your allocation is too risky for you.</strong> Investing should let you sleep peacefully. If it doesn\'t, reduce the risk.'}},
+      a4:{n:'Limit orders: buy or sell at the right price',blocks:[
+        {type:'hook',emo:'🤖',text:'<strong>The most successful investors are not the smartest — they\'re the most automated.</strong> When saving is automatic, discipline becomes unnecessary.'},
+        {type:'content',text:'Optimal setup:<br><strong>1.</strong> Automatic transfer on payday → PEA or life insurance.<br><strong>2.</strong> Monthly automatic ETF purchase order.<br><strong>3.</strong> Annual rebalancing notification.<br>Result: you invest even when lazy, scared, or when markets are falling.'},
+        {type:'tip',text:'The "savings plan" on Trade Republic, Boursorama, or Fortuneo: automatic ETF purchase on the same day each month. Set it up once and forget it for 20 years.'}
+      ],quiz:{q:'Why automate your monthly investments?',opts:['To reduce taxes','To eliminate emotion and procrastination from the process','To get better prices','To impress your banker'],correct:1,expl:'<strong>Eliminate emotion.</strong> Automation makes you invest even during crises — exactly when it\'s most important and psychologically hardest.'}},
+      a5:{n:'Choosing your broker: the criteria that really matter',blocks:[
+        {type:'hook',emo:'🔍',text:'<strong>Not all brokers are equal.</strong> Transaction fees, custody fees, ETF selection, interface — these differences can be worth thousands of euros over 20 years.'},
+        {type:'content',text:'<strong>What matters:</strong><br>1. Transaction fees on ETFs (ideally €0).<br>2. Annual custody fees (ideally €0).<br>3. PEA eligibility (if you want to open a PEA).<br>4. Available ETF selection.<br>5. Mobile app (if you use it frequently).<br><strong>What matters less:</strong> welcome bonuses (often traps).'},
+        {type:'tip',text:'Compare total fees on a realistic scenario: €500/month for 20 years. The difference between an expensive broker and a low-cost broker can exceed €50,000.'}
+      ],quiz:{q:'Top criterion #1 for choosing an ETF broker?',opts:['Welcome bonus','Transaction and custody fees','The prettiest app','Number of available assets'],correct:1,expl:'<strong>Fees.</strong> A broker with €0 transaction fees vs €5/order over 240 orders in 20 years = €1,200 saved. And the compounding effect makes it even more.'}},
+      immo1:{n:'Buy vs. Rent: the real answer',blocks:[
+        {type:'hook',emo:'🥊',text:'"Renting is throwing money out the window." This phrase is repeated everywhere. It\'s often wrong. The real answer depends on many factors people generally ignore.'},
+        {type:'content',text:'<strong>In favour of buying:</strong> leverage (borrowing), inflation that erodes debt, stability.<br><strong>In favour of renting:</strong> professional flexibility, capital free to invest, zero notary fees and maintenance.<br>Basic rule: if rent ÷ (purchase price × 1.1) < 5%, it\'s often better to rent and invest the difference.'},
+        {type:'tip',text:'The forgotten calculation: notary fees (7–8%), renovations, property tax, maintenance charges — over 5 years, these often represent 15–20% of the purchase price. Include them in the comparison.'}
+      ],quiz:{q:'You buy a €300,000 apartment. Estimated notary fees?',opts:['€3,000','€15,000','€21,000–€24,000','€0 if first purchase'],correct:2,expl:'<strong>7–8% of price</strong> = €21,000–€24,000. These fees generate zero return — it\'s the "entry cost" of real estate that people often forget.'}},
+      immo2:{n:'REITs / SCPIs: real estate without the hassle',blocks:[
+        {type:'hook',emo:'💡',text:'<strong>Imagine owning real estate without searching for tenants, handling repairs, or dealing with rent controls.</strong> That\'s the idea behind REITs and SCPIs — funds that invest in professional real estate.'},
+        {type:'content',text:'<strong>SCPI (French REIT)</strong> = you buy shares in a fund managing a real estate portfolio (offices, shops, housing).<br>Historic return: 4–5%/yr.<br><strong>Advantages:</strong> delegated management, diversification, accessible from €1,000.<br><strong>Disadvantages:</strong> low liquidity, high entry fees (8–12%), rental income taxation.'},
+        {type:'trap',text:'Classic big mistake: thinking SCPIs are risk-free because it\'s "real estate." Share value can fall (as it did in 2023 for some office SCPIs). It\'s not a savings account.'}
+      ],quiz:{q:'Main disadvantage of SCPIs vs ETFs?',opts:['Lower return','Low liquidity and high entry fees','No dividends','Reserved for professionals'],correct:1,expl:'<strong>Low liquidity + high entry fees</strong>. To resell your shares, you need a buyer — that can take months. Entry fees (8–12%) hurt short-term returns.'}},
+      immo3:{n:'Rental property: numbers first',blocks:[
+        {type:'hook',emo:'🧮',text:'<strong>Before buying a rental property, there\'s one thing to calculate: the gross rental yield.</strong> And then the net yield. Everything else is noise.'},
+        {type:'content',text:'<strong>Gross yield</strong> = (annual rent ÷ purchase price) × 100.<br>Example: €200k apartment, €800/month rent → €9,600/yr → gross yield 4.8%.<br><strong>Net yield</strong> = subtract charges, property tax, management fees, vacancy, renovations.<br>Rule: net yield ≥ 5–6% for it to make sense.'},
+        {type:'tip',text:'The forgotten vacancy: 1 empty month/year = −8% revenue. Unexpected repairs: ~€1,000/yr average. Property tax: €1,000–€3,000/yr. Your 5% gross can melt to 2% net.'}
+      ],quiz:{q:'Apartment €150,000, rent €700/month. Gross yield?',opts:['3%','4.7%','5.6%','7%'],correct:2,expl:'700 × 12 = €8,400/yr. 8,400 ÷ 150,000 × 100 = <strong>5.6%</strong>. That\'s gross. Net will be lower after charges.'}},
+      c1:{n:'Blockchain: what it really is',blocks:[
+        {type:'hook',emo:'🔗',text:'<strong>A blockchain is a shared ledger replicated across thousands of computers, unalterable.</strong> Nobody controls it. Everyone can verify it. That\'s why Bitcoin doesn\'t need a central bank.'},
+        {type:'content',text:'<strong>How it works:</strong><br>1. A transaction is requested.<br>2. It\'s broadcast to all network nodes.<br>3. Nodes validate it according to mathematical rules.<br>4. The transaction is added to a "block" chained to previous ones → blockchain.<br>5. Nobody can alter history without recalculating the entire chain.'},
+        {type:'tip',text:'The key insight: blockchain solves the "double-spend" problem — how to be sure you\'re not using the same bitcoin twice without needing a bank to verify.'}
+      ],quiz:{q:'Why is a confirmed Bitcoin transaction impossible to modify?',opts:['It\'s stored at a bank','It\'s validated by thousands of nodes and chained to all subsequent blocks','It\'s encrypted by the government','Impossible — transactions can be cancelled'],correct:1,expl:'<strong>Decentralised validation + chaining.</strong> Modifying a transaction would require recalculating all subsequent blocks across the entire network. Mathematically impossible in practice.'}},
+      c2:{n:'Why Bitcoin is so volatile',blocks:[
+        {type:'hook',emo:'📉',text:'<strong>Bitcoin can lose −80% and then multiply ×10 over a few years.</strong> That\'s not a bug — it\'s a feature of its development stage. Understanding why helps you decide if it belongs in your portfolio.'},
+        {type:'content',text:'<strong>Why so volatile:</strong><br>1. Still a small market (vs gold or stock markets).<br>2. Many short-term speculators.<br>3. No easily measurable "fundamental value."<br>4. Unpredictable regulations by country.<br>5. Market sentiment amplified by social media.'},
+        {type:'trap',text:'Classic big mistake: investing money you need short-term in crypto. Volatility can be −80% in months. If that would make you panic, it doesn\'t belong in your allocation.'}
+      ],quiz:{q:'Maximum recommended crypto allocation for an individual investor according to most experts?',opts:['0% — it\'s pure speculation','1–5% of total portfolio','50% if you\'re bullish','As much as you want'],correct:1,expl:'<strong>1–5% maximum</strong> for the vast majority of individual investors. Extreme volatility justifies a small position. Beyond that, portfolio risk becomes too high.'}},
+      c3:{n:'How to secure your crypto (without getting hacked)',blocks:[
+        {type:'hook',emo:'🚨',text:'"<strong>Not your keys, not your coins.</strong>" If your crypto is on an exchange, you\'re not really the owner. Platforms have gone bankrupt or been hacked, taking users\' funds with them.'},
+        {type:'content',text:'<strong>Level 1 (beginner)</strong>: Regulated exchange with insurance (Kraken, Coinbase).<br><strong>Level 2 (intermediate)</strong>: Software wallet on your phone (MetaMask, Trust Wallet).<br><strong>Level 3 (advanced)</strong>: Hardware wallet (Ledger, Trezor) = private keys offline.<br><strong>Absolute rule</strong>: Write your seed phrase (24 words) on paper, store in a safe. Never photograph it, never in the cloud.'},
+        {type:'tip',text:'If you lose your seed phrase, you lose your crypto forever. Nobody can recover them. No customer service. No forgotten-password reset. Total responsibility.'}
+      ],quiz:{q:'What is a "seed phrase" (recovery phrase)?',opts:['Your account password','24 words giving total access to your wallet — NEVER share them','A temporary security code','Your wallet address'],correct:1,expl:'<strong>24 words = full access</strong> to all your crypto. If someone has it, they control everything. If you lose it, you lose everything. Store offline in a safe place.'}},
+      arm1:{n:'Ponzi & Pyramid: recognizing the perfect scam',blocks:[
+        {type:'hook',emo:'🚨',text:'<strong>Ponzi-type scams have cost billions to thousands of savers.</strong> Madoff: $65 billion. Educated people, bankers, retirees — all trapped. Golden rule: if it sounds too good to be true, it\'s a scam.'},
+        {type:'content',text:'<strong>How it works:</strong><br>1. The "manager" promises high guaranteed returns (10–15%/yr "risk-free").<br>2. Early investors are paid with new investors\' money.<br>3. As long as new clients join, the illusion holds.<br>4. The moment withdrawals exceed inflows → total collapse.<br><strong>Ultimate red flag:</strong> guaranteed return + "no risk" = certain scam.'},
+        {type:'trap',text:'"My friends are happy and really earning money." Social proof is the scammer\'s best tool. Early investors REALLY do receive gains — to recruit more victims. That\'s the classic mechanism.'}
+      ],quiz:{q:'A manager promises 12%/year guaranteed with zero risk. That\'s:',opts:['A good opportunity to seize','A Ponzi scheme or certain scam','Possible if it\'s a licensed professional','Legal if it\'s a retail bank'],correct:1,expl:'<strong>Certain scam.</strong> No legal investment guarantees high returns without risk. Risk-return tradeoff = fundamental law of finance. No exceptions.'}},
+      arm2:{n:'MLM and "great deals": spotting red flags',blocks:[
+        {type:'hook',emo:'⚠️',text:'<strong>A "friend" offers you a spot on their investment team. You earn more if you recruit people.</strong> That\'s a financial MLM — illegal in France in this form. The real money flows to the top of the pyramid, not you.'},
+        {type:'content',text:'<strong>Red flags to memorise:</strong><br>🔴 Guaranteed or "very high" returns.<br>🔴 You must recruit to earn more.<br>🔴 Time pressure ("limited offer", "act now").<br>🔴 Lack of transparency on the actual strategy.<br>🔴 No official prospectus or AMF approval.'},
+        {type:'tip',text:'Instant check: search the product/company name on the <strong>AMF blacklist</strong> (amf-france.org → Blacklists). If it\'s on there, run without hesitation. If not, no guarantee, but it\'s the minimum.'}
+      ],quiz:{q:'Which sign proves an investment is potentially legitimate?',opts:['Your friends joined and seem to be earning','It\'s recommended on Instagram','It has AMF approval and an official prospectus','The manager is available 24/7'],correct:2,expl:'<strong>AMF approval + official prospectus.</strong> The AMF regulates investments in France. No approval = illegal. No prospectus = opaque. Both are the legal minimum required.'}},
+      arm3:{n:'Hidden fees: the most widespread legal theft in finance',blocks:[
+        {type:'hook',emo:'🔎',text:'<strong>1.5% annual fees on €100,000 over 30 years = €350,000 in lost gains.</strong> And often, no line says "fees deducted this month." "Modest" fees are the silent drain on your wealth.'},
+        {type:'content',text:'<strong>Fees to track:</strong><br>TER (annual ETF fees): visible, 0.1%–0.8%/yr.<br>Active fund management fees: 1–2.5%/yr, deducted imperceptibly daily.<br>Entry/exit fees: 0–5% per transaction.<br>Account custody fees: €0–€50/yr depending on broker.<br><strong>Shocking comparison:</strong> ETF at 0.2%/yr vs in-house fund at 1.8%/yr → ~€320k difference over 30 years.'},
+        {type:'tip',text:'Magic question to ask your advisor: "What is this fund\'s net-of-fees performance vs its benchmark over 10 years?" If net performance lags the index → fees are destroying value.'}
+      ],quiz:{q:'Fund at 2%/yr fees on €100,000 over 20 years (at 7% gross). Approximate loss vs 0.2% ETF?',opts:['€2,000','€20,000','Around €160,000','Zero — fees are tax-deductible'],correct:2,expl:'<strong>~€160,000</strong>. Without excess fees: ~€387k. With 2%/yr: ~€220k. The cumulative gap over 20 years is devastating. Fees compound like returns, but in the wrong direction.'}},
+      etf1:{n:'What is an ETF? (clear explanation)',blocks:[
+        {type:'hook',emo:'📊',text:'<strong>The S&P 500 isn\'t a stock. It\'s an automatic basket of the 500 largest US companies.</strong> It reweights itself. Winners grow, losers exit. You don\'t have to choose.'},
+        {type:'content',text:'<strong>Major indices:</strong><br>S&P 500: 500 US companies.<br>MSCI World: 23 developed countries, ~1,600 companies.<br>CAC 40: 40 French giants.<br>NASDAQ 100: top 100 tech companies.<br>An index = a mathematical rule. No emotion, no conflict of interest.'},
+        {type:'tip',text:'Fewer than 10% of actively managed funds beat their index over 15 years. Not because they\'re bad — because fees and human errors accumulate. The index wins by default.'}
+      ],quiz:{q:'MSCI World covers how many developed countries?',opts:['5','23','80','USA only'],correct:1,expl:'MSCI World = <strong>23 developed countries</strong>, ~1,600 companies. Emerging markets (India, Brazil, China) are in MSCI EM.'}},
+      etf2:{n:'Physical vs. synthetic ETF: the difference that matters',blocks:[
+        {type:'hook',emo:'🔬',text:'<strong>Two ETFs can track the same index while working completely differently under the hood.</strong> Physical vs synthetic — this difference affects risk, tax efficiency, and which accounts you can use them in.'},
+        {type:'content',text:'<strong>Physical ETF</strong>: actually buys all the stocks in the index (full replication) or a representative sample (optimised replication). Transparent, simple.<br><strong>Synthetic ETF</strong>: uses a swap contract with a bank to replicate index performance without holding the actual stocks. Used to make certain indices PEA-eligible.<br><strong>Counterparty risk</strong>: with synthetic ETFs, the swap partner could default (mitigated by UCITS rules: max 10% exposure).'},
+        {type:'tip',text:'For PEA: many MSCI World ETFs are synthetic (to qualify). For standard accounts, physical is often preferred for transparency.'}
+      ],quiz:{q:'A synthetic ETF replicates its index by:',opts:['Buying every stock in the index','Using a swap contract with a bank counterparty','Holding gold as collateral','Buying futures on each stock'],correct:1,expl:'<strong>Swap contract</strong>. The ETF receives the index performance via a derivative contract, without holding the underlying stocks directly.'}},
+      etf3:{n:'Fees: the silent killer of returns',blocks:[
+        {type:'hook',emo:'⚡',text:'<strong>Fees don\'t appear on your monthly statement — they\'re deducted daily from the fund\'s NAV.</strong> You never see them leave, but over 30 years they can cost you more than your initial investment.'},
+        {type:'content',text:'<strong>TER (Total Expense Ratio)</strong>: the annual cost displayed on every ETF. Includes management, admin, and other fund costs.<br><strong>ETF</strong>: TER typically 0.05%–0.35%/yr.<br><strong>Active fund</strong>: management fees 1%–2.5%/yr + possible performance fees.<br><strong>Impact</strong>: 1% extra/yr on €100k over 30 years ≈ €175k less in your pocket (at 7% gross).'},
+        {type:'tip',text:'Check the TER before buying any fund. Below 0.3% is excellent for broad market ETFs. Above 0.7% needs strong justification.'}
+      ],quiz:{q:'Where is an ETF\'s annual cost (TER) visible?',opts:['On your monthly bank statement','On the ETF\'s product sheet (KIID/KID)','On the exchange website only','It\'s not disclosed publicly'],correct:1,expl:'<strong>KIID / KID (Key Information Document)</strong> displays the TER. Mandatory for all UCITS funds in Europe.'}},
+      etf4:{n:'MSCI World: the only ETF you need?',blocks:[
+        {type:'hook',emo:'🌍',text:'<strong>One ETF, 23 countries, ~1,600 companies, 0.2% in annual fees.</strong> Many experts argue this single product is sufficient for 90% of individual investors. Is that really true?'},
+        {type:'content',text:'<strong>MSCI World composition</strong>: ~70% USA, ~6% Japan, ~4% UK, ~3% France, etc. Heavily weighted toward US large caps.<br><strong>Strengths</strong>: broad diversification, very low fees, highly liquid, available in most PEAs.<br><strong>Limitations</strong>: no emerging markets (0% China, India), very high US concentration, excludes small caps.'},
+        {type:'tip',text:'MSCI World + MSCI Emerging Markets (10–20% of the allocation) gives true global coverage. Some investors add a small-cap ETF for completeness.'}
+      ],quiz:{q:'What percentage of MSCI World is approximately US companies?',opts:['30%','50%','70%','90%'],correct:2,expl:'<strong>~70% USA</strong>. MSCI World is heavily weighted toward US large caps — something to consider when thinking about geographic diversification.'}},
+      etf5:{n:'Acc vs. Dist: it changes thousands of euros',blocks:[
+        {type:'hook',emo:'💰',text:'<strong>Two identical ETFs tracking the same index can produce dramatically different outcomes over 20 years</strong> depending on whether they accumulate or distribute dividends.'},
+        {type:'content',text:'<strong>Accumulating (Acc)</strong>: dividends are reinvested automatically into the fund. Your position grows without any action. No immediate tax event.<br><strong>Distributing (Dist)</strong>: dividends paid to you in cash. In a standard account: taxed immediately (30% flat tax in France). In a PEA: no immediate tax, but reinvestment is manual.'},
+        {type:'tip',text:'In a PEA during the accumulation phase: Acc = optimal (automatic compounding, zero friction). In a CTO and you need income: Dist. In retirement/drawdown: Dist can work.'}
+      ],quiz:{q:'Why do Accumulating ETFs outperform Distributing in a standard brokerage account over 20 years?',opts:['Lower management fees','Dividends are reinvested without immediate tax drag','Better stock selection','They hold more shares'],correct:1,expl:'<strong>No immediate tax drag</strong>. In a standard account, each dividend from a Dist ETF is taxed at 30%. The Acc ETF reinvests the same dividend tax-free inside the fund.'}},
+      etf6:{n:'Thematic ETFs: opportunity or trap?',blocks:[
+        {type:'hook',emo:'🎯',text:'<strong>An ETF on clean energy, artificial intelligence, or cybersecurity sounds exciting.</strong> But most thematic ETFs underperform a simple MSCI World over 10 years. Here\'s why.'},
+        {type:'content',text:'<strong>The problem with themes</strong>: by the time a theme is packaged into an ETF and marketed, institutions have already priced it in. You\'re buying after the rally.<br><strong>Higher fees</strong>: thematic ETFs average 0.5%–0.75%/yr vs 0.2% for MSCI World.<br><strong>Concentration risk</strong>: 30–50 stocks vs 1,600 in MSCI World.<br><strong>Survivor bias</strong>: ETF providers close failed thematic ETFs and only advertise the winners.'},
+        {type:'trap',text:'If a theme is on the cover of financial magazines, the gains are probably already in the price. The moment of maximum media coverage is typically also the moment of maximum valuation.'}
+      ],quiz:{q:'Main risk of investing in thematic ETFs vs MSCI World?',opts:['Lower dividends','Higher concentration and often buying after the rally','More complex to buy','They don\'t exist in PEA'],correct:1,expl:'<strong>Concentration + timing</strong>. A thematic ETF holds fewer companies (risk) and is typically launched after a theme has already performed well (you buy high).'}},
+      etf7:{n:'Smart Beta & Factor Investing: the next level',blocks:[
+        {type:'hook',emo:'📐',text:'<strong>What if you could keep the low cost of an ETF but tilt your portfolio toward factors proven to outperform over the long term?</strong> That\'s the promise of Smart Beta.'},
+        {type:'content',text:'<strong>Main factors (proven by academic research):</strong><br>• <strong>Value</strong>: cheap stocks vs earnings (P/E, P/B low).<br>• <strong>Size</strong>: small caps outperform large caps over time.<br>• <strong>Momentum</strong>: stocks that rose continue rising (medium term).<br>• <strong>Quality</strong>: high profitability, low debt.<br>• <strong>Low Volatility</strong>: low-beta stocks, defensive.<br>Smart Beta ETFs systematically tilt toward these factors.'},
+        {type:'tip',text:'Factor premiums disappear when crowded. If everyone piles into "Value" after reading a study, the factor premium is arbitraged away. Diversify across factors rather than betting on one.'}
+      ],quiz:{q:'Which factor refers to buying stocks with low valuation multiples (low P/E, P/B)?',opts:['Momentum','Value','Quality','Low Volatility'],correct:1,expl:'<strong>Value factor</strong>: investing in "cheap" stocks vs their fundamentals. Historically generates a premium over time but can underperform for long periods (e.g. 2010–2020).'}},
+      fisc1:{n:'PEA: the tax benefit you must know',blocks:[
+        {type:'hook',emo:'🏆',text:'<strong>The PEA (Plan d\'Épargne en Actions) is France\'s most powerful tax envelope for equity investment.</strong> After 5 years, gains are income-tax-free. Here\'s exactly how it works.'},
+        {type:'content',text:'<strong>PEA basics</strong>: max contribution €150,000/person. Eligible assets: European equities + eligible ETFs (including synthetic MSCI World).<br><strong>Tax treatment</strong>: gains + dividends compound tax-free inside. After 5 years, withdrawals are exempt from income tax (only 17.2% social charges remain).<br><strong>Before 5 years</strong>: withdrawals trigger account closure + income tax at 12.8%.'},
+        {type:'tip',text:'Open your PEA now even with €1. The 5-year clock starts at opening date. You can add money later — what matters is when the account was opened.'}
+      ],quiz:{q:'After 5 years, what tax applies to PEA withdrawals on gains?',opts:['30% flat tax','12.8% income tax','Only 17.2% social charges','Zero tax, completely exempt'],correct:2,expl:'<strong>Only 17.2% social charges</strong>. Income tax (12.8%) is waived after 5 years. The PEA is the most tax-efficient account for equity investment in France.'}},
+      fisc2:{n:'Life insurance: the Swiss army knife for estate planning',blocks:[
+        {type:'hook',emo:'🔧',text:'<strong>Life insurance in France is nothing like the English concept.</strong> It\'s a tax-advantaged investment vehicle that combines flexible investing with powerful inheritance benefits.'},
+        {type:'content',text:'<strong>Investment options</strong>: euro fund (capital guaranteed, ~2–3%/yr) + unit-linked (stocks, ETFs, SCPIs) — your choice of mix.<br><strong>Tax treatment after 8 years</strong>: €4,600/yr withdrawal allowance per person (€9,200 for couples) exempt from income tax on gains.<br><strong>Inheritance</strong>: up to €152,500 per beneficiary outside of the estate, tax-free.'},
+        {type:'tip',text:'Life insurance is not for short-term savings. The real advantages kick in after 8 years. Think of it as a long-term complement to PEA for larger amounts or estate planning needs.'}
+      ],quiz:{q:'Life insurance\'s main advantage over a CTO after 8 years?',opts:['Higher guaranteed returns','Annual withdrawal allowance with reduced taxation + estate benefits','No custody fees','More ETF options'],correct:1,expl:'<strong>Tax allowance + estate planning</strong>. After 8 years, you get €4,600/yr (€9,200/couple) of gains withdrawn tax-free, plus powerful inheritance transfer outside the estate.'}},
+      fisc3:{n:'CTO: flat tax and total freedom',blocks:[
+        {type:'hook',emo:'🗽',text:'<strong>The CTO (Compte-Titres Ordinaire) is the most flexible account — but also the most taxed.</strong> You can invest in anything worldwide. The price: a flat 30% tax on all gains.'},
+        {type:'content',text:'<strong>Flat tax (PFU)</strong>: 30% = 12.8% income tax + 17.2% social charges. Applied to all capital gains and dividends when realised.<br><strong>Available assets</strong>: everything — US stocks, world ETFs, bonds, REITs, warrants, etc. No geographic restriction.<br><strong>No limits</strong>: no contribution cap (unlike PEA €150k or PER).'},
+        {type:'tip',text:'Use a CTO after maxing your PEA and life insurance. Useful for assets ineligible for PEA (US stocks, non-European ETFs) or when you\'ve hit PEA\'s €150k cap.'}
+      ],quiz:{q:'What is the flat tax (PFU) rate on CTO gains in France?',opts:['17.2%','20%','30%','45%'],correct:2,expl:'<strong>30%</strong> = 12.8% income tax + 17.2% social charges. This is the flat rate applied to all capital gains and dividends in a standard brokerage account.'}},
+      fisc4:{n:'PER: deduct your taxes while investing',blocks:[
+        {type:'hook',emo:'🎯',text:'<strong>The PER (Plan d\'Épargne Retraite) lets you deduct your contributions from your taxable income today — and pay tax only when you withdraw in retirement.</strong> The higher your tax bracket, the more powerful this is.'},
+        {type:'content',text:'<strong>How it works</strong>: Contribute up to 10% of your annual income (min €4,114). Deduct from taxable income → immediate tax saving. Invest in a diversified portfolio (ETFs, funds). Withdraw at retirement as lump sum (taxed) or annuity.<br><strong>Who benefits most</strong>: marginal tax rate ≥ 30%. If you\'re at 30% or 41%, each €1,000 contributed saves €300–€410 in tax immediately.'},
+        {type:'tip',text:'PER is not ideal for low earners (marginal rate ≤ 11%). The tax saving on input is small, but you\'ll pay full tax on output. PEA and life insurance are often better first choices.'}
+      ],quiz:{q:'The PER is most advantageous for someone with a marginal tax rate of:',opts:['0% (no tax)','11%','30% or 41%','It\'s the same for everyone'],correct:2,expl:'<strong>30% or 41%</strong>. The higher your tax bracket, the bigger the immediate tax saving from deducting PER contributions. At 0–11%, the PER is rarely the best choice.'}},
+      fisc5:{n:'Optimizing your taxes: the complete plan',blocks:[
+        {type:'hook',emo:'🗺️',text:'<strong>Tax optimisation isn\'t cheating — it\'s using the legal envelopes the law created for you.</strong> A well-structured portfolio can save tens of thousands of euros over 30 years.'},
+        {type:'content',text:'<strong>Optimal allocation by envelope:</strong><br>1. <strong>PEA</strong>: all equity ETFs (MSCI World, emerging markets). Tax-free after 5 years.<br>2. <strong>Life insurance</strong>: ETFs + euro fund for stability. Estate planning tool.<br>3. <strong>PER</strong>: if marginal rate ≥ 30%. Maximise the tax deduction today.<br>4. <strong>CTO</strong>: for assets ineligible elsewhere (US stocks, non-European ETFs) or amounts above PEA cap.'},
+        {type:'tip',text:'Tax loss harvesting: in a CTO, realise losses to offset gains in the same tax year. You can immediately rebuy a similar (not identical) ETF to stay invested while reducing your tax bill.'}
+      ],quiz:{q:'Which account should you fill first for maximum tax efficiency?',opts:['CTO','Life insurance','PEA','PER'],correct:2,expl:'<strong>PEA first</strong>. The 5-year tax-free clock starts at opening. Then life insurance for larger amounts and estate planning. PER if your marginal rate is high enough. CTO last.'}},
+      fa1:{n:'P/E ratio: how much are you paying for €1 of earnings?',blocks:[
+        {type:'hook',emo:'🔍',text:'<strong>The P/E ratio is the most widely used valuation metric in equity markets.</strong> It tells you how many euros investors are willing to pay for each euro of company earnings. High P/E = high expectations. Low P/E = cheap or struggling.'},
+        {type:'content',text:'<strong>P/E = Share price ÷ Earnings Per Share (EPS)</strong><br>P/E 15 = paying €15 for €1 of annual profit.<br><strong>Historical average</strong>: S&P 500 ~15–17× over the long term. Above 25× = expensive. Below 10× = potentially cheap (or value trap).<br><strong>Limitation</strong>: earnings can be manipulated (accounting choices). Compare companies in the same sector only.'},
+        {type:'tip',text:'Forward P/E uses next year\'s expected earnings — more useful for growth companies. PEG ratio (P/E ÷ earnings growth rate) adds context: P/E of 30 with 30% growth = PEG of 1 = fairly valued.'}
+      ],quiz:{q:'A stock has a P/E of 40. What does this mean?',opts:['The stock is guaranteed to rise','Investors pay €40 for each €1 of annual earnings — implying high growth expectations','The stock is undervalued','The company has €40 in cash per share'],correct:1,expl:'<strong>€40 for €1 of earnings</strong>. A high P/E means the market expects strong future growth. If growth disappoints, the valuation can compress sharply.'}},
+      fa2:{n:'Free Cash Flow: cash never lies',blocks:[
+        {type:'hook',emo:'💵',text:'<strong>Earnings can be massaged by accounting choices. Free Cash Flow cannot.</strong> FCF is the actual cash a business generates after maintaining and growing its operations. It\'s the purest measure of financial health.'},
+        {type:'content',text:'<strong>FCF = Operating Cash Flow − Capital Expenditures (CapEx)</strong><br>Positive FCF: company generates real cash → can pay dividends, buy back shares, reduce debt, or reinvest.<br>Negative FCF: company burns cash → may need external funding → higher risk.<br><strong>FCF Yield</strong> = FCF per share ÷ Share price. A FCF Yield > 5% often signals undervaluation.'},
+        {type:'tip',text:'Compare FCF to net income. If net income is consistently higher than FCF, the company may be using aggressive accounting. If FCF > net income over time: a great sign of earnings quality.'}
+      ],quiz:{q:'Why is Free Cash Flow (FCF) considered more reliable than net income?',opts:['It\'s calculated by accountants','It\'s the actual cash generated — harder to manipulate with accounting choices','It\'s higher than net income','It\'s disclosed quarterly'],correct:1,expl:'<strong>Cash doesn\'t lie.</strong> Net income includes non-cash items (depreciation, amortisation) and is subject to accounting choices. FCF is the actual money left after running and investing in the business.'}},
+      fa3:{n:'Beta: does your stock surf or amplify market waves?',blocks:[
+        {type:'hook',emo:'🌊',text:'<strong>Beta measures how much your stock moves relative to the market.</strong> A beta of 1 means it moves exactly like the market. Above 1 = amplified moves. Below 1 = dampened moves.'},
+        {type:'content',text:'<strong>Beta 0.5</strong>: market up +10% → stock up ~+5%. Defensive stocks (utilities, consumer staples).<br><strong>Beta 1</strong>: moves in line with the market.<br><strong>Beta 1.5</strong>: market up +10% → stock up ~+15%. Cyclical stocks (tech, mining).<br><strong>Beta < 0</strong>: moves opposite to the market (e.g. some gold ETFs, inverse ETFs).'},
+        {type:'tip',text:'Beta is backward-looking. A stock\'s beta can change over time as its business model evolves. It also depends on the time window chosen (1 year vs 5 years can give very different betas).'}
+      ],quiz:{q:'A stock with Beta = 2. The market falls −15%. The stock will likely:',opts:['Fall −15%','Fall ~−30%','Rise +15%','Stay flat'],correct:1,expl:'<strong>Fall ~−30%</strong>. Beta 2 = twice the market\'s movement. Market −15% × 2 = ~−30%. High beta stocks amplify both gains and losses.'}},
+      fa4:{n:'Sharpe Ratio: the true measure of performance',blocks:[
+        {type:'hook',emo:'📐',text:'<strong>Two portfolios both returned +10% last year. Which one is better?</strong> The answer depends on how much risk was taken. The Sharpe Ratio answers this question precisely.'},
+        {type:'content',text:'<strong>Sharpe Ratio = (Portfolio Return − Risk-Free Rate) ÷ Standard Deviation</strong><br>It measures return per unit of risk taken.<br><strong>Interpretation:</strong><br>> 1 = good (you\'re well-compensated for risk).<br>0.5–1 = acceptable.<br>< 0.5 = poor risk-return tradeoff.<br>A portfolio returning +20% with high volatility can have a worse Sharpe than one returning +10% with low volatility.'},
+        {type:'tip',text:'Sortino Ratio is a variation that only penalises downside volatility (not upside volatility). Often more useful for evaluating aggressive strategies.'}
+      ],quiz:{q:'Portfolio A: +15% return, Sharpe 0.3. Portfolio B: +10% return, Sharpe 0.9. Which is better?',opts:['Portfolio A (higher absolute return)','Portfolio B (better risk-adjusted return)','They\'re equal','Depends on investment horizon'],correct:1,expl:'<strong>Portfolio B</strong>. A Sharpe of 0.9 means far more return per unit of risk. Portfolio A\'s extra 5% comes with excessive volatility — a poor trade-off.'}},
+      fa5:{n:'Reading a balance sheet in 5 minutes',blocks:[
+        {type:'hook',emo:'📊',text:'<strong>A balance sheet is a snapshot of what a company owns (assets), what it owes (liabilities), and what belongs to shareholders (equity).</strong> In 5 minutes you can tell if a company is financially solid or fragile.'},
+        {type:'content',text:'<strong>Assets</strong>: Current (cash, receivables, inventory) + Non-current (property, equipment, intangibles).<br><strong>Liabilities</strong>: Current (payable within 1 year) + Non-current (long-term debt).<br><strong>Equity</strong>: Assets − Liabilities = what shareholders own.<br><strong>Key ratios</strong>:<br>Debt/Equity < 1: relatively safe.<br>Current Ratio > 1.5: can pay short-term debts.<br>Return on Equity (ROE) > 15%: very profitable.'},
+        {type:'tip',text:'Look at the trend over 3–5 years, not just the latest snapshot. Rising debt with flat revenues = red flag. Growing equity with rising ROE = quality compounding business.'}
+      ],quiz:{q:'A company has €500m in assets and €350m in liabilities. Its equity is:',opts:['€850m','€150m','€500m','Cannot determine'],correct:1,expl:'<strong>€150m</strong>. Equity = Assets − Liabilities = €500m − €350m = €150m. This is what shareholders actually own.'}},
+      fa6:{n:'Value, Growth, Momentum: choosing your style',blocks:[
+        {type:'hook',emo:'🎨',text:'<strong>Three main investment styles have been academically studied for decades.</strong> Each has periods of outperformance and underperformance. Understanding them helps you choose your approach — and stick to it.'},
+        {type:'content',text:'<strong>Value</strong>: Buy cheap (low P/E, P/B). Bet that the market overreacts downward. Works over 10+ years but can be painful for years (e.g. 2010–2020).<br><strong>Growth</strong>: Buy companies with high earnings growth, even if expensive. Works during low-rate, expanding economy phases.<br><strong>Momentum</strong>: Buy what\'s already rising strongly. Trend-following. Works until the trend reverses — often brutally.'},
+        {type:'tip',text:'Style diversification: combining Value + Growth (via a broad index like MSCI World) + a small Momentum tilt gives exposure to multiple factor premiums simultaneously.'}
+      ],quiz:{q:'The "Momentum" style consists of:',opts:['Buying cheap (low P/E) stocks','Buying stocks with the strongest recent price trends','Holding the highest-quality companies','Buying small caps'],correct:1,expl:'<strong>Trend following</strong>. Momentum = buying assets that have recently outperformed. The academic factor shows persistence: winners tend to keep winning — until they don\'t.'}},
+      fa7:{n:'Analyzing a stock in 30 minutes',blocks:[
+        {type:'hook',emo:'⏱️',text:'<strong>Professional analysts spend weeks on a single stock. But 80% of useful information can be gathered in 30 minutes</strong> with the right checklist.'},
+        {type:'content',text:'<strong>The 30-minute checklist:</strong><br>1. Business model: what does it do? How does it make money?<br>2. Revenue trend: growing? Stable? Declining? (last 5 years)<br>3. Margins: Net margin, operating margin — improving or compressing?<br>4. FCF: positive and growing?<br>5. Debt: manageable? (Net Debt/EBITDA < 3×)<br>6. Valuation: P/E vs peers and historical average.<br>7. Risks: major risks to the thesis?'},
+        {type:'tip',text:'Morningstar, Simply Wall St, or the company\'s investor relations page give you most of this data free. The annual report (10-K/20-F) is the primary source.'}
+      ],quiz:{q:'Which metric best measures a company\'s ability to pay its short-term obligations?',opts:['P/E ratio','Current Ratio (current assets ÷ current liabilities)','Beta','Dividend yield'],correct:1,expl:'<strong>Current Ratio</strong>. Current assets ÷ Current liabilities. Above 1.5 = healthy. Below 1 = liquidity concern — the company may struggle to pay near-term debts.'}},
+      m1:{n:'Time value of money: discounting explained',blocks:[
+        {type:'hook',emo:'⏳',text:'<strong>€1,000 today is worth more than €1,000 in 5 years.</strong> Because today\'s €1,000 can be invested and grow. This simple idea is the foundation of all financial valuation.'},
+        {type:'content',text:'<strong>Present Value (PV)</strong> = Future Value ÷ (1 + r)^n<br>Where r = discount rate and n = years.<br>Example: €1,000 in 5 years at 5% discount rate = €1,000 ÷ (1.05)^5 = €784 today.<br><strong>Why it matters</strong>: DCF valuation, bond pricing, retirement planning — all use this principle.'},
+        {type:'tip',text:'The higher the discount rate used, the lower the present value of future cash flows. That\'s why rising interest rates compress stock valuations: future earnings are discounted more heavily.'}
+      ],quiz:{q:'At a 6% discount rate, what is €10,000 receivable in 10 years worth today?',opts:['€10,000','About €5,584','€16,000','About €7,500'],correct:1,expl:'<strong>~€5,584</strong>. PV = 10,000 ÷ (1.06)^10 = 10,000 ÷ 1.79 ≈ €5,584. €10k in 10 years, discounted at 6%, is worth about half today.'}},
+      m2:{n:'Economic cycles: know where you are on the map',blocks:[
+        {type:'hook',emo:'🗺️',text:'<strong>Markets don\'t move randomly — they follow economic cycles that repeat every 7–10 years.</strong> Knowing where you are in the cycle helps you tilt your allocation toward the right assets.'},
+        {type:'content',text:'<strong>4 phases:</strong><br><strong>Expansion</strong>: GDP rising, low unemployment. Equities (cyclicals, emerging markets), commodities outperform.<br><strong>Peak</strong>: inflation rising, central bank tightening. TIPS, commodities, raw materials.<br><strong>Contraction</strong>: GDP falling, recession. Government bonds, gold, defensive equities.<br><strong>Trough/Recovery</strong>: rates cut, stimulus. Growth stocks, real estate, high yield.'},
+        {type:'tip',text:'Key indicators to watch: ISM Manufacturing PMI (> 50 = expansion), yield curve (2s10s inversion often precedes recession by 12–18 months), credit spreads widening.'}
+      ],quiz:{q:'In a recession phase, which assets typically outperform?',opts:['Cyclical stocks and commodities','Government bonds and gold','Emerging market equities','High yield bonds'],correct:1,expl:'<strong>Government bonds and gold</strong>. In contractions, investors flee to safe havens. Bond prices rise as rates fall. Gold benefits from uncertainty and potential monetary easing.'}},
+      m3:{n:'Central banks: how they influence your portfolio',blocks:[
+        {type:'hook',emo:'🏛️',text:'<strong>The Fed and ECB move markets more than any earnings report.</strong> Every portfolio manager watches central bank meetings. Understanding their tools tells you how they affect your investments.'},
+        {type:'content',text:'<strong>Policy rate (Fed Funds / Refi rate)</strong>: the overnight lending rate. Low rates → cheap borrowing → stocks rise. High rates → expensive borrowing → stocks fall, bonds rise (eventually).<br><strong>Quantitative Easing (QE)</strong>: central bank buys bonds → pushes yields down → investors move into risky assets.<br><strong>Forward guidance</strong>: communication about future rate path — often moves markets more than actual decisions.'},
+        {type:'tip',text:'"Don\'t fight the Fed." When the Fed is in aggressive easing mode, risk assets tend to rise. When aggressively hiking, be defensive. The direction of rates matters as much as their level.'}
+      ],quiz:{q:'What typically happens to stock markets when a central bank cuts interest rates?',opts:['Stocks fall — lower rates mean lower growth','Stocks tend to rise — cheaper borrowing boosts growth and valuations','No effect','Only bond markets are affected'],correct:1,expl:'<strong>Stocks tend to rise</strong>. Lower rates reduce the discount rate on future earnings (raising valuations) and make equities more attractive vs bonds. The effect isn\'t guaranteed but is historically consistent.'}},
+      m4:{n:'Leverage: the double-edged weapon',blocks:[
+        {type:'hook',emo:'⚔️',text:'<strong>Leverage amplifies everything — gains and losses equally.</strong> A 2× leveraged ETF that rises 10% becomes +20%. But that same ETF falling 10% means −20%. And unlike a stock, it can destroy your capital even without going to zero.'},
+        {type:'content',text:'<strong>How leverage works</strong>: you control a larger position than your capital. With 10× leverage: €1,000 controls €10,000.<br><strong>The volatility drag</strong>: a 2× ETF losing 10% then gaining 10% = final value 98% (not 100%). Over time, daily rebalancing creates a drag on returns.<br><strong>Margin call</strong>: if losses exceed your collateral, the broker forcibly liquidates your position — potentially at the worst moment.'},
+        {type:'trap',text:'Never use leverage on money you can\'t afford to lose. A −50% move with 4× leverage = total loss. Leverage is a tool for short-term tactical positioning, not long-term holding.'}
+      ],quiz:{q:'You use 5× leverage on a position. The underlying asset falls −20%. Your loss is:',opts:['−20%','−5%','−100% (complete loss)','−40%'],correct:2,expl:'<strong>−100% (complete loss)</strong>. 5× leverage × 20% drop = 100% loss of your margin. With leverage, relatively small moves can wipe out your entire position.'}},
+      m5:{n:'Geopolitics and markets: what to watch',blocks:[
+        {type:'hook',emo:'🌍',text:'<strong>Wars, sanctions, and elections move markets.</strong> But the relationship is complex: markets often react less than expected to geopolitical events, and sometimes react to things that seem distant.'},
+        {type:'content',text:'<strong>What genuinely matters:</strong><br>• Energy supply disruptions (Middle East, Russia → oil prices).<br>• Trade wars / tariffs → affects export-heavy sectors.<br>• Currency wars / sanctions → EM and specific sectors.<br>• Central bank independence threatened → currency and bond crisis.<br><strong>What often doesn\'t matter long-term:</strong> short-term military conflicts in distant regions (markets typically recover within weeks).'},
+        {type:'tip',text:'The worst moves are reactive ones. Markets already price in "known" geopolitical risks. The real opportunities and risks come from the unexpected. Maintain your allocation through short-term noise.'}
+      ],quiz:{q:'Historically, how do stock markets typically respond to short-term geopolitical shocks (wars, terrorist attacks)?',opts:['Permanent and severe decline','Short-term volatility followed by recovery within weeks to months','Immediate and sustained rally','No measurable effect'],correct:1,expl:'<strong>Short-term volatility, then recovery</strong>. Markets are resilient to most geopolitical shocks unless they directly disrupt earnings or supply chains. Selling in panic typically results in missing the recovery.'}},
+      m6:{n:'Bonds and rates: the inverse relationship',blocks:[
+        {type:'hook',emo:'↔️',text:'<strong>When interest rates rise, bond prices fall. When rates fall, bond prices rise.</strong> This inverse relationship is one of the most important in finance — and the source of major losses in 2022.'},
+        {type:'content',text:'<strong>Why the inverse relationship?</strong> A bond pays a fixed coupon. If new bonds pay higher rates, your old bond (with a lower coupon) is worth less — nobody wants it at face value.<br><strong>Duration</strong>: the sensitivity of a bond\'s price to rate changes. A bond with duration 10 loses ~10% if rates rise 1%.<br><strong>2022 example</strong>: 10-year US Treasuries fell ~20% as the Fed hiked from 0% to 5.25%.'},
+        {type:'tip',text:'Short duration = less rate risk. In rising rate environments, short-duration bonds (1–3 years) or floating rate notes protect capital. Long-duration bonds (20–30 years) are the most rate-sensitive.'}
+      ],quiz:{q:'Interest rates rise +2%. A bond portfolio with average duration of 8 years loses approximately:',opts:['2%','8%','16%','0% — bonds are guaranteed'],correct:2,expl:'<strong>~16%</strong>. Duration × rate change = price impact. 8 × 2% = 16% price decline. This is why rising rates devastate long-duration bond portfolios.'}},
+      m7:{n:'Gold in a portfolio: really useful?',blocks:[
+        {type:'hook',emo:'🥇',text:'<strong>Gold doesn\'t pay dividends, generates no earnings, and has no cash flows.</strong> Yet investors have held it for 5,000 years as a store of value. Does it deserve a place in your portfolio?'},
+        {type:'content',text:'<strong>What gold does well</strong>: inflation hedge (especially against currency debasement), crisis hedge (geopolitical stress, financial system fear), portfolio diversifier (low correlation to stocks).<br><strong>What gold does badly</strong>: no yield, underperforms equities in bull markets, high storage/insurance cost for physical.<br><strong>Historical data</strong>: 5–10% gold allocation reduces portfolio volatility without significantly hurting long-term returns.'},
+        {type:'tip',text:'For most investors, 0–10% of portfolio in gold (via an ETF like SGOL or iShares Physical Gold) is sufficient. Physical gold adds storage costs and security concerns.'}
+      ],quiz:{q:'The main reason to hold gold in a diversified portfolio is:',opts:['Its high dividend yield','Its low correlation to stocks — reducing portfolio volatility during crises','Its guaranteed return of 5%/yr','Tax advantages'],correct:1,expl:'<strong>Low correlation and crisis hedge</strong>. Gold tends to rise when stocks fall sharply (2008, 2020). That negative or zero correlation reduces overall portfolio volatility — the key reason to own it.'}},
+      risk1:{n:'Position sizing: how much to put on one idea',blocks:[
+        {type:'hook',emo:'⚖️',text:'<strong>The single most important risk management decision you make is not which stock to buy — it\'s how much of your portfolio to allocate.</strong> Perfect analysis with wrong sizing can destroy your portfolio.'},
+        {type:'content',text:'<strong>The 1–2% rule</strong>: risk no more than 1–2% of your total portfolio on any single trade (not 1–2% allocation — 1–2% of capital at risk).<br>Example: €50,000 portfolio → max loss per trade = €500–€1,000.<br><strong>Kelly Criterion</strong>: mathematical formula for optimal sizing = Edge / Odds. In practice, use half-Kelly to avoid ruin.<br><strong>Concentration risk</strong>: even in a stock portfolio, rarely exceed 5–10% in any single position.'},
+        {type:'tip',text:'Inverse relationship: the more uncertain your edge, the smaller the position. You can be very confident in an idea and still size it modestly — preserving capital for better opportunities.'}
+      ],quiz:{q:'Your portfolio is €100,000. Following the 2% rule, your max loss on one trade is:',opts:['€2,000','€10,000','€500','€20,000'],correct:0,expl:'<strong>€2,000</strong>. 2% × €100,000 = €2,000 maximum loss per position. This means if your stop-loss is −10%, your position size is €20,000 (€20,000 × 10% = €2,000 loss).'}},
+      risk2:{n:'Stop-loss & take-profit: plan your exit before entering',blocks:[
+        {type:'hook',emo:'🚪',text:'<strong>Amateur investors decide when to sell based on emotion. Professional investors decide before they enter.</strong> A stop-loss is your pre-committed exit point. Without it, hope becomes your strategy.'},
+        {type:'content',text:'<strong>Stop-loss</strong>: a price level at which you automatically exit a losing position. Removes emotion from the decision.<br>Common levels: −5% (tight), −10%, −15% (wide) — depends on asset volatility.<br><strong>Take-profit</strong>: the price level at which you lock in gains. Ratio rule: reward/risk ≥ 2:1 (if stop is −10%, take-profit is +20%).<br><strong>Trailing stop</strong>: follows price upward, locks in gains while allowing upside.'},
+        {type:'tip',text:'Place your stop BEFORE entering, based on technical levels (below support) — not on arbitrary loss percentages. "I\'ll sell if it falls −20%" is less meaningful than "I\'ll sell if it breaks below the key support at €45."'}
+      ],quiz:{q:'You buy at €100, stop at €90, take-profit at €130. Your reward/risk ratio is:',opts:['1:1','2:1','3:1','0.5:1'],correct:2,expl:'<strong>3:1</strong>. Risk = €10 (€100 to €90). Reward = €30 (€100 to €130). 30/10 = 3:1. Excellent ratio — you need to be right only 25% of the time to break even.'}},
+      risk3:{n:'Drawdown: measuring and accepting temporary losses',blocks:[
+        {type:'hook',emo:'📉',text:'<strong>Every portfolio experiences drawdowns. The question isn\'t whether you\'ll have one — it\'s how deep, how long, and whether you\'re psychologically prepared.</strong>'},
+        {type:'content',text:'<strong>Drawdown</strong> = (Peak − Current) ÷ Peak. A portfolio at €80k after being at €100k has a 20% drawdown.<br><strong>Maximum Drawdown (MDD)</strong>: the worst peak-to-trough loss in history. MSCI World MDD: ~−57% (2008–2009).<br><strong>Time to recovery</strong>: a −50% loss requires +100% gain to recover. A −20% loss needs +25%. Duration can be years.'},
+        {type:'tip',text:'Your allocation should be sized so that the maximum expected drawdown doesn\'t make you panic-sell. If your ETF portfolio loses −40%, will you hold? If not, add bonds or reduce equity exposure now.'}
+      ],quiz:{q:'Your portfolio falls from €100,000 to €60,000. What % gain do you need to recover?',opts:['+40%','+67%','+60%','+50%'],correct:1,expl:'<strong>+67%</strong>. €60,000 × 1.67 ≈ €100,000. A 40% loss requires a 67% gain to recover. This asymmetry is why avoiding large drawdowns is so important.'}},
+      risk4:{n:'Correlation: real vs. fake diversification',blocks:[
+        {type:'hook',emo:'🔗',text:'<strong>Owning 50 stocks doesn\'t mean you\'re diversified if they all fall together during a crash.</strong> True diversification requires assets with low or negative correlation to each other.'},
+        {type:'content',text:'<strong>Correlation coefficient</strong>: ranges from −1 (move perfectly opposite) to +1 (move perfectly together).<br>0 = no relationship. Our goal: combine assets with correlation < 0.5.<br><strong>2008 lesson</strong>: in a financial crisis, correlations spike toward +1. Almost everything falls together. "Diversified" portfolios of 60% equities + 40% corporate bonds both crashed.<br><strong>True diversifiers</strong>: government bonds, gold, commodities (correlation to equities often < 0.2 historically).'},
+        {type:'tip',text:'Correlation is not stable. Two assets might be uncorrelated in normal markets but highly correlated in a crisis. Test your portfolio under stress scenarios, not just in calm markets.'}
+      ],quiz:{q:'Two assets have correlation +0.95. Adding the second to your portfolio:',opts:['Greatly reduces risk','Offers almost no diversification benefit','Eliminates volatility','Creates leverage'],correct:1,expl:'<strong>Almost no diversification benefit</strong>. Correlation +0.95 means the assets move almost identically. You\'re doubling exposure to the same risk, not reducing it.'}},
+      av1:{n:'Options: calls, puts, strike & premium',blocks:[
+        {type:'hook',emo:'📜',text:'<strong>An option gives you the right — but not the obligation — to buy or sell an asset at a predetermined price.</strong> Options can be used to speculate, hedge, or generate income. They\'re powerful and complex.'},
+        {type:'content',text:'<strong>Call option</strong>: right to BUY at the strike price. Profitable if the underlying rises above strike + premium.<br><strong>Put option</strong>: right to SELL at the strike price. Profitable if the underlying falls below strike − premium.<br><strong>Strike price</strong>: the agreed price at which the transaction happens.<br><strong>Premium</strong>: the cost of the option (what you pay to the seller).<br><strong>Expiry</strong>: the deadline for exercising the option.'},
+        {type:'tip',text:'As an option buyer: your max loss = premium paid (known upfront). Your max gain = theoretically unlimited (call) or strike − premium (put). As a seller: opposite — limited gain, theoretically unlimited risk.'}
+      ],quiz:{q:'A call option with strike €100 costs €5. The underlying is at €112 at expiry. Your profit is:',opts:['€12','€7','€5','€17'],correct:1,expl:'<strong>€7</strong>. You exercise at €100, underlying worth €112 → gain €12. Minus the €5 premium paid = net profit €7.'}},
+      av2:{n:'The Greeks: Delta, Gamma, Theta, Vega',blocks:[
+        {type:'hook',emo:'🔬',text:'<strong>The "Greeks" measure how sensitive an option\'s price is to different factors.</strong> Without understanding them, you\'re flying blind on option positions.'},
+        {type:'content',text:'<strong>Delta</strong>: sensitivity to the underlying\'s price. Call delta 0–1, put delta −1 to 0. Delta 0.5 = option price moves €0.50 for each €1 move in underlying.<br><strong>Gamma</strong>: rate of change of delta. High near expiry for ATM options.<br><strong>Theta</strong>: time decay. Options lose value every day (all else equal). Theta of −€0.05 = loses €0.05 per day.<br><strong>Vega</strong>: sensitivity to implied volatility. High vega = option price greatly affected by IV changes.'},
+        {type:'tip',text:'Options buyers fight Theta (time decay). Options sellers benefit from Theta but face Gamma risk. The key insight: buying options is expensive if the underlying doesn\'t move fast enough.'}
+      ],quiz:{q:'An option with Theta = −€0.08 loses how much value per day (all else equal)?',opts:['€8','€0.08 per day','€0.80 per day','Nothing — Theta is always positive'],correct:1,expl:'<strong>€0.08 per day</strong>. Theta measures daily time decay. An option with Theta −0.08 loses €0.08 in value per calendar day — a key cost for option buyers.'}},
+      av3:{n:'Strategies: covered call, protective put, straddle',blocks:[
+        {type:'hook',emo:'♟️',text:'<strong>Options become truly powerful when combined in strategies.</strong> Three essential strategies every investor should know: generating income, protecting a position, and betting on volatility.'},
+        {type:'content',text:'<strong>Covered Call</strong>: Own the stock + sell a call option above market price. Generates income (premium) but caps upside. Best in flat/slightly bullish markets.<br><strong>Protective Put</strong>: Own the stock + buy a put option. Insurance against a large drop. Cost = the premium paid.<br><strong>Straddle</strong>: Buy a call + buy a put at the same strike. Profitable if the underlying moves sharply in either direction. Best before major events (earnings, central bank).'},
+        {type:'tip',text:'Covered calls are the most beginner-friendly option strategy — you already own the stock, so the call you sell is "covered." Premium typically ranges 1–3% per month in normal volatility.'}
+      ],quiz:{q:'You own 100 shares and sell a covered call. What is your maximum loss?',opts:['Unlimited','The stock price falling to zero (minus the premium received)','The premium received','Your loss is capped at the strike price'],correct:1,expl:'<strong>Stock falling to zero minus the premium received</strong>. The covered call doesn\'t protect against downside — it only generates income and caps the upside. Your downside risk is the same as owning the stock.'}},
+      av4:{n:'Factors: Value, Momentum, Quality, Low Vol',blocks:[
+        {type:'hook',emo:'🔬',text:'<strong>Academic research has identified persistent factors — characteristics of stocks that explain excess returns above the market.</strong> Understanding them lets you tilt your portfolio toward evidence-based premiums.'},
+        {type:'content',text:'<strong>Value</strong>: Low price vs fundamentals (P/E, P/B). Long-run premium: ~4%/yr. Underperformed 2010–2020.<br><strong>Momentum</strong>: Recent 12-month outperforers continue. Strong academic evidence. Can crash suddenly (2009, 2020).<br><strong>Quality</strong>: High ROE, low debt, stable earnings. Defensive. Works across cycles.<br><strong>Low Volatility</strong>: Low-beta stocks outperform risk-adjusted. Counterintuitive but robust.'},
+        {type:'tip',text:'No factor works all the time. Diversifying across factors (Value + Quality + Momentum) reduces the risk of a single factor going through a prolonged drawdown.'}
+      ],quiz:{q:'The "Quality" factor selects stocks based on:',opts:['Low P/E ratio','High ROE, low leverage, and stable earnings','Recent price momentum','Low stock price volatility'],correct:1,expl:'<strong>High ROE, low leverage, stable earnings</strong>. Quality companies have durable competitive advantages and consistent profitability — characteristics that tend to persist and be rewarded over time.'}},
+      av5:{n:'Smart Beta: factor ETFs explained',blocks:[
+        {type:'hook',emo:'📊',text:'<strong>Smart Beta sits between passive (cap-weighted index) and active management.</strong> It uses systematic rules to tilt the portfolio toward factors with academic backing — at low cost.'},
+        {type:'content',text:'<strong>How Smart Beta works</strong>: instead of weighting by market cap, the index is weighted by fundamental metrics (earnings, book value, dividends) or by factor scores.<br><strong>Examples</strong>:<br>• iShares Edge MSCI World Value Factor ETF<br>• SPDR MSCI World Momentum ETF<br>• Xtrackers MSCI World Quality ETF<br><strong>Costs</strong>: 0.25%–0.45%/yr — higher than plain MSCI World (0.2%) but far cheaper than active funds.'},
+        {type:'tip',text:'Smart Beta ETFs are easiest to access in a CTO or life insurance. Most PEAs only allow a limited selection. Check eligibility before buying.'}
+      ],quiz:{q:'Main difference between a Smart Beta ETF and a plain cap-weighted ETF?',opts:['Smart Beta is guaranteed to outperform','Smart Beta tilts toward specific factors using systematic rules instead of weighting purely by market cap','Smart Beta has lower fees','Smart Beta has fewer stocks'],correct:1,expl:'<strong>Factor tilt with systematic rules</strong>. A Smart Beta ETF overweights stocks with characteristics associated with long-term outperformance (Value, Quality, Momentum, etc.) vs purely weighting by size.'}},
+      av6:{n:'Support, resistance and Fibonacci levels',blocks:[
+        {type:'hook',emo:'📐',text:'<strong>Technical analysis works not because markets are "mathematical" — but because market participants believe in these levels and act accordingly.</strong> That creates self-fulfilling dynamics worth understanding.'},
+        {type:'content',text:'<strong>Support</strong>: a price level where buyers historically step in. Below support = bearish signal.<br><strong>Resistance</strong>: a price level where sellers historically emerge. Above resistance = bullish breakout.<br><strong>Fibonacci retracements</strong>: 23.6%, 38.2%, 50%, 61.8% levels derived from the Fibonacci sequence. Price often finds support/resistance at these levels after a trend move.'},
+        {type:'tip',text:'Horizontal S/R levels (round numbers, previous highs/lows) are most reliable. Dynamic S/R (moving averages, trendlines) work in trending markets. The more timeframes a level appears on, the more significant it is.'}
+      ],quiz:{q:'A stock breaks above a strong resistance level with high volume. This signals:',opts:['Time to sell — it\'s overbought','A potential bullish breakout — the old resistance may become new support','Guaranteed further upside','A technical failure'],correct:1,expl:'<strong>Potential bullish breakout</strong>. A confirmed break of resistance on high volume is a classic bullish signal. The old resistance often becomes new support — a key concept in technical analysis.'}},
+      av7:{n:'Elliott Waves and harmonic patterns',blocks:[
+        {type:'hook',emo:'🌊',text:'<strong>Elliott Wave Theory proposes that markets move in predictable wave patterns driven by collective psychology.</strong> Debated but widely used by technical analysts.'},
+        {type:'content',text:'<strong>5-wave impulse structure</strong>: 3 waves in the trend direction (1, 3, 5) alternating with 2 corrective waves (2, 4).<br><strong>3-wave correction (A-B-C)</strong>: follows the 5-wave impulse. Wave C typically equals Wave A in length.<br><strong>Harmonic patterns</strong>: Gartley, Bat, Crab — specific price structures using Fibonacci ratios to identify reversal zones.<br><strong>Key rules</strong>: Wave 2 never retraces more than 100% of Wave 1. Wave 3 is never the shortest.'},
+        {type:'tip',text:'Elliott Waves are subjective — two analysts can count waves differently on the same chart. Use wave analysis as one input alongside other tools, not as a standalone system.'}
+      ],quiz:{q:'In a classic 5-wave Elliott impulse, Wave 3 is typically:',opts:['The shortest wave','The weakest wave','The longest and strongest wave','A corrective wave'],correct:2,expl:'<strong>The longest and strongest wave</strong>. Wave 3 is driven by broad market participation and expanding fundamental justification. Key rule: Wave 3 can never be the shortest impulse wave.'}},
+      av8:{n:'Order flow, order book and DOM',blocks:[
+        {type:'hook',emo:'🔮',text:'<strong>Price is determined by supply and demand in real time.</strong> The order book and order flow show you where buyers and sellers are positioned — giving you a micro-level view of market dynamics.'},
+        {type:'content',text:'<strong>Order Book (Level 2)</strong>: shows all pending buy orders (bids) and sell orders (asks) with sizes and prices.<br><strong>Bid-Ask Spread</strong>: difference between best bid and best ask. Liquid markets = tight spread (e.g. 0.01%). Illiquid = wide spread.<br><strong>DOM (Depth of Market)</strong>: visual display of order book. Large buy walls = support. Large sell walls = resistance.<br><strong>Order flow</strong>: analysis of actual executed trades (market orders) vs limit orders — reveals who is more aggressive.'},
+        {type:'tip',text:'Order flow trading is a short-term institutional tool. For most individual investors, understanding it conceptually is sufficient — you don\'t need to trade on DOM, but knowing how liquidity works helps you avoid poor entry/exit timing.'}
+      ],quiz:{q:'A large buy wall (many limit buy orders) at a price level in the order book suggests:',opts:['The price will definitely drop','A potential support level where buyers are ready to step in','The stock is overbought','A bearish signal'],correct:1,expl:'<strong>Potential support</strong>. A large buy wall shows significant buying interest at that price level. However, large orders can be faked (spoofing) and removed before execution — don\'t rely on it alone.'}},
+      pf1:{n:"Ray Dalio's All Weather: surviving all cycles",blocks:[
+        {type:'hook',emo:'🌦️',text:'<strong>Ray Dalio built the All Weather portfolio with one goal: perform in every economic environment.</strong> Expansion, contraction, inflation, deflation — no matter what the economic "weather," the portfolio survives.'},
+        {type:'content',text:'<strong>Classic All Weather allocation:</strong><br>30% equities (growth/expansion)<br>40% long-term bonds (contraction/deflation)<br>15% intermediate-term bonds<br>7.5% gold (inflation hedge)<br>7.5% commodities (inflation hedge)<br><strong>Logic</strong>: each asset performs best in specific economic environments. Together they balance each other out.'},
+        {type:'tip',text:'The All Weather is designed for risk parity — each asset contributes equally to portfolio volatility, not equally to the dollar allocation. The heavy bond weighting reduces the portfolio\'s overall risk.'}
+      ],quiz:{q:'Why does the All Weather hold 55% in bonds (long + intermediate term)?',opts:['Because bonds always outperform','To balance the equity risk — bonds typically rise when stocks fall sharply','To reduce taxes','Because Ray Dalio prefers bonds personally'],correct:1,expl:'<strong>Risk balancing</strong>. Bonds have lower volatility than stocks. To make bonds "equal" in risk contribution to the portfolio, you need a much larger allocation. In 2008, the bond allocation significantly offset equity losses.'}},
+      pf2:{n:"Harry Browne's Permanent Portfolio: 4 equal quarters",blocks:[
+        {type:'hook',emo:'🔲',text:'<strong>Harry Browne\'s Permanent Portfolio is almost embarrassingly simple: 25% each in stocks, bonds, gold, and cash.</strong> Yet it has survived every crisis for 50+ years with minimal drawdowns.'},
+        {type:'content',text:'<strong>25% Stocks</strong>: perform in growth and prosperity.<br><strong>25% Long-term bonds</strong>: perform in deflation (falling rates).<br><strong>25% Gold</strong>: perform in inflation and monetary crisis.<br><strong>25% Cash (T-bills)</strong>: perform in tight money, recession, or crisis.<br><strong>Historical performance</strong>: ~7%/yr with max drawdown of ~−13% (vs −50%+ for pure equity portfolio).'},
+        {type:'tip',text:'The Permanent Portfolio underperforms in strong bull markets but drastically reduces worst-case scenarios. Ideal for investors who prioritise capital preservation and sleep quality over maximum returns.'}
+      ],quiz:{q:'In a stagflation scenario (high inflation + low growth), which Permanent Portfolio component performs best?',opts:['Stocks','Long-term bonds','Gold','Cash'],correct:2,expl:'<strong>Gold</strong>. Stagflation (1970s-style) is gold\'s ideal environment: inflation drives gold up, while low growth hurts stocks and rising inflation expectations hurt bonds. Cash loses purchasing power.'}},
+      pf3:{n:'Equal Weight & Risk Parity: beyond market cap',blocks:[
+        {type:'hook',emo:'⚖️',text:'<strong>Cap-weighted indices give the most weight to the most expensive stocks.</strong> Equal weight and risk parity are alternative approaches that remove this distortion.'},
+        {type:'content',text:'<strong>Equal Weight</strong>: each stock gets the same allocation (e.g. 0.2% for 500 stocks). Advantages: greater exposure to small caps, automatic sell-high-buy-low rebalancing. Disadvantage: higher transaction costs.<br><strong>Risk Parity</strong>: allocate based on each asset\'s contribution to portfolio risk (inverse volatility weighting). Low-vol assets get more capital, high-vol assets get less.<br><strong>Example</strong>: equities (vol 15%) get 30%, bonds (vol 5%) get 55% — equal risk contribution.'},
+        {type:'tip',text:'Equal weight ETFs (like RSP for S&P 500) have historically outperformed cap-weighted indices with a small-cap and value tilt. Check for higher rebalancing costs in the TER.'}
+      ],quiz:{q:'The main advantage of an equal-weight portfolio vs cap-weighted?',opts:['Lower fees','Greater exposure to smaller companies + automatic contrarian rebalancing','Less volatility','Better tax treatment'],correct:1,expl:'<strong>Small-cap tilt + contrarian rebalancing</strong>. Equal weight automatically sells outperformers (now a bigger %) and buys underperformers (now a smaller %) — a disciplined sell-high-buy-low mechanism.'}},
+      r1:{n:'How much to save each month for retirement?',blocks:[
+        {type:'hook',emo:'🎯',text:'<strong>The most common retirement mistake: starting too late.</strong> The second most common: not knowing your target. This lesson gives you the formula to calculate exactly how much to save monthly.'},
+        {type:'content',text:'<strong>The formula</strong>: Monthly savings needed = Target nest egg ÷ Months remaining × adjustment for growth.<br><strong>Simplified rule</strong>: Multiply your desired monthly retirement income by 300 to get your target nest egg (assumes 4% safe withdrawal rate and 25× multiplier).<br>Example: want €2,000/month in retirement → target = €600,000.<br>Starting at 30 with 35 years → need ~€300–400/month at 6–7% average return.'},
+        {type:'tip',text:'Use a compound interest calculator with your real numbers. The earlier you start, the smaller the required monthly contribution — compounding does the heavy lifting.'}
+      ],quiz:{q:'You want €3,000/month in retirement. What nest egg do you need (4% rule)?',opts:['€360,000','€900,000','€1,800,000','€500,000'],correct:1,expl:'<strong>€900,000</strong>. €3,000/month = €36,000/year. €36,000 × 25 = €900,000. That\'s the capital needed for 4% withdrawal to cover your expenses indefinitely.'}},
+      r2:{n:'The French pension system: what it will really give you',blocks:[
+        {type:'hook',emo:'🏛️',text:'<strong>The French public pension system is pay-as-you-go: today\'s workers fund today\'s retirees.</strong> With an ageing population, the system is under pressure. Understanding what you\'ll actually receive is essential for planning.'},
+        {type:'content',text:'<strong>How it works</strong>: you earn "trimestres" (quarters) by working. You need ~166 quarters (42 years) for a full pension. Retirement age: 64 (after 2023 reform).<br><strong>What you\'ll receive</strong>: roughly 50–75% of your reference salary — far less for those with high incomes. Average French pension: ~€1,500/month gross.<br><strong>Gap</strong>: if you earned €4,000/month, your public pension may only replace 40–50% → potential gap of €1,500–2,000/month.'},
+        {type:'tip',text:'Check your current pension statement on info-retraite.fr. Knowing your projected pension shows you exactly how much private savings you need to bridge the gap.'}
+      ],quiz:{q:'The French public pension system is based on:',opts:['Individual capitalisation (like a PER)','Pay-as-you-go (current workers fund current retirees)','Stock market returns','Gold reserves'],correct:1,expl:'<strong>Pay-as-you-go (répartition)</strong>. Current workers\' contributions directly fund current retirees\' pensions. The system depends on the ratio of workers to retirees — a challenge as the population ages.'}},
+      r3:{n:'Retirement simulation: calculate your number',blocks:[
+        {type:'hook',emo:'🧮',text:'<strong>Most people retire with far less than they need — not because they didn\'t earn enough, but because they never ran the numbers.</strong> 30 minutes of calculation today can change your entire financial future.'},
+        {type:'content',text:'<strong>5 inputs for your simulation:</strong><br>1. Current savings (€)<br>2. Monthly savings capacity (€)<br>3. Expected annual return (6–7% for diversified equity portfolio)<br>4. Years to retirement<br>5. Target monthly income in retirement<br><strong>Free tools</strong>: Projection Épargne on AMF\'s site, or any compound interest calculator.<br>Then compare: projected nest egg vs required nest egg (monthly income × 300).'},
+        {type:'tip',text:'Run three scenarios: pessimistic (4% return), base (6%), optimistic (8%). The spread tells you your margin of safety and how sensitive your plan is to market returns.'}
+      ],quiz:{q:'You\'re 35, have €50,000 saved, save €500/month, target retirement at 65 (30 years). At 7% return, your nest egg will be approximately:',opts:['€250,000','€600,000','€900,000','€1,150,000'],correct:3,expl:'<strong>~€1,150,000</strong>. The €50k grows to ~€380k. The monthly savings (€500/month, 7%) accumulates to ~€770k. Total ~€1,150k. Compound interest over 30 years is transformative.'}},
+      r4:{n:'Time horizon: everything changes based on when you need the money',blocks:[
+        {type:'hook',emo:'⏰',text:'<strong>The same investment decision is correct or wrong depending entirely on when you need the money.</strong> An all-equity portfolio is perfect for a 30-year horizon and catastrophic for a 2-year one.'},
+        {type:'content',text:'<strong>Short horizon (< 5 years)</strong>: capital preservation > growth. Money market funds, bonds, savings accounts. Equity crash can destroy your plans.<br><strong>Medium horizon (5–15 years)</strong>: balanced approach. 50–70% equities. Accept some volatility for better returns.<br><strong>Long horizon (> 15 years)</strong>: maximise growth. 80–100% equities. Short-term crashes are opportunities to buy cheaper.'},
+        {type:'tip',text:'The "glide path": as retirement approaches, gradually shift from equities to bonds and cash. Many target-date funds do this automatically — starting aggressive and becoming conservative as the date nears.'}
+      ],quiz:{q:'You need money in 18 months for a property purchase. What\'s the appropriate allocation?',opts:['100% equities — higher returns','60% equities, 40% bonds','Money market fund or short-term bonds','Cryptocurrency for maximum growth'],correct:2,expl:'<strong>Money market or short-term bonds</strong>. With 18 months, an equity crash could reduce your capital by 30–50% right before you need it. Capital preservation must take priority over returns.'}},
+      r5:{n:'Decumulation: how to use your capital in retirement',blocks:[
+        {type:'hook',emo:'🔄',text:'<strong>Accumulating wealth is hard. Spending it wisely in retirement is harder.</strong> The decumulation phase requires a different strategy — and different psychological skills.'},
+        {type:'content',text:'<strong>4% rule</strong>: withdraw 4% of your portfolio in year one, then adjust for inflation annually. Historically survives 30 years.<br><strong>Bucket strategy</strong>: divide capital into 3 buckets:<br>• Bucket 1 (2–3 years): cash — for immediate expenses.<br>• Bucket 2 (3–10 years): bonds — refills Bucket 1.<br>• Bucket 3 (10+ years): equities — long-term growth.<br><strong>Sequencing risk</strong>: early retirement losses are devastating. A −30% in year 1 permanently reduces your sustainable withdrawal rate.'},
+        {type:'tip',text:'Consider a variable withdrawal strategy: withdraw less in bad market years, more in good years. This extends portfolio longevity significantly compared to a fixed withdrawal amount.'}
+      ],quiz:{q:'The "sequence of returns risk" in retirement means:',opts:['Returns vary each year','Large losses early in retirement are far more damaging than the same losses later','Tax rates change each year','Your risk tolerance should be zero at retirement'],correct:1,expl:'<strong>Early losses are uniquely damaging</strong>. If your portfolio drops 40% in year 1 of retirement and you keep withdrawing, you permanently deplete capital. The same 40% loss at year 15 is far less severe.'}},
+      r6:{n:'Investing for your children: the options',blocks:[
+        {type:'hook',emo:'👶',text:'<strong>Starting to invest for a child at birth gives 18–25 years of compound growth.</strong> Even modest amounts can produce significant capital for their studies, first home, or business.'},
+        {type:'content',text:'<strong>Options in France:</strong><br><strong>Livret A</strong>: safe, 0% tax, but capped at €22,950 and low returns.<br><strong>PEL</strong>: mortgage savings plan, small premium, inflexible.<br><strong>CEA (Compte Épargne d\'Avenir)</strong>: savings account for minors.<br><strong>CTO in the child\'s name</strong>: most powerful for long-term growth. Invest in MSCI World ETF. 18+ years → historically ~6–7%/yr.<br><strong>Life insurance</strong>: can designate a child as beneficiary.'},
+        {type:'tip',text:'€50/month from birth to age 18 at 6% average return ≈ €18,000. The same invested until age 25 ≈ €30,000. The extra 7 years of compounding nearly doubles the result.'}
+      ],quiz:{q:'The most growth-oriented account to build capital for a child over 18 years is:',opts:['Livret A','Passbook savings','A CTO with a diversified equity ETF','PEL'],correct:2,expl:'<strong>CTO with equity ETF</strong>. With 18 years of horizon, equity risk is appropriate and historically delivers 6–7%/yr. The Livret A\'s low rate barely beats inflation over this timeframe.'}},
+      r7:{n:'Self-employed and retirement: the specific challenge',blocks:[
+        {type:'hook',emo:'💼',text:'<strong>Self-employed workers in France receive lower public pension benefits than employees — sometimes 30–50% less.</strong> They must compensate with stronger private savings.'},
+        {type:'content',text:'<strong>The gap</strong>: freelancers and business owners contribute to pension schemes (SSI/CIPAV etc.) but receive lower replacement rates than salaried employees.<br><strong>PER (Plan d\'Épargne Retraite)</strong>: most powerful tool for self-employed. Contributions deductible from business income. At 30–41% marginal tax rate, each €1,000 saves €300–€410 in taxes immediately.<br><strong>Madelin contract</strong>: old regime, being replaced by PER. Better terms under PER for most.'},
+        {type:'tip',text:'Self-employed: aim to save 15–20% of net income for retirement (vs 10% typical recommendation for employees). The public pension gap is real and must be planned for explicitly.'}
+      ],quiz:{q:'Why is the PER especially attractive for self-employed workers with high income?',opts:['It\'s the only account they can access','Contributions are deductible from business income — giving an immediate tax saving at their marginal rate','It has no withdrawal restrictions','It\'s managed by the government'],correct:1,expl:'<strong>Tax deduction at marginal rate</strong>. A self-employed person at 41% marginal rate saves €410 in taxes for every €1,000 contributed to their PER — the equivalent of a 41% instant return on the contribution.'}},
+      r8:{n:'FIRE: financial independence before 50',blocks:[
+        {type:'hook',emo:'🔥',text:'<strong>FIRE = Financial Independence, Retire Early.</strong> A movement built on aggressive saving (50–70% of income), low spending, and compound growth to achieve work-optional status in your 30s or 40s.'},
+        {type:'content',text:'<strong>FIRE variants:</strong><br><strong>LeanFIRE</strong>: extreme frugality, very modest lifestyle (< €20k/yr).<br><strong>FatFIRE</strong>: financial independence with a comfortable lifestyle (> €60k/yr).<br><strong>BaristaFIRE</strong>: partial retirement — work part-time to cover basic expenses, investments cover the rest.<br><strong>The math</strong>: save 50% of income → reach FIRE in ~17 years. Save 70% → ~9 years. Save 20% → 40+ years.'},
+        {type:'tip',text:'The 4% rule assumes 30-year retirement. For early retirees (40–50 years of retirement), many FIRE practitioners use 3–3.5% to add extra margin of safety.'}
+      ],quiz:{q:'You save 60% of your income every month. Roughly how many years until FIRE?',opts:['5 years','13 years','25 years','40 years'],correct:1,expl:'<strong>~13 years</strong>. At 60% savings rate, your working-year expenses are 40% of income. Your savings grow fast enough to replace your income in about 13 years (at historical market returns).'}},
+      s1:{n:'Asset allocation: building a solid portfolio',blocks:[
+        {type:'hook',emo:'🏗️',text:'<strong>Asset allocation — how you split between stocks, bonds, real estate, and cash — determines 91% of your long-term returns.</strong> Security selection and market timing matter far less than most people think.'},
+        {type:'content',text:'<strong>Classic allocations by risk profile:</strong><br>Conservative: 30% equities / 60% bonds / 10% cash or alternatives.<br>Balanced: 60% equities / 35% bonds / 5% alternatives.<br>Aggressive: 80–100% equities / 0–20% bonds.<br><strong>Key principle</strong>: you should only hold bonds in a CTO or life insurance (not PEA) for tax efficiency. Keep your riskiest assets in the PEA.'},
+        {type:'tip',text:'Your allocation should let you sleep at night. Run a stress test: "If my portfolio lost 40%, would I hold?" If not, reduce equity exposure until you would.'}
+      ],quiz:{q:'Research shows that approximately what percentage of long-term portfolio returns is explained by asset allocation?',opts:['20–30%','50%','91%','100%'],correct:2,expl:'<strong>~91%</strong> (Brinson, Hood & Beebower, 1986/1991). The vast majority of portfolio performance comes from the asset class mix, not from security selection or timing. Pick your allocation carefully.'}},
+      s2:{n:'The 60/40 portfolio: classic but still valid?',blocks:[
+        {type:'hook',emo:'⚖️',text:'<strong>60% equities / 40% bonds was THE standard balanced portfolio for 40 years.</strong> Then 2022 happened: both stocks AND bonds fell sharply. Is the 60/40 dead?'},
+        {type:'content',text:'<strong>Why 60/40 worked historically</strong>: bonds and equities were negatively correlated — when stocks fell, bonds rose, cushioning the blow.<br><strong>Why 2022 was different</strong>: high inflation forced central banks to raise rates sharply. Rising rates = both stock valuations compress AND bond prices fall.<br><strong>Modern alternatives</strong>: 60/40 with commodities and gold instead of some bonds. Or All Weather. Or adding alternatives for true diversification.'},
+        {type:'tip',text:'The 60/40 isn\'t dead — but its worst-case scenario (stagflation) is now clearer. Adding 5–10% commodities or gold reduces this specific risk while maintaining most of the portfolio\'s efficiency.'}
+      ],quiz:{q:'In 2022, why did the 60/40 portfolio fail to protect investors?',opts:['Equities rose too much','Rising rates caused both stocks and bonds to fall simultaneously','Bonds outperformed and dragged overall returns','Fees were too high'],correct:1,expl:'<strong>Rising rates hurt both assets simultaneously</strong>. Higher rates compress stock valuations AND reduce bond prices. The traditional negative correlation between stocks and bonds broke down in high-inflation environments.'}},
+      s3:{n:'Buy & Hold: never selling as a strategy',blocks:[
+        {type:'hook',emo:'⏳',text:'<strong>The best investors in the world aren\'t the smartest — they\'re the most patient.</strong> Warren Buffett\'s favourite holding period: "forever." Buy & Hold sounds boring. The results aren\'t.'},
+        {type:'content',text:'<strong>Why it works:</strong><br>1. Eliminates timing errors (impossible to consistently time tops and bottoms).<br>2. Minimises taxes (you only pay capital gains when you sell).<br>3. Minimises fees (no transaction costs for not trading).<br>4. Allows compound growth to work fully.<br><strong>Data point</strong>: missing the 10 best trading days of each decade cuts the S&P 500\'s long-run return roughly in half.'},
+        {type:'tip',text:'Buy & Hold works for broad indices and quality businesses. It doesn\'t work for individual stocks in terminal decline. Know what you\'re buying and why you\'d hold for 10+ years.'}
+      ],quiz:{q:'The main tax advantage of Buy & Hold vs active trading in a standard brokerage account?',opts:['Higher dividend income','Gains compound without annual tax drag until you sell','Lower transaction fees','Better market timing'],correct:1,expl:'<strong>Tax deferral through compounding</strong>. In a CTO, capital gains are taxed only when realised. By never selling, you defer taxes indefinitely — the deferred tax works as an interest-free loan from the government.'}},
+      s4:{n:'Stock picking: rules for those who try it',blocks:[
+        {type:'hook',emo:'🎯',text:'<strong>90% of active stock pickers underperform their index over 10 years.</strong> But if you still want to pick stocks, here are the rules that give you the best odds.'},
+        {type:'content',text:'<strong>Non-negotiable rules:</strong><br>1. Understand the business: can you explain how it makes money in 2 sentences?<br>2. Competitive moat: why won\'t a competitor destroy this business in 10 years?<br>3. Management quality: do they allocate capital intelligently? Own significant shares?<br>4. Valuation: you can be right about the business and wrong about the price.<br>5. Position limits: max 5% per stock. Max 10 stocks total in the "satellite" portion.'},
+        {type:'tip',text:'Keep your stock picks in a "satellite" (max 20% of total portfolio). Keep 80% in low-cost index ETFs. This lets you scratch the stock-picking itch without betting your retirement on it.'}
+      ],quiz:{q:'What is a "competitive moat" in investing?',opts:['A literal water feature around a company\'s office','A sustainable competitive advantage that protects the business from competitors','High dividend yield','Low P/E ratio'],correct:1,expl:'<strong>Sustainable competitive advantage</strong>. Examples: brand (LVMH, Apple), network effects (Visa, Meta), switching costs (SAP, Salesforce), cost advantage (Amazon, Walmart). Without a moat, profits attract competition.'}},
+      s5:{n:'Options: the advanced tool (or trap for beginners)',blocks:[
+        {type:'hook',emo:'⚠️',text:'<strong>Options can generate income, hedge risk, or amplify returns.</strong> They can also expire worthless or create unlimited losses if used incorrectly. This lesson tells you when options help and when they hurt.'},
+        {type:'content',text:'<strong>When options help:</strong><br>• Covered call: generate 1–3% monthly income on stocks you already own.<br>• Protective put: insurance against a large drop (pays a premium).<br>• Cash-secured put: buy a stock at a lower price if it drops.<br><strong>When options destroy:</strong><br>• Naked calls (unlimited loss potential).<br>• Buying OTM options as lottery tickets (most expire worthless).<br>• Over-leveraging with multiple contracts.'},
+        {type:'tip',text:'Start with covered calls on a stock position you already own. It\'s the safest options strategy and teaches you the mechanics without existential risk.'}
+      ],quiz:{q:'Which option strategy is safest for a stock investor who already owns shares?',opts:['Buying naked calls','Selling covered calls','Buying a straddle','Selling naked puts'],correct:1,expl:'<strong>Selling covered calls</strong>. You already own the shares, so the call you sell is "covered." The max loss is the stock falling to zero (same risk you already had). The premium received reduces your cost basis.'}},
+      s6:{n:'Risk management: never lose everything',blocks:[
+        {type:'hook',emo:'🛡️',text:'<strong>The first rule of investing: don\'t lose everything.</strong> The second rule: see rule one. Risk management isn\'t about being timid — it\'s about surviving long enough for compound growth to work.'},
+        {type:'content',text:'<strong>The 5 pillars of risk management:</strong><br>1. Diversification (assets, sectors, geographies, currencies).<br>2. Position sizing (never more than 5% in a single stock, 2% risk per trade).<br>3. Emergency fund (6 months cash — never touch investments for emergencies).<br>4. Appropriate time horizon (don\'t hold 100% equities if you need money in 2 years).<br>5. Avoiding leverage unless you truly understand the downside.'},
+        {type:'tip',text:'Write down your risk management rules before you invest. The moment of maximum risk is maximum excitement (bull market peaks). Pre-committed rules prevent emotional decisions.'}
+      ],quiz:{q:'Why is an emergency fund essential for investors?',opts:['It earns better returns than investments','It prevents you from selling investments at the worst time (during a market crash) to cover unexpected expenses','It reduces taxes','It\'s required by law'],correct:1,expl:'<strong>Prevents forced selling during crashes</strong>. Without an emergency fund, a job loss or major expense during a market crash forces you to liquidate investments at the worst possible moment. The emergency fund is the foundation of every investment strategy.'}},
+      s7:{n:'Investing internationally: opportunities and pitfalls',blocks:[
+        {type:'hook',emo:'🌍',text:'<strong>A portfolio entirely in French stocks is concentrated in 0.5% of the world economy.</strong> International diversification gives access to faster-growing economies and reduces home-country bias.'},
+        {type:'content',text:'<strong>Key markets to access:</strong><br>US (S&P 500, NASDAQ): largest, deepest, most liquid market.<br>Emerging markets (India, China, Brazil): higher risk, higher long-term growth potential.<br>Japan, Europe, UK: different business cycles and currency exposure.<br><strong>Currency risk</strong>: a US-listed stock returning +10% in USD but USD falling −5% vs EUR = only +5% in your pocket. Some ETFs are "currency hedged" (hedged = removes this risk, but costs ~0.3%/yr).'},
+        {type:'tip',text:'For most investors, MSCI World (23 developed countries) + MSCI Emerging Markets (10–20% allocation) provides adequate international diversification without the complexity of picking individual country ETFs.'}
+      ],quiz:{q:'What does a currency-hedged ETF do?',opts:['Invests only in the home country','Eliminates the impact of exchange rate fluctuations on returns','Guarantees a minimum return','Only invests in USD assets'],correct:1,expl:'<strong>Eliminates currency risk</strong>. A EUR-hedged USD ETF gives you US market returns without the EUR/USD fluctuation effect. Cost: ~0.3%/yr extra. Useful for short-term positioning; less important for long-term investors.'}},
+      s8:{n:'Tax loss harvesting: reduce your taxes legally',blocks:[
+        {type:'hook',emo:'🔑',text:'<strong>Tax loss harvesting lets you reduce your tax bill by strategically realising losses in your CTO.</strong> Losses offset gains, reducing the amount subject to the 30% flat tax.'},
+        {type:'content',text:'<strong>How it works:</strong><br>1. You have €5,000 in capital gains in your CTO.<br>2. You sell a position with an unrealised loss of €3,000.<br>3. Net taxable gain = €5,000 − €3,000 = €2,000 (tax saving of €3,000 × 30% = €900).<br>4. Immediately buy a similar (but not identical) ETF/stock to stay invested.<br><strong>Important</strong>: in France, losses in a CTO can be carried forward 10 years.'},
+        {type:'tip',text:'Never sell for tax reasons alone. Only harvest losses when it makes economic sense — and always replace with a similar investment to maintain your target allocation.'}
+      ],quiz:{q:'You have €10,000 capital gains and €4,000 capital losses to realise this year in your CTO. Your net taxable gain is:',opts:['€10,000','€14,000','€6,000','€4,000'],correct:2,expl:'<strong>€6,000</strong>. Net gain = €10,000 − €4,000 = €6,000. Tax saving vs no loss harvesting: €4,000 × 30% = €1,200 saved this year. The key is to stay invested while realising the loss.'}},
+      s9:{n:'Technical analysis: reading charts without getting lost',blocks:[
+        {type:'hook',emo:'📈',text:'<strong>Technical analysis studies price and volume to forecast future movements.</strong> Debated in academia but widely used by traders. Knowing the basics helps you understand market psychology and make better-timed decisions.'},
+        {type:'content',text:'<strong>Core concepts:</strong><br>• <strong>Trend</strong>: higher highs + higher lows = uptrend. Lower highs + lower lows = downtrend.<br>• <strong>Moving averages</strong>: 50-day MA and 200-day MA. When price is above both = bullish. Golden cross (50 crosses above 200) = strong bullish signal.<br>• <strong>RSI (Relative Strength Index)</strong>: below 30 = oversold (potential buy). Above 70 = overbought (potential sell).<br>• <strong>Volume</strong>: confirms price moves. Rising on breakouts = valid. Rising on rejection = reversal.'},
+        {type:'tip',text:'Technical analysis works better as a timing tool than a standalone strategy. Use it to improve entry/exit points within a fundamental investment thesis — not as the only reason to buy or sell.'}
+      ],quiz:{q:'A "Golden Cross" in technical analysis means:',opts:['A stock hits an all-time high','The 50-day moving average crosses above the 200-day moving average — a bullish signal','The RSI hits 50','A stock\'s P/E drops to a low level'],correct:1,expl:'<strong>50MA crosses above 200MA</strong>. The Golden Cross indicates the short-term trend is now stronger than the long-term trend. Historically associated with continued upside, though it\'s a lagging indicator.'}},
+      s10:{n:'SRI & ESG: really investing by your values?',blocks:[
+        {type:'hook',emo:'🌱',text:'<strong>ESG (Environmental, Social, Governance) investing promises to align your portfolio with your values while maintaining strong returns.</strong> The reality is more nuanced.'},
+        {type:'content',text:'<strong>What ESG means:</strong><br>• Environmental: carbon footprint, energy use, climate policies.<br>• Social: labour practices, supply chain, diversity.<br>• Governance: board independence, executive pay, shareholder rights.<br><strong>The evidence on returns</strong>: mixed. Some ESG ETFs performed well (2015–2021). Many underperformed in 2022 (underweight energy, which rose sharply). Long-term: inconclusive.<br><strong>Greenwashing risk</strong>: some "ESG" funds include oil companies. Check the holdings.'},
+        {type:'tip',text:'If values matter to you: look at the actual ETF holdings, not just the label. An "ESG" fund with Apple and Microsoft as top holdings is barely different from MSCI World.'}
+      ],quiz:{q:'The main criticism of ESG funds is:',opts:['They\'re too cheap','Some use vague criteria or include companies that don\'t align with stated ESG principles (greenwashing)','They exclusively invest in solar energy','They\'re only available to institutional investors'],correct:1,expl:'<strong>Greenwashing</strong>. Many ESG ETFs use broadly defined criteria that allow major polluters, weapons manufacturers, or companies with poor governance to remain in the fund. The label doesn\'t guarantee alignment with your values.'}},
+      s11:{n:'Passive income: the real definition and how to get there',blocks:[
+        {type:'hook',emo:'💸',text:'<strong>Passive income isn\'t a shortcut or a get-rich-quick scheme.</strong> Real passive income requires significant upfront work or capital. But done right, it can eventually cover your expenses without active work.'},
+        {type:'content',text:'<strong>Legitimate passive income sources:</strong><br>• Dividend ETFs / dividend stocks (requires large capital: €500k at 4% yield = €20k/yr).<br>• Rental income from real estate (requires capital and management — not truly passive).<br>• Bonds / fixed income (lower yield but predictable).<br>• Royalties (requires creative work upfront).<br><strong>The math reality</strong>: to generate €2,000/month passively at 5% yield requires €480,000 in capital.'},
+        {type:'tip',text:'Focus on building the capital first (through savings + compound growth), not on chasing "passive income streams" prematurely. The capital produces the income — not the other way around.'}
+      ],quiz:{q:'To generate €1,500/month in dividend income at an average yield of 4%, you need approximately:',opts:['€150,000','€450,000','€1,500,000','€50,000'],correct:1,expl:'<strong>€450,000</strong>. €1,500/month = €18,000/year. €18,000 ÷ 4% = €450,000 capital needed. This illustrates why building capital must come before passive income thinking.'}},
+      s12:{n:'Building a permanent portfolio that survives anything',blocks:[
+        {type:'hook',emo:'🏰',text:'<strong>A permanent portfolio is designed to hold through any crisis, inflation spike, deflation, or economic collapse — without requiring market timing or emotional decisions.</strong>'},
+        {type:'content',text:'<strong>Harry Browne\'s formula (25/25/25/25):</strong><br>25% equities: growth in prosperity.<br>25% long-term bonds: growth in deflation.<br>25% gold: growth in inflation/monetary instability.<br>25% cash (T-bills): stability in tight money/crisis.<br><strong>Historical performance</strong>: ~7%/yr average, max drawdown ~−13%.<br><strong>Rebalance</strong>: when any asset deviates >15 percentage points from 25%, rebalance back.'},
+        {type:'tip',text:'The permanent portfolio sacrifices maximum returns for maximum robustness. In bull markets, it lags a 100% equity portfolio significantly. In crises, it vastly outperforms. Choose based on your psychology, not just your spreadsheet.'}
+      ],quiz:{q:'In which economic scenario does the cash/T-bill portion of the Permanent Portfolio shine?',opts:['High inflation','Bull market','Deflation with tight credit/financial crisis','Low interest rates'],correct:2,expl:'<strong>Deflation and financial crisis</strong>. When credit tightens and assets collapse, cash maintains its purchasing power while everything else falls. T-bills also benefit from the flight to safety.'}},
+      s13:{n:'Managing a big loss: the protocol',blocks:[
+        {type:'hook',emo:'🆘',text:'<strong>A large portfolio loss is inevitable if you invest long enough.</strong> How you respond in the first 72 hours determines whether you recover or compound the damage.'},
+        {type:'content',text:'<strong>The protocol after a major loss:</strong><br>1. <strong>Stop</strong>: make no decisions for 24–48 hours. Emotional decisions after losses are almost always wrong.<br>2. <strong>Analyse</strong>: is this a temporary market decline or a permanent impairment of the business?<br>3. <strong>Distinguish</strong>: paper loss (temporary) vs realised loss (permanent). Markets recover; companies in terminal decline may not.<br>4. <strong>Decide</strong>: hold (if thesis intact), average down (if conviction strong + position sizing allows), or exit (if thesis broken).'},
+        {type:'tip',text:'Keep a written investment thesis for each position. After a loss, re-read it. If the original reasons still hold: hold. If the fundamentals have changed, sell without attachment to the original price.'}
+      ],quiz:{q:'Your stock drops −35% in a week on news that changes the business fundamentals permanently. The correct action is:',opts:['Wait for it to recover to your purchase price','Average down to reduce your average cost','Re-evaluate the thesis — if fundamentally broken, sell and redeploy capital','Buy more aggressively'],correct:2,expl:'<strong>Re-evaluate the thesis</strong>. A permanent fundamental change (lost major contract, technological disruption, regulatory ban) is different from temporary market volatility. If the thesis is broken, cut the loss and move on.'}},
+      s14:{n:'Robo-advisors: entrusting your money to an algorithm',blocks:[
+        {type:'hook',emo:'🤖',text:'<strong>Robo-advisors manage your investments automatically based on a questionnaire about your risk profile.</strong> They\'re ideal for hands-off investors who want low cost and decent diversification without any knowledge.'},
+        {type:'content',text:'<strong>How they work</strong>: answer questions → algorithm builds a portfolio of ETFs → automatic rebalancing → hands-off management.<br><strong>Key players in France</strong>: Yomoni, Nalo, Goodvest, Wesave.<br><strong>Cost</strong>: typically 0.6–1.6%/yr total (management fees + underlying ETF fees).<br><strong>Vs DIY ETF portfolio</strong>: robo-advisor = more expensive (1%/yr extra) but more convenient. DIY MSCI World ETF = lowest cost but requires some knowledge.'},
+        {type:'tip',text:'Robo-advisors shine for beginner investors who would otherwise do nothing. The behavioural value (no panic selling, automatic rebalancing) often outweighs the extra cost.'}
+      ],quiz:{q:'The main advantage of a robo-advisor over managing your own ETF portfolio?',opts:['Higher returns','Lower fees','Fully automated management removes the need for knowledge or emotional discipline','Better tax efficiency'],correct:2,expl:'<strong>Fully automated, removes behavioural biases</strong>. The biggest enemy of retail investors is themselves. A robo-advisor that stops you from panic-selling during a crash can be worth far more than its fee.'}},
+      s15:{n:"Momentum: buying what's really rising",blocks:[
+        {type:'hook',emo:'🚀',text:'<strong>Momentum is one of the most academically documented factors: assets that performed well over the past 3–12 months tend to continue performing well in the near future.</strong> The question is how to use it without chasing peaks.'},
+        {type:'content',text:'<strong>Momentum in practice:</strong><br>• 12-1 momentum: returns over the past 12 months, excluding the last month (to avoid short-term reversal).<br>• Cross-sectional momentum: rank all assets → buy top performers, avoid bottom performers.<br>• Time-series momentum: buy asset only if its own 12-month return is positive (trend following).<br><strong>Danger zones</strong>: momentum crashes when the trend reverses (2009, 2020). High turnover means higher transaction costs.'},
+        {type:'tip',text:'Momentum ETFs (SPDR MSCI World Momentum, etc.) offer systematic exposure. Combining momentum with value or quality reduces the risk of momentum crashes.'}
+      ],quiz:{q:'The "12-1 momentum" signal uses:',opts:['Returns over the past 12 days','Returns over the past 12 months, excluding the most recent month','The P/E ratio over 12 months','Dividends paid over 12 months'],correct:1,expl:'<strong>12-month returns excluding last month</strong>. The most recent month is excluded because very short-term returns tend to reverse (mean reversion). The 12-1 signal captures medium-term trend continuation.'}},
+      e1:{n:'Building a bond portfolio',blocks:[
+        {type:'hook',emo:'📜',text:'<strong>Bonds add stability, income, and crisis protection to a portfolio.</strong> But not all bonds are equal — maturity, credit quality, and interest rate sensitivity change the risk-return profile dramatically.'},
+        {type:'content',text:'<strong>Bond portfolio construction:</strong><br>• <strong>Ladder strategy</strong>: buy bonds maturing at regular intervals (1yr, 3yr, 5yr, 7yr, 10yr) — reduces reinvestment and price risk.<br>• <strong>Duration matching</strong>: match bond duration to investment horizon to neutralise rate risk.<br>• <strong>Diversification</strong>: mix sovereign (government) + investment-grade corporate + high yield (< 15%).<br><strong>ETF approach</strong>: Aggregate bond ETFs (mix of government + corporate, various maturities) simplify everything.'},
+        {type:'tip',text:'For most investors, a single aggregate bond ETF (like iShares Core € Aggregate Bond ETF) provides adequate fixed income diversification at minimal cost (TER ~0.1%).'}
+      ],quiz:{q:'A "bond ladder" strategy means:',opts:['Investing only in government bonds','Buying bonds with staggered maturities to reduce reinvestment risk','Buying bonds rated AAA only','Investing monthly in the same bond'],correct:1,expl:'<strong>Staggered maturities</strong>. A ladder (e.g. bonds maturing each year for 5 years) means you\'re never fully exposed to reinvestment risk at one point in time. As each bond matures, you reinvest at current rates.'}},
+      e2:{n:'Duration: measuring interest rate risk in bonds',blocks:[
+        {type:'hook',emo:'📏',text:'<strong>Duration tells you exactly how much a bond or bond portfolio will lose (or gain) if interest rates change by 1%.</strong> It\'s the most important risk metric in fixed income.'},
+        {type:'content',text:'<strong>Modified Duration</strong>: price sensitivity = Duration × 1% rate change.<br>Bond with duration 7 → rates +1% → bond price −7%.<br><strong>Macaulay Duration</strong>: weighted average time to receive all cash flows (coupons + principal).<br><strong>Convexity</strong>: the curvature of the price-yield relationship. High convexity bonds lose less when rates rise and gain more when rates fall vs pure duration predicts.'},
+        {type:'tip',text:'In a rising rate environment: shorten duration. In a falling rate environment: lengthen duration. Duration is your primary lever for managing bond portfolio rate sensitivity.'}
+      ],quiz:{q:'A bond ETF has modified duration of 6. If rates rise 1.5%, the ETF price changes approximately:',opts:['+9%','−9%','−6%','+1.5%'],correct:1,expl:'<strong>−9%</strong>. Modified duration × rate change = −6 × 1.5% = −9%. This was exactly what happened to long-duration bond ETFs in 2022 when rates rose by ~4–5%.'}},
+      e3:{n:"VIX: the market's fear thermometer",blocks:[
+        {type:'hook',emo:'🌡️',text:'<strong>The VIX (CBOE Volatility Index) measures the market\'s expected 30-day volatility, derived from S&P 500 option prices.</strong> It\'s the most widely tracked fear gauge in finance.'},
+        {type:'content',text:'<strong>VIX interpretation:</strong><br>< 15: calm, low volatility, complacency (potentially dangerous).<br>15–25: normal volatility.<br>25–40: elevated fear, significant market stress.<br>> 40: extreme panic. Historical peaks: 80+ (2008), 85 (March 2020).<br><strong>The key insight</strong>: VIX tends to spike when stocks fall and collapse when stocks rise. High VIX = buying opportunity? Often yes, historically.'},
+        {type:'tip',text:'VIX > 40 has historically been an excellent long-term entry point for equities. Not a short-term timing tool, but an indication of extreme fear — which often precedes recovery.'}
+      ],quiz:{q:'A VIX reading of 45 indicates:',opts:['A very calm market with low expected volatility','Extreme market fear and high expected volatility','A bullish market signal','A bond market event'],correct:1,expl:'<strong>Extreme fear</strong>. VIX 45 is well above the long-term average (~20). It signals extreme uncertainty and often corresponds to sharp market selloffs. Historically, extreme VIX spikes have preceded significant market recoveries.'}},
+      e4:{n:'Asset correlation: building true diversification',blocks:[
+        {type:'hook',emo:'🔗',text:'<strong>True diversification requires low or negative correlation between assets.</strong> The correlation matrix is the mathematical tool for measuring how much your "diversified" portfolio actually diversifies.'},
+        {type:'content',text:'<strong>Typical asset correlations (approximate):</strong><br>US stocks / Global stocks: +0.9 (very high — not much diversification)<br>US stocks / Bonds: +0.0 to −0.3 (useful diversifier)<br>US stocks / Gold: −0.1 to +0.1 (excellent diversifier)<br>US stocks / REITs: +0.6 to +0.8 (moderate)<br>US stocks / Commodities: +0.2 to +0.4 (moderate diversifier)'},
+        {type:'tip',text:'Correlation is dynamic. In normal markets: low. In severe crises: most assets correlate toward +1 (everything falls). Only gold and government bonds have maintained low correlation in historical crashes.'}
+      ],quiz:{q:'Two assets have correlation −0.7. Adding the second asset to a portfolio of the first:',opts:['Increases risk substantially','Provides excellent diversification and reduces portfolio volatility','Has no effect','Only works in rising markets'],correct:1,expl:'<strong>Excellent diversification</strong>. Correlation −0.7 means the assets frequently move in opposite directions. When one falls, the other tends to rise — actively reducing portfolio volatility when combined in the right proportions.'}},
+      e5:{n:'DCF analysis: valuing a company like the pros',blocks:[
+        {type:'hook',emo:'💹',text:'<strong>DCF (Discounted Cash Flow) is the gold standard of equity valuation.</strong> It answers: "What is this business worth today, based on all the cash it will ever generate?" Used by every major investment bank for M&A and equity research.'},
+        {type:'content',text:'<strong>DCF formula:</strong> Intrinsic Value = Σ(FCF_t ÷ (1+r)^t) + Terminal Value ÷ (1+r)^n<br>Where FCF = free cash flow, r = discount rate (WACC), t = year.<br><strong>Steps:</strong><br>1. Project FCF for 5–10 years.<br>2. Estimate terminal value (Gordon Growth Model: FCF × (1+g) ÷ (r−g)).<br>3. Discount everything back at WACC.<br>4. Divide by shares outstanding = intrinsic value per share.'},
+        {type:'tip',text:'DCF is highly sensitive to assumptions. A 1% change in the discount rate or terminal growth rate changes the result by 20–50%. Always run a range of scenarios (bear/base/bull).'}
+      ],quiz:{q:'In a DCF model, increasing the discount rate (WACC) will:',opts:['Increase the calculated intrinsic value','Decrease the calculated intrinsic value','Have no effect on value','Only affect the terminal value'],correct:1,expl:'<strong>Decrease intrinsic value</strong>. A higher discount rate means future cash flows are worth less today. This is why rising interest rates depress equity valuations — they\'re effectively raising the "r" in everyone\'s DCF models.'}},
+      e6:{n:'WACC: the cost of capital, key to valuation',blocks:[
+        {type:'hook',emo:'⚙️',text:'<strong>WACC (Weighted Average Cost of Capital) is the minimum return a company must earn to satisfy all its investors.</strong> It\'s the discount rate used in DCF models and the hurdle rate for investment decisions.'},
+        {type:'content',text:'<strong>WACC formula:</strong><br>WACC = (E/V × Re) + (D/V × Rd × (1−T))<br>Where:<br>E = equity market value, D = debt market value, V = E+D<br>Re = cost of equity (CAPM: Rf + β × Market Risk Premium)<br>Rd = cost of debt (interest rate), T = tax rate<br><strong>Why it matters:</strong> projects earning > WACC create value. Projects earning < WACC destroy value.'},
+        {type:'tip',text:'WACC is only an estimate — cost of equity (calculated via CAPM) is especially uncertain. Small changes in beta or market risk premium assumptions significantly affect WACC and therefore the entire valuation.'}
+      ],quiz:{q:'A company with WACC of 8% invests in a project returning 6%. This:',opts:['Creates value for shareholders','Destroys value — the return doesn\'t cover the cost of capital','Is exactly breakeven','Only matters for bond investors'],correct:1,expl:'<strong>Destroys value</strong>. If a project returns 6% but capital costs 8% (WACC), the company is earning less than what investors require. This destroys shareholder value — hence why WACC is the key hurdle rate.'}},
+      e7:{n:'Financial crises: what we can learn',blocks:[
+        {type:'hook',emo:'📚',text:'<strong>Every financial crisis feels unprecedented in the moment — yet follows patterns visible in hindsight.</strong> Understanding past crises makes you more resilient to future ones.'},
+        {type:'content',text:'<strong>Key crises and lessons:</strong><br>• <strong>1929 Great Depression</strong>: leverage + bank runs. Lesson: margin debt is dangerous at extremes.<br>• <strong>2000 Dot-com</strong>: valuation mania. Lesson: P/E matters; growth alone doesn\'t justify any price.<br>• <strong>2008 GFC</strong>: leverage + opacity + correlated risk. Lesson: understand what you own; complexity hides risk.<br>• <strong>2020 COVID</strong>: liquidity crisis. Lesson: markets can fall 35% in weeks — emergency fund and long horizon matter.<br>• <strong>2022</strong>: inflation. Lesson: bonds and equities can fall together; diversify beyond 60/40.'},
+        {type:'tip',text:'"Those who cannot remember the past are condemned to repeat it." (Santayana). Study each crisis: what were the warning signs? What worked? What failed?'}
+      ],quiz:{q:'What was the primary cause of the 2008 Global Financial Crisis?',opts:['Excessive government spending','Over-leveraged financial system with opaque, correlated mortgage-backed securities','Rising commodity prices','Technology bubble collapse'],correct:1,expl:'<strong>Leverage + opacity + correlation</strong>. Banks held massively leveraged positions in mortgage-backed securities whose true risk was hidden. When housing fell, the correlated losses propagated across the entire financial system simultaneously.'}},
+      e8:{n:'Backtesting: testing your strategy on historical data',blocks:[
+        {type:'hook',emo:'🔬',text:'<strong>Backtesting tells you how a strategy would have performed historically — before you risk real money.</strong> It\'s essential for systematic strategies, but riddled with traps that can make a bad strategy look perfect.'},
+        {type:'content',text:'<strong>How to backtest:</strong><br>1. Define the strategy rules precisely (entry, exit, position size).<br>2. Apply rules to historical data.<br>3. Measure performance: CAGR, Sharpe Ratio, max drawdown.<br><strong>Key biases to avoid:</strong><br>• <strong>Survivorship bias</strong>: historical stock databases exclude companies that went bankrupt.<br>• <strong>Lookahead bias</strong>: accidentally using future data in the strategy.<br>• <strong>Overfitting</strong>: too many parameters, strategy is tuned to past noise.'},
+        {type:'tip',text:'Out-of-sample testing is essential: develop the strategy on 70% of the data, validate on the remaining 30%. If performance degrades significantly on the validation set, you\'ve overfit to historical noise.'}
+      ],quiz:{q:'Survivorship bias in backtesting causes:',opts:['Strategies to look worse than they actually are','Strategies to look better than they actually are — by excluding companies that went bankrupt','Faster backtesting','Lower transaction costs'],correct:1,expl:'<strong>Strategies look better than reality</strong>. Historical databases often exclude stocks that went bankrupt or were delisted. A strategy tested on "survivors only" looks far better than it would have in real time when companies were failing.'}},
+      q1:{n:'Debts: which ones to pay off first',blocks:[
+        {type:'hook',emo:'💳',text:'<strong>Not all debt is equal.</strong> A 20% credit card is a financial emergency. A 1.5% mortgage is cheap leverage. Knowing which to attack first saves thousands in interest.'},
+        {type:'content',text:'<strong>The priority framework:</strong><br>1. <strong>High-interest consumer debt (> 6%)</strong>: credit cards, personal loans, payday loans — pay these off immediately. The guaranteed 15–20% "return" beats any investment.<br>2. <strong>Medium debt (3–6%)</strong>: personal loans, some car loans — pay off while investing modestly.<br>3. <strong>Low debt (< 3%)</strong>: mortgage, student loans — keep paying normally; invest the surplus.<br><strong>The Avalanche method</strong>: pay minimum on all, throw extra money at the highest interest rate first.'},
+        {type:'tip',text:'Paying off 18% credit card debt is equivalent to earning 18% guaranteed after-tax return. No investment reliably offers this. High-interest debt is always the first priority.'}
+      ],quiz:{q:'You have €2,000 in credit card debt at 19.9% and €20,000 in student loan debt at 2.5%. Where should extra money go first?',opts:['Student loan — it\'s a larger amount','Credit card — the interest rate is dramatically higher','Split equally between both','Neither — invest it all'],correct:1,expl:'<strong>Credit card first</strong>. Paying 19.9% debt is a guaranteed 19.9% return (after-tax). No investment reliably beats that. Clear the high-rate debt before investing or paying down low-rate loans.'}},
+      q2:{n:'Negotiating your salary: the first investment',blocks:[
+        {type:'hook',emo:'💼',text:'<strong>A single successful salary negotiation compounds for your entire career.</strong> A €3,000 raise today, invested over 30 years at 6%, becomes €17,000+ in additional wealth — plus all the higher raises based on the new baseline.'},
+        {type:'content',text:'<strong>How to negotiate effectively:</strong><br>1. Research market rate (LinkedIn Salary, Glassdoor, industry surveys).<br>2. Prepare your value case: specific contributions, quantified where possible.<br>3. Anchor high: first number stated usually wins. Ask for 15–20% above target.<br>4. Silence is powerful: after making your ask, stop talking.<br>5. Consider the total package: bonus, equity, pension, flexibility have monetary value.'},
+        {type:'tip',text:'"I\'m currently exploring other opportunities" is the most powerful salary lever. Competing offers are the strongest negotiating tool. Even applying elsewhere — even without intending to leave — clarifies your market value.'}
+      ],quiz:{q:'The best time to negotiate your salary is:',opts:['When your employer initiates the conversation','When you have a competing offer or during a strong performance review — not when you need the money urgently','Never — it\'s impolite to ask','Only when changing companies'],correct:1,expl:'<strong>From a position of strength</strong>. Negotiating with a competing offer gives maximum leverage. A performance review with strong results is the second-best moment. Negotiating from desperation (financial stress) weakens your position significantly.'}},
+      q3:{n:'Optimizing fixed expenses: the quick wins',blocks:[
+        {type:'hook',emo:'✂️',text:'<strong>Fixed expenses are the most powerful lever in your budget — cut them once and the saving repeats forever.</strong> Reducing your Netflix subscription saves €15 every month for years, with zero ongoing effort.'},
+        {type:'content',text:'<strong>The fixed expense audit:</strong><br>1. List all recurring charges (bank statement, last 3 months).<br>2. Categorise: essential (rent, utilities) / negotiable (insurance, phone, internet) / optional (subscriptions).<br>3. Cancel or reduce optional items immediately.<br>4. Negotiate negotiable items: insurers, ISPs, phone operators all offer better rates when you ask or threaten to leave.<br><strong>High-impact targets:</strong> car insurance (save €200–€400/yr), home insurance (€100–€200/yr), bank fees (€50–€200/yr).'},
+        {type:'tip',text:'Set a "subscription audit" reminder every 6 months. Services accumulate invisibly. Most people are paying for 3–5 subscriptions they\'ve forgotten about.'}
+      ],quiz:{q:'Which type of expense gives the best long-term budget improvement per unit of effort?',opts:['Variable expenses (restaurants, shopping)','Fixed expenses (subscriptions, insurance, bank fees) — cut once, save forever','One-time purchases','Daily coffee'],correct:1,expl:'<strong>Fixed expenses</strong>. Cutting a €50/month subscription saves €600/year with zero ongoing effort. Cutting variable expenses requires constant willpower. Fixed expense cuts compound in your favour automatically.'}},
+      q4:{n:'Taxes: understanding your tax assessment',blocks:[
+        {type:'hook',emo:'📋',text:'<strong>Understanding your tax assessment (avis d\'imposition) is the first step to legally paying less.</strong> Most people don\'t understand what they\'re being taxed on or what deductions they\'re missing.'},
+        {type:'content',text:'<strong>Key elements of French income tax:</strong><br>• <strong>Taxable income</strong>: gross income minus deductions (professional expenses, maintenance payments, etc.).<br>• <strong>Marginal tax rate (TMI)</strong>: the rate applied to your top slice of income (0%, 11%, 30%, 41%, 45%).<br>• <strong>Average rate</strong>: total tax ÷ total income — always lower than marginal rate.<br><strong>Common deductions</strong>: professional expenses (flat 10% deduction automatically), pension contributions, PER deductions, donations, child tax credits.'},
+        {type:'tip',text:'Your marginal tax rate is the key number for financial planning. A 30% TMI means: PER contributions save 30¢ per euro contributed. Knowing your TMI makes every tax-optimisation decision clearer.'}
+      ],quiz:{q:'The "marginal tax rate" (TMI) represents:',opts:['The average rate applied to all your income','The rate applied to your highest slice of income — the rate on each additional euro earned','A fixed percentage','A rate that applies only to investment income'],correct:1,expl:'<strong>Rate on the highest income slice</strong>. France uses progressive brackets. With a 30% TMI, every additional euro earned is taxed at 30% — but lower income slices are taxed at 0% and 11%. Your average rate is much lower than your marginal rate.'}},
+      x1:{n:'ESG vs. performance: the honest verdict',blocks:[
+        {type:'hook',emo:'⚖️',text:'<strong>Can you do good AND do well financially at the same time?</strong> The ESG vs performance debate has been studied extensively. Here\'s the honest answer.'},
+        {type:'content',text:'<strong>The evidence:</strong><br>• 2015–2021: ESG outperformed — driven by tech overweight and energy underweight (energy underperformed).<br>• 2022: ESG underperformed — energy outperformed massively, ESG funds had minimal energy exposure.<br>• Long-term (20+ years): meta-studies show ESG performs roughly in line with conventional portfolios — neither systematically better nor worse.<br><strong>The honest conclusion</strong>: ESG is not a return-enhancement strategy. It\'s a values-alignment strategy with neutral long-term return expectations.'},
+        {type:'tip',text:'If ESG matters to you for ethical reasons: invest in ESG. If you\'re doing it for expected outperformance: the evidence doesn\'t support that expectation. Know your actual reason.'}
+      ],quiz:{q:'Based on academic evidence, ESG funds over the very long term (20+ years) perform:',opts:['Significantly better than conventional funds','Significantly worse','Roughly in line with conventional funds — neither systematically better nor worse','Better only in bull markets'],correct:2,expl:'<strong>Roughly in line</strong>. The academic consensus is that ESG doesn\'t systematically outperform or underperform over very long periods. Short-term performance differences are driven by sector weights, not ESG scores per se.'}},
+      x2:{n:'Time diversification: smoothing entry points',blocks:[
+        {type:'hook',emo:'📅',text:'<strong>Timing the market is impossible. Time in the market beats timing the market.</strong> But there are strategies to reduce the impact of bad timing — without sacrificing long-term returns.'},
+        {type:'content',text:'<strong>DCA (Dollar Cost Averaging)</strong>: invest a fixed amount regularly → automatically buy more when prices are low, less when high. Reduces the risk of investing a lump sum at a peak.<br><strong>Value Averaging</strong>: adjust monthly investment to maintain a target portfolio growth path. Buy more when below target, less when above. Outperforms DCA in volatile markets.<br><strong>The lump sum reality</strong>: studies show lump sum outperforms DCA ~67% of the time (because markets rise more often than they fall). But DCA reduces regret and psychological risk.'},
+        {type:'tip',text:'If you have a lump sum: invest 50% immediately and DCA the remaining 50% over 6 months. This balances mathematical optimality with psychological comfort.'}
+      ],quiz:{q:'Research shows that lump-sum investing outperforms DCA approximately:',opts:['10% of the time','33% of the time','67% of the time','100% of the time'],correct:2,expl:'<strong>~67% of the time</strong>. Markets rise more often than they fall. On average, waiting to invest costs you opportunity cost. DCA\'s advantage is psychological — it reduces the regret of investing at a peak, not mathematical returns.'}},
       // ────────────────────────────────────────────────────────────
       ex8: {
         n: 'CFA Level III portfolio construction',
@@ -4949,7 +5417,7 @@ function completeLesson(id){
   if(!alreadyDone){S.done.add(id);S.totalLessons++;S.todayLessons=(S.todayLessons||0)+1;}
   if(coins>0)addCoins(coins,el('quizCta'));
   addXP(xpGain);
-  addJournal({type:'lesson',emoji:lesson.e,asset:'Leçon',
+  addJournal({type:'lesson',emoji:lesson.e,asset:_T('jLesson'),
     note:`"${lesson.n}"${coins>0?' — +'+coins+' 🪙':''}`});
   const card=el('completeCard');
   if(card){
@@ -5343,7 +5811,7 @@ function executeOrder(){
     if(!lp||lp<=0){showToast('warn','⚠️','Prix limite manquant','Saisis un prix limite.');return;}
     S.limitOrders.push({asset:a.id,side:S.orderSide,amount:amt,limitPrice:lp,id:Date.now()});
     S.limitPlaced++;S.todayLimitPlaced=(S.todayLimitPlaced||0)+1;
-    addJournal({type:'limit',emoji:a.emoji,asset:a.name,note:`Ordre limite ${S.orderSide==='buy'?'ACHAT':'VENTE'} placé à ${fmtP(lp)} · ${amt} 🪙`});
+    addJournal({type:'limit',emoji:a.emoji,asset:a.name,note:`${S.orderSide==='buy'?_T('jLimitBuy'):_T('jLimitSell')} ${fmtP(lp)} · ${amt} 🪙`});
     renderLimitQueue();
     showToast('','📋','Ordre limite placé',`${a.emoji} ${a.name} — ${fmtP(lp)}`);
     inp.value='';checkMissions();saveState();return;
@@ -5357,7 +5825,7 @@ function executeOrder(){
     S.totalBuys++;S.todayBuys=(S.todayBuys||0)+1;
     if(!S.todayAssets)S.todayAssets=[];if(!S.todayAssets.includes(a.id))S.todayAssets.push(a.id);
     addJournal({type:'buy',emoji:a.emoji,asset:a.name,
-      note:`Achat ${qty.toFixed(4)} × ${fmtP(p)} = ${amt.toFixed(0)} 🪙`});
+      note:`${_T('jBuy')} ${qty.toFixed(4)} × ${fmtP(p)} = ${amt.toFixed(0)} 🪙`});
     showToast('buy','▲',`Achat ${a.emoji} ${a.name}`,`${qty.toFixed(4)} u. · ${amt.toFixed(0)} 🪙`);
   }else{
     const pos=S.positions[a.id];
@@ -5366,7 +5834,7 @@ function executeOrder(){
     S.coins+=proceeds-fee;pos.qty-=sq;if(pos.qty<0.00001)pos.qty=0;
     if(pnl>0){S.profitSells++;S.consecProfits++;S.todayProfitSells=(S.todayProfitSells||0)+1;}else{S.consecProfits=0;}
     addJournal({type:'sell',emoji:a.emoji,asset:a.name,
-      note:`Vente ${sq.toFixed(4)} × ${fmtP(p)} — PnL: ${pnl>=0?'+':''}${pnl.toFixed(0)} 🪙`});
+      note:`${_T('jSell')} ${sq.toFixed(4)} × ${fmtP(p)} — PnL: ${pnl>=0?'+':''}${pnl.toFixed(0)} 🪙`});
     showToast('sell','▼',`Vente ${a.emoji} ${a.name}`,`PnL: ${pnl>=0?'+':''}${pnl.toFixed(0)} 🪙`);
   }
   updateWalletUI();renderPositions();inp.value='';updateOrderSummary();checkMissions();checkUILevel();saveState();
@@ -5386,12 +5854,12 @@ function checkLimitOrders(){
       S.coins-=o.amount+fee;
       const pos=S.positions[o.asset];
       pos.avgPrice=(pos.qty*pos.avgPrice+qty*o.limitPrice)/(pos.qty+qty);pos.qty+=qty;
-      addJournal({type:'limit',emoji:a.emoji,asset:a.name,note:`Limite ACHAT exécuté à ${fmtP(o.limitPrice)}`});
+      addJournal({type:'limit',emoji:a.emoji,asset:a.name,note:`${_T('jLimitBuyExec')} ${fmtP(o.limitPrice)}`});
       S.totalBuys++;
     }else{
       const pos=S.positions[o.asset];const sq=Math.min(qty,pos.qty);
       S.coins+=sq*o.limitPrice-fee;pos.qty-=sq;if(pos.qty<0.00001)pos.qty=0;
-      addJournal({type:'limit',emoji:a.emoji,asset:a.name,note:`Limite VENTE exécuté à ${fmtP(o.limitPrice)}`});
+      addJournal({type:'limit',emoji:a.emoji,asset:a.name,note:`${_T('jLimitSellExec')} ${fmtP(o.limitPrice)}`});
     }
     S.limitExecuted++;
     showToast('','📋','Ordre limite exécuté',`${a.emoji} ${a.name} à ${fmtP(o.limitPrice)}`);
@@ -5752,7 +6220,7 @@ function depositGlobal(){
   if(n>S.coins){shakeEl(el('envGlobalInput'));msg.style.color='var(--r)';msg.textContent='Pas assez de Tacoins.';return;}
   S.coins-=n;env.amount+=n;
   if(env.id==='prec')S.precaution=env.amount;
-  addJournal({type:'save',emoji:env.icon,asset:env.name,note:`Dépôt +${fmt(n)} 🪙 → solde ${fmt(env.amount)} 🪙`});
+  addJournal({type:'save',emoji:env.icon,asset:env.name,note:`${_T('jDeposit')} +${fmt(n)} 🪙 → ${_T('jBalance')} ${fmt(env.amount)} 🪙`});
   saveState();updateWalletUI();openSavingsModal();switchSavTab('prec');
   el('envGlobalMsg').style.color='var(--g)';el('envGlobalMsg').textContent=`+${fmt(n)} déposés dans ${env.name} ✓`;
 }
@@ -5765,7 +6233,7 @@ function withdrawGlobal(){
   if(n>env.amount){shakeEl(el('envGlobalInput'));msg.style.color='var(--r)';msg.textContent='Montant supérieur au solde.';return;}
   env.amount-=n;S.coins+=n;
   if(env.id==='prec')S.precaution=env.amount;
-  addJournal({type:'save',emoji:env.icon,asset:env.name,note:`Retrait -${fmt(n)} 🪙 → solde ${fmt(env.amount)} 🪙`});
+  addJournal({type:'save',emoji:env.icon,asset:env.name,note:`${_T('jWithdraw')} -${fmt(n)} 🪙 → ${_T('jBalance')} ${fmt(env.amount)} 🪙`});
   saveState();updateWalletUI();openSavingsModal();switchSavTab('prec');
   el('envGlobalMsg').style.color='var(--g)';el('envGlobalMsg').textContent=`-${fmt(n)} retirés de ${env.name} ✓`;
 }
@@ -5783,7 +6251,7 @@ function depositEnv(id){
   if(n>S.coins){msg.textContent='Pas assez de Tacoins.';return;}
   S.coins-=n;env.amount+=n;
   if(id==='prec')S.precaution=env.amount;
-  addJournal({type:'save',emoji:env.icon,asset:env.name,note:`Dépôt +${fmt(n)} 🪙 → solde ${fmt(env.amount)} 🪙`});
+  addJournal({type:'save',emoji:env.icon,asset:env.name,note:`${_T('jDeposit')} +${fmt(n)} 🪙 → ${_T('jBalance')} ${fmt(env.amount)} 🪙`});
   saveState();updateWalletUI();openSavingsModal();switchSavTab('prec');
   const m=el('envMsg_'+id);if(m){m.style.color='var(--g)';m.textContent='+'+fmt(n)+' déposés ✓';}
 }
@@ -5796,7 +6264,7 @@ function withdrawEnv(id){
   if(n>env.amount){msg.textContent='Montant supérieur au solde.';return;}
   env.amount-=n;S.coins+=n;
   if(id==='prec')S.precaution=env.amount;
-  addJournal({type:'save',emoji:env.icon,asset:env.name,note:`Retrait -${fmt(n)} 🪙 → solde ${fmt(env.amount)} 🪙`});
+  addJournal({type:'save',emoji:env.icon,asset:env.name,note:`${_T('jWithdraw')} -${fmt(n)} 🪙 → ${_T('jBalance')} ${fmt(env.amount)} 🪙`});
   saveState();updateWalletUI();openSavingsModal();switchSavTab('prec');
   const m=el('envMsg_'+id);if(m){m.style.color='var(--g)';m.textContent='-'+fmt(n)+' retirés ✓';}
 }
@@ -6048,7 +6516,7 @@ function quickBuy(assetId,pct,amt){
   const pos=S.positions[a.id];
   pos.avgPrice=(pos.qty*pos.avgPrice+qty*p)/(pos.qty+qty);pos.qty+=qty;
   S.totalBuys++;
-  addJournal({type:'buy',emoji:a.emoji,asset:a.name,note:`Allocation ${pct}% · ${amt.toFixed(0)} 🪙`});
+  addJournal({type:'buy',emoji:a.emoji,asset:a.name,note:`${_T('jAlloc')} ${pct}% · ${amt.toFixed(0)} 🪙`});
   showToast('buy','▲',`${a.emoji} ${a.name} acheté`,`Allocation ${pct}% · ${amt.toFixed(0)} 🪙`);
   updateWalletUI();renderPositions();checkMissions();buildMarketTable();updateAlignScore();saveState();
   const pr=PROFILES[S.diagProfile];if(pr)_renderAllocList(pr);
@@ -6066,7 +6534,7 @@ function quickBuyAll(){
     const pos=S.positions[a.id];
     pos.avgPrice=(pos.qty*pos.avgPrice+qty*p)/(pos.qty+qty);pos.qty+=qty;
     S.totalBuys++;total+=amt;
-    addJournal({type:'buy',emoji:a.emoji,asset:a.name,note:`Allocation ${slot.pct}% · ${amt.toFixed(0)} 🪙`});
+    addJournal({type:'buy',emoji:a.emoji,asset:a.name,note:`${_T('jAlloc')} ${slot.pct}% · ${amt.toFixed(0)} 🪙`});
   });
   if(total>0){
     showToast('buy','📐','Allocation appliquée !',`${total.toFixed(0)} 🪙 investis selon ton profil ${pr.emoji}`);
@@ -6215,14 +6683,14 @@ function executeRebalanceSlot(slotIdx){
     const prevQty=S.positions[a.id].qty,prevAvg=S.positions[a.id].avgPrice||S.prices[a.id];
     S.coins-=tot;S.positions[a.id].qty+=qty;
     S.positions[a.id].avgPrice=(prevAvg*prevQty+S.prices[a.id]*qty)/(prevQty+qty);
-    addJournal({type:'buy',emoji:a.emoji,asset:a.name,note:`Rééquilibrage ▲ → cible ${slot.pct}% · ${amt} 🪙`});
+    addJournal({type:'buy',emoji:a.emoji,asset:a.name,note:`${_T('jRebBuy')} ${slot.pct}% · ${amt} 🪙`});
     showToast('buy','▲',`Acheté ${a.name}`,`+${amt} 🪙 investis`);
   } else if(diff<-1&&curVal>0){
     const sellVal=Math.min(Math.abs(diff),curVal);
     const sq=Math.min(sellVal/S.prices[a.id],S.positions[a.id].qty);
     const proceeds=sq*S.prices[a.id];
     S.coins+=proceeds*0.999;S.positions[a.id].qty=Math.max(0,S.positions[a.id].qty-sq);
-    addJournal({type:'sell',emoji:a.emoji,asset:a.name,note:`Rééquilibrage ▼ → cible ${slot.pct}% · ${fmt(sellVal)} 🪙`});
+    addJournal({type:'sell',emoji:a.emoji,asset:a.name,note:`${_T('jRebSell')} ${slot.pct}% · ${fmt(sellVal)} 🪙`});
     showToast('sell','▼',`Vendu ${a.name}`,`+${fmt(proceeds*0.999)} 🪙 récupérés`);
   }
   updateWalletUI();renderPositions();updateAlignScore();saveState();
@@ -6248,7 +6716,7 @@ function executeRebalance(){
       const sq=Math.min(surplus/S.prices[a.id],S.positions[a.id].qty);
       S.coins+=sq*S.prices[a.id]*0.999;
       S.positions[a.id].qty=Math.max(0,S.positions[a.id].qty-sq);
-      addJournal({type:'sell',emoji:a.emoji,asset:a.name,note:`Rééquilibrage ▼ cible ${slot.pct}% · ${fmt(surplus)} 🪙`});
+      addJournal({type:'sell',emoji:a.emoji,asset:a.name,note:`${_T('jRebSell2')} ${slot.pct}% · ${fmt(surplus)} 🪙`});
       ops++;
     }
   });
@@ -6279,7 +6747,7 @@ function executeRebalance(){
     S.coins-=tot;
     S.positions[a.id].qty+=qty;
     S.positions[a.id].avgPrice=prevQty+qty>0?(prevAvg*prevQty+S.prices[a.id]*qty)/(prevQty+qty):S.prices[a.id];
-    addJournal({type:'buy',emoji:a.emoji,asset:a.name,note:`Rééquilibrage ▲ cible ${slot.pct}% · ${amt} 🪙`});
+    addJournal({type:'buy',emoji:a.emoji,asset:a.name,note:`${_T('jRebBuy2')} ${slot.pct}% · ${amt} 🪙`});
     ops++;
   });
 
@@ -6663,12 +7131,12 @@ function claimMission(key,reward,btnEl){
       const dId=key.replace(/^d_/,'');
       const dm=(S._dailyPick||[]).find(x=>x.id===dId);
       showMissionBanner(dm?dm.icon:'🪙','Tacoins récupérés !',dm?dm.name:'Mission du jour',reward);
-      addJournal({type:'mission',emoji:dm?dm.icon:'🪙',asset:dm?dm.name:'Mission du jour',note:`Mission accomplie · +${reward} 🪙`});
+      addJournal({type:'mission',emoji:dm?dm.icon:'🪙',asset:dm?dm.name:_T('jMissionDay'),note:`${_T('jMission')} · +${reward} 🪙`});
     } else {
       const mId=key.replace(/^p_/,'');
       const m=PERM_MISSION_POOL.find(x=>x.id===mId);
       showMissionBanner(m?m.icon:'🏆','Récompense récupérée !',m?m.name:'Mission permanente',reward);
-      addJournal({type:'mission',emoji:m?m.icon:'🏆',asset:m?m.name:'Mission permanente',note:`Mission accomplie · +${reward} 🪙`});
+      addJournal({type:'mission',emoji:m?m.icon:'🏆',asset:m?m.name:_T('jMissionPerm'),note:`${_T('jMission')} · +${reward} 🪙`});
     }
     saveState();
   },count*80+200);
@@ -6685,19 +7153,19 @@ function renderJournal(){
   const filter=e.dataset.filter||'all';
   const items=filter==='all'?S.journal:S.journal.filter(j=>j.type===filter);
   if(!items.length){
-    e.innerHTML='<div class="j-empty">Aucune entrée. Commence à trader ou suis une leçon !</div>';return;
+    e.innerHTML=`<div class="j-empty">${_T('jEmpty')}</div>`;return;
   }
   const icons={buy:'▲',sell:'▼',limit:'📋',event:'📰',lesson:'📚',mission:'🎯',save:'🛡️'};
   const today=new Date().toLocaleDateString('fr-FR');
   const yesterday=new Date(Date.now()-86400000).toLocaleDateString('fr-FR');
-  function dayLabel(d){if(!d)return '';if(d===today)return 'Aujourd\'hui';if(d===yesterday)return 'Hier';return d;}
+  function dayLabel(d){if(!d)return '';if(d===today)return _T('jToday');if(d===yesterday)return _T('jYesterday');return d;}
   let lastDay='';
   e.innerHTML=items.map(j=>{
     let sep='';
     const jDay=j.date||today;
     if(jDay!==lastDay){lastDay=jDay;sep=`<div class="j-day-sep">${dayLabel(jDay)}</div>`;}
     const idx=items.indexOf(j);
-    const dblclick=j.type==='event'?`ondblclick="showEvDetail(${idx})" style="cursor:pointer" title="Double-cliquer pour voir le détail"`:'';
+    const dblclick=j.type==='event'?`ondblclick="showEvDetail(${idx})" style="cursor:pointer" title="${_T('jDblClick')}"`:'';
     return sep+`<div class="j-entry j-${j.type}" ${dblclick}>
       <div class="je-head">
         <span class="je-side ${j.type}">${icons[j.type]||'•'}</span>
@@ -8095,6 +8563,17 @@ const TRANSLATIONS = {
     missionClaimed:'✅ Récupéré', missionCollect:'Collecter', missionsDayDone:'Toutes les missions du jour sont complétées ✓',
     allocAligned:'✓ Aligné', allocBuy:'Acheter', allocInsuff:'Fonds insuffisants',
     allocCurrent:'actuel', allocTarget:'cible', allocAutoBtn:'Tout allouer selon mon profil',
+    jEmpty:"Aucune entrée. Commence à trader ou suis une leçon !",
+    jToday:"Aujourd'hui", jYesterday:'Hier',
+    jLesson:'Leçon', jBuy:'Achat', jSell:'Vente',
+    jLimitBuy:'Ordre limite ACHAT placé à', jLimitSell:'Ordre limite VENTE placé à',
+    jLimitBuyExec:'Limite ACHAT exécuté à', jLimitSellExec:'Limite VENTE exécuté à',
+    jDeposit:'Dépôt', jWithdraw:'Retrait', jBalance:'solde', jAlloc:'Allocation',
+    jRebBuy:'Rééquilibrage ▲ → cible', jRebSell:'Rééquilibrage ▼ → cible',
+    jRebBuy2:'Rééquilibrage ▲ cible', jRebSell2:'Rééquilibrage ▼ cible',
+    jMission:'Mission accomplie', jMissionDay:'Mission du jour', jMissionPerm:'Mission permanente',
+    jDblClick:'Double-cliquer pour voir le détail',
+    portDetails:'Détail des positions', portBack:'← Retour',
   },
   en: {
     tabLearn:'YOUR PATH', tabMarket:'MARKET ROOM', tabMissions:"TODAY'S MISSIONS",
@@ -8129,6 +8608,17 @@ const TRANSLATIONS = {
     missionClaimed:'✅ Collected', missionCollect:'Collect', missionsDayDone:'All daily missions completed ✓',
     allocAligned:'✓ Aligned', allocBuy:'Buy', allocInsuff:'Insufficient funds',
     allocCurrent:'current', allocTarget:'target', allocAutoBtn:'Allocate all by profile',
+    jEmpty:'No entries yet. Start trading or complete a lesson!',
+    jToday:'Today', jYesterday:'Yesterday',
+    jLesson:'Lesson', jBuy:'Buy', jSell:'Sale',
+    jLimitBuy:'BUY limit order placed at', jLimitSell:'SELL limit order placed at',
+    jLimitBuyExec:'BUY limit executed at', jLimitSellExec:'SELL limit executed at',
+    jDeposit:'Deposit', jWithdraw:'Withdrawal', jBalance:'balance', jAlloc:'Allocation',
+    jRebBuy:'Rebalancing ▲ → target', jRebSell:'Rebalancing ▼ → target',
+    jRebBuy2:'Rebalancing ▲ target', jRebSell2:'Rebalancing ▼ target',
+    jMission:'Mission complete', jMissionDay:'Daily mission', jMissionPerm:'Permanent mission',
+    jDblClick:'Double-click to see details',
+    portDetails:'Position details', portBack:'← Back',
   },
   es: {
     tabLearn:'TU RUTA', tabMarket:'SALA DE MERCADOS', tabMissions:'MISIONES DEL DÍA',
@@ -8163,11 +8653,23 @@ const TRANSLATIONS = {
     missionClaimed:'✅ Recogido', missionCollect:'Recoger', missionsDayDone:'Todas las misiones del día completadas ✓',
     allocAligned:'✓ Alineado', allocBuy:'Comprar', allocInsuff:'Fondos insuficientes',
     allocCurrent:'actual', allocTarget:'objetivo', allocAutoBtn:'Asignar todo según mi perfil',
+    jEmpty:'Sin entradas. ¡Empieza a operar o sigue una lección!',
+    jToday:'Hoy', jYesterday:'Ayer',
+    jLesson:'Lección', jBuy:'Compra', jSell:'Venta',
+    jLimitBuy:'Orden límite COMPRA colocada en', jLimitSell:'Orden límite VENTA colocada en',
+    jLimitBuyExec:'Límite COMPRA ejecutado en', jLimitSellExec:'Límite VENTA ejecutado en',
+    jDeposit:'Depósito', jWithdraw:'Retiro', jBalance:'saldo', jAlloc:'Asignación',
+    jRebBuy:'Reequilibrio ▲ → objetivo', jRebSell:'Reequilibrio ▼ → objetivo',
+    jRebBuy2:'Reequilibrio ▲ objetivo', jRebSell2:'Reequilibrio ▼ objetivo',
+    jMission:'Misión completada', jMissionDay:'Misión del día', jMissionPerm:'Misión permanente',
+    jDblClick:'Doble clic para ver detalles',
+    portDetails:'Detalle de posiciones', portBack:'← Volver',
   }
 };
 
 function _detectLang(){const n=(navigator.language||'en').toLowerCase();return n.startsWith('fr')?'fr':n.startsWith('es')?'es':'en';}
 let _lang = localStorage.getItem('apex_lang') || localStorage.getItem('ta_lang') || 'en';
+function _T(k){const t=TRANSLATIONS[_lang]||TRANSLATIONS.en;return t[k]!==undefined?t[k]:TRANSLATIONS.en[k]!==undefined?TRANSLATIONS.en[k]:k;}
 
 // Maps de traduction pour les données dynamiques du profil investisseur
 const PROFILE_I18N = {
