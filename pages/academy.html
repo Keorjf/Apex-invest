@@ -1701,18 +1701,18 @@ table.assets th.clickable:hover{color:var(--y);}
   <!-- BOTTOM NAV (mobile) -->
   <nav class="bottom-nav" id="bottomNav">
     <button class="bn-btn active" data-tab="learn" onclick="switchTab('learn')">
-      Apprendre
+      <span data-i18n="bnLearn">Apprendre</span>
     </button>
     <button class="bn-btn" data-tab="market" onclick="switchTab('market')">
-      Marchés
+      <span data-i18n="bnMarket">Marchés</span>
     </button>
     <button class="bn-btn" data-tab="missions" onclick="switchTab('missions')" style="position:relative">
-      <span id="missionsBadgeMobile" class="missions-badge"></span>Missions</button>
+      <span id="missionsBadgeMobile" class="missions-badge"></span><span data-i18n="bnMissions">Missions</span></button>
     <button class="bn-btn" data-tab="journal" onclick="switchTab('journal')">
-      Journal
+      <span data-i18n="bnJournal">Journal</span>
     </button>
     <button class="bn-btn" data-tab="profil" onclick="switchTab('profil')">
-      Profil
+      <span data-i18n="bnProfil">Profil</span>
     </button>
   </nav>
 
@@ -2655,58 +2655,53 @@ const PROFILES={
    MISSIONS
 ═══════════════════════════════════ */
 const DAILY_MISSION_POOL=[
-  {id:'dm_buy3',name:'Diversifie-toi',desc:'Achète 3 actifs différents aujourd\'hui.',icon:'🎯',target:3,type:'buy_different',reward:150},
-  {id:'dm_profit',name:'Première plus-value',desc:'Réalise une plus-value sur une vente.',icon:'💰',target:1,type:'profit_sell',reward:200},
-  {id:'dm_lesson',name:'Session d\'apprentissage',desc:'Complète 2 leçons aujourd\'hui.',icon:'📚',target:2,type:'complete_lesson',reward:120},
-  {id:'dm_hold',name:'Diamant dans la tempête',desc:'Garde une position pendant un événement de crise sans vendre.',icon:'💎',target:1,type:'hold_crisis',reward:300},
-  {id:'dm_limit',name:'Ordre limite placé',desc:'Place 1 ordre limite sur n\'importe quel actif.',icon:'📋',target:1,type:'place_limit',reward:100},
-  {id:'dm_align',name:'En phase avec le profil',desc:'Atteins 70%+ d\'alignement avec ton profil investisseur.',icon:'📐',target:70,type:'alignment',reward:180},
-  {id:'dm_trade5',name:'Trader actif',desc:'Passe 5 ordres au marché aujourd\'hui.',icon:'⚡',target:5,type:'market_orders',reward:160},
-  {id:'dm_check',name:'Veille économique',desc:'Lis le débrief de 2 événements économiques.',icon:'📰',target:2,type:'read_debrief',reward:90}
+  {id:'dm_buy3',name:'Diversifie-toi',desc:'Achète 3 actifs différents aujourd\'hui.',icon:'🎯',target:3,type:'buy_different',reward:150,i18n:{en:{name:'Diversify',desc:'Buy 3 different assets today.'},es:{name:'Diversifica',desc:'Compra 3 activos diferentes hoy.'}}},
+  {id:'dm_profit',name:'Première plus-value',desc:'Réalise une plus-value sur une vente.',icon:'💰',target:1,type:'profit_sell',reward:200,i18n:{en:{name:'First profit',desc:'Make a profit on a sale.'},es:{name:'Primera ganancia',desc:'Realiza una ganancia en una venta.'}}},
+  {id:'dm_lesson',name:'Session d\'apprentissage',desc:'Complète 2 leçons aujourd\'hui.',icon:'📚',target:2,type:'complete_lesson',reward:120,i18n:{en:{name:'Learning session',desc:'Complete 2 lessons today.'},es:{name:'Sesión de aprendizaje',desc:'Completa 2 lecciones hoy.'}}},
+  {id:'dm_hold',name:'Diamant dans la tempête',desc:'Garde une position pendant un événement de crise sans vendre.',icon:'💎',target:1,type:'hold_crisis',reward:300,i18n:{en:{name:'Diamond in the storm',desc:'Hold a position through a crisis event without selling.'},es:{name:'Diamante en la tormenta',desc:'Mantén una posición durante una crisis sin vender.'}}},
+  {id:'dm_limit',name:'Ordre limite placé',desc:'Place 1 ordre limite sur n\'importe quel actif.',icon:'📋',target:1,type:'place_limit',reward:100,i18n:{en:{name:'Limit order placed',desc:'Place 1 limit order on any asset.'},es:{name:'Orden límite colocada',desc:'Coloca 1 orden límite en cualquier activo.'}}},
+  {id:'dm_align',name:'En phase avec le profil',desc:'Atteins 70%+ d\'alignement avec ton profil investisseur.',icon:'📐',target:70,type:'alignment',reward:180,i18n:{en:{name:'In sync with your profile',desc:'Reach 70%+ alignment with your investor profile.'},es:{name:'Alineado con tu perfil',desc:'Alcanza 70%+ de alineación con tu perfil inversor.'}}},
+  {id:'dm_trade5',name:'Trader actif',desc:'Passe 5 ordres au marché aujourd\'hui.',icon:'⚡',target:5,type:'market_orders',reward:160,i18n:{en:{name:'Active trader',desc:'Place 5 market orders today.'},es:{name:'Trader activo',desc:'Coloca 5 órdenes de mercado hoy.'}}},
+  {id:'dm_check',name:'Veille économique',desc:'Lis le débrief de 2 événements économiques.',icon:'📰',target:2,type:'read_debrief',reward:90,i18n:{en:{name:'Economic watch',desc:'Read the debrief of 2 economic events.'},es:{name:'Vigilancia económica',desc:'Lee el resumen de 2 eventos económicos.'}}}
 ];
 
 // Base de données complète des missions permanentes
 const PERM_MISSION_POOL=[
-  // ── Premiers pas ──
-  {id:'pm_first_buy',  icon:'🚀',name:'Premier investissement',    desc:'Passe ton premier ordre d\'achat.',                          reward:200, check:()=>S.totalBuys>=1},
-  {id:'pm_val500',     icon:'🌱',name:'Premiers gains',             desc:'Atteins 500 Tacoins de valeur totale (wallet + positions).',reward:180, check:()=>_pmTotalVal()>=500},
-  {id:'pm_2lessons',   icon:'📖',name:'Curieux',                   desc:'Complète 2 leçons au total.',                               reward:150, check:()=>S.totalLessons>=2},
-  {id:'pm_3buys',      icon:'🛒',name:'Acheteur régulier',         desc:'Passe 3 ordres d\'achat.',                                  reward:150, check:()=>S.totalBuys>=3},
-  {id:'pm_first_profit',icon:'💰',name:'Première plus-value',      desc:'Réalise une vente profitable.',                             reward:250, check:()=>S.profitSells>=1},
-  // ── Intermédiaire ──
-  {id:'pm_2pos',       icon:'🎯',name:'Duo d\'actifs',             desc:'Détiens simultanément 2 actifs différents.',                reward:150, check:()=>_pmNPos()>=2},
-  {id:'pm_streak3',    icon:'📅',name:'3 jours d\'affilée',        desc:'Maintiens un streak de 3 jours consécutifs.',               reward:250, check:()=>S.streak>=3},
-  {id:'pm_1crisis',    icon:'🧊',name:'Premier sang-froid',        desc:'Traverse 1 événement de crise sans vendre.',                reward:300, check:()=>S.crisisSurvived>=1},
-  {id:'pm_1limit',     icon:'⏳',name:'Premier ordre limite',      desc:'Fais exécuter 1 ordre limite.',                             reward:200, check:()=>S.limitExecuted>=1},
-  {id:'pm_5lessons',   icon:'🎓',name:'Studieux',                  desc:'Complète 5 leçons au total.',                               reward:400, check:()=>S.totalLessons>=5},
-  {id:'pm_10k',        icon:'💵',name:'Capitalist en herbe',       desc:'Accumule 1 000 Tacoins de valeur totale.',                  reward:300, check:()=>_pmTotalVal()>=1000},
-  {id:'pm_10buys',     icon:'📊',name:'Investisseur actif',        desc:'Passe 10 ordres d\'achat.',                                 reward:350, check:()=>S.totalBuys>=10},
-  {id:'pm_3profits',   icon:'📈',name:'Flair du trader',           desc:'Réalise 3 ventes profitables.',                             reward:350, check:()=>S.profitSells>=3},
-  {id:'pm_journal5',   icon:'📝',name:'Journaliste débutant',      desc:'Accumule 5 entrées dans ton journal de trading.',           reward:200, check:()=>S.journal.length>=5},
-  {id:'pm_3prof',      icon:'🌍',name:'Diversification maîtrisée', desc:'Détiens simultanément 4 actifs différents.',                reward:250, check:()=>_pmNPos()>=4},
-  // ── Avancé ──
-  {id:'pm_profit3',    icon:'🎯',name:'Série gagnante',            desc:'Réalise 3 plus-values consécutives.',                       reward:450, check:()=>S.consecProfits>=3},
-  {id:'pm_streak7',    icon:'🔥',name:'Régularité d\'acier',       desc:'Maintiens un streak de 7 jours.',                           reward:600, check:()=>S.streak>=7},
-  {id:'pm_50k',        icon:'💼',name:'Portefeuille solide',       desc:'Atteins 5 000 Tacoins de valeur totale.',                   reward:500, check:()=>_pmTotalVal()>=5000},
-  {id:'pm_crisis',     icon:'🦁',name:'Lion des marchés',          desc:'Traverse 3 événements de crise sans vendre.',               reward:450, check:()=>S.crisisSurvived>=3},
-  {id:'pm_limit5',     icon:'🎚️',name:'Stratège patient',          desc:'Fais exécuter 5 ordres limites.',                           reward:400, check:()=>S.limitExecuted>=5},
-  {id:'pm_10lessons',  icon:'🏫',name:'Autodidacte',               desc:'Complète 10 leçons au total.',                              reward:700, check:()=>S.totalLessons>=10},
-  {id:'pm_20buys',     icon:'⚡',name:'Trader chevronné',          desc:'Passe 20 ordres d\'achat.',                                 reward:600, check:()=>S.totalBuys>=20},
-  {id:'pm_debrief3',   icon:'🔍',name:'Analyste',                  desc:'Lis le débrief de 3 événements économiques.',               reward:250, check:()=>S.debriefRead>=3},
-  {id:'pm_5pos',       icon:'🌐',name:'Maître diversificateur',    desc:'Détiens simultanément 5 actifs différents.',                reward:450, check:()=>_pmNPos()>=5},
-  {id:'pm_5profits',   icon:'🤑',name:'Machine à profits',         desc:'Réalise 5 ventes profitables.',                             reward:500, check:()=>S.profitSells>=5},
-  // ── Expert ──
-  {id:'pm_consec5',    icon:'🔥',name:'En feu !',                  desc:'Réalise 5 plus-values consécutives.',                       reward:700, check:()=>S.consecProfits>=5},
-  {id:'pm_100k',       icon:'🏦',name:'Grand investisseur',        desc:'Atteins 10 000 Tacoins de valeur totale.',                  reward:1000,check:()=>_pmTotalVal()>=10000},
-  {id:'pm_5crisis',    icon:'🛡️',name:'Imperturbable',             desc:'Traverse 5 événements de crise sans vendre.',               reward:700, check:()=>S.crisisSurvived>=5},
-  {id:'pm_limit10',    icon:'🔮',name:'Maestro des limites',       desc:'Fais exécuter 10 ordres limites.',                          reward:700, check:()=>S.limitExecuted>=10},
-  {id:'pm_streak14',   icon:'💎',name:'Deux semaines de rigueur',  desc:'Maintiens un streak de 14 jours.',                          reward:1000,check:()=>S.streak>=14},
-  {id:'pm_journal20',  icon:'📚',name:'Chroniqueur assidu',        desc:'Accumule 20 entrées dans ton journal de trading.',          reward:400, check:()=>S.journal.length>=20},
-  {id:'pm_debrief5',   icon:'🧠',name:'Expert post-mortem',        desc:'Lis le débrief de 5 événements économiques.',               reward:450, check:()=>S.debriefRead>=5},
-  {id:'pm_10profits',  icon:'🏅',name:'Investisseur aguerri',      desc:'Réalise 10 ventes profitables.',                            reward:700, check:()=>S.profitSells>=10},
-  {id:'pm_alllessons', icon:'🏆',name:'Diplômé',                   desc:'Complète toutes les leçons de ton niveau.',                 reward:1000,check:()=>_pmAllLessonsDone()},
-  // ── Légende ──
-  {id:'pm_streak30',   icon:'👑',name:'Le mois parfait',           desc:'Maintiens un streak de 30 jours consécutifs.',              reward:2000,check:()=>S.streak>=30},
+  {id:'pm_first_buy',  icon:'🚀',name:'Premier investissement',    desc:'Passe ton premier ordre d\'achat.',                          reward:200, check:()=>S.totalBuys>=1,       i18n:{en:{name:'First investment',desc:'Place your first buy order.'},es:{name:'Primera inversión',desc:'Coloca tu primera orden de compra.'}}},
+  {id:'pm_val500',     icon:'🌱',name:'Premiers gains',             desc:'Atteins 500 Tacoins de valeur totale (wallet + positions).',reward:180, check:()=>_pmTotalVal()>=500,   i18n:{en:{name:'First gains',desc:'Reach 500 Tacoins in total value.'},es:{name:'Primeras ganancias',desc:'Alcanza 500 Tacoins de valor total.'}}},
+  {id:'pm_2lessons',   icon:'📖',name:'Curieux',                   desc:'Complète 2 leçons au total.',                               reward:150, check:()=>S.totalLessons>=2,    i18n:{en:{name:'Curious',desc:'Complete 2 lessons in total.'},es:{name:'Curioso',desc:'Completa 2 lecciones en total.'}}},
+  {id:'pm_3buys',      icon:'🛒',name:'Acheteur régulier',         desc:'Passe 3 ordres d\'achat.',                                  reward:150, check:()=>S.totalBuys>=3,       i18n:{en:{name:'Regular buyer',desc:'Place 3 buy orders.'},es:{name:'Comprador regular',desc:'Coloca 3 órdenes de compra.'}}},
+  {id:'pm_first_profit',icon:'💰',name:'Première plus-value',      desc:'Réalise une vente profitable.',                             reward:250, check:()=>S.profitSells>=1,     i18n:{en:{name:'First profit',desc:'Make a profitable sale.'},es:{name:'Primera ganancia',desc:'Realiza una venta rentable.'}}},
+  {id:'pm_2pos',       icon:'🎯',name:'Duo d\'actifs',             desc:'Détiens simultanément 2 actifs différents.',                reward:150, check:()=>_pmNPos()>=2,         i18n:{en:{name:'Asset duo',desc:'Hold 2 different assets simultaneously.'},es:{name:'Dúo de activos',desc:'Mantén 2 activos diferentes simultáneamente.'}}},
+  {id:'pm_streak3',    icon:'📅',name:'3 jours d\'affilée',        desc:'Maintiens un streak de 3 jours consécutifs.',               reward:250, check:()=>S.streak>=3,          i18n:{en:{name:'3 days in a row',desc:'Maintain a streak of 3 consecutive days.'},es:{name:'3 días seguidos',desc:'Mantén una racha de 3 días consecutivos.'}}},
+  {id:'pm_1crisis',    icon:'🧊',name:'Premier sang-froid',        desc:'Traverse 1 événement de crise sans vendre.',                reward:300, check:()=>S.crisisSurvived>=1,  i18n:{en:{name:'First cool head',desc:'Survive 1 crisis event without selling.'},es:{name:'Primera cabeza fría',desc:'Supera 1 crisis sin vender.'}}},
+  {id:'pm_1limit',     icon:'⏳',name:'Premier ordre limite',      desc:'Fais exécuter 1 ordre limite.',                             reward:200, check:()=>S.limitExecuted>=1,   i18n:{en:{name:'First limit order',desc:'Get 1 limit order executed.'},es:{name:'Primera orden límite',desc:'Ejecuta 1 orden límite.'}}},
+  {id:'pm_5lessons',   icon:'🎓',name:'Studieux',                  desc:'Complète 5 leçons au total.',                               reward:400, check:()=>S.totalLessons>=5,    i18n:{en:{name:'Studious',desc:'Complete 5 lessons in total.'},es:{name:'Estudioso',desc:'Completa 5 lecciones en total.'}}},
+  {id:'pm_10k',        icon:'💵',name:'Capitalist en herbe',       desc:'Accumule 1 000 Tacoins de valeur totale.',                  reward:300, check:()=>_pmTotalVal()>=1000,  i18n:{en:{name:'Budding capitalist',desc:'Accumulate 1,000 Tacoins in total value.'},es:{name:'Capitalista en ciernes',desc:'Acumula 1.000 Tacoins de valor total.'}}},
+  {id:'pm_10buys',     icon:'📊',name:'Investisseur actif',        desc:'Passe 10 ordres d\'achat.',                                 reward:350, check:()=>S.totalBuys>=10,      i18n:{en:{name:'Active investor',desc:'Place 10 buy orders.'},es:{name:'Inversor activo',desc:'Coloca 10 órdenes de compra.'}}},
+  {id:'pm_3profits',   icon:'📈',name:'Flair du trader',           desc:'Réalise 3 ventes profitables.',                             reward:350, check:()=>S.profitSells>=3,     i18n:{en:{name:'Trader\'s instinct',desc:'Make 3 profitable sales.'},es:{name:'Instinto de trader',desc:'Realiza 3 ventas rentables.'}}},
+  {id:'pm_journal5',   icon:'📝',name:'Journaliste débutant',      desc:'Accumule 5 entrées dans ton journal de trading.',           reward:200, check:()=>S.journal.length>=5,  i18n:{en:{name:'Beginner journalist',desc:'Accumulate 5 entries in your trading journal.'},es:{name:'Periodista principiante',desc:'Acumula 5 entradas en tu diario de trading.'}}},
+  {id:'pm_3prof',      icon:'🌍',name:'Diversification maîtrisée', desc:'Détiens simultanément 4 actifs différents.',                reward:250, check:()=>_pmNPos()>=4,         i18n:{en:{name:'Mastered diversification',desc:'Hold 4 different assets simultaneously.'},es:{name:'Diversificación dominada',desc:'Mantén 4 activos diferentes simultáneamente.'}}},
+  {id:'pm_profit3',    icon:'🎯',name:'Série gagnante',            desc:'Réalise 3 plus-values consécutives.',                       reward:450, check:()=>S.consecProfits>=3,   i18n:{en:{name:'Winning streak',desc:'Make 3 consecutive profitable trades.'},es:{name:'Racha ganadora',desc:'Realiza 3 operaciones rentables consecutivas.'}}},
+  {id:'pm_streak7',    icon:'🔥',name:'Régularité d\'acier',       desc:'Maintiens un streak de 7 jours.',                           reward:600, check:()=>S.streak>=7,          i18n:{en:{name:'Iron discipline',desc:'Maintain a streak of 7 days.'},es:{name:'Disciplina de hierro',desc:'Mantén una racha de 7 días.'}}},
+  {id:'pm_50k',        icon:'💼',name:'Portefeuille solide',       desc:'Atteins 5 000 Tacoins de valeur totale.',                   reward:500, check:()=>_pmTotalVal()>=5000,  i18n:{en:{name:'Solid portfolio',desc:'Reach 5,000 Tacoins in total value.'},es:{name:'Cartera sólida',desc:'Alcanza 5.000 Tacoins de valor total.'}}},
+  {id:'pm_crisis',     icon:'🦁',name:'Lion des marchés',          desc:'Traverse 3 événements de crise sans vendre.',               reward:450, check:()=>S.crisisSurvived>=3,  i18n:{en:{name:'Market lion',desc:'Survive 3 crisis events without selling.'},es:{name:'León del mercado',desc:'Supera 3 crisis sin vender.'}}},
+  {id:'pm_limit5',     icon:'🎚️',name:'Stratège patient',          desc:'Fais exécuter 5 ordres limites.',                           reward:400, check:()=>S.limitExecuted>=5,   i18n:{en:{name:'Patient strategist',desc:'Get 5 limit orders executed.'},es:{name:'Estratega paciente',desc:'Ejecuta 5 órdenes límite.'}}},
+  {id:'pm_10lessons',  icon:'🏫',name:'Autodidacte',               desc:'Complète 10 leçons au total.',                              reward:700, check:()=>S.totalLessons>=10,   i18n:{en:{name:'Self-taught',desc:'Complete 10 lessons in total.'},es:{name:'Autodidacta',desc:'Completa 10 lecciones en total.'}}},
+  {id:'pm_20buys',     icon:'⚡',name:'Trader chevronné',          desc:'Passe 20 ordres d\'achat.',                                 reward:600, check:()=>S.totalBuys>=20,      i18n:{en:{name:'Seasoned trader',desc:'Place 20 buy orders.'},es:{name:'Trader experimentado',desc:'Coloca 20 órdenes de compra.'}}},
+  {id:'pm_debrief3',   icon:'🔍',name:'Analyste',                  desc:'Lis le débrief de 3 événements économiques.',               reward:250, check:()=>S.debriefRead>=3,     i18n:{en:{name:'Analyst',desc:'Read the debrief of 3 economic events.'},es:{name:'Analista',desc:'Lee el resumen de 3 eventos económicos.'}}},
+  {id:'pm_5pos',       icon:'🌐',name:'Maître diversificateur',    desc:'Détiens simultanément 5 actifs différents.',                reward:450, check:()=>_pmNPos()>=5,         i18n:{en:{name:'Diversification master',desc:'Hold 5 different assets simultaneously.'},es:{name:'Maestro de la diversificación',desc:'Mantén 5 activos diferentes simultáneamente.'}}},
+  {id:'pm_5profits',   icon:'🤑',name:'Machine à profits',         desc:'Réalise 5 ventes profitables.',                             reward:500, check:()=>S.profitSells>=5,     i18n:{en:{name:'Profit machine',desc:'Make 5 profitable sales.'},es:{name:'Máquina de ganancias',desc:'Realiza 5 ventas rentables.'}}},
+  {id:'pm_consec5',    icon:'🔥',name:'En feu !',                  desc:'Réalise 5 plus-values consécutives.',                       reward:700, check:()=>S.consecProfits>=5,   i18n:{en:{name:'On fire!',desc:'Make 5 consecutive profitable trades.'},es:{name:'¡En llamas!',desc:'Realiza 5 operaciones rentables consecutivas.'}}},
+  {id:'pm_100k',       icon:'🏦',name:'Grand investisseur',        desc:'Atteins 10 000 Tacoins de valeur totale.',                  reward:1000,check:()=>_pmTotalVal()>=10000, i18n:{en:{name:'Great investor',desc:'Reach 10,000 Tacoins in total value.'},es:{name:'Gran inversor',desc:'Alcanza 10.000 Tacoins de valor total.'}}},
+  {id:'pm_5crisis',    icon:'🛡️',name:'Imperturbable',             desc:'Traverse 5 événements de crise sans vendre.',               reward:700, check:()=>S.crisisSurvived>=5,  i18n:{en:{name:'Unshakeable',desc:'Survive 5 crisis events without selling.'},es:{name:'Inquebrantable',desc:'Supera 5 crisis sin vender.'}}},
+  {id:'pm_limit10',    icon:'🔮',name:'Maestro des limites',       desc:'Fais exécuter 10 ordres limites.',                          reward:700, check:()=>S.limitExecuted>=10,  i18n:{en:{name:'Limit maestro',desc:'Get 10 limit orders executed.'},es:{name:'Maestro de límites',desc:'Ejecuta 10 órdenes límite.'}}},
+  {id:'pm_streak14',   icon:'💎',name:'Deux semaines de rigueur',  desc:'Maintiens un streak de 14 jours.',                          reward:1000,check:()=>S.streak>=14,         i18n:{en:{name:'Two weeks of discipline',desc:'Maintain a streak of 14 days.'},es:{name:'Dos semanas de disciplina',desc:'Mantén una racha de 14 días.'}}},
+  {id:'pm_journal20',  icon:'📚',name:'Chroniqueur assidu',        desc:'Accumule 20 entrées dans ton journal de trading.',          reward:400, check:()=>S.journal.length>=20, i18n:{en:{name:'Avid chronicler',desc:'Accumulate 20 entries in your trading journal.'},es:{name:'Cronista ávido',desc:'Acumula 20 entradas en tu diario de trading.'}}},
+  {id:'pm_debrief5',   icon:'🧠',name:'Expert post-mortem',        desc:'Lis le débrief de 5 événements économiques.',               reward:450, check:()=>S.debriefRead>=5,     i18n:{en:{name:'Post-mortem expert',desc:'Read the debrief of 5 economic events.'},es:{name:'Experto en análisis',desc:'Lee el resumen de 5 eventos económicos.'}}},
+  {id:'pm_10profits',  icon:'🏅',name:'Investisseur aguerri',      desc:'Réalise 10 ventes profitables.',                            reward:700, check:()=>S.profitSells>=10,    i18n:{en:{name:'Seasoned investor',desc:'Make 10 profitable sales.'},es:{name:'Inversor experimentado',desc:'Realiza 10 ventas rentables.'}}},
+  {id:'pm_alllessons', icon:'🏆',name:'Diplômé',                   desc:'Complète toutes les leçons de ton niveau.',                 reward:1000,check:()=>_pmAllLessonsDone(),   i18n:{en:{name:'Graduate',desc:'Complete all lessons in your level.'},es:{name:'Graduado',desc:'Completa todas las lecciones de tu nivel.'}}},
+  {id:'pm_streak30',   icon:'👑',name:'Le mois parfait',           desc:'Maintiens un streak de 30 jours consécutifs.',              reward:2000,check:()=>S.streak>=30,          i18n:{en:{name:'The perfect month',desc:'Maintain a streak of 30 consecutive days.'},es:{name:'El mes perfecto',desc:'Mantén una racha de 30 días consecutivos.'}}},
 ];
 
 /* ═══════════════════════════════════
@@ -4025,7 +4020,7 @@ function boot(level){
   if(S._newStreakDay)setTimeout(()=>showStreakAnim(S.streak),1200);
   setTimeout(()=>{checkUILevel();applyUILevel();},600);
   maybeTutorial();
-  setTimeout(()=>{ _lang=localStorage.getItem('apex_lang')||'fr'; applyLang(); },300);
+  setTimeout(()=>{ _lang=localStorage.getItem('apex_lang')||localStorage.getItem('ta_lang')||_detectLang(); applyLang(); buildMarketTable(); renderMissions(); },300);
 }
 
 function toggleLvlMenu(e){
@@ -5845,6 +5840,7 @@ function showAllocPanel(){
 }
 function _renderAllocList(p){
   const pl=el('proposalList');if(!pl)return;
+  const _t=TRANSLATIONS[_lang]||TRANSLATIONS.fr;
   const totalPortfolio=ASSETS.reduce((s,a)=>s+(S.positions[a.id]?.qty||0)*S.prices[a.id],0)+S.coins;
   const rows=p.alloc.map(slot=>{
     const asset=slot.assetId?ASSETS.find(x=>x.id===slot.assetId):null;
@@ -5857,28 +5853,28 @@ function _renderAllocList(p){
     const canBuy=slot.assetId&&targetAmt>0&&(targetAmt*1.001)<=S.coins;
     let btnHtml='';
     if(slot.assetId){
-      if(aligned) btnHtml=`<span class="pi-ok">✓ Aligné</span>`;
-      else if(canBuy) btnHtml=`<button class="pi-btn" onclick="quickBuy('${slot.assetId}',${slot.pct},${targetAmt})">Acheter · ${targetAmt} 🪙</button>`;
-      else btnHtml=`<span style="font-size:.58rem;color:var(--muted)">Fonds insuffisants</span>`;
+      if(aligned) btnHtml=`<span class="pi-ok">${_t.allocAligned}</span>`;
+      else if(canBuy) btnHtml=`<button class="pi-btn" onclick="quickBuy('${slot.assetId}',${slot.pct},${targetAmt})">${_t.allocBuy} · ${targetAmt} 🪙</button>`;
+      else btnHtml=`<span style="font-size:.58rem;color:var(--muted)">${_t.allocInsuff}</span>`;
     }
     return `<div class="proposal-item${aligned?' done':''}">
       <div class="pi-top">
         <span class="pi-emo">${emo}</span>
         <div class="pi-info">
-          <div class="pi-name">${slot.name}</div>
+          <div class="pi-name">${tr(PROFILE_I18N.alloc,slot.name)}</div>
           <div class="pi-ticker">${slot.ticker}</div>
         </div>
         <span class="pi-pct" style="color:${slot.color}">${slot.pct}%</span>
       </div>
       <div class="pi-track"><div class="pi-fill" style="width:${fillW}%;background:${slot.color}"></div></div>
       <div class="pi-bottom">
-        <span class="pi-hint">${currentPct.toFixed(0)}% actuel → ${slot.pct}% cible</span>
+        <span class="pi-hint">${currentPct.toFixed(0)}% ${_t.allocCurrent} → ${slot.pct}% ${_t.allocTarget}</span>
         ${btnHtml}
       </div>
     </div>`;
   }).join('');
   const anyBuyable=p.alloc.some(slot=>slot.assetId&&Math.floor(S.coins*slot.pct/100)>0);
-  const allBtn=anyBuyable?`<button onclick="quickBuyAll()" style="width:100%;margin-top:.8rem;padding:.65rem;background:linear-gradient(135deg,var(--y),#ff9800);color:#000;border:none;border-radius:8px;font-size:.78rem;font-weight:800;cursor:pointer;letter-spacing:.02em;box-shadow:0 4px 16px rgba(255,205,13,.3)">Tout allouer selon mon profil</button>`:'';
+  const allBtn=anyBuyable?`<button onclick="quickBuyAll()" style="width:100%;margin-top:.8rem;padding:.65rem;background:linear-gradient(135deg,var(--y),#ff9800);color:#000;border:none;border-radius:8px;font-size:.78rem;font-weight:800;cursor:pointer;letter-spacing:.02em;box-shadow:0 4px 16px rgba(255,205,13,.3)">${_t.allocAutoBtn}</button>`:'';
   pl.innerHTML=rows+allBtn;
 }
 function quickBuy(assetId,pct,amt){
@@ -6273,18 +6269,21 @@ function renderMissions(){
     for(let i=0;i<3;i++){const idx=(h+i*7)%pool.length;picked.push(pool.splice(idx%pool.length,1)[0]);}
     S._dailyPick=picked;
   }
+  const _t=TRANSLATIONS[_lang]||TRANSLATIONS.fr;
   const mkDaily=m=>{
     const state=S.missions['d_'+m.id];
     const claimed=state==='claimed', ready=state==='ready';
+    const mName=m.i18n?.[_lang]?.name||m.name;
+    const mDesc=m.i18n?.[_lang]?.desc||m.desc;
     let rewardHtml;
-    if(claimed) rewardHtml='<span class="mc-done-tag">✅ Récupéré</span>';
-    else if(ready) rewardHtml=`<button class="mc-claim-btn" onclick="claimMission('d_${m.id}',${m.reward},this)">${_TC} Collecter +${m.reward}</button>`;
+    if(claimed) rewardHtml=`<span class="mc-done-tag">${_t.missionClaimed}</span>`;
+    else if(ready) rewardHtml=`<button class="mc-claim-btn" onclick="claimMission('d_${m.id}',${m.reward},this)">${_TC} ${_t.missionCollect} +${m.reward}</button>`;
     else rewardHtml=`<span class="mc-coins">+${m.reward} ${_TC}</span>`;
     return {claimed, html:`<div class="mission-card${claimed?' done':'  daily'}">
       <span class="mc-icon">${m.icon}</span>
       <div class="mc-content">
-        <div class="mc-name">${m.name}</div>
-        <div class="mc-desc">${m.desc}</div>
+        <div class="mc-name">${mName}</div>
+        <div class="mc-desc">${mDesc}</div>
       </div>
       <div class="mc-reward">${rewardHtml}</div>
     </div>`};
@@ -6293,15 +6292,17 @@ function renderMissions(){
     const state=S.missions['p_'+m.id];
     const claimed=state==='claimed'||state===true;
     const ready=state==='ready';
+    const mName=m.i18n?.[_lang]?.name||m.name;
+    const mDesc=m.i18n?.[_lang]?.desc||m.desc;
     let rewardHtml;
-    if(claimed) rewardHtml='<span class="mc-done-tag">✅ Récupéré</span>';
-    else if(ready) rewardHtml=`<button class="mc-claim-btn" onclick="claimMission('p_${m.id}',${m.reward},this)">${_TC} Collecter +${m.reward}</button>`;
+    if(claimed) rewardHtml=`<span class="mc-done-tag">${_t.missionClaimed}</span>`;
+    else if(ready) rewardHtml=`<button class="mc-claim-btn" onclick="claimMission('p_${m.id}',${m.reward},this)">${_TC} ${_t.missionCollect} +${m.reward}</button>`;
     else rewardHtml=`<span class="mc-coins">+${m.reward} ${_TC}</span>`;
     return {claimed, ready, html:`<div class="mission-card${claimed?' claimed':ready?' ready':''}">
       <span class="mc-icon">${m.icon}</span>
       <div class="mc-content">
-        <div class="mc-name">${m.name}</div>
-        <div class="mc-desc">${m.desc}</div>
+        <div class="mc-name">${mName}</div>
+        <div class="mc-desc">${mDesc}</div>
       </div>
       <div class="mc-reward">${rewardHtml}</div>
     </div>`};
@@ -6315,7 +6316,7 @@ function renderMissions(){
   const daily=el('dailyMissions');
   if(daily){
     const unclaimed=dailyResults.filter(r=>!r.claimed);
-    daily.innerHTML=unclaimed.length?unclaimed.map(r=>r.html).join(''):'<div style="font-size:.72rem;color:var(--muted);font-style:italic;padding:.6rem 0">Toutes les missions du jour sont complétées ✓</div>';
+    daily.innerHTML=unclaimed.length?unclaimed.map(r=>r.html).join(''):`<div style="font-size:.72rem;color:var(--muted);font-style:italic;padding:.6rem 0">${_t.missionsDayDone}</div>`;
   }
 
   const perm=el('permMissions');
@@ -7103,6 +7104,7 @@ function playTacticJingle(){
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
+  applyLang();
   boot('Débutant');
 });
 
@@ -7929,6 +7931,9 @@ const TRANSLATIONS = {
     logoutLabel:'Se déconnecter', logoutSub:'Revenir à la page de connexion', logoutBtn:'Déconnexion',
     deleteDataLabel:'Supprimer toutes les données', deleteDataSub:"Efface définitivement toutes les données de l'app", deleteDataBtn:'Tout supprimer',
     deleteAccLabel:'Supprimer mon compte', deleteAccSub:'Ferme définitivement ton compte (irréversible)', deleteAccBtn:'Supprimer le compte',
+    missionClaimed:'✅ Récupéré', missionCollect:'Collecter', missionsDayDone:'Toutes les missions du jour sont complétées ✓',
+    allocAligned:'✓ Aligné', allocBuy:'Acheter', allocInsuff:'Fonds insuffisants',
+    allocCurrent:'actuel', allocTarget:'cible', allocAutoBtn:'Tout allouer selon mon profil',
   },
   en: {
     tabLearn:'YOUR PATH', tabMarket:'MARKET ROOM', tabMissions:"TODAY'S MISSIONS",
@@ -7960,6 +7965,9 @@ const TRANSLATIONS = {
     logoutLabel:'Sign out', logoutSub:'Return to the login page', logoutBtn:'Sign out',
     deleteDataLabel:'Delete all data', deleteDataSub:'Permanently erase all app data', deleteDataBtn:'Delete everything',
     deleteAccLabel:'Delete my account', deleteAccSub:'Permanently close your account (irreversible)', deleteAccBtn:'Delete account',
+    missionClaimed:'✅ Collected', missionCollect:'Collect', missionsDayDone:'All daily missions completed ✓',
+    allocAligned:'✓ Aligned', allocBuy:'Buy', allocInsuff:'Insufficient funds',
+    allocCurrent:'current', allocTarget:'target', allocAutoBtn:'Allocate all by profile',
   },
   es: {
     tabLearn:'TU RUTA', tabMarket:'SALA DE MERCADOS', tabMissions:'MISIONES DEL DÍA',
@@ -7991,10 +7999,14 @@ const TRANSLATIONS = {
     logoutLabel:'Cerrar sesión', logoutSub:'Volver a la página de inicio', logoutBtn:'Cerrar sesión',
     deleteDataLabel:'Eliminar todos los datos', deleteDataSub:'Borrar permanentemente todos los datos', deleteDataBtn:'Eliminar todo',
     deleteAccLabel:'Eliminar mi cuenta', deleteAccSub:'Cerrar tu cuenta permanentemente (irreversible)', deleteAccBtn:'Eliminar cuenta',
+    missionClaimed:'✅ Recogido', missionCollect:'Recoger', missionsDayDone:'Todas las misiones del día completadas ✓',
+    allocAligned:'✓ Alineado', allocBuy:'Comprar', allocInsuff:'Fondos insuficientes',
+    allocCurrent:'actual', allocTarget:'objetivo', allocAutoBtn:'Asignar todo según mi perfil',
   }
 };
 
-let _lang = localStorage.getItem('apex_lang') || 'fr';
+function _detectLang(){const n=(navigator.language||'en').toLowerCase();return n.startsWith('fr')?'fr':n.startsWith('es')?'es':'en';}
+let _lang = localStorage.getItem('apex_lang') || localStorage.getItem('ta_lang') || _detectLang();
 
 // Maps de traduction pour les données dynamiques du profil investisseur
 const PROFILE_I18N = {
@@ -8058,12 +8070,18 @@ function tr(map, key) {
 function setLang(lang) {
   _lang = lang;
   localStorage.setItem('apex_lang', lang);
+  localStorage.setItem('ta_lang', lang);
   // Coches
   ['fr','en','es'].forEach(l => {
     const c = document.getElementById('lang-check-'+l);
     if(c) c.style.display = l === lang ? '' : 'none';
   });
   applyLang();
+  buildMarketTable();
+  renderMissions();
+  renderJournal();
+  renderProfilPage();
+  const pr=PROFILES[S?.diagProfile]; if(pr) _renderAllocList(pr);
 }
 
 function applyLang() {
@@ -8073,13 +8091,6 @@ function applyLang() {
   window._tabTitles = TAB_TITLES;
   const titleEl = el('tbCenterTitle');
   if(titleEl && S.activeTab) titleEl.textContent = TAB_TITLES[S.activeTab] || titleEl.textContent;
-  // Bottom nav
-  const tabs = ['Learn','Market','Missions','Journal','Profil'];
-  const keys = ['bnLearn','bnMarket','bnMissions','bnJournal','bnProfil'];
-  tabs.forEach((tab,i) => {
-    const btn = document.querySelector(`.bn-btn[data-tab="${tab.toLowerCase()}"]`);
-    if(btn) btn.childNodes[btn.childNodes.length-1].textContent = t[keys[i]];
-  });
   // Settings overlay
   const setTitleEl = document.querySelector('.set-topbar-title'); if(setTitleEl) setTitleEl.textContent = t.setTitle;
   const setText = (id, val) => { const e = document.getElementById(id); if(e) e.textContent = val; };
@@ -8108,7 +8119,7 @@ function openSettings(){
   if(tn) tn.checked=notif;
   if(ts) ts.checked=sound;
   // Langue active
-  _lang=localStorage.getItem('apex_lang')||'fr';
+  _lang=localStorage.getItem('apex_lang')||localStorage.getItem('ta_lang')||_detectLang();
   ['fr','en','es'].forEach(l=>{
     const c=document.getElementById('lang-check-'+l);
     if(c) c.style.display=l===_lang?'':'none';
