@@ -4020,7 +4020,7 @@ function boot(level){
   if(S._newStreakDay)setTimeout(()=>showStreakAnim(S.streak),1200);
   setTimeout(()=>{checkUILevel();applyUILevel();},600);
   maybeTutorial();
-  setTimeout(()=>{ _lang=localStorage.getItem('apex_lang')||localStorage.getItem('ta_lang')||_detectLang(); applyLang(); buildMarketTable(); renderMissions(); },300);
+  setTimeout(()=>{ _lang=localStorage.getItem('apex_lang')||localStorage.getItem('ta_lang')||'en'; applyLang(); buildMarketTable(); renderMissions(); },300);
 }
 
 function toggleLvlMenu(e){
@@ -8006,7 +8006,7 @@ const TRANSLATIONS = {
 };
 
 function _detectLang(){const n=(navigator.language||'en').toLowerCase();return n.startsWith('fr')?'fr':n.startsWith('es')?'es':'en';}
-let _lang = localStorage.getItem('apex_lang') || localStorage.getItem('ta_lang') || _detectLang();
+let _lang = localStorage.getItem('apex_lang') || localStorage.getItem('ta_lang') || 'en';
 
 // Maps de traduction pour les données dynamiques du profil investisseur
 const PROFILE_I18N = {
@@ -8119,7 +8119,7 @@ function openSettings(){
   if(tn) tn.checked=notif;
   if(ts) ts.checked=sound;
   // Langue active
-  _lang=localStorage.getItem('apex_lang')||localStorage.getItem('ta_lang')||_detectLang();
+  _lang=localStorage.getItem('apex_lang')||localStorage.getItem('ta_lang')||'en';
   ['fr','en','es'].forEach(l=>{
     const c=document.getElementById('lang-check-'+l);
     if(c) c.style.display=l===_lang?'':'none';
