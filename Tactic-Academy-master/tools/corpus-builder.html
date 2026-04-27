@@ -1,0 +1,1488 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TACTIC — Corpus Builder v3</title>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=JetBrains+Mono:wght@400;600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0F2E3D;--bg1:#1F485A;--bg2:#20556A;--bg3:#1D6881;
+  --gold:#FFCD0D;--gold2:rgba(255,205,13,.12);--gold3:rgba(255,205,13,.25);
+  --green:#00E87A;--red:#FF3B5C;--blue:#4D9EFF;--purple:#A78BFA;--orange:#FF7A00;
+  --txt:#E8F8FA;--muted:rgba(160,220,235,.55);--soft:rgba(210,242,248,.88);
+  --border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.13);
+  --font-title:'Bungee',sans-serif;--font-body:'Nunito',sans-serif;--font-mono:'JetBrains Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:var(--font-body);background:var(--bg);color:var(--txt);min-height:100vh;overflow-x:hidden;}
+
+.topbar{display:flex;align-items:center;gap:.8rem;padding:.7rem 1.2rem;background:var(--bg1);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;flex-wrap:wrap;}
+.logo{font-family:var(--font-title);color:var(--gold);font-size:1rem;letter-spacing:.05em;}
+.logo span{color:var(--soft);font-size:.6rem;font-family:var(--font-mono);margin-left:.4rem;}
+.stats-chips{display:flex;gap:.4rem;margin-left:auto;align-items:center;}
+.chip{font-family:var(--font-mono);font-size:.6rem;padding:.2rem .55rem;border-radius:6px;border:1px solid var(--border);}
+.chip.gold{background:rgba(255,205,13,.1);color:var(--gold);border-color:rgba(255,205,13,.3);}
+.chip.green{background:rgba(0,232,122,.1);color:var(--green);border-color:rgba(0,232,122,.3);}
+.chip.blue{background:rgba(77,158,255,.1);color:var(--blue);border-color:rgba(77,158,255,.3);}
+
+/* HELP BTN */
+.help-btn{width:30px;height:30px;border-radius:50%;border:1px solid var(--border2);background:var(--bg2);color:var(--soft);font-weight:700;font-size:.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.15s;flex-shrink:0;}
+.help-btn:hover{border-color:var(--gold);color:var(--gold);}
+
+.tabs{display:flex;background:var(--bg1);border-bottom:1px solid var(--border);overflow-x:auto;}
+.tab-btn{padding:.65rem 1.2rem;font-family:var(--font-body);font-size:.78rem;font-weight:700;color:var(--muted);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;transition:.15s;}
+.tab-btn:hover{color:var(--soft);}
+.tab-btn.active{color:var(--gold);border-bottom-color:var(--gold);}
+
+.main{display:grid;grid-template-columns:260px 1fr;min-height:calc(100vh - 85px);}
+.sidebar{background:var(--bg1);border-right:1px solid var(--border);overflow-y:auto;padding:.8rem 0;}
+.content{overflow-y:auto;padding:1.2rem;}
+
+/* SIDEBAR */
+.sb-level{font-size:.58rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);padding:.35rem .8rem;display:flex;align-items:center;justify-content:space-between;}
+.sb-level .cnt{font-family:var(--font-mono);color:var(--gold);font-size:.6rem;}
+.sb-track{padding:.45rem .8rem;cursor:pointer;transition:.12s;border-left:2px solid transparent;display:flex;align-items:center;justify-content:space-between;gap:.4rem;}
+.sb-track:hover{background:var(--bg2);border-left-color:var(--border2);}
+.sb-track.active{background:var(--gold2);border-left-color:var(--gold);}
+.sb-track-name{font-size:.74rem;color:var(--soft);}
+.sb-track-count{font-family:var(--font-mono);font-size:.6rem;color:var(--muted);}
+.sb-new-track{margin:.4rem .8rem;padding:.45rem;font-size:.7rem;background:none;border:1px dashed var(--border2);color:var(--muted);border-radius:7px;cursor:pointer;width:calc(100% - 1.6rem);transition:.12s;}
+.sb-new-track:hover{border-color:var(--gold);color:var(--gold);}
+
+/* LESSON CARDS */
+.lessons-grid{display:flex;flex-direction:column;gap:.4rem;}
+.lesson-card{background:var(--bg1);border:1px solid var(--border);border-radius:11px;padding:.8rem .9rem;cursor:pointer;transition:.18s;position:relative;}
+.lesson-card:hover{border-color:var(--border2);}
+.lesson-card.selected{border-color:var(--gold);background:var(--gold2);}
+.lc-header{display:flex;align-items:center;gap:.5rem;margin-bottom:.25rem;}
+.lc-emoji{font-size:1.1rem;flex-shrink:0;}
+.lc-name{font-size:.82rem;font-weight:700;flex:1;line-height:1.3;}
+.lc-badges{display:flex;gap:.25rem;flex-wrap:wrap;margin-left:auto;flex-shrink:0;}
+.badge{font-size:.52rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:.12rem .4rem;border-radius:4px;}
+.badge.tag{background:rgba(77,158,255,.12);color:var(--blue);border:1px solid rgba(77,158,255,.2);}
+.badge.d{background:rgba(0,232,122,.1);color:var(--green);border:1px solid rgba(0,232,122,.2);}
+.badge.i{background:rgba(167,139,250,.1);color:var(--purple);border:1px solid rgba(167,139,250,.2);}
+.badge.new{background:rgba(255,205,13,.15);color:var(--gold);border:1px solid rgba(255,205,13,.3);}
+.lc-meta{display:flex;align-items:center;gap:.7rem;font-family:var(--font-mono);font-size:.6rem;color:var(--muted);}
+.lc-actions{display:flex;gap:.3rem;margin-top:.5rem;flex-wrap:wrap;}
+.lc-btn{padding:.25rem .6rem;font-size:.62rem;font-weight:700;border-radius:5px;border:1px solid var(--border2);background:var(--bg2);color:var(--soft);cursor:pointer;transition:.12s;}
+.lc-btn:hover{border-color:var(--gold);color:var(--gold);}
+.lc-btn.del:hover{border-color:var(--red);color:var(--red);}
+.lc-btn.primary{background:var(--gold2);border-color:var(--gold3);color:var(--gold);}
+
+/* ── LESSON DETAIL MODAL ── */
+.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:500;display:flex;align-items:flex-start;justify-content:center;padding:2rem 1rem;overflow-y:auto;backdrop-filter:blur(4px);}
+.modal-ov.hidden{display:none;}
+.modal{background:var(--bg1);border:1px solid var(--border2);border-radius:16px;width:100%;max-width:760px;overflow:hidden;}
+.modal-hdr{display:flex;align-items:center;gap:.8rem;padding:1rem 1.2rem;border-bottom:1px solid var(--border);background:var(--bg2);}
+.modal-title{font-family:var(--font-title);font-size:1rem;color:var(--gold);flex:1;}
+.modal-close{width:28px;height:28px;border-radius:50%;border:1px solid var(--border2);background:none;color:var(--muted);cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;}
+.modal-close:hover{border-color:var(--red);color:var(--red);}
+.modal-body{padding:1.2rem;}
+
+/* BLOCK VIEWER / EDITOR */
+.block-view{background:var(--bg2);border-radius:10px;padding:.9rem;margin-bottom:.7rem;border:1px solid var(--border);}
+.block-view.hook{border-left:3px solid var(--gold);}
+.block-view.content{border-left:3px solid var(--blue);}
+.block-view.tip{border-left:3px solid var(--green);}
+.block-view.trap{border-left:3px solid var(--red);}
+.block-view-hdr{display:flex;align-items:center;gap:.5rem;margin-bottom:.6rem;}
+.block-type-pill{font-size:.55rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;padding:.12rem .4rem;border-radius:4px;}
+.hook .block-type-pill{background:rgba(255,205,13,.15);color:var(--gold);}
+.content .block-type-pill{background:rgba(77,158,255,.15);color:var(--blue);}
+.tip .block-type-pill{background:rgba(0,232,122,.15);color:var(--green);}
+.trap .block-type-pill{background:rgba(255,59,92,.15);color:var(--red);}
+.block-emo{font-size:1.1rem;}
+.block-text{font-size:.8rem;color:var(--soft);line-height:1.65;}
+.block-edit-btn{margin-left:auto;padding:.2rem .5rem;font-size:.6rem;border-radius:4px;border:1px solid var(--border2);background:none;color:var(--muted);cursor:pointer;}
+.block-edit-btn:hover{border-color:var(--gold);color:var(--gold);}
+.block-del-btn{padding:.2rem .5rem;font-size:.6rem;border-radius:4px;border:1px solid var(--border2);background:none;color:var(--muted);cursor:pointer;}
+.block-del-btn:hover{border-color:var(--red);color:var(--red);}
+
+/* INLINE EDITOR */
+.inline-editor{background:var(--bg3);border:1px solid var(--gold3);border-radius:8px;padding:.8rem;margin-top:.5rem;}
+.inline-editor textarea{width:100%;background:var(--bg2);border:1px solid var(--border2);color:var(--txt);border-radius:7px;padding:.5rem .7rem;font-family:var(--font-body);font-size:.78rem;resize:vertical;min-height:80px;outline:none;line-height:1.6;}
+.inline-editor textarea:focus{border-color:var(--gold);}
+.inline-editor-btns{display:flex;gap:.4rem;margin-top:.5rem;}
+
+/* QUIZ VIEWER */
+.quiz-view{background:var(--bg2);border:1px solid var(--border);border-radius:11px;padding:1rem;}
+.quiz-view-q{font-size:.85rem;font-weight:700;margin-bottom:.7rem;}
+.quiz-opt{display:flex;align-items:center;gap:.6rem;padding:.5rem .7rem;border-radius:7px;margin-bottom:.35rem;border:1px solid var(--border);font-size:.8rem;}
+.quiz-opt.correct{border-color:rgba(0,232,122,.4);background:rgba(0,232,122,.06);color:var(--green);}
+.quiz-opt.wrong{color:var(--muted);}
+.quiz-opt-label{font-family:var(--font-mono);font-size:.65rem;width:18px;flex-shrink:0;}
+.quiz-opt-text{flex:1;}
+.quiz-expl{font-size:.75rem;color:var(--muted);margin-top:.6rem;padding:.6rem .8rem;background:rgba(255,205,13,.05);border:1px solid rgba(255,205,13,.15);border-radius:7px;}
+
+/* FORM ELEMENTS */
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:.8rem;}
+.form-col{display:flex;flex-direction:column;gap:.25rem;}
+.form-col.full{grid-column:1/-1;}
+label{font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
+input,select,textarea{background:var(--bg2);border:1px solid var(--border2);color:var(--txt);border-radius:8px;padding:.48rem .75rem;font-family:var(--font-body);font-size:.8rem;outline:none;transition:.15s;width:100%;}
+input:focus,select:focus,textarea:focus{border-color:var(--gold);}
+select option{background:var(--bg2);}
+
+/* BLOCKS EDITOR */
+.block-item-edit{background:var(--bg2);border:1px solid var(--border);border-radius:9px;padding:.75rem;margin-bottom:.5rem;position:relative;}
+.block-item-edit.hook{border-left:3px solid var(--gold);}
+.block-item-edit.content{border-left:3px solid var(--blue);}
+.block-item-edit.tip{border-left:3px solid var(--green);}
+.block-item-edit.trap{border-left:3px solid var(--red);}
+.block-item-hdr{display:flex;align-items:center;gap:.5rem;margin-bottom:.45rem;}
+
+/* QUIZ OPTS */
+.quiz-opt-row{display:flex;gap:.45rem;align-items:center;margin-bottom:.35rem;}
+.opt-lbl{font-family:var(--font-mono);font-size:.62rem;color:var(--muted);width:18px;flex-shrink:0;}
+.opt-correct-btn{width:20px;height:20px;border-radius:50%;border:2px solid var(--border2);background:none;cursor:pointer;flex-shrink:0;transition:.12s;font-size:.65rem;display:flex;align-items:center;justify-content:center;}
+.opt-correct-btn.active{border-color:var(--green);background:var(--green);color:#000;}
+
+/* ACTION BUTTONS */
+.btn{padding:.5rem 1rem;font-size:.75rem;font-weight:700;border-radius:8px;border:1px solid var(--border2);background:var(--bg2);color:var(--soft);cursor:pointer;transition:.15s;}
+.btn:hover{border-color:var(--gold);color:var(--gold);}
+.btn.primary{background:var(--gold);color:#000;border-color:var(--gold);}
+.btn.primary:hover{filter:brightness(1.1);}
+.btn.danger:hover{border-color:var(--red);color:var(--red);}
+.btn.ghost{background:none;border:none;color:var(--muted);padding:.3rem .5rem;}
+.btn-row{display:flex;gap:.4rem;flex-wrap:wrap;}
+
+/* EDITOR WRAP */
+.editor-wrap{max-width:800px;}
+.editor-hdr{display:flex;align-items:center;gap:.8rem;margin-bottom:1.2rem;padding-bottom:.8rem;border-bottom:1px solid var(--border);}
+.editor-title{font-family:var(--font-title);font-size:1rem;color:var(--gold);}
+
+/* GENERATE PANEL */
+.gen-panel{background:var(--bg1);border:1px solid var(--border);border-radius:13px;padding:1.1rem;}
+.gen-btn{width:100%;padding:.7rem;font-family:var(--font-title);font-size:.82rem;background:var(--gold);color:#000;border:none;border-radius:9px;cursor:pointer;transition:.12s;letter-spacing:.05em;margin-top:.8rem;}
+.gen-btn:hover{filter:brightness(1.1);}
+.gen-btn:disabled{opacity:.4;cursor:not-allowed;}
+.gen-result{margin-top:1rem;padding:.9rem;background:var(--bg2);border:1px solid var(--border);border-radius:9px;display:none;}
+.gen-result.show{display:block;}
+
+/* SUGGESTIONS */
+.sug-item{background:var(--bg1);border:1px solid var(--border);border-radius:9px;padding:.7rem .9rem;cursor:pointer;transition:.15s;display:flex;align-items:center;gap:.65rem;margin-bottom:.4rem;}
+.sug-item:hover{border-color:var(--gold);background:var(--gold2);}
+.sug-text{font-size:.78rem;flex:1;}
+.sug-tag{font-size:.55rem;font-weight:700;text-transform:uppercase;padding:.1rem .4rem;border-radius:4px;background:rgba(255,255,255,.05);color:var(--muted);}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:.7rem;margin-bottom:1.2rem;}
+.stat-card{background:var(--bg1);border:1px solid var(--border);border-radius:11px;padding:.9rem;text-align:center;}
+.stat-num{font-family:var(--font-mono);font-size:1.7rem;font-weight:600;color:var(--gold);}
+.stat-lbl{font-size:.6rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-top:.2rem;}
+.stat-bar{height:3px;border-radius:2px;background:var(--border);margin-top:.5rem;overflow:hidden;}
+.stat-fill{height:100%;border-radius:2px;background:var(--gold);}
+
+/* EXPORT */
+.export-box{background:var(--bg2);border:1px solid var(--border);border-radius:9px;padding:.9rem;margin-bottom:.8rem;}
+.export-title{font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem;}
+.code-preview{background:#000;border:1px solid var(--border);border-radius:9px;padding:.9rem;font-family:var(--font-mono);font-size:.68rem;color:#aaa;overflow:auto;max-height:300px;white-space:pre;line-height:1.7;}
+
+/* HELP OVERLAY */
+.help-ov{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:600;display:flex;align-items:center;justify-content:center;padding:1.5rem;backdrop-filter:blur(4px);}
+.help-ov.hidden{display:none;}
+.help-modal{background:var(--bg1);border:1px solid var(--border2);border-radius:16px;width:100%;max-width:620px;overflow:hidden;}
+.help-hdr{display:flex;align-items:center;gap:.8rem;padding:1rem 1.2rem;border-bottom:1px solid var(--border);background:var(--bg2);}
+.help-title{font-family:var(--font-title);color:var(--gold);flex:1;}
+.help-body{padding:1.2rem;display:grid;grid-template-columns:1fr 1fr;gap:.8rem;}
+.help-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:.8rem;}
+.help-card-title{font-size:.75rem;font-weight:700;color:var(--gold);margin-bottom:.4rem;}
+.help-card-text{font-size:.73rem;color:var(--soft);line-height:1.6;}
+
+/* TOAST */
+.toast-wrap{position:fixed;bottom:1.2rem;right:1.2rem;z-index:999;display:flex;flex-direction:column;gap:.4rem;}
+.toast{background:var(--bg2);border:1px solid var(--border2);border-radius:9px;padding:.6rem .9rem;font-size:.78rem;display:flex;align-items:center;gap:.5rem;animation:slideIn .2s ease;max-width:300px;}
+.toast.success{border-left:3px solid var(--green);}
+.toast.error{border-left:3px solid var(--red);}
+@keyframes slideIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+/* LOADER */
+.loader{display:inline-flex;align-items:center;gap:3px;}
+.loader span{width:5px;height:5px;border-radius:50%;background:var(--gold);opacity:.4;animation:lb 1.2s ease-in-out infinite;}
+.loader span:nth-child(2){animation-delay:.2s;}
+.loader span:nth-child(3){animation-delay:.4s;}
+@keyframes lb{0%,60%,100%{opacity:.4;transform:translateY(0);}30%{opacity:1;transform:translateY(-4px);}}
+
+/* SECTION TABS */
+.section-tab{display:none;}
+.section-tab.active{display:block;}
+.hidden{display:none!important;}
+
+/* CREATE DRAWER */
+.create-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:500;opacity:0;pointer-events:none;transition:opacity .25s;}
+.create-backdrop.open{opacity:1;pointer-events:all;}
+.create-drawer{position:fixed;top:0;right:0;height:100vh;width:min(600px,100vw);background:var(--bg1);border-left:1px solid var(--border2);z-index:501;overflow-y:auto;padding:1.4rem 1.6rem 2rem;transform:translateX(100%);transition:transform .28s cubic-bezier(.4,0,.2,1);}
+.create-drawer.open{transform:translateX(0);}
+.create-drawer-hdr{display:flex;align-items:center;gap:.8rem;margin-bottom:1.4rem;padding-bottom:.9rem;border-bottom:1px solid var(--border);}
+.create-drawer-title{font-family:var(--font-title);font-size:1rem;color:var(--gold);}
+.create-drawer-close{margin-left:auto;background:none;border:none;color:var(--muted);font-size:1.1rem;cursor:pointer;padding:.3rem;transition:.15s;}
+.create-drawer-close:hover{color:var(--txt);}
+
+/* LANG TABS */
+.lang-tabs{display:flex;gap:.3rem;margin-bottom:.7rem;}
+.lang-tab{padding:.3rem .7rem;font-size:.7rem;font-weight:700;border-radius:6px;border:1px solid var(--border);background:none;color:var(--muted);cursor:pointer;transition:.12s;}
+.lang-tab.active{background:var(--gold2);border-color:var(--gold);color:var(--gold);}
+
+@media(max-width:700px){.main{grid-template-columns:1fr;}.sidebar{display:none;}.form-row{grid-template-columns:1fr;}.help-body{grid-template-columns:1fr;}}
+
+/* ── TACT ROBOT ── */
+.tact-fab{position:fixed;bottom:1.4rem;right:1.4rem;z-index:4000;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--orange));border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.4rem;box-shadow:0 4px 20px rgba(255,122,0,.4);user-select:none;transition:transform .15s;}
+.tact-fab:hover{transform:scale(1.08);}
+.tact-fab.open{background:var(--bg3);border:1.5px solid var(--border2);}
+@keyframes tactBounce{0%,100%{transform:translateY(0) scale(1)}30%{transform:translateY(-10px) scale(1.1)}60%{transform:translateY(-4px) scale(1.04)}}
+.tact-fab.bounce{animation:tactBounce .7s cubic-bezier(.34,1.56,.64,1);}
+.tact-panel{position:fixed;bottom:5rem;right:1.4rem;z-index:4000;width:310px;max-height:460px;background:var(--bg2);border:1.5px solid var(--border2);border-radius:16px;display:flex;flex-direction:column;box-shadow:0 8px 40px rgba(0,0,0,.5);transform:translateY(20px) scale(.95);opacity:0;pointer-events:none;transition:transform .25s cubic-bezier(.34,1.56,.64,1),opacity .2s;}
+.tact-panel.open{transform:translateY(0) scale(1);opacity:1;pointer-events:all;}
+.tact-hdr{display:flex;align-items:center;gap:.6rem;padding:.8rem 1rem;border-bottom:1px solid var(--border);flex-shrink:0;}
+.tact-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--orange));display:flex;align-items:center;justify-content:center;font-size:1rem;}
+.tact-name{font-family:var(--font-title);font-size:.8rem;color:var(--gold);letter-spacing:.05em;}
+.tact-status{font-size:.6rem;color:var(--green);font-family:var(--font-body);}
+.tact-close{margin-left:auto;background:none;border:none;color:var(--muted);cursor:pointer;font-size:1rem;padding:.2rem;}
+.tact-msgs{flex:1;overflow-y:auto;padding:.7rem .8rem;display:flex;flex-direction:column;gap:.5rem;}
+.tact-msgs::-webkit-scrollbar{width:3px;}.tact-msgs::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+.tact-msg{max-width:85%;font-size:.75rem;font-family:var(--font-body);line-height:1.5;padding:.5rem .75rem;border-radius:12px;}
+@keyframes cbFadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+.tact-msg{animation:cbFadeIn .2s ease;}
+.tact-bot{background:var(--bg3);color:var(--txt);border-bottom-left-radius:3px;align-self:flex-start;}
+.tact-user{background:linear-gradient(135deg,rgba(255,205,13,.15),rgba(255,122,0,.1));color:var(--gold);border:1px solid rgba(255,205,13,.2);border-bottom-right-radius:3px;align-self:flex-end;text-align:right;}
+.tact-sugs{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.2rem;}
+.tact-sug{background:rgba(78,194,218,.1);border:1px solid rgba(78,194,218,.25);color:var(--blue);font-size:.65rem;font-family:var(--font-body);border-radius:20px;padding:.25rem .6rem;cursor:pointer;transition:.15s;}
+.tact-sug:hover{background:rgba(78,194,218,.2);}
+.tact-input-row{display:flex;gap:.5rem;padding:.6rem .8rem;border-top:1px solid var(--border);flex-shrink:0;}
+.tact-input{flex:1;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:.4rem .7rem;font-size:.75rem;font-family:var(--font-body);color:var(--txt);outline:none;}
+.tact-input:focus{border-color:rgba(255,205,13,.4);}
+.tact-send{background:var(--gold);border:none;border-radius:8px;width:32px;height:32px;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.15s;}
+.tact-send:hover{opacity:.85;}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="logo">TACTIC <span>CORPUS BUILDER v3</span></div>
+  <div class="stats-chips">
+
+    <span id="syncStatus" style="font-family:var(--font-mono);font-size:.58rem;color:var(--muted);">🔄 Chargement…</span>
+    <button id="importTopBtn" onclick="document.getElementById('importOv').classList.remove('hidden')" style="padding:.28rem .75rem;font-family:var(--font-mono);font-size:.6rem;font-weight:700;background:var(--gold);color:#000;border:none;border-radius:6px;cursor:pointer;letter-spacing:.04em;white-space:nowrap;transition:.15s;">📥 Importer leçons</button>
+    <button class="help-btn" onclick="toggleHelp()" title="Aide">?</button>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab-btn active" onclick="showTab('explore',this)">📚 Explorer</button>
+  <button class="tab-btn" onclick="showTab('suggest',this)">💡 Idées</button>
+  <button class="tab-btn" onclick="showTab('export',this)">📤 Exporter</button>
+  <button class="tab-btn" onclick="showTab('stats',this)">📊 Stats</button>
+</div>
+
+<div class="main">
+<div class="sidebar" id="sidebar"></div>
+<div class="content">
+
+  <!-- EXPLORER -->
+  <div class="section-tab active" id="tab-explore">
+    <div id="exploreView"></div>
+  </div>
+
+  <!-- CREATE / EDIT -->
+  <div class="create-backdrop" id="createBackdrop" onclick="closeCreatePanel()"></div>
+  <div class="create-drawer" id="createDrawer">
+    <div class="create-drawer-hdr">
+      <div><div class="create-drawer-title" id="editorTitle">Nouvelle leçon</div><div style="font-size:.68rem;color:var(--muted);">Remplis les champs — code JS généré automatiquement</div></div>
+      <div class="btn-row" style="margin-left:auto;">
+        <button class="btn primary" onclick="saveLesson()">💾 Sauvegarder</button>
+        <button class="create-drawer-close" onclick="closeCreatePanel()">✕</button>
+      </div>
+    </div>
+  <div class="section-tab active" id="tab-create" style="display:block!important;padding:0;">
+    <div class="editor-wrap" style="max-width:100%;">
+
+      <div class="form-row">
+        <div class="form-col"><label>Niveau</label><select id="fLevel" onchange="updateTrackOptions()"><option>Débutant</option><option>Intermédiaire</option><option>Avancé</option><option>Expert</option></select></div>
+        <div class="form-col"><label>Module / Track</label><select id="fTrack"><option value="__new__">+ Nouveau module...</option></select></div>
+        <div class="form-col"><label>Emoji</label><input id="fEmoji" type="text" maxlength="4" value="📖" style="width:80px;"></div>
+        <div class="form-col"><label>Tag</label><select id="fTag"><option>Base</option><option>Stratégie</option><option>Pratique</option><option>Analyse</option><option>Psychologie</option><option>Fiscalité</option><option>Vocab</option><option>ETF</option><option>Crypto</option><option>Immo</option><option>Macro</option><option>Retraite</option><option>Expert</option><option>Dérivés</option><option>Risque</option></select></div>
+        <div class="form-col full"><label>Titre de la leçon</label><input id="fName" type="text" placeholder="Ex: Les intérêts composés : la machine à richesse"></div>
+        <div class="form-col"><label>Durée</label><select id="fDuration"><option>1 min</option><option>2 min</option><option>3 min</option><option>5 min</option></select></div>
+        <div class="form-col"><label>Coins 🪙</label><select id="fCoins"><option value="80">80 — débutant</option><option value="100">100 — standard</option><option value="120">120 — intermédiaire</option><option value="150">150 — avancé</option><option value="200">200 — expert</option></select></div>
+      </div>
+
+      <!-- BLOCS -->
+      <div style="margin:1rem 0;">
+        <div style="font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem;">Blocs de contenu</div>
+        <div id="blocksContainer"></div>
+        <div class="btn-row" style="margin-top:.5rem;">
+          <button class="btn" onclick="addBlock('hook')">+ Hook 🎯</button>
+          <button class="btn" onclick="addBlock('content')">+ Contenu 📘</button>
+          <button class="btn" onclick="addBlock('tip')">+ Astuce 💡</button>
+          <button class="btn" onclick="addBlock('trap')">+ Piège ⚠️</button>
+        </div>
+      </div>
+
+      <!-- QUIZ (multi) -->
+      <div id="quizListContainer" style="margin-bottom:1rem;"></div>
+      <button class="btn" onclick="addQuizToList()" style="width:100%;font-size:.72rem;margin-bottom:1rem;">+ Ajouter un quiz</button>
+
+      <!-- TRADUCTION -->
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:9px;padding:.9rem;margin-bottom:1rem;">
+        <div class="export-title">Traduction IA</div>
+        <div class="lang-tabs">
+          <button class="lang-tab active" onclick="setLang('en',this)">🇬🇧 English</button>
+          <button class="lang-tab" onclick="setLang('es',this)">🇪🇸 Español</button>
+        </div>
+        <button class="btn" onclick="translateLesson()" id="translateBtn">🌍 Traduire le titre</button>
+        <div id="translateResult" style="margin-top:.5rem;font-size:.74rem;color:var(--muted);"></div>
+      </div>
+
+      <!-- APERÇU CODE -->
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:9px;padding:.9rem;">
+        <div class="export-title">Aperçu du code généré</div>
+        <div class="code-preview" id="codePreview">// Code généré ici...</div>
+        <div class="btn-row" style="margin-top:.6rem;">
+          <button class="btn" onclick="updateCodePreview()">🔄 Actualiser</button>
+          <button class="btn primary" onclick="copyCode()">📋 Copier</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div><!-- /create-drawer -->
+
+  <!-- SUGGEST -->
+  <div class="section-tab" id="tab-suggest">
+    <div class="editor-wrap">
+      <div class="editor-hdr"><div><div class="editor-title">Idées de leçons</div><div style="font-size:.68rem;color:var(--muted);">Lacunes du corpus + programme Digital Learning</div></div></div>
+      <div id="suggestContainer"></div>
+    </div>
+  </div>
+
+  <!-- EXPORT -->
+  <div class="section-tab" id="tab-export">
+    <div class="editor-wrap">
+      <div class="editor-hdr"><div class="editor-title">Exporter le corpus</div></div>
+      <div class="export-box">
+        <div class="export-title">Format</div>
+        <div class="btn-row">
+          <button class="btn primary" onclick="exportJS()">📄 Code JS complet</button>
+          <button class="btn" onclick="exportJSON()">🔗 JSON</button>
+          <button class="btn" onclick="exportDiff()">📊 Nouvelles leçons seulement</button>
+        </div>
+      </div>
+      <div class="export-box">
+        <div class="export-title">🔄 Synchronisation GitHub (live)</div>
+        <div style="font-size:.75rem;color:var(--soft);line-height:1.7;margin-bottom:.8rem;">
+          Pousse directement le corpus mis à jour dans <code style="background:var(--bg3);padding:.1rem .3rem;border-radius:3px;font-family:var(--font-mono);">pages/academy.html</code> sur GitHub. Nécessite un <strong>Personal Access Token</strong> (scope <code style="background:var(--bg3);padding:.1rem .3rem;border-radius:3px;font-family:var(--font-mono);">repo</code>).
+        </div>
+        <div style="display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;">
+          <button class="btn primary" id="pushBtn" onclick="pushToAcademy()">🚀 Pousser vers Academy</button>
+          <button class="btn" onclick="syncFromAcademy()">🔄 Recharger depuis Academy</button>
+          <button class="btn danger" onclick="localStorage.removeItem('tactic_gh_token');toast('Token GitHub supprimé')">🗑️ Réinitialiser token GitHub</button>
+          <button class="btn danger" onclick="localStorage.removeItem('tactic_claude_key');toast('Clé Claude supprimée')">🗑️ Réinitialiser clé Claude</button>
+        </div>
+      </div>
+      <div class="code-preview" id="exportPreview">// Clique sur un bouton ci-dessus...</div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="section-tab" id="tab-stats">
+    <div class="editor-wrap">
+      <div class="editor-title" style="margin-bottom:1rem;">Statistiques du corpus</div>
+      <div class="stats-grid" id="statsGrid"></div>
+      <div id="statsDetails"></div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- LESSON DETAIL MODAL -->
+<div class="modal-ov hidden" id="lessonModal">
+  <div class="modal">
+    <div class="modal-hdr">
+      <span id="modalEmoji" style="font-size:1.3rem;"></span>
+      <div class="modal-title" id="modalTitle">Leçon</div>
+      <div id="modalBadges" style="display:flex;gap:.3rem;"></div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex;gap:.5rem;margin-bottom:1rem;flex-wrap:wrap;">
+        <button class="btn primary" onclick="editFromModal()">✏️ Modifier cette leçon</button>
+      </div>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+</div>
+
+<!-- HELP OVERLAY -->
+<div class="help-ov hidden" id="helpOv">
+  <div class="help-modal">
+    <div class="help-hdr">
+      <div class="help-title">Guide d'utilisation</div>
+      <button class="modal-close" onclick="toggleHelp()">✕</button>
+    </div>
+    <div class="help-body">
+      <div class="help-card">
+        <div class="help-card-title">📚 Explorer</div>
+        <div class="help-card-text">Browse toutes les leçons par module. Clique sur une leçon pour voir son contenu, modifier ses blocs, changer le quiz ou supprimer une réponse.</div>
+      </div>
+      <div class="help-card">
+        <div class="help-card-title">✏️ Créer</div>
+        <div class="help-card-text">Créer une leçon from scratch : niveau, module, blocs (hook/contenu/astuce/piège), quiz avec 4 options. Le code JS est généré en temps réel.</div>
+      </div>
+      <div class="help-card">
+        <div class="help-card-title">🤖 Générer IA</div>
+        <div class="help-card-text">Décris un sujet en langage naturel → l'IA génère la leçon complète au format TACTIC (blocs + quiz 3 questions). Importe en 1 clic.</div>
+      </div>
+      <div class="help-card">
+        <div class="help-card-title">💡 Idées</div>
+        <div class="help-card-text">12 suggestions basées sur les lacunes du corpus et le programme Digital Learning. Clic → pré-remplit le générateur IA.</div>
+      </div>
+      <div class="help-card">
+        <div class="help-card-title">📤 Exporter</div>
+        <div class="help-card-text">Exporte le corpus modifié en code JS complet ou en JSON. Colle le code dans ton academy.html pour mettre à jour l'app.</div>
+      </div>
+      <div class="help-card">
+        <div class="help-card-title">Structure d'une leçon</div>
+        <div class="help-card-text"><strong style="color:var(--gold);">Hook</strong> = phrase choc d'accroche<br><strong style="color:var(--blue);">Contenu</strong> = explication principale<br><strong style="color:var(--green);">Astuce</strong> = tip actionnable<br><strong style="color:var(--red);">Piège</strong> = erreur à éviter<br><strong>Quiz</strong> = 4 options, 1 correcte</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- IMPORT MODAL -->
+<div class="help-ov hidden" id="importOv" onclick="if(event.target===this)this.classList.add('hidden')">
+  <div class="help-modal" style="max-width:480px;">
+    <div class="help-hdr">
+      <div class="help-title">📥 Importer depuis Tactic Academy</div>
+      <button class="modal-close" onclick="document.getElementById('importOv').classList.add('hidden')">✕</button>
+    </div>
+    <div style="padding:1.2rem;">
+      <div style="font-size:.76rem;color:var(--soft);margin-bottom:1.1rem;line-height:1.7;">
+        Importe automatiquement les leçons de <strong>Tactic Academy</strong> (blocs + quiz). Les leçons déjà présentes sont ignorées.
+      </div>
+      <div style="font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.7rem;">Niveaux à importer</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:1.2rem;">
+        <label style="display:flex;align-items:center;gap:.5rem;font-size:.82rem;cursor:pointer;color:var(--soft);background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:.55rem .8rem;"><input type="checkbox" class="import-level-cb" value="Débutant" checked> 🟢 Débutant</label>
+        <label style="display:flex;align-items:center;gap:.5rem;font-size:.82rem;cursor:pointer;color:var(--soft);background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:.55rem .8rem;"><input type="checkbox" class="import-level-cb" value="Intermédiaire" checked> 🔵 Intermédiaire</label>
+        <label style="display:flex;align-items:center;gap:.5rem;font-size:.82rem;cursor:pointer;color:var(--soft);background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:.55rem .8rem;"><input type="checkbox" class="import-level-cb" value="Avancé" checked> 🟣 Avancé</label>
+        <label style="display:flex;align-items:center;gap:.5rem;font-size:.82rem;cursor:pointer;color:var(--soft);background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:.55rem .8rem;"><input type="checkbox" class="import-level-cb" value="Expert"> 🔴 Expert</label>
+      </div>
+      <button class="gen-btn" id="importBtn" onclick="importFromAcademy()">📥 Importer les leçons</button>
+      <div id="importStatus" style="margin-top:.8rem;font-size:.78rem;color:var(--soft);min-height:1.2rem;line-height:1.6;"></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script>
+/* ══════════════════════════
+   DONNÉES — chargées dynamiquement depuis Tactic Academy
+══════════════════════════ */
+let META = []; // rempli par syncFromAcademy()
+const _DEAD = [{"id":"d1","emoji":"🧱","name":"Actif vs Passif : la règle qui change tout","duration":"1 min","coins":80,"tag":"Base","level":"Débutant","track":"💸 Ton argent bosse (ou pas)"},{"id":"d2","emoji":"🔇","name":"L'inflation : le voleur silencieux","duration":"1 min","coins":80,"tag":"Base","level":"Débutant","track":"💸 Ton argent bosse (ou pas)"},{"id":"d3","emoji":"⏰","name":"Les intérêts composés : la machine à richesse","duration":"1 min","coins":80,"tag":"Base","level":"Débutant","track":"💸 Ton argent bosse (ou pas)"},{"id":"d4","emoji":"📅","name":"DCA : investir sans se prendre la tête","duration":"1 min","coins":80,"tag":"Stratégie","level":"Débutant","track":"💸 Ton argent bosse (ou pas)"},{"id":"d5","emoji":"🥚","name":"Ne mets pas tout dans le même panier","duration":"1 min","coins":80,"tag":"Stratégie","level":"Débutant","track":"💸 Ton argent bosse (ou pas)"},{"id":"d6","emoji":"📊","name":"Le marché boursier : casino ou machine à richesse ?","duration":"1 min","coins":80,"tag":"Base","level":"Débutant","track":"💸 Ton argent bosse (ou pas)"},{"id":"d7","emoji":"🇫🇷","name":"PEA, AV, CTO : choisis la bonne boîte","duration":"2 min","coins":100,"tag":"Fiscalité","level":"Débutant","track":"💸 Ton argent bosse (ou pas)"},{"id":"d8","emoji":"🎯","name":"L'objectif SMART en finance","duration":"1 min","coins":80,"tag":"Pratique","level":"Débutant","track":"💸 Ton argent bosse (ou pas)"},{"id":"d9","emoji":"💡","name":"La règle des 50/30/20","duration":"1 min","coins":80,"tag":"Pratique","level":"Débutant","track":"💸 Ton argent bosse (ou pas)"},{"id":"d10","emoji":"🗝️","name":"La règle des 4% : ton chiffre de liberté","duration":"1 min","coins":80,"tag":"Base","level":"Débutant","track":"💸 Ton argent bosse (ou pas)"},{"id":"p1","emoji":"😱","name":"FOMO : la peur de rater qui te ruine","duration":"1 min","coins":80,"tag":"Psychologie","level":"Débutant","track":"🧠 Psychologie : ton pire ennemi"},{"id":"p2","emoji":"🎭","name":"L'effet de disposition : vendre trop tôt, garder trop longtemps","duration":"1 min","coins":80,"tag":"Psychologie","level":"Débutant","track":"🧠 Psychologie : ton pire ennemi"},{"id":"p3","emoji":"😤","name":"Aversion à la perte : garder un canard boiteux","duration":"1 min","coins":80,"tag":"Psychologie","level":"Débutant","track":"🧠 Psychologie : ton pire ennemi"},{"id":"p4","emoji":"🕶️","name":"Biais de confirmation : tu lis ce qui te conforte","duration":"1 min","coins":80,"tag":"Psychologie","level":"Débutant","track":"🧠 Psychologie : ton pire ennemi"},{"id":"p5","emoji":"🎰","name":"Excès de confiance : le piège des débutants chanceux","duration":"1 min","coins":80,"tag":"Psychologie","level":"Débutant","track":"🧠 Psychologie : ton pire ennemi"},{"id":"p6","emoji":"🌊","name":"Comportement de foule : ne suis pas les lemmings","duration":"1 min","coins":80,"tag":"Psychologie","level":"Débutant","track":"🧠 Psychologie : ton pire ennemi"},{"id":"p7","emoji":"⏳","name":"La gratification différée : le super-pouvoir des riches","duration":"1 min","coins":80,"tag":"Psychologie","level":"Débutant","track":"🧠 Psychologie : ton pire ennemi"},{"id":"v1","emoji":"💧","name":"Liquidité & Volatilité : deux trucs à pas confondre","duration":"1 min","coins":80,"tag":"Vocab","level":"Débutant","track":"📖 Vocabulaire de base"},{"id":"v2","emoji":"🐂","name":"Bull & Bear : les deux humeurs du marché","duration":"1 min","coins":80,"tag":"Vocab","level":"Débutant","track":"📖 Vocabulaire de base"},{"id":"v3","emoji":"💰","name":"Dividendes : être payé pour rester assis","duration":"1 min","coins":80,"tag":"Vocab","level":"Débutant","track":"📖 Vocabulaire de base"},{"id":"v4","emoji":"📜","name":"Actions, ETF, Obligations : les 3 grandes familles","duration":"2 min","coins":80,"tag":"Vocab","level":"Débutant","track":"📖 Vocabulaire de base"},{"id":"v5","emoji":"🏦","name":"Le PER : price-to-earnings pour les débutants","duration":"1 min","coins":80,"tag":"Vocab","level":"Débutant","track":"📖 Vocabulaire de base"},{"id":"v6","emoji":"📈","name":"Plus-value, moins-value, PnL : parler le bon langage","duration":"1 min","coins":80,"tag":"Vocab","level":"Débutant","track":"📖 Vocabulaire de base"},{"id":"v7","emoji":"⚖️","name":"Risque vs Rendement : le deal de base","duration":"1 min","coins":80,"tag":"Vocab","level":"Débutant","track":"📖 Vocabulaire de base"},{"id":"a1","emoji":"🚀","name":"Ton premier investissement en 4 étapes","duration":"2 min","coins":100,"tag":"Pratique","level":"Débutant","track":"💸 Ton argent bosse (ou pas)"},{"id":"a2","emoji":"🔄","name":"Le rééquilibrage : vendre haut, acheter bas automatiquement","duration":"1 min","coins":100,"tag":"Pratique","level":"Débutant","track":"💸 Ton argent bosse (ou pas)"},{"id":"a3","emoji":"📊","name":"Lire une fiche ETF en 2 minutes","duration":"2 min","coins":100,"tag":"ETF","level":"Débutant","track":"🌊 ETF : le game changer"},{"id":"im1","emoji":"🏠","name":"Immobilier locatif : mythe vs réalité","duration":"2 min","coins":120,"tag":"Immo","level":"Intermédiaire","track":"🏠 Immobilier : mythe ou réalité ?"},{"id":"im2","emoji":"🔑","name":"Cash-flow immo : le vrai calcul","duration":"2 min","coins":120,"tag":"Immo","level":"Intermédiaire","track":"🏠 Immobilier : mythe ou réalité ?"},{"id":"e1","emoji":"🌊","name":"Qu'est-ce qu'un ETF exactement ?","duration":"1 min","coins":100,"tag":"ETF","level":"Intermédiaire","track":"🌊 ETF : le game changer"},{"id":"e2","emoji":"🎯","name":"ETF World vs S&P 500 : lequel choisir ?","duration":"2 min","coins":100,"tag":"ETF","level":"Intermédiaire","track":"🌊 ETF : le game changer"},{"id":"e3","emoji":"💲","name":"TER & frais cachés : l'ennemi invisible","duration":"1 min","coins":100,"tag":"ETF","level":"Intermédiaire","track":"🌊 ETF : le game changer"},{"id":"e4","emoji":"🏗️","name":"ETF physique vs synthétique","duration":"2 min","coins":100,"tag":"ETF","level":"Intermédiaire","track":"🌊 ETF : le game changer"},{"id":"e5","emoji":"🔄","name":"Capitalisant vs Distribuant : que choisir ?","duration":"1 min","coins":100,"tag":"ETF","level":"Intermédiaire","track":"🌊 ETF : le game changer"},{"id":"c1","emoji":"₿","name":"Bitcoin : réserve de valeur ou spéculation ?","duration":"2 min","coins":120,"tag":"Crypto","level":"Intermédiaire","track":"₿ Crypto"},{"id":"c2","emoji":"🔐","name":"Wallet crypto : garde tes clés","duration":"1 min","coins":120,"tag":"Crypto","level":"Intermédiaire","track":"₿ Crypto"},{"id":"f1","emoji":"🏛️","name":"La flat tax 30% : comment ça marche","duration":"1 min","coins":100,"tag":"Fiscalité","level":"Intermédiaire","track":"🏛️ Fiscalité : garde ton argent"},{"id":"f2","emoji":"🧾","name":"PEA : les règles à connaître","duration":"2 min","coins":100,"tag":"Fiscalité","level":"Intermédiaire","track":"🏛️ Fiscalité : garde ton argent"},{"id":"f3","emoji":"🛡️","name":"Assurance-vie : 8 ans pour quoi exactement ?","duration":"2 min","coins":100,"tag":"Fiscalité","level":"Intermédiaire","track":"🏛️ Fiscalité : garde ton argent"},{"id":"f4","emoji":"🎭","name":"Plus-values latentes vs réalisées : la différence clé","duration":"1 min","coins":100,"tag":"Fiscalité","level":"Intermédiaire","track":"🏛️ Fiscalité : garde ton argent"},{"id":"f5","emoji":"🇫🇷","name":"PER : défiscaliser pour la retraite","duration":"2 min","coins":100,"tag":"Fiscalité","level":"Intermédiaire","track":"🏛️ Fiscalité : garde ton argent"},{"id":"ana1","emoji":"🔬","name":"Le PER : valoriser une action","duration":"2 min","coins":120,"tag":"Analyse","level":"Intermédiaire","track":"🔬 Analyser une action"},{"id":"ana2","emoji":"📊","name":"ROE, ROA, ROCE : mesurer la rentabilité","duration":"2 min","coins":120,"tag":"Analyse","level":"Intermédiaire","track":"🔬 Analyser une action"},{"id":"ana3","emoji":"💸","name":"Free Cash Flow : le vrai indicateur de santé","duration":"2 min","coins":120,"tag":"Analyse","level":"Intermédiaire","track":"🔬 Analyser une action"},{"id":"ana4","emoji":"📉","name":"Dette nette / EBITDA : lire l'endettement","duration":"2 min","coins":120,"tag":"Analyse","level":"Intermédiaire","track":"🔬 Analyser une action"},{"id":"ana5","emoji":"🎯","name":"Valeur intrinsèque vs prix de marché","duration":"2 min","coins":120,"tag":"Analyse","level":"Intermédiaire","track":"🔬 Analyser une action"},{"id":"ana6","emoji":"🏆","name":"Identifier un fossé concurrentiel (moat)","duration":"2 min","coins":120,"tag":"Analyse","level":"Intermédiaire","track":"🔬 Analyser une action"},{"id":"ana7","emoji":"🌐","name":"Analyse sectorielle : comprendre le contexte","duration":"2 min","coins":120,"tag":"Analyse","level":"Intermédiaire","track":"🔬 Analyser une action"},{"id":"m1","emoji":"🌍","name":"Taux directeurs BCE : impact sur tes placements","duration":"2 min","coins":120,"tag":"Macro","level":"Intermédiaire","track":"🌍 Macro & Marchés"},{"id":"m2","emoji":"📊","name":"L'inflation et l'investisseur : qui gagne, qui perd","duration":"2 min","coins":120,"tag":"Macro","level":"Intermédiaire","track":"🌍 Macro & Marchés"},{"id":"m3","emoji":"📉","name":"Cycles économiques : savoir où on en est","duration":"2 min","coins":120,"tag":"Macro","level":"Intermédiaire","track":"🌍 Macro & Marchés"},{"id":"m4","emoji":"🛢️","name":"Matières premières : rôle dans un portefeuille","duration":"2 min","coins":120,"tag":"Macro","level":"Intermédiaire","track":"🌍 Macro & Marchés"},{"id":"r1","emoji":"🏖️","name":"Préparer sa retraite : les vrais chiffres","duration":"2 min","coins":120,"tag":"Retraite","level":"Intermédiaire","track":"🏖️ Retraite & Long terme"},{"id":"r2","emoji":"⏰","name":"Retraite à 45 ans : calcul FIRE réaliste","duration":"2 min","coins":120,"tag":"Retraite","level":"Intermédiaire","track":"🏖️ Retraite & Long terme"},{"id":"r3","emoji":"📈","name":"L'effet du temps : pourquoi commencer maintenant","duration":"1 min","coins":120,"tag":"Retraite","level":"Intermédiaire","track":"🏖️ Retraite & Long terme"},{"id":"r4","emoji":"🔒","name":"Séquence de retraite : éviter le krach au mauvais moment","duration":"2 min","coins":120,"tag":"Retraite","level":"Intermédiaire","track":"🏖️ Retraite & Long terme"},{"id":"r5","emoji":"💼","name":"PER vs Assurance-vie : quel outil pour la retraite ?","duration":"2 min","coins":120,"tag":"Retraite","level":"Intermédiaire","track":"🏖️ Retraite & Long terme"},{"id":"r6","emoji":"🌐","name":"Rentes vs capital : comment financer sa liberté","duration":"2 min","coins":120,"tag":"Retraite","level":"Intermédiaire","track":"🏖️ Retraite & Long terme"},{"id":"s1","emoji":"🎯","name":"Core / Satellite : la structure du portefeuille gagnant","duration":"2 min","coins":150,"tag":"Stratégie","level":"Intermédiaire","track":"🎯 Stratégies avancées"},{"id":"s2","emoji":"📐","name":"Allocation d'actifs : la décision qui compte le plus","duration":"2 min","coins":150,"tag":"Stratégie","level":"Intermédiaire","track":"🎯 Stratégies avancées"},{"id":"s3","emoji":"🔄","name":"Momentum vs Value : deux philosophies opposées","duration":"2 min","coins":150,"tag":"Stratégie","level":"Intermédiaire","track":"🎯 Stratégies avancées"},{"id":"s4","emoji":"🛡️","name":"Hedging : se protéger sans se ruiner","duration":"2 min","coins":150,"tag":"Stratégie","level":"Intermédiaire","track":"🎯 Stratégies avancées"},{"id":"s5","emoji":"📊","name":"Backtesting : tester une stratégie sur le passé","duration":"2 min","coins":150,"tag":"Stratégie","level":"Intermédiaire","track":"🎯 Stratégies avancées"},{"id":"s6","emoji":"🎲","name":"Position sizing : ne jamais tout-in","duration":"1 min","coins":150,"tag":"Stratégie","level":"Intermédiaire","track":"🎯 Stratégies avancées"},{"id":"ex1","emoji":"🎓","name":"Options : calls et puts expliqués simplement","duration":"3 min","coins":200,"tag":"Expert","level":"Intermédiaire","track":"🎓 Niveau Expert"},{"id":"ex2","emoji":"📊","name":"Modèle DCF : valoriser une entreprise","duration":"3 min","coins":200,"tag":"Expert","level":"Intermédiaire","track":"🎓 Niveau Expert"},{"id":"ex3","emoji":"🌐","name":"Hedge funds : comment ils gagnent (vraiment)","duration":"3 min","coins":200,"tag":"Expert","level":"Intermédiaire","track":"🎓 Niveau Expert"},{"id":"ex4","emoji":"⚡","name":"HFT : le trading haute fréquence démystifié","duration":"2 min","coins":200,"tag":"Expert","level":"Intermédiaire","track":"🎓 Niveau Expert"},{"id":"ex5","emoji":"📐","name":"Théorie moderne du portefeuille (Markowitz)","duration":"3 min","coins":200,"tag":"Expert","level":"Intermédiaire","track":"🎓 Niveau Expert"},{"id":"ex6","emoji":"🔮","name":"Analyse technique : fonctionne-t-elle vraiment ?","duration":"2 min","coins":200,"tag":"Expert","level":"Intermédiaire","track":"🎓 Niveau Expert"},{"id":"ex7","emoji":"🏦","name":"Comment fonctionne une IPO","duration":"2 min","coins":200,"tag":"Expert","level":"Intermédiaire","track":"🎓 Niveau Expert"},{"id":"g1","emoji":"💰","name":"Épargne de précaution : combien exactement ?","duration":"1 min","coins":80,"tag":"Pratique","level":"Débutant","track":"💰 Gérer son argent"},{"id":"g2","emoji":"🎯","name":"Budget base zéro : reprendre le contrôle","duration":"2 min","coins":80,"tag":"Pratique","level":"Débutant","track":"💰 Gérer son argent"},{"id":"g3","emoji":"💳","name":"Dettes à taux élevé : la priorité absolue","duration":"1 min","coins":80,"tag":"Pratique","level":"Débutant","track":"💰 Gérer son argent"},{"id":"g4","emoji":"🏦","name":"Intérêts bancaires : comment les banques gagnent sur toi","duration":"1 min","coins":80,"tag":"Pratique","level":"Débutant","track":"💰 Gérer son argent"},{"id":"ad1","emoji":"🚀","name":"Investir dans les startups : le guide","duration":"3 min","coins":150,"tag":"Stratégie","level":"Intermédiaire","track":"🚀 Aller plus loin"},{"id":"ad2","emoji":"🌍","name":"Investir à l'international : risque de change","duration":"2 min","coins":150,"tag":"Macro","level":"Intermédiaire","track":"🚀 Aller plus loin"},{"id":"ad3","emoji":"🏗️","name":"SCPI : l'immo sans les galères de gestion","duration":"2 min","coins":150,"tag":"Immo","level":"Intermédiaire","track":"🚀 Aller plus loin"}];
+
+// Contenu leçons chargé à la demande via IA
+let CONTENT_CACHE = {}; // id -> {blocks, quiz}
+let newLessons = [];
+let editingId = null;
+let currentTrack = null;
+let currentModalId = null;
+let currentLang = 'en';
+let blocks = [];
+let quizList = [{q:'',opts:['','','',''],correct:0,expl:''}];
+let generatedCode = '';
+
+const SUGGESTIONS = [
+  {emoji:'📉',name:'Méthode avalanche vs snowball : rembourser ses dettes intelligemment',tag:'Pratique',level:'Débutant',track:'💰 Gérer son argent',why:'Dettes non couverte dans le corpus'},
+  {emoji:'🏗️',name:'Crowdfunding immobilier : opportunité ou piège ?',tag:'Immo',level:'Intermédiaire',track:'🏠 Immobilier : mythe ou réalité ?',why:'Manquant dans le track Immo'},
+  {emoji:'📊',name:'ESG : investir responsable sans sacrifier la performance',tag:'Stratégie',level:'Intermédiaire',track:'🎯 Stratégies avancées',why:'Finance durable absente du corpus'},
+  {emoji:'🎓',name:'Capital-investissement (Private Equity) : comment y accéder',tag:'Expert',level:'Intermédiaire',track:'🎓 Niveau Expert',why:'Programme Digital Learning'},
+  {emoji:'🌐',name:'DeFi : staking, farming, protocoles — risques et rendements',tag:'Crypto',level:'Intermédiaire',track:'₿ Crypto',why:'DeFi absent du track Crypto'},
+  {emoji:'⚙️',name:'Ordres de bourse : market, limit, stop-loss en pratique',tag:'Pratique',level:'Débutant',track:'📖 Vocabulaire de base',why:'Lacune dans les bases du trading'},
+  {emoji:'🧬',name:'Analyse systémique des risques de portefeuille',tag:'Analyse',level:'Intermédiaire',track:'🔬 Analyser une action',why:'Outil 3 du programme Digital Learning'},
+  {emoji:'📐',name:'Corrélation d\'actifs : construire un vrai portefeuille diversifié',tag:'Stratégie',level:'Intermédiaire',track:'🎯 Stratégies avancées',why:'Lacune dans la théorie de portefeuille'},
+  {emoji:'🌡️',name:'VIX : l\'indicateur de peur du marché',tag:'Macro',level:'Intermédiaire',track:'🌍 Macro & Marchés',why:'Manquant dans Macro & Marchés'},
+  {emoji:'🔑',name:'Incubateurs et levée de fonds : Station F, Partech...',tag:'Expert',level:'Intermédiaire',track:'🚀 Aller plus loin',why:'Identifié dans le programme'},
+  {emoji:'🏦',name:'Obligations d\'État vs corporate : comprendre le spread',tag:'Analyse',level:'Intermédiaire',track:'🔬 Analyser une action',why:'Lacune obligations dans le corpus'},
+  {emoji:'💼',name:'IPS (Investment Policy Statement) : rédiger sa stratégie',tag:'Stratégie',level:'Intermédiaire',track:'🎯 Stratégies avancées',why:'Gestion de portefeuille pro'},
+];
+
+/* ══ UTILS ══ */
+function getAllLessons(){ return [...META,...newLessons]; }
+
+function getClaudeKey(){
+  let k=localStorage.getItem('tactic_claude_key');
+  if(!k){ k=prompt('Clé API Claude (sk-ant-…)\n\nTrouvable sur console.anthropic.com → API Keys'); if(!k) return null; localStorage.setItem('tactic_claude_key',k); }
+  return k;
+}
+function claudeHeaders(){
+  const k=getClaudeKey(); if(!k) throw new Error('Clé API manquante');
+  return {'Content-Type':'application/json','x-api-key':k,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'};
+}
+function getTracksByLevel(lv){ return [...new Set(getAllLessons().filter(l=>l.level===lv).map(l=>l.track))]; }
+function getLessonsByTrack(t){ return getAllLessons().filter(l=>l.track===t); }
+function generateId(lv){ const p=lv==='Débutant'?'nx':lv==='Intermédiaire'?'ny':'nz'; const n=newLessons.filter(l=>l.id.startsWith(p)).length; return p+(n+1); }
+
+function toast(msg,type='success'){
+  const w=document.getElementById('toastWrap');
+  const t=document.createElement('div');
+  t.className=`toast ${type}`;
+  t.innerHTML=`<span>${type==='success'?'✅':'❌'}</span><span>${msg}</span>`;
+  w.appendChild(t);
+  setTimeout(()=>t.remove(),3200);
+}
+
+function toggleHelp(){ document.getElementById('helpOv').classList.toggle('hidden'); }
+
+/* ══ TABS ══ */
+function showTab(id,btn){
+  document.querySelectorAll('.section-tab').forEach(t=>{ if(t.id!=='tab-create') t.classList.remove('active'); });
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  if(btn) btn.classList.add('active');
+  if(id==='stats') renderStats();
+  if(id==='suggest') renderSuggestions();
+  if(id==='explore') renderExplore();
+}
+
+function openCreatePanel(){
+  document.getElementById('createBackdrop').classList.add('open');
+  document.getElementById('createDrawer').classList.add('open');
+}
+function closeCreatePanel(){
+  document.getElementById('createBackdrop').classList.remove('open');
+  document.getElementById('createDrawer').classList.remove('open');
+  resetEditor();
+}
+
+/* ══ SIDEBAR ══ */
+function renderSidebar(){
+  const levels=['Débutant','Intermédiaire','Avancé','Expert'];
+  let html='';
+  for(const lv of levels){
+    const tracks=getTracksByLevel(lv);
+    if(!tracks.length) continue;
+    const total=getAllLessons().filter(l=>l.level===lv).length;
+    const icon=lv==='Débutant'?'🟢':lv==='Intermédiaire'?'🔵':lv==='Avancé'?'🟣':'🔴';
+    html+=`<div class="sb-level">${icon} ${lv} <span class="cnt">${total}</span></div>`;
+    for(const t of tracks){
+      const cnt=getLessonsByTrack(t).length;
+      html+=`<div class="sb-track ${currentTrack===t?'active':''}" onclick="selectTrack('${t.replace(/'/g,"\\'").replace(/\\/g,'\\\\')}')">\
+<span class="sb-track-name">${t}</span><span class="sb-track-count">${cnt}</span></div>`;
+    }
+    html+=`<button class="sb-new-track" onclick="newModule('${lv}')">+ Nouveau module</button>`;
+  }
+  document.getElementById('sidebar').innerHTML=html;
+}
+
+function selectTrack(t){ currentTrack=t; renderSidebar(); renderExplore(); }
+
+function newModule(lv){
+  const name=prompt(`Nom du nouveau module (ex: "🔮 Dérivés avancés") :`);
+  if(!name) return;
+  currentTrack=name; renderSidebar(); renderExplore();
+  toast(`📁 Module "${name}" créé`);
+}
+
+/* ══ EXPLORE ══ */
+function renderExplore(){
+  const lessons=currentTrack?getLessonsByTrack(currentTrack):getAllLessons();
+  const title=currentTrack||'Toutes les leçons';
+  let html=`<div style="display:flex;align-items:center;gap:.7rem;margin-bottom:.9rem;">
+    <div style="font-size:.88rem;font-weight:700;">${title}</div>
+    <span style="font-family:var(--font-mono);font-size:.62rem;color:var(--muted);">${lessons.length} leçons</span>
+    <button class="btn primary" style="margin-left:auto;font-size:.7rem;" onclick="openCreatePanel()">+ Nouvelle leçon</button>
+  </div><div class="lessons-grid">`;
+  for(const l of lessons){
+    const isNew=newLessons.find(x=>x.id===l.id);
+    html+=`<div class="lesson-card" onclick="openModal('${l.id}')">
+      <div class="lc-header">
+        <span class="lc-emoji">${l.emoji}</span>
+        <span class="lc-name">${l.name}</span>
+        <div class="lc-badges">
+          <span class="badge ${l.level[0]==='D'?'d':'i'}">${l.level[0]}</span>
+          <span class="badge tag">${l.tag}</span>
+          ${isNew?'<span class="badge new">NEW</span>':''}
+        </div>
+      </div>
+      <div class="lc-meta"><span>${l.id}</span><span>⏱ ${l.duration}</span><span>🪙 ${l.coins}</span></div>
+      <div class="lc-actions">
+        <button class="lc-btn primary" onclick="event.stopPropagation();openModal('${l.id}')">👁 Voir</button>
+        <button class="lc-btn" onclick="event.stopPropagation();editLesson('${l.id}')">✏️ Modifier</button>
+${isNew?`<button class="lc-btn del" onclick="event.stopPropagation();delLesson('${l.id}')">🗑️</button>`:''}
+      </div>
+    </div>`;
+  }
+  html+='</div>';
+  document.getElementById('exploreView').innerHTML=html;
+}
+
+/* ══ MODAL DÉTAIL LEÇON ══ */
+function openModal(id){
+  currentModalId=id;
+  const l=getAllLessons().find(x=>x.id===id);
+  if(!l) return;
+  document.getElementById('modalEmoji').textContent=l.emoji;
+  document.getElementById('modalTitle').textContent=l.name;
+  document.getElementById('modalBadges').innerHTML=`<span class="badge ${l.level[0]==='D'?'d':'i'}" style="font-size:.65rem;">${l.level}</span><span class="badge tag" style="font-size:.65rem;">${l.tag}</span><span style="font-family:var(--font-mono);font-size:.62rem;color:var(--muted);margin-left:.3rem;">${l.id} · ${l.duration} · 🪙${l.coins}</span>`;
+  document.getElementById('modalContent').innerHTML=`<div style="color:var(--muted);font-size:.78rem;"><span class="loader"><span></span><span></span><span></span></span></div>`;
+  document.getElementById('lessonModal').classList.remove('hidden');
+  if(CONTENT_CACHE[id]){ renderModalContent(id); } else { loadLessonContent(); }
+}
+
+function closeModal(){ document.getElementById('lessonModal').classList.add('hidden'); currentModalId=null; }
+
+async function loadLessonContent(){
+  if(!currentModalId) return;
+  const id=currentModalId;
+  if(CONTENT_CACHE[id]){ renderModalContent(id); return; }
+
+  const l=getAllLessons().find(x=>x.id===id);
+  document.getElementById('modalContent').innerHTML=`<div style="color:var(--muted);font-size:.78rem;"><span class="loader"><span></span><span></span><span></span></span> Génération du contenu…</div>`;
+
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:claudeHeaders(),
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1200,
+        system:`Tu es un expert en éducation financière. Tu génères le contenu d'une leçon TACTIC au format JSON strict.
+Réponds UNIQUEMENT avec du JSON valide, sans markdown, sans texte avant ou après.
+Format :
+{"blocks":[{"type":"hook","emo":"💥","text":"texte"},{"type":"content","text":"texte"},{"type":"tip","text":"texte"}],"quiz":{"q":"question ?","opts":["A","B","C","D"],"correct":1,"expl":"explication"}}
+Types de blocs : hook (avec emo), content, tip OU trap. Max 3 blocs.
+Ton : direct, "meilleur pote expert", HTML simple (<strong>, <br>).`,
+        messages:[{role:'user',content:`Génère le contenu complet pour la leçon TACTIC :
+Titre : "${l.name}"
+Niveau : ${l.level} | Tag : ${l.tag} | Module : ${l.track}
+Durée : ${l.duration}`}]
+      })
+    });
+    const data=await res.json();
+    let txt=data.content?.[0]?.text||'{}';
+    txt=txt.replace(/```json|```/g,'').trim();
+    const parsed=JSON.parse(txt);
+    CONTENT_CACHE[id]=parsed;
+    renderModalContent(id);
+    toast(`✅ Contenu de "${l.name}" chargé`);
+  }catch(e){
+    document.getElementById('modalContent').innerHTML=`<div style="color:var(--red);font-size:.78rem;">❌ Erreur de chargement — ${e.message}</div>`;
+    toast('❌ Erreur API','error');
+  }
+  btn.disabled=false;
+}
+
+function renderModalContent(id){
+  const data=CONTENT_CACHE[id];
+  if(!data) return;
+  const {blocks}=data;
+
+  let html='<div style="margin-bottom:1rem;">';
+  // Blocs
+  for(let i=0;i<blocks.length;i++){
+    const b=blocks[i];
+    html+=`<div class="block-view ${b.type}" id="block-${id}-${i}">
+      <div class="block-view-hdr">
+        ${b.emo?`<span class="block-emo">${b.emo}</span>`:''}
+        <span class="block-type-pill">${b.type==='hook'?'🎯 Hook':b.type==='content'?'📘 Contenu':b.type==='tip'?'💡 Astuce':'⚠️ Piège'}</span>
+        <button class="block-edit-btn" onclick="toggleBlockEdit('${id}',${i})">✏️ Éditer</button>
+        <button class="block-del-btn" onclick="deleteBlock('${id}',${i})">🗑️</button>
+      </div>
+      <div class="block-text" id="block-text-${id}-${i}">${b.text}</div>
+      <div class="inline-editor hidden" id="block-editor-${id}-${i}">
+        <textarea id="block-ta-${id}-${i}" rows="4">${b.text}</textarea>
+        ${b.type==='hook'?`<div style="display:flex;gap:.4rem;align-items:center;margin-top:.4rem;"><span style="font-size:.65rem;color:var(--muted);">Emoji :</span><input type="text" id="block-emo-${id}-${i}" value="${b.emo||''}" style="width:60px;padding:.3rem;"></div>`:''}
+        <div class="inline-editor-btns">
+          <button class="btn primary" onclick="saveBlockEdit('${id}',${i})">✅ Sauvegarder</button>
+          <button class="btn" onclick="toggleBlockEdit('${id}',${i})">Annuler</button>
+        </div>
+      </div>
+    </div>`;
+  }
+  html+='</div>';
+
+  // Quizzes (tous)
+  const quizzes=data.quizzes||(data.quiz?[data.quiz]:[]);
+  const labels=['A','B','C','D','E'];
+  quizzes.forEach((quiz,qi)=>{
+    if(!quiz||!quiz.q) return;
+    html+=`<div class="quiz-view" style="margin-bottom:.6rem;">
+      <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem;">
+        <span style="font-size:.58rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);">Quiz ${qi+1}${quizzes.length>1?' / '+quizzes.length:''}</span>
+        <button class="block-edit-btn" onclick="editQuizQ('${id}',${qi})">✏️ Question</button>
+        <button class="btn" onclick="addQuizOptModal('${id}',${qi})" style="font-size:.6rem;padding:.15rem .4rem;">+ Option</button>
+        ${quizzes.length>1?`<button class="block-del-btn" onclick="deleteQuizFromModal('${id}',${qi})">🗑️</button>`:''}
+      </div>
+      <div class="quiz-view-q">${quiz.q}</div>`;
+    for(let i=0;i<quiz.opts.length;i++){
+      html+=`<div class="quiz-opt ${i===quiz.correct?'correct':'wrong'}">
+        <span class="quiz-opt-label">${labels[i]}</span>
+        <span class="quiz-opt-text" id="quiz-opt-${id}-${qi}-${i}">${quiz.opts[i]}</span>
+        <button class="block-edit-btn" onclick="editQuizOpt('${id}',${qi},${i})">✏️</button>
+        <button class="block-del-btn" onclick="deleteQuizOpt('${id}',${qi},${i})">🗑️</button>
+        ${i!==quiz.correct?`<button class="block-edit-btn" style="color:var(--green)" onclick="setCorrect('${id}',${qi},${i})">✓ Correct</button>`:'<span style="font-size:.6rem;color:var(--green);margin-left:auto;">✓ Bonne réponse</span>'}
+      </div>`;
+    }
+    html+=`<div class="quiz-expl">${quiz.expl}</div>
+      <button class="block-edit-btn" style="margin-top:.3rem;" onclick="editQuizExpl('${id}',${qi})">✏️ Explication</button>
+    </div>`;
+  });
+  html+=`<button class="btn" onclick="addQuizToModal('${id}')" style="width:100%;font-size:.7rem;margin-top:.2rem;">+ Ajouter un quiz</button>`;
+
+  document.getElementById('modalContent').innerHTML=html;
+}
+
+function toggleBlockEdit(id,i){
+  const editor=document.getElementById(`block-editor-${id}-${i}`);
+  editor.classList.toggle('hidden');
+}
+
+function saveBlockEdit(id,i){
+  const ta=document.getElementById(`block-ta-${id}-${i}`);
+  const emoEl=document.getElementById(`block-emo-${id}-${i}`);
+  CONTENT_CACHE[id].blocks[i].text=ta.value;
+  if(emoEl) CONTENT_CACHE[id].blocks[i].emo=emoEl.value;
+  document.getElementById(`block-text-${id}-${i}`).innerHTML=ta.value;
+  document.getElementById(`block-editor-${id}-${i}`).classList.add('hidden');
+  toast('✅ Bloc mis à jour');
+}
+
+function deleteBlock(id,i){
+  if(!confirm('Supprimer ce bloc ?')) return;
+  CONTENT_CACHE[id].blocks.splice(i,1);
+  renderModalContent(id);
+  toast('🗑️ Bloc supprimé');
+}
+
+function _getQuiz(id,qi=0){ return (CONTENT_CACHE[id].quizzes||[CONTENT_CACHE[id].quiz])[qi]; }
+
+function editQuizQ(id,qi=0){
+  const qz=_getQuiz(id,qi); if(!qz) return;
+  const q=prompt('Nouvelle question :',qz.q); if(!q) return;
+  qz.q=q; renderModalContent(id); toast('✅ Question mise à jour');
+}
+function editQuizOpt(id,qi=0,i=0){
+  const qz=_getQuiz(id,qi); if(!qz) return;
+  const v=prompt('Nouvelle option :',qz.opts[i]); if(!v) return;
+  qz.opts[i]=v; renderModalContent(id); toast('✅ Option mise à jour');
+}
+function deleteQuizOpt(id,qi=0,i=0){
+  const qz=_getQuiz(id,qi); if(!qz) return;
+  if(qz.opts.length<=2){ toast('Minimum 2 options','error'); return; }
+  if(!confirm('Supprimer cette option ?')) return;
+  qz.opts.splice(i,1); if(qz.correct>=qz.opts.length) qz.correct=0;
+  renderModalContent(id); toast('🗑️ Option supprimée');
+}
+function setCorrect(id,qi=0,i=0){
+  const qz=_getQuiz(id,qi); if(!qz) return;
+  qz.correct=i; renderModalContent(id); toast('✅ Bonne réponse mise à jour');
+}
+function addQuizOptModal(id,qi=0){
+  const v=prompt('Nouvelle option :'); if(!v) return;
+  _getQuiz(id,qi).opts.push(v); renderModalContent(id); toast('✅ Option ajoutée');
+}
+function editQuizExpl(id,qi=0){
+  const qz=_getQuiz(id,qi); if(!qz) return;
+  const v=prompt('Nouvelle explication :',qz.expl); if(!v) return;
+  qz.expl=v; renderModalContent(id); toast('✅ Explication mise à jour');
+}
+function deleteQuizFromModal(id,qi){
+  if(!confirm('Supprimer ce quiz ?')) return;
+  CONTENT_CACHE[id].quizzes.splice(qi,1); renderModalContent(id); toast('🗑️ Quiz supprimé');
+}
+function addQuizToModal(id){
+  if(!CONTENT_CACHE[id].quizzes) CONTENT_CACHE[id].quizzes=[CONTENT_CACHE[id].quiz||{q:'',opts:['','',''],correct:0,expl:''}];
+  CONTENT_CACHE[id].quizzes.push({q:'',opts:['','',''],correct:0,expl:''});
+  renderModalContent(id);
+}
+
+function editFromModal(){
+  if(currentModalId) editLesson(currentModalId);
+  closeModal();
+}
+
+/* ══ EDITOR ══ */
+function editLesson(id){
+  const l=getAllLessons().find(x=>x.id===id);
+  if(!l) return;
+  editingId=id;
+  document.getElementById('editorTitle').textContent='Modifier la leçon';
+  document.getElementById('fLevel').value=l.level;
+  updateTrackOptions();
+  setTimeout(()=>{ document.getElementById('fTrack').value=l.track; },60);
+  document.getElementById('fEmoji').value=l.emoji;
+  document.getElementById('fTag').value=l.tag;
+  document.getElementById('fName').value=l.name;
+  document.getElementById('fDuration').value=l.duration;
+  document.getElementById('fCoins').value=l.coins;
+  // Charger blocs si en cache
+  if(CONTENT_CACHE[id]){
+    blocks=[...CONTENT_CACHE[id].blocks.map(b=>({...b}))];
+    const qzs=CONTENT_CACHE[id].quizzes;
+    if(qzs&&qzs.length) quizList=qzs.map(q=>({q:q.q||'',opts:[...q.opts],correct:q.correct||0,expl:q.expl||''}));
+    else if(CONTENT_CACHE[id].quiz&&CONTENT_CACHE[id].quiz.q) quizList=[{q:CONTENT_CACHE[id].quiz.q,opts:[...CONTENT_CACHE[id].quiz.opts],correct:CONTENT_CACHE[id].quiz.correct||0,expl:CONTENT_CACHE[id].quiz.expl||''}];
+    else quizList=[{q:'',opts:['','','',''],correct:0,expl:''}];
+  } else { blocks=[]; quizList=[{q:'',opts:['','','',''],correct:0,expl:''}]; }
+  renderBlocks(); renderQuizEditor();
+  openCreatePanel();
+  toast('✏️ Leçon chargée');
+}
+
+function dupLesson(id){
+  const l=getAllLessons().find(x=>x.id===id);
+  if(!l) return;
+  const nl={...l,id:generateId(l.level),name:l.name+' (copie)'};
+  newLessons.push(nl);
+  if(CONTENT_CACHE[id]) CONTENT_CACHE[nl.id]={...CONTENT_CACHE[id]};
+  toast('📋 Dupliqué'); updateChips(); renderExplore();
+}
+
+function delLesson(id){
+  if(!confirm('Supprimer cette leçon ?')) return;
+  newLessons=newLessons.filter(l=>l.id!==id);
+  toast('🗑️ Supprimé'); updateChips(); renderExplore();
+}
+
+function addBlock(type){ blocks.push({type,emo:'',text:''}); renderBlocks(); }
+
+function renderBlocks(){
+  const c=document.getElementById('blocksContainer');
+  if(!blocks.length){ c.innerHTML=`<div style="color:var(--muted);font-size:.76rem;padding:.4rem 0;">Aucun bloc — ajoute hook, contenu, astuce ou piège</div>`; return; }
+  c.innerHTML=blocks.map((b,i)=>`
+    <div class="block-item-edit ${b.type}">
+      <div class="block-item-hdr">
+        <span class="block-type-pill ${b.type}" style="font-size:.55rem;font-weight:700;text-transform:uppercase;padding:.12rem .4rem;border-radius:4px;${b.type==='hook'?'background:rgba(255,205,13,.15);color:var(--gold)':b.type==='content'?'background:rgba(77,158,255,.15);color:var(--blue)':b.type==='tip'?'background:rgba(0,232,122,.15);color:var(--green)':'background:rgba(255,59,92,.15);color:var(--red)'}">${b.type==='hook'?'🎯 Hook':b.type==='content'?'📘 Contenu':b.type==='tip'?'💡 Astuce':'⚠️ Piège'}</span>
+        <button onclick="blocks.splice(${i},1);renderBlocks();" style="margin-left:auto;background:none;border:none;color:var(--muted);cursor:pointer;font-size:.8rem;">✕</button>
+      </div>
+      ${b.type==='hook'?`<div style="display:flex;gap:.5rem;align-items:center;margin-bottom:.3rem;"><label style="font-size:.6rem;color:var(--muted);">Emoji</label><input value="${b.emo}" oninput="blocks[${i}].emo=this.value" style="width:60px;padding:.3rem .5rem;"></div>`:''}
+      <textarea oninput="blocks[${i}].text=this.value" rows="3" placeholder="${b.type==='hook'?'Phrase choc...':b.type==='tip'?'Astuce concrète...':'Erreur à éviter...'}">${b.text}</textarea>
+    </div>
+  `).join('');
+}
+
+function addQuizToList(){ quizList.push({q:'',opts:['','','',''],correct:0,expl:''}); renderQuizEditor(); }
+function addQuizOpt(qi){ if(quizList[qi].opts.length>=5) return; quizList[qi].opts.push(''); renderQuizEditor(); }
+
+function renderQuizEditor(){
+  const labels=['A','B','C','D','E'];
+  const c=document.getElementById('quizListContainer'); if(!c) return;
+  c.innerHTML=quizList.map((qz,qi)=>`
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:11px;padding:1rem;margin-bottom:.7rem;">
+      <div style="display:flex;align-items:center;margin-bottom:.7rem;">
+        <span style="font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);">Quiz ${qi+1}</span>
+        ${quizList.length>1?`<button onclick="quizList.splice(${qi},1);renderQuizEditor();" style="margin-left:auto;background:none;border:none;color:var(--muted);cursor:pointer;font-size:.78rem;">🗑️ Supprimer</button>`:''}
+      </div>
+      <div class="form-col" style="margin-bottom:.6rem;">
+        <label>Question</label>
+        <input value="${qz.q.replace(/"/g,'&quot;')}" oninput="quizList[${qi}].q=this.value" placeholder="Ex: Lequel est un actif ?" type="text">
+      </div>
+      ${qz.opts.map((opt,i)=>`
+        <div class="quiz-opt-row">
+          <span class="opt-lbl">${labels[i]}</span>
+          <input value="${opt.replace(/"/g,'&quot;')}" oninput="quizList[${qi}].opts[${i}]=this.value" placeholder="Option ${labels[i]}..." style="flex:1;">
+          <button class="opt-correct-btn ${qz.correct===i?'active':''}" onclick="quizList[${qi}].correct=${i};renderQuizEditor()" title="Bonne réponse">✓</button>
+          ${qz.opts.length>2?`<button onclick="quizList[${qi}].opts.splice(${i},1);if(quizList[${qi}].correct>=${i})quizList[${qi}].correct=Math.max(0,quizList[${qi}].correct-1);renderQuizEditor();" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:.8rem;">✕</button>`:''}
+        </div>`).join('')}
+      <button class="btn" onclick="addQuizOpt(${qi})" style="font-size:.65rem;margin-top:.3rem;">+ Option</button>
+      <div class="form-col" style="margin-top:.6rem;">
+        <label>Explication</label>
+        <textarea rows="2" oninput="quizList[${qi}].expl=this.value" placeholder="Pourquoi cette réponse est correcte...">${qz.expl}</textarea>
+      </div>
+    </div>`).join('');
+}
+
+function saveLesson(){
+  const lv=document.getElementById('fLevel').value;
+  let track=document.getElementById('fTrack').value;
+  const name=document.getElementById('fName').value.trim();
+  if(!name){ toast('Remplis le titre','error'); return; }
+  if(track==='__new__'){ const n=prompt('Nom du nouveau module :'); if(!n) return; track=n; }
+  const emoji=document.getElementById('fEmoji').value||'📖';
+  const tag=document.getElementById('fTag').value;
+  const dur=document.getElementById('fDuration').value;
+  const coins=parseInt(document.getElementById('fCoins').value);
+  const id=editingId||generateId(lv);
+  const lesson={id,emoji,name,duration:dur,coins,tag,level:lv,track};
+  if(editingId){
+    const idx=META.findIndex(l=>l.id===editingId);
+    if(idx>=0) META[idx]=lesson;
+    else{ const ni=newLessons.findIndex(l=>l.id===editingId); if(ni>=0) newLessons[ni]=lesson; }
+    toast(`✅ "${name}" mis à jour`);
+  } else { newLessons.push(lesson); toast(`✅ "${name}" créé (${id})`); }
+  const quizzes=quizList.map(qz=>({q:qz.q,opts:qz.opts.filter(o=>o),correct:qz.correct,expl:qz.expl})).filter(qz=>qz.q||qz.opts.length);
+  CONTENT_CACHE[id]={blocks:[...blocks],quizzes,quiz:quizzes[0]||{q:'',opts:[],correct:0,expl:''}};
+  updateChips(); renderSidebar(); updateCodePreview(); editingId=null;
+}
+
+function resetEditor(){
+  editingId=null;
+  document.getElementById('editorTitle').textContent='Nouvelle leçon';
+  document.getElementById('fName').value='';
+  document.getElementById('fEmoji').value='📖';
+  document.getElementById('quizQ').value='';
+  document.getElementById('quizExpl').value='';
+  blocks=[]; quizList=[{q:'',opts:['','','',''],correct:0,expl:''}];
+  renderBlocks(); renderQuizEditor();
+  document.getElementById('codePreview').textContent='// Code généré ici...';
+}
+
+function updateTrackOptions(){
+  const lv=document.getElementById('fLevel').value;
+  const tracks=getTracksByLevel(lv);
+  const sel=document.getElementById('fTrack');
+  sel.innerHTML='<option value="__new__">+ Nouveau module...</option>';
+  for(const t of tracks) sel.innerHTML+=`<option value="${t}">${t}</option>`;
+  updateGenTracks();
+}
+
+function updateGenTracks(){ /* removed — handled by TACT */ }
+
+function updateCodePreview(){
+  const lv=document.getElementById('fLevel').value;
+  let tr=document.getElementById('fTrack').value||'Module';
+  if(tr==='__new__') tr='NouveauModule';
+  const nm=document.getElementById('fName').value||'Titre';
+  const em=document.getElementById('fEmoji').value||'📖';
+  const tag=document.getElementById('fTag').value;
+  const dur=document.getElementById('fDuration').value;
+  const coins=document.getElementById('fCoins').value;
+  const id=editingId||generateId(lv);
+  const bCode=blocks.map(b=>b.type==='hook'?`{ type:'hook', emo:'${b.emo}', text:'${b.text.replace(/'/g,"\\'")}' }`:` { type:'${b.type}', text:'${b.text.replace(/'/g,"\\'")}' }`).join(',\n    ');
+  const qz=quizList[0]||{q:'?',opts:[],correct:0,expl:''};
+  const oCode=qz.opts.filter(o=>o).map(o=>`'${o.replace(/'/g,"\\'")}'`).join(',');
+  const code=`{ id:'${id}', e:'${em}', n:'${nm}', t:'${dur}', coins:${coins}, tag:'${tag}', blocks:[\n    ${bCode||'// blocs'}\n  ], quizzes:[{ q:'${(qz.q||'?').replace(/'/g,"\\'")}', opts:[${oCode}], correct:${qz.correct}, expl:'${(qz.expl||'').replace(/'/g,"\\'")}' }${quizList.length>1?',…':''} ] }`;
+  document.getElementById('codePreview').textContent=code;
+  generatedCode=code;
+}
+
+function copyCode(){ updateCodePreview(); navigator.clipboard.writeText(generatedCode); toast('📋 Code copié !'); }
+
+
+/* ══ SUGGEST ══ */
+function renderSuggestions(){
+  document.getElementById('suggestContainer').innerHTML=`
+    <div style="font-size:.76rem;color:var(--muted);margin-bottom:.8rem;">${SUGGESTIONS.length} idées · clic → pré-remplit le générateur</div>
+    ${SUGGESTIONS.map(s=>`
+    <div class="sug-item">
+      <span style="font-size:1.1rem;">${s.emoji}</span>
+      <div style="flex:1;">
+        <div class="sug-text">${s.name}</div>
+        <div style="font-size:.62rem;color:var(--muted);margin-top:.15rem;">${s.why} · ${s.level} · ${s.track}</div>
+      </div>
+      <span class="sug-tag">${s.tag}</span>
+      <button class="btn" style="font-size:.65rem;" onclick="useSuggestion('${s.name.replace(/'/g,"\\'").replace(/"/g,'&quot;')}','${s.level}','${s.track.replace(/'/g,"\\'").replace(/"/g,'&quot;')}','${s.tag}')">+ Générer</button>
+    </div>`).join('')}`;
+}
+
+function useSuggestion(name,lv,track,tag){
+  openCreatePanel();
+  // Ouvre TACT et envoie le prompt automatiquement
+  const panel=document.getElementById('tactPanel');
+  const fab=document.getElementById('tactFab');
+  if(!panel.classList.contains('open')){ panel.classList.add('open'); fab.classList.add('open'); }
+  setTimeout(()=>{
+    const inp=document.getElementById('tactInput');
+    if(inp){ inp.value=`Crée une leçon sur : ${name} — niveau ${lv}, module "${track}", tag ${tag}`; inp.focus(); }
+    toast('💬 Envoie à TACT pour générer !');
+  },150);
+}
+
+/* ══ EXPORT ══ */
+function exportJS(){
+  const all=getAllLessons();
+  const byLevel={};
+  for(const l of all){
+    if(!byLevel[l.level]) byLevel[l.level]={};
+    if(!byLevel[l.level][l.track]) byLevel[l.level][l.track]=[];
+    byLevel[l.level][l.track].push(l);
+  }
+  let code='const LESSONS = {\n';
+  for(const [lv,tracks] of Object.entries(byLevel)){
+    code+=`\n${lv}: [\n`;
+    for(const [tr,lsns] of Object.entries(tracks)){
+      code+=`  { track: '${tr}', lessons: [\n`;
+      for(const l of lsns){
+        const cache=CONTENT_CACHE[l.id];
+        const bCode=cache?.blocks?.map(b=>b.type==='hook'?`{ type:'hook', emo:'${b.emo}', text:'${b.text.replace(/'/g,"\\'")}' }`:` { type:'${b.type}', text:'${b.text.replace(/'/g,"\\'")}' }`).join(',\n        ')||'';
+        const q=cache?.quiz;
+        const oCode=q?.opts?.map(o=>`'${o.replace(/'/g,"\\'")}'`).join(',')||'';
+        code+=`    { id:'${l.id}', e:'${l.emoji}', n:'${l.name.replace(/'/g,"\\'")}', t:'${l.duration}', coins:${l.coins}, tag:'${l.tag}', blocks:[${bCode}], quiz:${q?`{ q:'${q.q?.replace(/'/g,"\\'")||''}', opts:[${oCode}], correct:${q.correct}, expl:'${q.expl?.replace(/'/g,"\\'")||''}' }`:'{ q:\'\', opts:[], correct:0, expl:\'\' }'} },\n`;
+      }
+      code+=`  ]},\n`;
+    }
+    code+='],\n';
+  }
+  code+='};';
+  document.getElementById('exportPreview').textContent=code;
+  navigator.clipboard.writeText(code);
+  toast(`📋 Code JS complet copié ! (${getAllLessons().length} leçons)`);
+}
+
+function exportJSON(){
+  const j=JSON.stringify(getAllLessons(),null,2);
+  document.getElementById('exportPreview').textContent=j;
+  navigator.clipboard.writeText(j);
+  toast('📋 JSON copié !');
+}
+
+function exportDiff(){
+  if(!newLessons.length){ toast('Aucune nouvelle leçon','error'); return; }
+  const code=newLessons.map(l=>`{ id:'${l.id}', e:'${l.emoji}', n:'${l.name.replace(/'/g,"\\'")}', t:'${l.duration}', coins:${l.coins}, tag:'${l.tag}' }`).join(',\n');
+  document.getElementById('exportPreview').textContent=code;
+  navigator.clipboard.writeText(code);
+  toast(`📋 ${newLessons.length} nouvelles leçons copiées !`);
+}
+
+/* ══ STATS ══ */
+function renderStats(){
+  const all=getAllLessons();
+  const byLv={},byTag={},byTr={};
+  for(const l of all){
+    byLv[l.level]=(byLv[l.level]||0)+1;
+    byTag[l.tag]=(byTag[l.tag]||0)+1;
+    byTr[l.track]=(byTr[l.track]||0)+1;
+  }
+  document.getElementById('statsGrid').innerHTML=`
+    <div class="stat-card"><div class="stat-num">${all.length}</div><div class="stat-lbl">Total</div><div class="stat-bar"><div class="stat-fill" style="width:100%"></div></div></div>
+    <div class="stat-card"><div class="stat-num">${byLv['Débutant']||0}</div><div class="stat-lbl">Débutant</div><div class="stat-bar"><div class="stat-fill" style="width:${((byLv['Débutant']||0)/all.length*100).toFixed(0)}%;background:var(--green)"></div></div></div>
+    <div class="stat-card"><div class="stat-num">${byLv['Intermédiaire']||0}</div><div class="stat-lbl">Intermédiaire</div><div class="stat-bar"><div class="stat-fill" style="width:${((byLv['Intermédiaire']||0)/all.length*100).toFixed(0)}%;background:var(--blue)"></div></div></div>
+    <div class="stat-card"><div class="stat-num">${newLessons.length}</div><div class="stat-lbl">Nouvelles</div><div class="stat-bar"><div class="stat-fill" style="width:${(newLessons.length/Math.max(all.length,1)*100).toFixed(0)}%;background:var(--orange)"></div></div></div>
+    <div class="stat-card"><div class="stat-num">${Object.keys(byTr).length}</div><div class="stat-lbl">Modules</div><div class="stat-bar"><div class="stat-fill" style="width:100%"></div></div></div>
+    <div class="stat-card"><div class="stat-num">${Object.keys(CONTENT_CACHE).length}</div><div class="stat-lbl">Contenus chargés</div><div class="stat-bar"><div class="stat-fill" style="width:${(Object.keys(CONTENT_CACHE).length/all.length*100).toFixed(0)}%;background:var(--purple)"></div></div></div>`;
+  const sortedT=Object.entries(byTr).sort((a,b)=>b[1]-a[1]);
+  const sortedTg=Object.entries(byTag).sort((a,b)=>b[1]-a[1]);
+  const maxT=sortedT[0]?.[1]||1;
+  document.getElementById('statsDetails').innerHTML=`
+    <div style="font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:1.2rem 0 .6rem;">Tags</div>
+    <div style="display:flex;flex-wrap:wrap;gap:.35rem;">${sortedTg.map(([t,n])=>`<span class="badge tag" style="font-size:.66rem;padding:.2rem .55rem;">${t} · ${n}</span>`).join('')}</div>
+    <div style="font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:1rem 0 .6rem;">Modules</div>
+    ${sortedT.map(([t,n])=>`<div style="display:flex;align-items:center;gap:.7rem;margin-bottom:.3rem;">
+      <div style="font-size:.73rem;color:var(--soft);min-width:200px;max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${t}</div>
+      <div style="flex:1;height:5px;background:var(--border);border-radius:3px;overflow:hidden;"><div style="height:100%;background:var(--gold);border-radius:3px;width:${(n/maxT*100).toFixed(0)}%"></div></div>
+      <div style="font-family:var(--font-mono);font-size:.62rem;color:var(--muted);width:18px;text-align:right;">${n}</div>
+    </div>`).join('')}`;
+}
+
+/* ══ UTILS ══ */
+function setLang(lang,btn){
+  currentLang=lang;
+  document.querySelectorAll('.lang-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+async function translateLesson(){
+  const name=document.getElementById('fName').value.trim();
+  if(!name){ toast('Remplis le titre d\'abord','error'); return; }
+  const btn=document.getElementById('translateBtn');
+  btn.textContent='⏳...'; btn.disabled=true;
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:claudeHeaders(),body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:200,messages:[{role:'user',content:`Traduis ce titre de leçon financière en ${currentLang==='en'?'anglais':'espagnol'}, garde le ton direct et percutant : "${name}". Réponds uniquement avec le titre traduit, rien d'autre.`}]})});
+    const data=await res.json();
+    const translated=data.content?.[0]?.text||'';
+    document.getElementById('translateResult').innerHTML=`<strong>${currentLang==='en'?'🇬🇧':'🇪🇸'} ${translated}</strong>&nbsp;<button class="btn" onclick="navigator.clipboard.writeText('${translated.replace(/'/g,"\\'")}')" style="font-size:.62rem;padding:.2rem .5rem;">📋</button>`;
+    toast('✅ Traduit !');
+  }catch(e){ toast('❌ Erreur','error'); }
+  btn.textContent='🌍 Traduire'; btn.disabled=false;
+}
+
+/* ══ IMPORT ACADEMY ══ */
+async function importFromAcademy(mode){
+  const btn=document.getElementById('importBtn');
+  const topBtn=document.getElementById('importTopBtn');
+  const status=document.getElementById('importStatus');
+  if(topBtn) topBtn.disabled=true;
+  if(topBtn) topBtn.textContent='⏳ Import...';
+  btn.disabled=true;
+  status.textContent='⏳ Téléchargement depuis Tactic Academy…';
+  try{
+    const resp=await fetch('https://raw.githubusercontent.com/Keorjf/Tactic-Academy/master/pages/academy.html');
+    if(!resp.ok) throw new Error('Erreur réseau '+resp.status);
+    const html=await resp.text();
+    status.textContent='⏳ Extraction des leçons…';
+
+    const startMarker='const LESSONS = {';
+    const endMarker='}; // fin LESSONS';
+    const s=html.indexOf(startMarker);
+    const e=html.indexOf(endMarker);
+    if(s===-1||e===-1) throw new Error('Bloc LESSONS introuvable dans le fichier');
+
+    const raw=html.slice(s+'const LESSONS = '.length, e+2);
+    let ACADEMY_LESSONS;
+    try{ ACADEMY_LESSONS=new Function('return '+raw)(); }
+    catch(err){ throw new Error('Parsing échoué : '+err.message); }
+
+    const selectedLevels=mode==='all'
+      ? ['Débutant','Intermédiaire','Avancé','Expert']
+      : [...document.querySelectorAll('.import-level-cb:checked')].map(cb=>cb.value);
+    if(!selectedLevels.length){ if(status) status.textContent='❌ Sélectionne au moins un niveau.'; if(btn) btn.disabled=false; if(topBtn){topBtn.disabled=false;topBtn.textContent='📥 Importer Academy';} return; }
+
+    const existingIds=new Set(getAllLessons().map(l=>l.id));
+    let imported=0, skipped=0;
+
+    for(const [levelKey,tracks] of Object.entries(ACADEMY_LESSONS)){
+      const level=levelKey==='Expert CFA/AMF'?'Expert':levelKey;
+      if(!selectedLevels.includes(level)) continue;
+      if(!Array.isArray(tracks)) continue;
+      for(const trackObj of tracks){
+        const track=trackObj.track||'';
+        for(const lesson of (trackObj.lessons||[])){
+          if(existingIds.has(lesson.id)){ skipped++; continue; }
+          const meta={id:lesson.id,emoji:lesson.e||'📖',name:lesson.n||'',duration:lesson.t||'1 min',coins:lesson.coins||80,tag:lesson.tag||'Base',level,track};
+          newLessons.push(meta);
+          existingIds.add(lesson.id);
+
+          const blocks=(lesson.blocks||[]).map(b=>({
+            type:b.type==='real'||b.type==='trap'?b.type==='trap'?'trap':'content':b.type,
+            emo:b.emo||'',
+            text:b.text||b.body||''
+          }));
+
+          let quiz={q:'',opts:[],correct:0,expl:''};
+          if(lesson.quiz){
+            const q=lesson.quiz;
+            quiz={q:q.q||'',opts:q.opts||[],correct:q.correct??q.ans??0,expl:q.expl||''};
+          } else if(lesson.quizzes&&lesson.quizzes.length){
+            const q=lesson.quizzes[0];
+            quiz={q:q.q||'',opts:q.opts||[],correct:q.correct??q.ans??0,expl:q.expl||''};
+          }
+          CONTENT_CACHE[lesson.id]={blocks,quiz};
+          imported++;
+        }
+      }
+    }
+
+    renderSidebar(); renderExplore(); updateChips();
+    if(status) status.innerHTML=`✅ <strong>${imported}</strong> leçon(s) importée(s) — ${skipped} déjà présente(s).`;
+    toast(`✅ ${imported} leçons importées depuis Tactic Academy`);
+    setTimeout(()=>document.getElementById('importOv').classList.add('hidden'),1200);
+  }catch(err){
+    if(status) status.textContent='❌ '+err.message;
+    toast('❌ Erreur import','error');
+  }
+  if(btn) btn.disabled=false;
+  if(topBtn){topBtn.disabled=false;topBtn.textContent='📥 Importer Academy';}
+}
+
+function updateChips(){
+  // chipTotal supprimé — le syncStatus affiche le compte
+}
+
+/* ══ SYNC TACTIC ACADEMY ══ */
+const ACADEMY_RAW = 'https://raw.githubusercontent.com/Keorjf/Tactic-Academy/master/pages/academy.html';
+const ACADEMY_API = 'https://api.github.com/repos/Keorjf/Tactic-Academy/contents/pages/academy.html';
+
+function setSyncStatus(msg, color){
+  const el=document.getElementById('syncStatus');
+  if(el){ el.textContent=msg; el.style.color=color||'var(--muted)'; }
+}
+
+function ghDecode(b64){
+  const bytes=Uint8Array.from(atob(b64.replace(/\s/g,'')),c=>c.charCodeAt(0));
+  return new TextDecoder('utf-8').decode(bytes);
+}
+function ghEncode(str){
+  const bytes=new TextEncoder().encode(str);
+  let b=''; bytes.forEach(x=>b+=String.fromCharCode(x));
+  return btoa(b);
+}
+
+function ingestLesson(lesson, level, track){
+  const meta={id:lesson.id, emoji:lesson.e||lesson.icon||'📖', name:lesson.n||'', duration:lesson.t||'1 min', coins:lesson.coins||80, tag:lesson.tag||'Base', level, track};
+  META.push(meta);
+  const blocks=(lesson.blocks||lesson.content||[]).map(b=>({
+    type: b.type==='real'?'content': b.type||'content',
+    emo: b.emo||'', text: b.text||b.body||''
+  }));
+  const norm=q=>({q:q.q||'',opts:q.opts||[],correct:q.correct??q.ans??0,expl:q.expl||''});
+  let quizzes=[];
+  if(lesson.quiz){
+    if(Array.isArray(lesson.quiz)) quizzes=lesson.quiz.map(norm);
+    else quizzes=[norm(lesson.quiz)];
+  }
+  if(lesson.quizzes) quizzes=[...quizzes,...lesson.quizzes.map(norm)];
+  // Dédoublonner par question
+  const seen=new Set();
+  quizzes=quizzes.filter(q=>{ if(!q.q||seen.has(q.q)) return false; seen.add(q.q); return true; });
+  CONTENT_CACHE[lesson.id]={blocks,quizzes,quiz:quizzes[0]||{q:'',opts:[],correct:0,expl:''}};
+}
+
+async function syncFromAcademy(){
+  setSyncStatus('🔄 Sync…','var(--gold)');
+  document.getElementById('pushBtn')&&(document.getElementById('pushBtn').disabled=true);
+  try{
+    const resp=await fetch(ACADEMY_RAW+'?t='+Date.now());
+    if(!resp.ok) throw new Error('HTTP '+resp.status);
+    const html=await resp.text();
+
+    // Eval entire LESSONS section (main block + push calls)
+    const startMarker='const LESSONS = {';
+    const endMarker='/* ══ ÉTAT ══ */';
+    const s=html.indexOf(startMarker), e=html.indexOf(endMarker);
+    if(s===-1||e===-1) throw new Error('Bloc LESSONS introuvable');
+    const section=html.slice(s, e);
+    const LESSONS=new Function(section+'\nreturn LESSONS;')();
+
+    // Repopulate META + CONTENT_CACHE
+    META.length=0;
+    for(const k of Object.keys(CONTENT_CACHE)) delete CONTENT_CACHE[k];
+    for(const [levelKey,tracks] of Object.entries(LESSONS)){
+      if(!Array.isArray(tracks)) continue;
+      const level=levelKey==='Expert CFA/AMF'?'Expert':levelKey;
+      for(const trackObj of tracks){
+        const track=trackObj.track||trackObj.t||'';
+        for(const lesson of (trackObj.lessons||[])) ingestLesson(lesson,level,track);
+      }
+    }
+    renderSidebar(); renderExplore(); updateChips();
+    setSyncStatus('✅ Synchronisé ('+META.length+' leçons)','var(--green)');
+    document.getElementById('pushBtn')&&(document.getElementById('pushBtn').disabled=false);
+  }catch(err){
+    setSyncStatus('❌ '+err.message,'var(--red)');
+    console.warn('syncFromAcademy:',err);
+  }
+}
+
+function buildLessonsBlock(){
+  const all=getAllLessons();
+  const grouped={};
+  for(const l of all){
+    const lk=l.level==='Expert'?'Expert CFA/AMF':l.level;
+    if(!grouped[lk]) grouped[lk]={};
+    if(!grouped[lk][l.track]) grouped[lk][l.track]=[];
+    grouped[lk][l.track].push(l);
+  }
+  const order=['Débutant','Intermédiaire','Avancé','Expert CFA/AMF'];
+  const obj={};
+  for(const lk of order){
+    if(!grouped[lk]) continue;
+    obj[lk]=Object.entries(grouped[lk]).map(([track,lessons])=>({
+      track,
+      lessons:lessons.map(l=>{
+        const c=CONTENT_CACHE[l.id]||{blocks:[],quizzes:[]};
+        const qzs=c.quizzes&&c.quizzes.length?c.quizzes:(c.quiz&&c.quiz.q?[c.quiz]:[]);
+        return {id:l.id,e:l.emoji,n:l.name,t:l.duration,coins:l.coins,tag:l.tag,
+          blocks:c.blocks||[],
+          quizzes:qzs,
+          quiz:qzs[0]||{q:'',opts:[],correct:0,expl:''}};
+      })
+    }));
+  }
+  return 'const LESSONS = '+JSON.stringify(obj,null,2)+';\nLESSONS[\'Expert\'] = LESSONS[\'Expert CFA/AMF\']; // alias';
+}
+
+async function pushToAcademy(){
+  let token=localStorage.getItem('tactic_gh_token');
+  if(!token){
+    token=prompt('GitHub Personal Access Token (scope: repo) :');
+    if(!token) return;
+    localStorage.setItem('tactic_gh_token',token);
+  }
+  const btn=document.getElementById('pushBtn');
+  if(btn){btn.disabled=true; btn.textContent='⏳ Push…';}
+  setSyncStatus('⏳ Push vers GitHub…','var(--gold)');
+  try{
+    const fileResp=await fetch(ACADEMY_API,{headers:{Authorization:'token '+token,Accept:'application/vnd.github.v3+json'}});
+    if(!fileResp.ok) throw new Error('GitHub API '+fileResp.status+' — token invalide ?');
+    const fileData=await fileResp.json();
+    const content=ghDecode(fileData.content);
+
+    const startMarker='const LESSONS = {';
+    const endMarker='/* ══ ÉTAT ══ */';
+    const s=content.indexOf(startMarker), e=content.indexOf(endMarker);
+    if(s===-1||e===-1) throw new Error('Marqueurs LESSONS introuvables dans academy.html');
+
+    const newBlock=buildLessonsBlock();
+    const updated=content.slice(0,s)+newBlock+'\n\n\n/* ══ ÉTAT ══ */'+content.slice(e+endMarker.length);
+
+    const pushResp=await fetch(ACADEMY_API,{
+      method:'PUT',
+      headers:{Authorization:'token '+token,'Content-Type':'application/json'},
+      body:JSON.stringify({message:'corpus: sync LESSONS depuis Corpus Builder',content:ghEncode(updated),sha:fileData.sha})
+    });
+    if(!pushResp.ok){const e=await pushResp.json(); throw new Error(e.message||'Push failed');}
+    newLessons=[];
+    toast('✅ Academy mise à jour sur GitHub !');
+    setSyncStatus('✅ Poussé — '+new Date().toLocaleTimeString(),'var(--green)');
+  }catch(err){
+    toast('❌ '+err.message,'error');
+    setSyncStatus('❌ '+err.message,'var(--red)');
+  }
+  if(btn){btn.disabled=false; btn.textContent='🚀 Pousser vers Academy';}
+}
+
+/* ══ INIT ══ */
+updateTrackOptions();
+renderBlocks(); renderQuizEditor();
+syncFromAcademy();
+
+/* ══ TACT ROBOT (Claude AI) ══ */
+const TACT_SYSTEM=`Tu es TACT, l'assistant IA intégré au Tactic Corpus Builder — l'outil de création de contenu pédagogique pour Tactic Academy.
+Tu aides les créateurs de contenu à : créer et structurer des leçons, rédiger des blocs (hook/content/tip/trap), formuler des quiz pertinents, synchroniser le corpus avec GitHub.
+Domaine : éducation financière (investissement, bourse, ETF, crypto, fiscalité, etc.)
+Ton ton : direct, chaleureux, expert. Réponses courtes (3-5 phrases max). HTML simple autorisé (<b>, <br>). Jamais de markdown avec *.`;
+
+const TACT_SYSTEM_CREATE=`Tu es TACT, l'assistant IA intégré au Tactic Corpus Builder. Le formulaire de création de leçon est ouvert.
+Quand l'utilisateur décrit une leçon à créer, génère-la et termine TOUJOURS ta réponse par un bloc JSON spécial sur une ligne isolée :
+<FILL_LESSON>{"level":"Débutant","track":"Nom module","emoji":"🎯","tag":"Base","name":"Titre","duration":"1 min","coins":80,"blocks":[{"type":"hook","emo":"💥","text":"<strong>Accroche</strong>"},{"type":"content","text":"Explication.<br><strong>Clé</strong> : détail."},{"type":"tip","text":"Astuce."}],"quiz":{"q":"Question ?","opts":["A","B","C","D"],"correct":1,"expl":"Explication."}}</FILL_LESSON>
+Valeurs level : Débutant | Intermédiaire | Avancé | Expert
+Valeurs tag : Base | Stratégie | Pratique | Analyse | Psychologie | Fiscalité | Vocab | ETF | Crypto | Immo | Macro | Retraite | Expert | Dérivés | Risque
+Coins : 80=débutant, 100=standard, 120=intermédiaire, 150=avancé, 200=expert
+Écris d'abord 1-2 phrases décrivant ce que tu crées, PUIS le bloc <FILL_LESSON>.
+Style blocs : direct, HTML simple (<strong> et <br> uniquement), 2-4 blocs max.`;
+
+let _tactHistory=[];
+
+function tactAppend(who,html){
+  const msgs=document.getElementById('tactMessages');
+  const d=document.createElement('div');
+  d.className='tact-msg tact-'+who;
+  d.innerHTML=html;
+  msgs.appendChild(d);
+  msgs.scrollTop=msgs.scrollHeight;
+}
+
+function tactTyping(show){
+  const msgs=document.getElementById('tactMessages');
+  let el=document.getElementById('tactTyping');
+  if(show){
+    if(el) return;
+    el=document.createElement('div');
+    el.id='tactTyping';
+    el.className='tact-msg tact-bot';
+    el.innerHTML='<span class="loader"><span></span><span></span><span></span></span>';
+    msgs.appendChild(el);
+    msgs.scrollTop=msgs.scrollHeight;
+  } else {
+    if(el) el.remove();
+  }
+}
+
+function tactSuggestions(){
+  const msgs=document.getElementById('tactMessages');
+  const row=document.createElement('div');
+  row.className='tact-sugs';
+  const sugs=['Créer une leçon','Structurer un bloc hook','Rédiger un bon quiz','Synchroniser avec Academy','Pousser sur GitHub'];
+  row.innerHTML=sugs.map(s=>`<button class="tact-sug" onclick="sendTact('${s}')">${s}</button>`).join('');
+  msgs.appendChild(row);
+  msgs.scrollTop=msgs.scrollHeight;
+}
+
+function isDrawerOpen(){ return document.getElementById('createDrawer')?.classList.contains('open'); }
+
+async function sendTact(txt){
+  if(!txt.trim()) return;
+  const inp=document.getElementById('tactInput');
+  if(inp) inp.value='';
+  tactAppend('user',txt);
+  _tactHistory.push({role:'user',content:txt});
+  tactTyping(true);
+  const btn=document.getElementById('tactSendBtn');
+  if(btn) btn.disabled=true;
+  try{
+    const k=localStorage.getItem('tactic_claude_key');
+    if(!k){
+      tactTyping(false);
+      tactAppend('bot','Pour activer l\'IA, j\'ai besoin de ta clé API Claude. Clique <button class="tact-sug" onclick="askTactKey()" style="display:inline;margin:0;">🔑 Saisir la clé</button>');
+      if(btn) btn.disabled=false;
+      return;
+    }
+    const drawerOpen=isDrawerOpen();
+    const sysPrompt=drawerOpen ? TACT_SYSTEM_CREATE.replace('Nom module',[...new Set(getAllLessons().map(l=>l.track))].slice(0,8).join(', ')) : TACT_SYSTEM;
+    const maxTok=drawerOpen ? 1200 : 400;
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':k,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:maxTok,system:sysPrompt,messages:_tactHistory.slice(-10)})
+    });
+    const data=await res.json();
+    if(!res.ok) throw new Error(data.error?.message||'Erreur API');
+    let reply=data.content?.[0]?.text||'…';
+    _tactHistory.push({role:'assistant',content:reply});
+    tactTyping(false);
+    // Détecter et appliquer un FILL_LESSON
+    const fillMatch=reply.match(/<FILL_LESSON>([\s\S]*?)<\/FILL_LESSON>/);
+    if(fillMatch){
+      try{
+        const l=JSON.parse(fillMatch[1].trim());
+        applyLessonToForm(l);
+        reply=reply.replace(/<FILL_LESSON>[\s\S]*?<\/FILL_LESSON>/,'')
+          .trim()+'<br><br><span style="color:var(--green);font-size:.7rem;">✅ Formulaire rempli — vérifie et sauvegarde !</span>';
+      }catch(e){ /* JSON invalide, on affiche quand même */ }
+    }
+    tactAppend('bot',reply);
+  }catch(e){
+    tactTyping(false);
+    tactAppend('bot','❌ '+e.message);
+  }
+  if(btn) btn.disabled=false;
+}
+
+function applyLessonToForm(l){
+  if(l.level) document.getElementById('fLevel').value=l.level;
+  updateTrackOptions();
+  setTimeout(()=>{
+    const sel=document.getElementById('fTrack');
+    const exists=[...sel.options].find(o=>o.value===l.track);
+    if(exists){ sel.value=l.track; }
+    else if(l.track){ sel.add(new Option(l.track,l.track)); sel.value=l.track; }
+  },80);
+  if(l.emoji) document.getElementById('fEmoji').value=l.emoji;
+  if(l.tag) document.getElementById('fTag').value=l.tag;
+  if(l.name) document.getElementById('fName').value=l.name;
+  if(l.duration) document.getElementById('fDuration').value=l.duration;
+  if(l.coins) document.getElementById('fCoins').value=l.coins;
+  if(l.blocks){ blocks=l.blocks.map(b=>({...b})); renderBlocks(); }
+  const qzs=l.quizzes||(l.quiz?[l.quiz]:[]);
+  if(qzs.length) quizList=qzs.map(q=>({q:q.q||'',opts:q.opts&&q.opts.length?q.opts:['','','',''],correct:q.correct||0,expl:q.expl||''}));
+  else quizList=[{q:'',opts:['','','',''],correct:0,expl:''}];
+  renderQuizEditor();
+}
+
+function askTactKey(){
+  const k=prompt('Clé API Claude (sk-ant-…)\n\nconsole.anthropic.com → API Keys');
+  if(k){ localStorage.setItem('tactic_claude_key',k); toast('✅ Clé Claude sauvegardée'); }
+}
+
+function toggleTact(){
+  const panel=document.getElementById('tactPanel');
+  const fab=document.getElementById('tactFab');
+  panel.classList.toggle('open');
+  fab.classList.toggle('open');
+  if(panel.classList.contains('open')){
+    const msgs=document.getElementById('tactMessages');
+    const hasKey=!!localStorage.getItem('tactic_claude_key');
+    if(msgs.children.length===0){
+      tactAppend('bot',hasKey
+        ? 'Salut ! 👋 Je suis <b>TACT</b>. Comment puis-je t\'aider ?'
+        : 'Salut ! 👋 Je suis <b>TACT</b>. <button class="tact-sug" onclick="askTactKey()" style="display:inline;margin:0 0 0 4px;">🔑 Saisir la clé Claude</button>'
+      );
+      tactSuggestions();
+    } else if(isDrawerOpen()){
+      tactAppend('bot','✏️ Le formulaire est ouvert — décris ta leçon et je remplis tout !');
+    }
+  }
+}
+</script>
+
+<!-- TACT ROBOT -->
+<div class="tact-panel" id="tactPanel">
+  <div class="tact-hdr">
+    <div class="tact-avatar">🤖</div>
+    <div><div class="tact-name">TACT</div><div class="tact-status">● En ligne</div></div>
+    <button class="tact-close" onclick="toggleTact()">✕</button>
+  </div>
+  <div class="tact-msgs" id="tactMessages"></div>
+  <div class="tact-input-row">
+    <input class="tact-input" id="tactInput" placeholder="Pose ta question…" onkeydown="if(event.key==='Enter'){const v=this.value.trim();if(v)sendTact(v);}">
+    <button class="tact-send" id="tactSendBtn" onclick="sendTact(document.getElementById('tactInput').value.trim())">➤</button>
+  </div>
+</div>
+<button class="tact-fab" id="tactFab" onclick="toggleTact()" title="Assistant TACT">🤖</button>
+
+</body>
+</html>

@@ -1,0 +1,372 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TACTIC Academy — Créer un compte</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Nunito:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#060F14;--bg1:#0C1E28;--bg2:#102533;--bg3:#142E3E;
+  --g:#FFCD0D;--gd:rgba(255,205,13,.1);--gg:rgba(255,205,13,.18);
+  --r:#FF3B5C;--y:#4EC2DA;--b:#4D9EFF;
+  --txt:#F0FBFF;--soft:#D6F4FB;--muted:rgba(180,230,242,.65);
+  --ln:rgba(255,255,255,.06);--ln2:rgba(255,255,255,.1);
+  --body-font:'Nunito','Segoe UI',sans-serif;
+}
+html,body{min-height:100%;background:var(--bg);color:var(--txt);font-family:var(--body-font);line-height:1.6;}
+.bg-grid{position:fixed;inset:0;background-image:linear-gradient(rgba(78,194,218,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(78,194,218,.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
+.bg-glow{position:fixed;width:700px;height:700px;background:radial-gradient(circle,rgba(78,194,218,.07) 0%,transparent 70%);top:-200px;right:-150px;pointer-events:none}
+.bg-glow2{position:fixed;width:500px;height:500px;background:radial-gradient(circle,rgba(255,205,13,.04) 0%,transparent 70%);bottom:-100px;left:-100px;pointer-events:none}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes shimmer{0%,100%{opacity:.7}50%{opacity:1}}
+
+.page{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1.5rem 4rem;position:relative;z-index:1}
+
+/* Brand */
+.brand{display:flex;align-items:center;gap:.8rem;margin-bottom:2.2rem;animation:rise .5s both}
+.brand-logo{width:42px;height:42px;background:linear-gradient(135deg,var(--y),#2fa8c4);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Bungee';font-size:1.15rem;color:#000;box-shadow:0 4px 18px rgba(78,194,218,.4)}
+.brand-name{font-family:'Bungee';font-size:1.7rem;letter-spacing:.1em;color:var(--g);line-height:1}
+.brand-sub{font-family:'Nunito';font-size:.6rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:.1rem}
+
+/* Card */
+.form-card{width:100%;max-width:460px;background:rgba(12,30,40,.75);backdrop-filter:blur(12px);border:1px solid rgba(78,194,218,.2);border-radius:20px;padding:2.4rem;animation:rise .5s .1s both;box-shadow:0 0 0 1px rgba(255,205,13,.06),0 32px 64px rgba(0,0,0,.7),0 0 80px rgba(78,194,218,.08)}
+.card-title{font-family:'Bungee';font-size:1.85rem;letter-spacing:.05em;margin-bottom:.3rem;color:#F0FBFF}
+.card-sub{font-family:'Nunito';font-size:.84rem;font-weight:600;color:var(--soft);margin-bottom:2rem;line-height:1.6}
+
+/* Fields */
+.field{margin-bottom:1.1rem}
+.field label{display:block;font-family:'Nunito';font-size:.62rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--soft);margin-bottom:.45rem}
+.field input{width:100%;padding:.78rem 1rem;background:rgba(6,15,20,.6);border:1px solid rgba(78,194,218,.22);border-radius:10px;color:var(--txt);font-family:'Nunito';font-size:.92rem;font-weight:600;transition:border-color .2s,box-shadow .2s;outline:none}
+.field input:focus{border-color:rgba(255,205,13,.5);box-shadow:0 0 0 3px rgba(255,205,13,.12)}
+.field input::placeholder{color:var(--muted);font-weight:400}
+.field input.invalid{border-color:rgba(255,59,92,.5);box-shadow:0 0 0 3px rgba(255,59,92,.1)}
+.field-row{display:flex;gap:.7rem}.field-row .field{flex:1}
+
+/* Password */
+.pw-wrap{position:relative}
+.pw-wrap input{padding-right:2.8rem}
+.pw-toggle{position:absolute;right:.8rem;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer;font-size:1rem;padding:.2rem;transition:color .15s}
+.pw-toggle:hover{color:var(--y)}
+.pw-strength{margin-top:.5rem;display:flex;gap:.3rem;align-items:center}
+.ps-bar{flex:1;height:4px;background:var(--ln2);border-radius:2px;overflow:hidden}
+.ps-fill{height:100%;border-radius:2px;transition:width .35s,background .35s;width:0}
+.ps-label{font-family:'JetBrains Mono';font-size:.6rem;min-width:3.5rem;text-align:right}
+
+/* CGU */
+.cgu-row{display:flex;align-items:flex-start;gap:.75rem;margin-bottom:1.3rem;padding:1rem;background:rgba(6,15,20,.5);border:1px solid rgba(78,194,218,.15);border-radius:10px}
+.cgu-row input[type=checkbox]{width:16px;height:16px;min-width:16px;margin-top:.2rem;accent-color:var(--g);cursor:pointer}
+.cgu-row label{font-family:'Nunito';font-size:.8rem;font-weight:600;color:var(--soft);line-height:1.65;cursor:pointer}
+.cgu-row a{color:var(--g);text-decoration:none;font-weight:700}
+.cgu-row a:hover{text-decoration:underline}
+
+/* Buttons */
+.btn-submit{width:100%;padding:.95rem;background:linear-gradient(135deg,var(--g),#e6b800);color:#000;font-family:'Nunito';font-weight:800;font-size:.95rem;letter-spacing:.03em;border:none;border-radius:10px;cursor:pointer;transition:opacity .2s,transform .15s,box-shadow .2s;display:flex;align-items:center;justify-content:center;gap:.6rem;box-shadow:0 4px 20px rgba(255,205,13,.3)}
+.btn-submit:hover:not(:disabled){opacity:.92;transform:translateY(-2px);box-shadow:0 8px 28px rgba(255,205,13,.4)}
+.btn-submit:disabled{opacity:.45;cursor:not-allowed}
+.btn-spinner{width:16px;height:16px;border:2px solid rgba(0,0,0,.15);border-top:2px solid #000;border-radius:50%;animation:spin .7s linear infinite;display:none}
+.btn-submit.loading .btn-spinner{display:block}
+.btn-submit.loading .btn-text{display:none}
+
+.divider{display:flex;align-items:center;gap:.8rem;margin:1.3rem 0;color:var(--muted);font-family:'Nunito';font-size:.72rem;font-weight:600}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(78,194,218,.15)}
+
+.btn-oauth{width:100%;padding:.8rem;background:rgba(6,15,20,.6);border:1px solid rgba(78,194,218,.2);border-radius:10px;color:var(--soft);font-family:'Nunito';font-size:.88rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.65rem;transition:border-color .2s,background .2s;margin-bottom:.6rem}
+.btn-oauth:hover{background:rgba(78,194,218,.07);border-color:rgba(78,194,218,.35);color:var(--txt)}
+
+.msg{padding:.8rem 1rem;border-radius:10px;font-family:'Nunito';font-size:.82rem;font-weight:500;margin-bottom:1rem;display:none;line-height:1.5}
+.msg.error{background:rgba(255,59,92,.1);border:1px solid rgba(255,59,92,.28);color:#FF6B84}
+.msg.success{background:rgba(255,205,13,.12);border:1px solid rgba(255,205,13,.28);color:var(--g)}
+
+.form-links{margin-top:1.4rem;text-align:center;font-family:'Nunito';font-size:.78rem;font-weight:500;color:var(--muted)}
+.form-links a{color:var(--g);text-decoration:none;font-weight:700}
+.form-links a:hover{text-decoration:underline}
+.sep{margin:0 .5rem;opacity:.4}
+
+.page-footer{margin-top:1.8rem;font-family:'Nunito';font-size:.65rem;color:var(--muted);text-align:center;line-height:1.8}
+.page-footer a{color:var(--muted);text-decoration:none}
+.page-footer a:hover{color:var(--soft)}
+
+/* Ticker */
+.ticker-bar{position:fixed;bottom:0;left:0;right:0;height:30px;background:var(--bg1);border-top:1px solid rgba(78,194,218,.12);display:flex;align-items:center;overflow:hidden}
+.ticker-inner{display:flex;gap:2.5rem;white-space:nowrap;animation:ticker 28s linear infinite;font-family:'JetBrains Mono';font-size:.58rem}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.ti{color:var(--muted)}.ti .up{color:var(--g)}.ti .dn{color:var(--r)}
+@media(max-width:480px){.form-card{padding:1.6rem;border-radius:14px}.field-row{flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+<div class="bg-glow2"></div>
+
+<div class="page">
+  <div class="brand">
+    <div class="brand-logo">TA</div>
+    <div>
+      <div class="brand-name">TACTIC<span style="color:var(--y);font-family:'Bungee'"> ACADEMY</span></div>
+      <div class="brand-sub">Simulateur Éducatif</div>
+    </div>
+  </div>
+
+  <div class="form-card">
+    <div id="error-msg" class="msg error"></div>
+    <div id="success-msg" class="msg success"></div>
+
+    <div class="card-title">Créer un compte</div>
+    <div class="card-sub">Rejoins 10 000+ apprenants qui maîtrisent l'investissement avec TACTIC Academy.</div>
+
+    <form id="form" onsubmit="handleRegister(event)">
+      <div class="field-row">
+        <div class="field">
+          <label>Prénom</label>
+          <input type="text" id="firstName" placeholder="Marie" required autocomplete="given-name">
+        </div>
+        <div class="field">
+          <label>Nom</label>
+          <input type="text" id="lastName" placeholder="Dupont" required autocomplete="family-name">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Adresse e-mail</label>
+        <input type="email" id="email" placeholder="marie@exemple.com" required autocomplete="email">
+      </div>
+
+      <div class="field">
+        <label>Mot de passe</label>
+        <div class="pw-wrap">
+          <input type="password" id="password" placeholder="8 caractères minimum" required minlength="8" oninput="checkStrength(this.value)">
+          <button type="button" class="pw-toggle" onclick="togglePw('password',this)">👁</button>
+        </div>
+        <div class="pw-strength">
+          <div class="ps-bar"><div class="ps-fill" id="psFill"></div></div>
+          <div class="ps-label" id="psLabel" style="color:var(--muted)">—</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Confirmer le mot de passe</label>
+        <div class="pw-wrap">
+          <input type="password" id="confirmPassword" placeholder="••••••••" required oninput="checkMatch()">
+          <button type="button" class="pw-toggle" onclick="togglePw('confirmPassword',this)">👁</button>
+        </div>
+      </div>
+
+      <div class="cgu-row">
+        <input type="checkbox" id="cguCheck" required>
+        <label for="cguCheck">
+          J'ai lu et j'accepte les <a href="terms.html" target="_blank">Conditions Générales d'Utilisation</a> et la <a href="#" target="_blank">Politique de Confidentialité</a>. Je comprends que TACTIC Academy est un <strong>simulateur éducatif</strong> — aucun argent réel n'est utilisé.
+        </label>
+      </div>
+
+      <button class="btn-submit" id="submitBtn" type="submit">
+        <div class="btn-spinner"></div>
+        <span class="btn-text">Créer mon compte →</span>
+      </button>
+    </form>
+
+    <div class="divider">ou</div>
+    <button class="btn-oauth" onclick="demoAccess()" style="margin-bottom:.5rem;border-color:rgba(255,205,13,.28);color:var(--g)">
+      ⚡ Accès démo instantané (sans compte)
+    </button>
+    <button class="btn-oauth" onclick="registerGoogle()">
+      <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+      Continuer avec Google
+    </button>
+
+    <div class="form-links">
+      Déjà un compte ?<span class="sep">·</span><a href="login.html">Se connecter</a>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <a href="terms.html">CGU</a> &nbsp;·&nbsp; <a href="#">Confidentialité</a> &nbsp;·&nbsp; <a href="#">Contact</a><br>
+    <span style="margin-top:.4rem;display:block">© 2025 TACTIC Academy — Simulateur éducatif. Aucun investissement réel.</span>
+  </div>
+</div>
+
+<div class="ticker-bar"><div class="ticker-inner" id="tick"></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="auth-helper.js?v=4"></script>
+<script>
+// Fallback complet si auth-helper.js pas chargé ou en cache
+if(typeof withTimeout==='undefined'){
+  const LS='apex_session';
+  window.withTimeout=(p,ms=5000)=>Promise.race([p,new Promise((_,r)=>setTimeout(()=>r(new Error('TIMEOUT')),ms))]);
+  window.lsSetSession=d=>localStorage.setItem(LS,JSON.stringify(d));
+  window.lsGetSession=()=>{try{return JSON.parse(localStorage.getItem(LS));}catch{return null;}};
+  window.lsClearSession=()=>localStorage.removeItem(LS);
+  window.url=p=>p;
+  window.redirect=p=>{ window.location.href=p; };
+  const _ERR={
+    'Invalid login credentials':'Email ou mot de passe incorrect.',
+    'Email not confirmed':'Confirme ton email avant de te connecter.',
+    'Too many requests':'Trop de tentatives. Attends quelques minutes.',
+    'User already registered':'Cet email est déjà utilisé.',
+    'Password should be at least 6':'Le mot de passe doit faire 8 caractères minimum.',
+    'Email rate limit exceeded':'Trop d\'emails envoyés. Attends quelques minutes avant de réessayer.',
+    'over_email_send_rate_limit':'Trop d\'emails envoyés. Attends quelques minutes avant de réessayer.',
+  };
+  window.translateError=m=>{if(!m)return'Erreur.';for(const[k,v]of Object.entries(_ERR))if(m.toLowerCase().includes(k.toLowerCase()))return v;return m;};
+  window.db=null;
+  window.showError=m=>{const el=document.getElementById('error-msg');if(el){el.textContent=m;el.style.display='block';setTimeout(()=>el.style.display='none',7000);}};
+  window.showSuccess=m=>{const el=document.getElementById('success-msg');if(el){el.innerHTML=m;el.style.display='block';}};
+  window.requireGuest=()=>{ if(lsGetSession()) redirect('/pages/academy.html'); };
+}
+</script>
+<script>
+// Override showError pour supporter les liens HTML dans les messages
+window.showError = function(msg) {
+  const el = document.getElementById('error-msg');
+  if (!el) return;
+  el.innerHTML = msg;
+  el.style.display = 'block';
+  // Auto-hide seulement si pas de lien cliquable
+  if (!msg.includes('<a ')) setTimeout(() => { el.style.display = 'none'; }, 7000);
+};
+
+requireGuest();
+
+(()=>{
+  const items=[{n:'MSCI World',p:'485.20',up:true},{n:'CAC 40',p:'7820',up:true},{n:'Apple',p:'182.30',up:false},{n:'Bitcoin',p:'67 400',up:true},{n:'Or',p:'2 340',up:true},{n:'Nvidia',p:'875',up:true},{n:'Tesla',p:'172',up:false},{n:'LVMH',p:'672',up:true}];
+  const d=[...items,...items,...items,...items];
+  document.getElementById('tick').innerHTML=d.map(i=>`<span class="ti">${i.n} <span class="${i.up?'up':'dn'}">${i.up?'▲':'▼'} ${i.p}</span></span>`).join('');
+})();
+
+let selectedLevel = 'Débutant';
+function selectLevel(lvl) {
+  selectedLevel = lvl;
+  document.querySelectorAll('.level-card').forEach(c => c.classList.remove('selected'));
+  document.getElementById('lc-'+lvl)?.classList.add('selected');
+}
+function togglePw(id, btn) {
+  const i = document.getElementById(id);
+  i.type = i.type === 'password' ? 'text' : 'password';
+  btn.textContent = i.type === 'password' ? '👁' : '🙈';
+}
+function checkStrength(v) {
+  let score = 0;
+  if (v.length >= 8) score++;
+  if (v.length >= 12) score++;
+  if (/[A-Z]/.test(v)) score++;
+  if (/[0-9]/.test(v)) score++;
+  if (/[^A-Za-z0-9]/.test(v)) score++;
+  const labels = ['','Faible','Moyen','Bien','Fort','Excellent'];
+  const colors = ['','var(--r)','var(--y)','var(--b)','var(--g)','var(--g)'];
+  const pcts = [0, 20, 40, 60, 80, 100];
+  document.getElementById('psFill').style.width = pcts[score] + '%';
+  document.getElementById('psFill').style.background = colors[score];
+  document.getElementById('psLabel').textContent = labels[score] || '—';
+  document.getElementById('psLabel').style.color = colors[score] || 'var(--muted)';
+}
+function checkMatch() {
+  const p = document.getElementById('password').value;
+  const c = document.getElementById('confirmPassword');
+  c.classList.toggle('invalid', c.value.length > 0 && c.value !== p);
+}
+
+// ── Registre local des emails ─────────────────────────────────────────────
+const EMAILS_KEY = 'ta_emails';
+function hasEmailLocal(e) {
+  try { return JSON.parse(localStorage.getItem(EMAILS_KEY) || '[]').includes(e.toLowerCase()); } catch { return false; }
+}
+function saveEmailLocal(e) {
+  try {
+    const a = JSON.parse(localStorage.getItem(EMAILS_KEY) || '[]');
+    if (!a.includes(e.toLowerCase())) { a.push(e.toLowerCase()); localStorage.setItem(EMAILS_KEY, JSON.stringify(a)); }
+  } catch {}
+}
+const ERR_DUPLICATE = '❌ Cet email est déjà utilisé. <a href="login.html" style="color:var(--g);font-weight:700">Se connecter →</a> ou <a href="forgot-password.html" style="color:var(--muted)">mot de passe oublié ?</a>';
+
+async function handleRegister(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+
+  const email       = document.getElementById('email').value.trim();
+  const password    = document.getElementById('password').value;
+  const confirm     = document.getElementById('confirmPassword').value;
+  const firstName   = document.getElementById('firstName').value.trim();
+  const lastName    = document.getElementById('lastName').value.trim();
+  const cgu         = document.getElementById('cguCheck').checked;
+
+  if (password !== confirm)  { showError('Les mots de passe ne correspondent pas.'); return; }
+  if (password.length < 8)   { showError('Le mot de passe doit faire au moins 8 caractères.'); return; }
+  if (!cgu)                  { showError("Tu dois accepter les Conditions Générales d'Utilisation."); return; }
+
+  // Vérification locale immédiate (fonctionne même sans Supabase)
+  if (hasEmailLocal(email)) { showError(ERR_DUPLICATE); return; }
+
+  btn.classList.add('loading'); btn.disabled = true;
+
+  // ── Tentative Supabase ──────────────────────────────────────────────────
+  if (db) {
+    try {
+      const { data, error } = await withTimeout(db.auth.signUp({
+        email, password,
+        options: {
+          data: { full_name: `${firstName} ${lastName}`, level: selectedLevel },
+          emailRedirectTo: window.location.origin + url('/pages/login.html')
+        }
+      }), 6000);
+
+      btn.classList.remove('loading'); btn.disabled = false;
+
+      if (error) {
+        const msg = error.message || '';
+        const isDup = msg.includes('already') || msg.includes('registered') || msg.includes('exists');
+        showError(isDup ? ERR_DUPLICATE : translateError(msg));
+        return;
+      }
+
+      // Enumeration protection : Supabase renvoie user avec identities vides
+      const ids = data?.user?.identities;
+      if (ids !== undefined && ids.length === 0) { showError(ERR_DUPLICATE); return; }
+
+      // Succès
+      saveEmailLocal(email);
+      if (data?.session) {
+        lsSetSession({ id: data.user.id, email: data.user.email });
+        redirect('/pages/academy.html'); return;
+      }
+      document.getElementById('form').style.display = 'none';
+      showSuccess(`✅ <strong>Compte créé !</strong> Un email de confirmation a été envoyé à <strong>${email}</strong>. Clique sur le lien puis connecte-toi.`);
+      return;
+
+    } catch(err) {
+      btn.classList.remove('loading'); btn.disabled = false;
+      if (err.message !== 'TIMEOUT') { showError('Erreur : ' + err.message); return; }
+      // Timeout → fallback local
+    }
+  }
+
+  // ── Fallback local (Supabase hors ligne) ───────────────────────────────
+  btn.classList.remove('loading'); btn.disabled = false;
+  const userId = 'local_' + Date.now();
+  localStorage.setItem('ta_user_' + email.toLowerCase(), JSON.stringify({ id: userId, email, full_name: `${firstName} ${lastName}`, pw: btoa(password) }));
+  saveEmailLocal(email);
+  lsSetSession({ id: userId, email, full_name: `${firstName} ${lastName}` });
+  redirect('/pages/academy.html');
+}
+
+async function registerGoogle() {
+  if (!db) { demoAccess(); return; }
+  try {
+    await db.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: window.location.origin + url('/pages/academy.html') }
+    });
+  } catch(e) { demoAccess(); }
+}
+
+function demoAccess() {
+  lsSetSession({ email: 'demo@apex.local', id: 'demo', demo: true });
+  redirect('/pages/academy.html');
+}
+</script>
+</body>
+</html>

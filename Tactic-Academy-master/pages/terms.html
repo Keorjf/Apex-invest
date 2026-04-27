@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TACTIC Academy — Conditions Générales d'Utilisation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=DotGothic16&family=JetBrains+Mono&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0F2E3D;--bg2:#20556A;--bg3:#1D6881;--g:#FFCD0D;--gd:rgba(255,205,13,.1);--r:#FF3B5C;--y:#4EC2DA;--b:#4D9EFF;--txt:#EEFCFD;--soft:rgba(213,244,248,.82);--muted:rgba(175,232,242,.5);--ln:rgba(255,255,255,.07);--ln2:rgba(255,255,255,.13)}
+html,body{background:var(--bg);color:var(--txt);font-family:'DotGothic16',sans-serif;line-height:1.7}
+.bg-grid{position:fixed;inset:0;background-image:linear-gradient(rgba(78,194,218,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(78,194,218,.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
+/* HEADER */
+.site-header{position:sticky;top:0;z-index:100;background:rgba(15,46,61,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--ln);padding:.8rem 2rem;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:.6rem;text-decoration:none}
+.brand-logo{width:30px;height:30px;background:var(--g);border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:'Bungee';font-size:.95rem;color:#000}
+.brand-name{font-family:'Bungee';font-size:1.3rem;letter-spacing:.1em;color:var(--g)}
+.header-links{display:flex;gap:1rem;align-items:center}
+.header-links a{color:var(--muted);text-decoration:none;font-size:.8rem;transition:color .2s}.header-links a:hover{color:var(--txt)}
+.btn-sm{padding:.4rem .9rem;background:var(--g);color:#000;border-radius:6px;font-weight:700;font-size:.75rem;font-family:'DotGothic16'}
+/* LAYOUT */
+.page{max-width:800px;margin:0 auto;padding:3rem 1.5rem 6rem;position:relative;z-index:1}
+/* TOC */
+.toc{background:var(--bg2);border:1px solid var(--ln2);border-radius:12px;padding:1.5rem;margin-bottom:3rem}
+.toc-title{font-family:'Bungee';font-size:1.1rem;letter-spacing:.08em;margin-bottom:1rem;color:var(--g)}
+.toc ol{padding-left:1.2rem;display:flex;flex-direction:column;gap:.35rem}
+.toc a{color:var(--soft);text-decoration:none;font-size:.82rem;transition:color .2s}.toc a:hover{color:var(--g)}
+/* META */
+.doc-meta{margin-bottom:2.5rem}
+.doc-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,205,13,.1);border:1px solid rgba(255,205,13,.25);color:var(--g);font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;padding:.3rem .7rem;border-radius:100px;margin-bottom:.8rem}
+.doc-title{font-family:'Bungee';font-size:clamp(2rem,6vw,3.5rem);letter-spacing:.05em;line-height:1.1;margin-bottom:.6rem}
+.doc-sub{font-size:.82rem;color:var(--muted)}
+/* SECTIONS */
+.section{margin-bottom:3rem;scroll-margin-top:80px}
+.section-num{font-family:'JetBrains Mono';font-size:.65rem;color:var(--g);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.4rem;display:block}
+.section h2{font-family:'Bungee';font-size:1.6rem;letter-spacing:.06em;margin-bottom:1rem;color:var(--txt)}
+.section p{font-size:.875rem;color:var(--soft);margin-bottom:.9rem}
+.section ul,.section ol{padding-left:1.3rem;margin-bottom:.9rem}
+.section li{font-size:.875rem;color:var(--soft);margin-bottom:.4rem}
+/* IMPORTANT BLOCKS */
+.block-warning{background:rgba(255,59,92,.07);border-left:3px solid var(--r);border-radius:0 8px 8px 0;padding:1rem 1.2rem;margin:1.2rem 0}
+.block-warning strong{color:var(--r)}
+.block-warning p{color:var(--soft);margin-bottom:0}
+.block-info{background:rgba(78,194,218,.07);border-left:3px solid var(--y);border-radius:0 8px 8px 0;padding:1rem 1.2rem;margin:1.2rem 0}
+.block-info p{color:var(--soft);margin-bottom:0;font-size:.85rem}
+.block-green{background:rgba(255,205,13,.06);border-left:3px solid var(--g);border-radius:0 8px 8px 0;padding:1rem 1.2rem;margin:1.2rem 0}
+.block-green p{color:var(--soft);margin-bottom:0;font-size:.85rem}
+/* TABLE */
+.data-table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.82rem}
+.data-table th{background:var(--bg3);color:var(--muted);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;padding:.7rem 1rem;text-align:left;border-bottom:1px solid var(--ln2)}
+.data-table td{padding:.7rem 1rem;border-bottom:1px solid var(--ln);color:var(--soft)}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:rgba(255,255,255,.03)}
+/* DIVIDER */
+.section-divider{height:1px;background:var(--ln);margin:2rem 0}
+/* FOOTER */
+.doc-footer{margin-top:4rem;padding-top:2rem;border-top:1px solid var(--ln);display:flex;flex-direction:column;gap:.5rem;align-items:center;text-align:center}
+.df-version{font-family:'JetBrains Mono';font-size:.65rem;color:var(--muted)}
+.df-links{display:flex;gap:1.5rem;margin-top:.5rem}
+.df-links a{color:var(--muted);text-decoration:none;font-size:.75rem;transition:color .2s}.df-links a:hover{color:var(--txt)}
+/* PROGRESS BAR */
+.reading-progress{position:fixed;top:0;left:0;height:2px;background:var(--g);z-index:200;transition:width .1s}
+/* BACK TO TOP */
+.back-top{position:fixed;bottom:2rem;right:2rem;width:44px;height:44px;background:var(--bg2);border:1px solid var(--ln2);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;transition:all .2s;opacity:0;pointer-events:none;z-index:50}
+.back-top.visible{opacity:1;pointer-events:auto}
+.back-top:hover{border-color:var(--g);color:var(--g)}
+@media(max-width:600px){.page{padding:2rem 1rem 5rem}.site-header{padding:.8rem 1rem}}
+</style>
+</head>
+<body>
+<div class="reading-progress" id="rp"></div>
+<div class="bg-grid"></div>
+
+<header class="site-header">
+  <a class="brand" href="../index.html">
+    <div class="brand-logo">TA</div>
+    <div class="brand-name">TACTIC<span style="color:var(--txt)"> ACADEMY</span></div>
+  </a>
+  <div class="header-links">
+    <a href="login.html">Connexion</a>
+    <a href="register.html" class="btn-sm">Créer un compte</a>
+  </div>
+</header>
+
+<div class="page">
+  <div class="doc-meta">
+    <div class="doc-badge">📄 Document légal</div>
+    <div class="doc-title">Conditions Générales<br>d'Utilisation</div>
+    <div class="doc-sub">Version 1.0 — Entrée en vigueur le 1er janvier 2025 · Dernière mise à jour : 1er janvier 2025</div>
+  </div>
+
+  <div class="block-warning">
+    <p><strong>⚠️ AVERTISSEMENT IMPORTANT :</strong> APEX Invest est exclusivement un <strong>simulateur éducatif</strong>. Aucun argent réel n'est investi, aucune transaction financière réelle n'est effectuée. Les performances simulées ne constituent en aucun cas des conseils en investissement.</p>
+  </div>
+
+  <div class="toc">
+    <div class="toc-title">Table des matières</div>
+    <ol>
+      <li><a href="#s1">Présentation du service</a></li>
+      <li><a href="#s2">Acceptation des CGU</a></li>
+      <li><a href="#s3">Création de compte et conditions d'accès</a></li>
+      <li><a href="#s4">Nature du service — Simulateur éducatif</a></li>
+      <li><a href="#s5">Propriété intellectuelle</a></li>
+      <li><a href="#s6">Données personnelles et RGPD</a></li>
+      <li><a href="#s7">Obligations et responsabilités de l'utilisateur</a></li>
+      <li><a href="#s8">Limitation de responsabilité</a></li>
+      <li><a href="#s9">Suspension et résiliation du compte</a></li>
+      <li><a href="#s10">Modifications des CGU</a></li>
+      <li><a href="#s11">Droit applicable et juridiction</a></li>
+      <li><a href="#s12">Contact et réclamations</a></li>
+    </ol>
+  </div>
+
+  <!-- ARTICLE 1 -->
+  <div class="section" id="s1">
+    <span class="section-num">Article 1</span>
+    <h2>Présentation du service</h2>
+    <p>APEX Invest (ci-après "le Service") est une plateforme éducative de simulation d'investissement éditée par [Nom de la société], [forme juridique], immatriculée au RCS de [Ville] sous le numéro [SIRET], dont le siège social est situé [Adresse complète], France.</p>
+    <p>Contact : <strong>contact@apexinvest.fr</strong> — Directeur de publication : [Prénom Nom]</p>
+    <p>Le Service permet aux utilisateurs de :</p>
+    <ul>
+      <li>Simuler des investissements sur des actifs financiers virtuels sans argent réel ;</li>
+      <li>Accéder à des contenus pédagogiques sur la finance et l'investissement ;</li>
+      <li>Effectuer des simulations de portefeuille et d'allocation d'actifs ;</li>
+      <li>Progresser dans un parcours gamifié d'apprentissage financier.</li>
+    </ul>
+    <div class="block-green"><p>Le Service est hébergé par Netlify, Inc. (San Francisco, USA) et utilise Supabase (infrastructure PostgreSQL) pour la gestion des données utilisateurs.</p></div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ARTICLE 2 -->
+  <div class="section" id="s2">
+    <span class="section-num">Article 2</span>
+    <h2>Acceptation des CGU</h2>
+    <p>L'accès et l'utilisation du Service impliquent l'acceptation pleine et entière des présentes Conditions Générales d'Utilisation. Cette acceptation est matérialisée lors de la création de compte par la case à cocher "J'accepte les CGU".</p>
+    <p>En cochant cette case, l'utilisateur reconnaît :</p>
+    <ul>
+      <li>Avoir lu et compris l'intégralité des présentes CGU ;</li>
+      <li>Être majeur ou disposer de l'autorisation parentale nécessaire ;</li>
+      <li>Comprendre que le Service est exclusivement éducatif et ne constitue pas un service d'investissement réel ;</li>
+      <li>Que la date et l'heure d'acceptation des CGU sont enregistrées conformément au RGPD.</li>
+    </ul>
+    <p>Si l'utilisateur refuse les présentes CGU, il ne pourra pas créer de compte ni accéder aux fonctionnalités du Service.</p>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ARTICLE 3 -->
+  <div class="section" id="s3">
+    <span class="section-num">Article 3</span>
+    <h2>Création de compte et conditions d'accès</h2>
+    <p><strong>3.1 Conditions d'âge</strong></p>
+    <p>Le Service est accessible aux personnes âgées de 16 ans minimum. Les mineurs entre 16 et 18 ans doivent disposer de l'autorisation de leur représentant légal.</p>
+    <p><strong>3.2 Informations du compte</strong></p>
+    <p>L'utilisateur s'engage à fournir des informations exactes, complètes et à jour lors de la création de son compte. Toute fausse déclaration peut entraîner la suspension ou la suppression du compte.</p>
+    <p><strong>3.3 Sécurité du compte</strong></p>
+    <ul>
+      <li>L'utilisateur est responsable de la confidentialité de ses identifiants ;</li>
+      <li>Tout accès au Service avec ses identifiants est réputé effectué par l'utilisateur ;</li>
+      <li>En cas de compromission suspectée, l'utilisateur doit contacter immédiatement support@apexinvest.fr ;</li>
+      <li>Un seul compte par personne est autorisé.</li>
+    </ul>
+    <p><strong>3.4 Gratuit et premium</strong></p>
+    <p>Le Service propose une offre gratuite avec accès aux fonctionnalités de base. Des fonctionnalités avancées pourront être proposées dans une version premium dans le futur. Tout changement de tarification fera l'objet d'une notification préalable d'au moins 30 jours.</p>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ARTICLE 4 -->
+  <div class="section" id="s4">
+    <span class="section-num">Article 4</span>
+    <h2>Nature du service — Simulateur éducatif</h2>
+    <div class="block-warning">
+      <p><strong>AVERTISSEMENT ESSENTIEL :</strong> APEX Invest est un outil pédagogique de simulation. Il ne s'agit en aucun cas d'une plateforme d'investissement réel, d'un service d'investissement au sens de la Directive MIF II, ni d'un conseiller en investissement financier (CIF) agréé.</p>
+    </div>
+    <p><strong>4.1 Ce que le Service est :</strong></p>
+    <ul>
+      <li>Un simulateur de portefeuille avec des monnaies virtuelles (ApexCoins) ;</li>
+      <li>Une plateforme éducative sur les concepts financiers ;</li>
+      <li>Un outil de mise en pratique dans un environnement sans risque ;</li>
+      <li>Un jeu éducatif gamifié (missions, XP, niveaux).</li>
+    </ul>
+    <p><strong>4.2 Ce que le Service n'est pas :</strong></p>
+    <ul>
+      <li>Un service d'investissement réel ;</li>
+      <li>Un conseil personnalisé en investissement ;</li>
+      <li>Une garantie de performance ou de résultats sur les marchés réels ;</li>
+      <li>Un service agréé par l'AMF (Autorité des Marchés Financiers).</li>
+    </ul>
+    <div class="block-info"><p>📌 Les prix des actifs simulés sont générés algorithmiquement à des fins éducatives et ne reflètent pas nécessairement les cours réels des marchés financiers.</p></div>
+    <p>L'éditeur décline toute responsabilité pour les décisions d'investissement réelles que l'utilisateur pourrait prendre en se basant sur son expérience du Service.</p>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ARTICLE 5 -->
+  <div class="section" id="s5">
+    <span class="section-num">Article 5</span>
+    <h2>Propriété intellectuelle</h2>
+    <p>L'ensemble des éléments du Service (contenus pédagogiques, interface, code, marque "APEX Invest", visuels, algorithmes) est la propriété exclusive de l'éditeur ou fait l'objet d'une licence en sa faveur.</p>
+    <p>Il est expressément interdit de :</p>
+    <ul>
+      <li>Reproduire, copier ou distribuer tout ou partie du Service sans autorisation écrite ;</li>
+      <li>Décompiler, désassembler ou rétroconcevoir le code source ;</li>
+      <li>Créer des œuvres dérivées basées sur les contenus du Service ;</li>
+      <li>Utiliser le nom ou la marque "APEX Invest" à des fins commerciales.</li>
+    </ul>
+    <p>L'utilisateur conserve la propriété des données qu'il génère sur le Service (journal de transactions, progression). Ces données peuvent être exportées sur demande.</p>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ARTICLE 6 -->
+  <div class="section" id="s6">
+    <span class="section-num">Article 6</span>
+    <h2>Données personnelles et RGPD</h2>
+    <p>L'éditeur s'engage à traiter les données personnelles des utilisateurs conformément au Règlement Général sur la Protection des Données (RGPD — UE 2016/679) et à la loi Informatique et Libertés.</p>
+    <p><strong>6.1 Données collectées</strong></p>
+    <table class="data-table">
+      <thead><tr><th>Donnée</th><th>Finalité</th><th>Durée de conservation</th></tr></thead>
+      <tbody>
+        <tr><td>Email, prénom, nom</td><td>Identification et authentification</td><td>Durée du compte + 3 ans</td></tr>
+        <tr><td>Progression (XP, leçons)</td><td>Personnalisation du parcours</td><td>Durée du compte</td></tr>
+        <tr><td>Journal de transactions simulées</td><td>Fonctionnement du Service</td><td>Durée du compte</td></tr>
+        <tr><td>Date/heure d'acceptation des CGU</td><td>Preuve légale de consentement</td><td>5 ans après résiliation</td></tr>
+        <tr><td>Logs de connexion</td><td>Sécurité et débogage</td><td>90 jours</td></tr>
+      </tbody>
+    </table>
+    <p><strong>6.2 Droits des utilisateurs</strong></p>
+    <p>Conformément au RGPD, vous disposez des droits suivants, exerçables à rgpd@apexinvest.fr :</p>
+    <ul>
+      <li><strong>Droit d'accès</strong> : obtenir une copie de vos données ;</li>
+      <li><strong>Droit de rectification</strong> : corriger des données inexactes ;</li>
+      <li><strong>Droit à l'effacement</strong> : supprimer votre compte et données ;</li>
+      <li><strong>Droit à la portabilité</strong> : recevoir vos données en format structuré ;</li>
+      <li><strong>Droit d'opposition</strong> : s'opposer à certains traitements ;</li>
+      <li><strong>Droit de réclamation</strong> : auprès de la CNIL (www.cnil.fr).</li>
+    </ul>
+    <div class="block-green"><p>✅ APEX Invest ne vend jamais vos données à des tiers à des fins publicitaires. Aucune donnée personnelle n'est partagée avec des annonceurs.</p></div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ARTICLE 7 -->
+  <div class="section" id="s7">
+    <span class="section-num">Article 7</span>
+    <h2>Obligations et responsabilités de l'utilisateur</h2>
+    <p>L'utilisateur s'engage à utiliser le Service de manière licite et respectueuse. Sont notamment interdits :</p>
+    <ul>
+      <li>Toute tentative de piratage, d'exploitation de failles ou d'accès non autorisé ;</li>
+      <li>L'utilisation de robots, scripts ou outils automatisés pour interagir avec le Service ;</li>
+      <li>La création de faux comptes ou l'usurpation d'identité ;</li>
+      <li>Tout comportement susceptible de perturber le fonctionnement du Service ;</li>
+      <li>La revente ou la commercialisation des ApexCoins (monnaie virtuelle sans valeur réelle) ;</li>
+      <li>L'utilisation du Service à des fins autres qu'éducatives et personnelles.</li>
+    </ul>
+    <p>L'utilisateur est seul responsable des décisions d'investissement réelles qu'il prend en dehors du Service.</p>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ARTICLE 8 -->
+  <div class="section" id="s8">
+    <span class="section-num">Article 8</span>
+    <h2>Limitation de responsabilité</h2>
+    <p>Dans les limites permises par la loi applicable, l'éditeur ne saurait être tenu responsable :</p>
+    <ul>
+      <li>Des pertes financières réelles liées à des décisions d'investissement inspirées du Service ;</li>
+      <li>D'interruptions temporaires du Service pour maintenance ou raisons techniques ;</li>
+      <li>De la perte de données en cas de force majeure ;</li>
+      <li>Des contenus de sites tiers vers lesquels le Service pourrait rediriger ;</li>
+      <li>De l'inexactitude des prix simulés par rapport aux marchés réels.</li>
+    </ul>
+    <div class="block-warning"><p><strong>Rappel :</strong> Les performances passées simulées ne préjugent pas des performances futures sur les marchés réels. Tout investissement réel comporte un risque de perte en capital.</p></div>
+    <p>En cas de manquement à ses obligations contractuelles, la responsabilité de l'éditeur est limitée au montant des sommes éventuellement versées par l'utilisateur au titre d'abonnements premium au cours des 12 derniers mois.</p>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ARTICLE 9 -->
+  <div class="section" id="s9">
+    <span class="section-num">Article 9</span>
+    <h2>Suspension et résiliation du compte</h2>
+    <p><strong>9.1 Résiliation à l'initiative de l'utilisateur</strong></p>
+    <p>L'utilisateur peut supprimer son compte à tout moment depuis les paramètres du Service ou en écrivant à support@apexinvest.fr. La suppression entraîne l'effacement définitif des données dans un délai de 30 jours, sauf obligations légales de conservation.</p>
+    <p><strong>9.2 Suspension à l'initiative de l'éditeur</strong></p>
+    <p>L'éditeur se réserve le droit de suspendre ou résilier tout compte en cas de :</p>
+    <ul>
+      <li>Violation des présentes CGU ;</li>
+      <li>Comportement frauduleux ou abusif ;</li>
+      <li>Non-respect des lois applicables ;</li>
+      <li>Inactivité prolongée de plus de 24 mois.</li>
+    </ul>
+    <p>En cas de suspension, l'utilisateur sera notifié par email avec les raisons et les voies de recours disponibles.</p>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ARTICLE 10 -->
+  <div class="section" id="s10">
+    <span class="section-num">Article 10</span>
+    <h2>Modifications des CGU</h2>
+    <p>L'éditeur se réserve le droit de modifier les présentes CGU à tout moment. Les utilisateurs seront informés de toute modification substantielle par :</p>
+    <ul>
+      <li>Un email envoyé à l'adresse enregistrée, au moins 30 jours avant l'entrée en vigueur ;</li>
+      <li>Une notification au sein de l'interface du Service ;</li>
+      <li>La mise à jour de la date en en-tête de ce document.</li>
+    </ul>
+    <p>La poursuite de l'utilisation du Service après l'entrée en vigueur des nouvelles CGU vaut acceptation de celles-ci. Si l'utilisateur refuse les nouvelles conditions, il peut supprimer son compte.</p>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ARTICLE 11 -->
+  <div class="section" id="s11">
+    <span class="section-num">Article 11</span>
+    <h2>Droit applicable et juridiction</h2>
+    <p>Les présentes CGU sont régies par le droit français. En cas de litige, les parties s'efforceront de résoudre le différend à l'amiable dans un délai de 30 jours.</p>
+    <p>À défaut de règlement amiable, tout litige relatif à l'interprétation ou à l'exécution des présentes CGU sera soumis à la compétence exclusive des tribunaux français.</p>
+    <p>Conformément à l'article L.612-1 du Code de la consommation, l'utilisateur consommateur a le droit de recourir gratuitement à un médiateur de la consommation. L'éditeur adhère au service de médiation : [Nom du médiateur — à compléter].</p>
+    <p>Plateforme européenne de règlement des litiges en ligne : <a href="https://ec.europa.eu/consumers/odr" style="color:var(--g)">ec.europa.eu/consumers/odr</a></p>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ARTICLE 12 -->
+  <div class="section" id="s12">
+    <span class="section-num">Article 12</span>
+    <h2>Contact et réclamations</h2>
+    <table class="data-table">
+      <thead><tr><th>Objet</th><th>Contact</th><th>Délai de réponse</th></tr></thead>
+      <tbody>
+        <tr><td>Support général</td><td>support@apexinvest.fr</td><td>72h ouvrées</td></tr>
+        <tr><td>Données personnelles / RGPD</td><td>rgpd@apexinvest.fr</td><td>30 jours (légal)</td></tr>
+        <tr><td>Signalement abus</td><td>abuse@apexinvest.fr</td><td>48h</td></tr>
+        <tr><td>Questions légales</td><td>legal@apexinvest.fr</td><td>5 jours ouvrés</td></tr>
+        <tr><td>Courrier postal</td><td>[Adresse complète] — France</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="doc-footer">
+    <div class="df-version">Version 1.0 · Valide depuis le 1er janvier 2025 · SHA-256 : [hash du document]</div>
+    <div class="df-links">
+      <a href="login.html">Connexion</a>
+      <a href="register.html">Créer un compte</a>
+      <a href="#">Politique de confidentialité</a>
+      <a href="#">Mentions légales</a>
+    </div>
+    <div style="font-size:.65rem;color:var(--muted);margin-top:.8rem">© 2025 APEX Invest — Simulateur éducatif uniquement. Aucun investissement réel.</div>
+  </div>
+</div>
+
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// Reading progress
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = h.scrollTop / (h.scrollHeight - h.clientHeight) * 100;
+  document.getElementById('rp').style.width = pct + '%';
+  document.getElementById('backTop').classList.toggle('visible', h.scrollTop > 400);
+});
+</script>
+</body>
+</html>

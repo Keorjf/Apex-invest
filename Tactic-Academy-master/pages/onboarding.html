@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="refresh" content="0; url=login.html">
+<title>APEX Invest — Redirection vers Connexion</title>
+</head>
+<body>
+  <p>Redirection vers <a href="login.html">connexion</a>...</p>
+</body>
+</html>
+  --g:#00FF88;--gd:rgba(0,255,136,.08);--gd2:rgba(0,255,136,.15);
+  --r:#FF3B5C;--y:#FFB020;--b:#4D9EFF;--v:#A259FF;
+  --txt:#F0F0FF;--soft:#B0B0D0;--muted:#5A5A7A;
+  --ln:rgba(255,255,255,.07);--ln2:rgba(255,255,255,.12);--ln3:rgba(255,255,255,.2);
+}
+html,body{min-height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;overflow-x:hidden}
+
+.bg-grid{position:fixed;inset:0;background-image:linear-gradient(rgba(0,255,136,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,136,.025) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+.bg-orb{position:fixed;border-radius:50%;pointer-events:none;z-index:0}
+.bg-orb1{width:700px;height:700px;background:radial-gradient(circle,rgba(0,255,136,.05) 0%,transparent 65%);top:-300px;left:-200px;animation:drift1 12s ease-in-out infinite}
+.bg-orb2{width:500px;height:500px;background:radial-gradient(circle,rgba(77,158,255,.04) 0%,transparent 65%);bottom:-200px;right:-150px;animation:drift2 15s ease-in-out infinite}
+@keyframes drift1{0%,100%{transform:translate(0,0)}50%{transform:translate(40px,30px)}}
+@keyframes drift2{0%,100%{transform:translate(0,0)}50%{transform:translate(-30px,-20px)}}
+
+.shell{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1.5rem 5rem}
+
+.brand{display:flex;align-items:center;gap:.6rem;margin-bottom:2.5rem;animation:riseIn .5s both}
+.brand-logo{width:36px;height:36px;background:var(--g);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue';font-size:1.1rem;color:#000;letter-spacing:.05em;flex-shrink:0}
+.brand-name{font-family:'Bebas Neue';font-size:1.6rem;letter-spacing:.12em;color:var(--g)}
+.brand-tag{font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-left:.2rem}
+
+.progress-wrap{width:100%;max-width:520px;margin-bottom:2rem;animation:riseIn .5s .05s both}
+.progress-steps{display:flex;align-items:center;position:relative}
+.progress-steps::before{content:'';position:absolute;top:50%;left:12px;right:12px;height:1px;background:var(--ln2);transform:translateY(-50%);z-index:0}
+.step-dot{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--ln2);background:var(--bg2);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono';font-size:.6rem;font-weight:700;color:var(--muted);position:relative;z-index:1;flex-shrink:0;transition:all .3s}
+.step-dot.active{border-color:var(--g);color:var(--g);background:var(--gd);box-shadow:0 0 0 4px rgba(0,255,136,.1)}
+.step-dot.done{border-color:var(--g);background:var(--g);color:#000}
+.step-line{flex:1;height:1px;background:var(--ln2);transition:background .4s;position:relative;z-index:0}
+.step-line.done{background:var(--g)}
+.step-labels{display:flex;justify-content:space-between;margin-top:.5rem}
+.step-lbl{font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-align:center;flex:1;transition:color .3s}
+.step-lbl.active{color:var(--g)}
+.step-lbl.done{color:var(--soft)}
+
+.card{width:100%;max-width:520px;background:var(--bg2);border:1px solid var(--ln2);border-radius:20px;padding:2.5rem 2.5rem 2rem;box-shadow:0 0 80px rgba(0,255,136,.04),0 32px 64px rgba(0,0,0,.6);overflow:hidden;position:relative;transition:box-shadow .5s}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--g),transparent);opacity:0;transition:opacity .5s}
+.card.glow::before{opacity:.7}
+.card.glow{box-shadow:0 0 120px rgba(0,255,136,.08),0 32px 64px rgba(0,0,0,.6)}
+
+.step-panel{display:none}
+.step-panel.active{display:block;animation:riseIn .4s both}
+.step-panel.slide{animation:fadeSlide .35s both}
+@keyframes riseIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeSlide{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:translateX(0)}}
+
+.step-tag{font-family:'JetBrains Mono';font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--g);margin-bottom:.6rem;display:flex;align-items:center;gap:.4rem}
+.step-tag::before{content:'';width:16px;height:1px;background:var(--g)}
+.step-title{font-family:'Bebas Neue';font-size:2.2rem;letter-spacing:.05em;line-height:1;margin-bottom:.5rem}
+.step-sub{font-size:.82rem;color:var(--muted);line-height:1.55;margin-bottom:1.8rem}
+
+/* STEP 1 */
+.welcome-hero{padding:.5rem 0 .5rem}
+.welcome-rocket{font-size:3rem;display:block;margin-bottom:1.6rem;animation:rocketFloat 3s ease-in-out infinite}
+@keyframes rocketFloat{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-8px) rotate(5deg)}}
+.welcome-headline{font-family:'Bebas Neue';font-size:3.2rem;line-height:1.05;letter-spacing:.04em;margin-bottom:1rem}
+.welcome-headline .line1{color:var(--txt);display:block}
+.welcome-headline .line2{color:var(--g);display:block;text-shadow:0 0 40px rgba(0,255,136,.35)}
+.welcome-msg{font-size:.9rem;color:var(--soft);line-height:1.65;margin-bottom:2rem}
+.welcome-features{display:flex;flex-direction:column;gap:.6rem;margin-bottom:2rem}
+.welcome-feat{display:flex;align-items:center;gap:.75rem;font-size:.8rem;color:var(--soft)}
+.welcome-feat-dot{width:6px;height:6px;border-radius:50%;background:var(--g);flex-shrink:0;box-shadow:0 0 8px rgba(0,255,136,.5)}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;margin-bottom:1.5rem}
+.stat-box{background:var(--bg3);border:1px solid var(--ln);border-radius:10px;padding:.85rem .6rem;text-align:center}
+.stat-val{font-family:'JetBrains Mono';font-size:1.25rem;font-weight:700;color:var(--g);display:block}
+.stat-lbl{font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:.2rem}
+
+/* STEP 2 */
+.goal-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:1.6rem}
+.goal-card{padding:1rem;background:var(--bg3);border:1.5px solid var(--ln2);border-radius:12px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;user-select:none}
+.goal-card:hover{border-color:rgba(0,255,136,.3);background:rgba(0,255,136,.03)}
+.goal-card.selected{border-color:var(--g);background:var(--gd);box-shadow:0 0 0 1px rgba(0,255,136,.15)}
+.goal-icon{font-size:1.5rem;margin-bottom:.5rem;display:block}
+.goal-title{font-size:.82rem;font-weight:600;margin-bottom:.2rem;color:var(--txt)}
+.goal-desc{font-size:.68rem;color:var(--muted);line-height:1.4}
+.goal-check{position:absolute;top:.6rem;right:.6rem;width:18px;height:18px;border-radius:50%;border:1.5px solid var(--ln3);background:transparent;display:flex;align-items:center;justify-content:center;font-size:.6rem;transition:all .2s}
+.goal-card.selected .goal-check{background:var(--g);border-color:var(--g);color:#000;font-weight:700}
+
+/* STEP 3 */
+.horizon-display{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:.8rem}
+.horizon-val{font-family:'JetBrains Mono';font-size:2.4rem;font-weight:700;color:var(--g)}
+.horizon-unit{font-size:.8rem;color:var(--muted);margin-left:.3rem;margin-bottom:.4rem}
+.horizon-cat{font-size:.7rem;color:var(--muted);font-family:'JetBrains Mono';margin-bottom:.4rem}
+.slider-input{width:100%;-webkit-appearance:none;appearance:none;height:4px;border-radius:4px;background:var(--ln2);outline:none;cursor:pointer;margin-bottom:.5rem}
+.slider-input::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--g);border:2px solid rgba(0,255,136,.3);box-shadow:0 0 12px rgba(0,255,136,.3);cursor:pointer;transition:transform .15s}
+.slider-input::-webkit-slider-thumb:hover{transform:scale(1.15)}
+.slider-input::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--g);border:2px solid rgba(0,255,136,.3);cursor:pointer}
+.horizon-markers{display:flex;justify-content:space-between;margin-bottom:1rem}
+.h-mark{font-family:'JetBrains Mono';font-size:.58rem;color:var(--muted)}
+.horizon-desc-box{background:var(--bg3);border:1px solid var(--ln);border-radius:10px;padding:.9rem 1rem;margin-bottom:1.5rem}
+.horizon-desc-box p{font-size:.78rem;color:var(--soft);line-height:1.5}
+.horizon-desc-box strong{color:var(--g);font-weight:600}
+
+/* STEP 4 */
+.amount-display{background:var(--bg3);border:1.5px solid var(--ln2);border-radius:14px;padding:1.2rem 1.4rem;margin-bottom:1.2rem;display:flex;align-items:center;gap:.8rem;transition:border-color .2s,box-shadow .2s}
+.amount-display:focus-within{border-color:rgba(0,255,136,.4);box-shadow:0 0 0 3px rgba(0,255,136,.08)}
+.amount-currency{font-family:'Bebas Neue';font-size:2rem;color:var(--g);letter-spacing:.05em}
+.amount-input{flex:1;background:transparent;border:none;outline:none;font-family:'JetBrains Mono';font-size:2rem;font-weight:700;color:var(--txt);min-width:0}
+.amount-input::placeholder{color:var(--muted)}
+.amount-chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.4rem}
+.chip{padding:.35rem .85rem;background:var(--bg3);border:1px solid var(--ln2);border-radius:20px;font-family:'JetBrains Mono';font-size:.72rem;color:var(--soft);cursor:pointer;transition:all .2s;user-select:none}
+.chip:hover{border-color:rgba(0,255,136,.35);color:var(--g)}
+.chip.active{border-color:var(--g);background:var(--gd);color:var(--g)}
+.amount-hint{font-size:.72rem;color:var(--muted);line-height:1.5;padding:.75rem .9rem;background:rgba(255,176,32,.05);border:1px solid rgba(255,176,32,.15);border-radius:8px;margin-bottom:1.5rem}
+.hint-yellow{color:var(--y)}
+
+/* STEP 5 */
+.profile-result{text-align:center;padding:.5rem 0}
+.profile-badge{width:80px;height:80px;border-radius:50%;border:2px solid var(--g);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:2rem;position:relative;transition:border-color .3s,background .3s}
+.badge-ring{position:absolute;inset:-6px;border-radius:50%;border:1px solid var(--g);opacity:.2;animation:badgeSpin 8s linear infinite}
+@keyframes badgeSpin{to{transform:rotate(360deg)}}
+.profile-name{font-family:'Bebas Neue';font-size:2rem;letter-spacing:.08em;margin-bottom:.3rem;transition:color .3s}
+.profile-tagline{font-size:.8rem;color:var(--muted);margin-bottom:1.8rem;max-width:300px;margin-left:auto;margin-right:auto;line-height:1.5}
+.alloc-bars{width:100%;background:var(--bg3);border:1px solid var(--ln);border-radius:12px;padding:1.2rem 1.4rem;margin-bottom:1.2rem;text-align:left}
+.alloc-title{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem}
+.alloc-item{margin-bottom:.75rem}
+.alloc-item:last-child{margin-bottom:0}
+.alloc-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:.3rem}
+.alloc-label{font-size:.75rem;color:var(--soft)}
+.alloc-pct{font-family:'JetBrains Mono';font-size:.72rem;font-weight:700}
+.alloc-bar-bg{height:4px;background:var(--ln2);border-radius:4px;overflow:hidden}
+.alloc-bar-fill{height:100%;border-radius:4px;width:0;transition:width 1s .2s}
+.traits-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem;margin-bottom:1.2rem}
+.trait-box{background:var(--bg3);border:1px solid var(--ln);border-radius:10px;padding:.7rem;text-align:center}
+.trait-icon{font-size:1rem;display:block;margin-bottom:.25rem}
+.trait-name{font-size:.62rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.trait-val{font-size:.78rem;font-weight:600;color:var(--txt);margin-top:.2rem}
+.xp-awarded{display:flex;align-items:center;justify-content:center;gap:.7rem;padding:.85rem;background:var(--gd);border:1px solid rgba(0,255,136,.2);border-radius:10px;margin-bottom:1.4rem;font-size:.82rem;color:var(--g);font-weight:600}
+.xp-num{font-family:'JetBrains Mono';font-size:1.2rem;font-weight:700}
+
+/* STEP 6 */
+.ready-hero{text-align:center;padding:1rem 0}
+.ready-ring{width:90px;height:90px;margin:0 auto 1.4rem;position:relative}
+.ready-ring svg{width:90px;height:90px}
+.ring-bg{fill:none;stroke:var(--ln2);stroke-width:2}
+.ring-fill{fill:none;stroke:var(--g);stroke-width:2.5;stroke-linecap:round;stroke-dasharray:251.3;stroke-dashoffset:251.3;transform:rotate(-90deg);transform-origin:45px 45px;transition:stroke-dashoffset 1.6s .3s ease}
+.ring-fill.go{stroke-dashoffset:0}
+.ready-ring-icon{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:2rem}
+.ready-title{font-family:'Bebas Neue';font-size:2.4rem;letter-spacing:.05em;margin-bottom:.4rem}
+.ready-sub{font-size:.82rem;color:var(--muted);line-height:1.55;max-width:340px;margin:0 auto 2rem}
+.checklist{text-align:left;background:var(--bg3);border:1px solid var(--ln);border-radius:12px;padding:1.1rem 1.3rem;margin-bottom:1.6rem}
+.check-item{display:flex;align-items:center;gap:.75rem;padding:.5rem 0;border-bottom:1px solid var(--ln)}
+.check-item:last-child{border-bottom:none}
+.check-icon{width:22px;height:22px;border-radius:50%;background:var(--gd);border:1px solid rgba(0,255,136,.3);display:flex;align-items:center;justify-content:center;font-size:.7rem;color:var(--g);flex-shrink:0;font-weight:700}
+.check-text{font-size:.78rem;color:var(--soft)}
+.check-text strong{color:var(--txt);font-weight:600}
+
+/* BTNS */
+.btn-primary{width:100%;padding:.9rem;background:var(--g);color:#000;font-family:'DM Sans';font-weight:700;font-size:.92rem;letter-spacing:.03em;border:none;border-radius:10px;cursor:pointer;transition:opacity .2s,transform .15s;display:flex;align-items:center;justify-content:center;gap:.5rem}
+.btn-primary:hover:not(:disabled){opacity:.9;transform:translateY(-1px)}
+.btn-primary:disabled{opacity:.4;cursor:not-allowed}
+.btn-secondary{width:100%;padding:.75rem;background:transparent;color:var(--soft);font-family:'DM Sans';font-size:.85rem;border:1px solid var(--ln2);border-radius:10px;cursor:pointer;transition:all .2s;margin-top:.6rem}
+.btn-secondary:hover{border-color:var(--ln3);color:var(--txt)}
+.btn-launch{width:100%;padding:1rem;background:var(--g);color:#000;font-family:'Bebas Neue';font-size:1.5rem;letter-spacing:.12em;border:none;border-radius:10px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:.6rem}
+.btn-launch:hover:not(:disabled){opacity:.9;transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,255,136,.25)}
+.btn-launch:disabled{opacity:.5;cursor:not-allowed}
+.btn-spinner{width:16px;height:16px;border:2px solid rgba(0,0,0,.25);border-top-color:#000;border-radius:50%;animation:btnSpin .7s linear infinite;display:none}
+@keyframes btnSpin{to{transform:rotate(360deg)}}
+.loading .btn-spinner{display:block}
+.loading .btn-text{display:none}
+
+/* TICKER */
+.ticker-bar{position:fixed;bottom:0;left:0;right:0;height:32px;background:var(--bg3);border-top:1px solid var(--ln);display:flex;align-items:center;overflow:hidden;z-index:10}
+.ticker-inner{display:flex;gap:2.5rem;white-space:nowrap;animation:tickAnim 28s linear infinite;font-family:'JetBrains Mono';font-size:.6rem}
+@keyframes tickAnim{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.ti{color:var(--muted)}.ti .up{color:var(--g)}.ti .dn{color:var(--r)}
+
+@media(max-width:480px){
+  .card{padding:1.8rem 1.4rem 1.4rem;border-radius:14px}
+  .step-title{font-size:1.8rem}
+  .goal-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="bg-orb bg-orb1"></div>
+<div class="bg-orb bg-orb2"></div>
+
+<div class="shell">
+  <div class="brand">
+    <div class="brand-logo">AX</div>
+    <div>
+      <div class="brand-name">APEX<span style="color:var(--txt)"> INVEST</span></div>
+      <div class="brand-tag">Simulateur Éducatif</div>
+    </div>
+  </div>
+
+  <div class="progress-wrap" id="progressWrap">
+    <div class="progress-steps" id="stepDots"></div>
+    <div class="step-labels" id="stepLabels"></div>
+  </div>
+
+  <div class="card" id="mainCard">
+
+    <!-- STEP 1 — BIENVENUE -->
+    <div class="step-panel active" id="panel-1">
+      <div class="welcome-hero">
+        <div class="welcome-avatar" id="avatarEl">?</div>
+        <div class="welcome-name" id="welcomeName">Chargement…</div>
+        <div class="welcome-msg">Ton compte est prêt. En quelques étapes, on va personnaliser ton expérience APEX pour toi.</div>
+        <div class="stats-row">
+          <div class="stat-box"><span class="stat-val">500</span><div class="stat-lbl">Coins</div></div>
+          <div class="stat-box"><span class="stat-val">25</span><div class="stat-lbl">Leçons</div></div>
+        </div>
+        <div class="journey-strip">
+          <div class="journey-icon">🗺️</div>
+          <div class="journey-text">
+            <strong>Ton parcours commence ici</strong>
+            <span>3 min pour configurer ton profil investisseur et débloquer tes premières leçons personnalisées.</span>
+          </div>
+        </div>
+      </div>
+      <button class="btn-primary" onclick="nextStep()"><span class="btn-text">Commencer →</span></button>
+    </div>
+
+    <!-- STEP 2 — OBJECTIF -->
+    <div class="step-panel" id="panel-2">
+      <div class="step-tag">Étape 1 / 4</div>
+      <div class="step-title">Quel est ton objectif ?</div>
+      <div class="step-sub">Ton parcours de leçons sera adapté à ta priorité.</div>
+      <div class="goal-grid">
+        <div class="goal-card" id="gc-epargne" onclick="selectGoal('epargne')">
+          <span class="goal-icon">🏦</span>
+          <div class="goal-title">Faire fructifier mon épargne</div>
+          <div class="goal-desc">Battre l'inflation, travailler son argent</div>
+          <div class="goal-check" id="chk-epargne"></div>
+        </div>
+        <div class="goal-card" id="gc-liberte" onclick="selectGoal('liberte')">
+          <span class="goal-icon">🌍</span>
+          <div class="goal-title">Liberté financière</div>
+          <div class="goal-desc">Revenus passifs, indépendance</div>
+          <div class="goal-check" id="chk-liberte"></div>
+        </div>
+        <div class="goal-card" id="gc-retraite" onclick="selectGoal('retraite')">
+          <span class="goal-icon">🏖️</span>
+          <div class="goal-title">Préparer ma retraite</div>
+          <div class="goal-desc">Capital long terme, sérénité</div>
+          <div class="goal-check" id="chk-retraite"></div>
+        </div>
+        <div class="goal-card" id="gc-apprendre" onclick="selectGoal('apprendre')">
+          <span class="goal-icon">📈</span>
+          <div class="goal-title">Apprendre à investir</div>
+          <div class="goal-desc">Comprendre les marchés et les actifs</div>
+          <div class="goal-check" id="chk-apprendre"></div>
+        </div>
+      </div>
+      <button class="btn-primary" id="btnGoal" onclick="nextStep()" disabled><span class="btn-text">Continuer →</span></button>
+      <button class="btn-secondary" onclick="prevStep()">← Retour</button>
+    </div>
+
+    <!-- STEP 3 — HORIZON -->
+    <div class="step-panel" id="panel-3">
+      <div class="step-tag">Étape 2 / 4</div>
+      <div class="step-title">Horizon de placement</div>
+      <div class="step-sub">Dans combien d'années veux-tu pouvoir utiliser cet argent ?</div>
+      <div class="horizon-display">
+        <div style="display:flex;align-items:baseline;gap:.3rem">
+          <span class="horizon-val" id="horizonVal">5</span>
+          <span class="horizon-unit">ans</span>
+        </div>
+        <span class="horizon-cat" id="horizonCat">MOYEN TERME</span>
+      </div>
+      <input type="range" class="slider-input" id="horizonSlider" min="1" max="30" value="5" oninput="updateHorizon(this.value)">
+      <div class="horizon-markers">
+        <span class="h-mark">1 an</span><span class="h-mark">5</span><span class="h-mark">10</span><span class="h-mark">20</span><span class="h-mark">30 ans</span>
+      </div>
+      <div class="horizon-desc-box">
+        <p id="horizonDescTxt"><strong>Horizon moyen terme (3–10 ans)</strong> — Un mix équilibré actions / obligations est recommandé. Tu peux absorber quelques turbulences de marché.</p>
+      </div>
+      <button class="btn-primary" onclick="nextStep()"><span class="btn-text">Continuer →</span></button>
+      <button class="btn-secondary" onclick="prevStep()">← Retour</button>
+    </div>
+
+    <!-- STEP 4 — MONTANT -->
+    <div class="step-panel" id="panel-4">
+      <div class="step-tag">Étape 3 / 4</div>
+      <div class="step-title">Budget mensuel</div>
+      <div class="step-sub">Combien pourrais-tu investir chaque mois ? (simulation uniquement)</div>
+      <div class="amount-display">
+        <span class="amount-currency">€</span>
+        <input class="amount-input" type="number" id="amountInput" placeholder="200" min="0" max="100000" value="200" oninput="updateAmount(this.value)">
+      </div>
+      <div class="amount-chips">
+        <span class="chip" onclick="setAmount(50)">50 €</span>
+        <span class="chip" onclick="setAmount(100)">100 €</span>
+        <span class="chip active" onclick="setAmount(200)">200 €</span>
+        <span class="chip" onclick="setAmount(500)">500 €</span>
+        <span class="chip" onclick="setAmount(1000)">1 000 €</span>
+      </div>
+      <div class="amount-hint">💡 <span class="hint-yellow">Rappel :</span> APEX est un simulateur éducatif. Aucun argent réel n'est investi. Ces données servent uniquement à personnaliser tes simulations.</div>
+      <button class="btn-primary" onclick="nextStep()"><span class="btn-text">Calculer mon profil →</span></button>
+      <button class="btn-secondary" onclick="prevStep()">← Retour</button>
+    </div>
+
+    <!-- STEP 5 — PROFIL RÉSULTAT -->
+    <div class="step-panel" id="panel-5">
+      <div class="step-tag">Étape 4 / 4</div>
+      <div class="step-title">Ton profil investisseur</div>
+      <div class="step-sub">Calculé à partir de tes réponses. Tu pourras le modifier dans les paramètres.</div>
+      <div class="profile-result">
+        <div class="profile-badge" id="profileBadge">
+          <div class="badge-ring" id="badgeRing"></div>
+          <span id="profileIcon">🌱</span>
+        </div>
+        <div class="profile-name" id="profileName">PRUDENT</div>
+        <div class="profile-tagline" id="profileTagline">Tu privilégies la sécurité du capital. Rendements modérés, risque maîtrisé.</div>
+      </div>
+      <div class="alloc-bars">
+        <div class="alloc-title">Allocation recommandée</div>
+        <div id="allocItems"></div>
+      </div>
+      <div class="traits-row" id="traitsRow"></div>
+      <button class="btn-primary" onclick="nextStep()"><span class="btn-text">Voir mon tableau de bord →</span></button>
+    </div>
+
+    <!-- STEP 6 — PRÊT -->
+    <div class="step-panel" id="panel-6">
+      <div class="ready-hero">
+        <div class="ready-ring">
+          <svg viewBox="0 0 90 90"><circle class="ring-bg" cx="45" cy="45" r="40"/><circle class="ring-fill" id="ringFill" cx="45" cy="45" r="40"/></svg>
+          <div class="ready-ring-icon">🚀</div>
+        </div>
+        <div class="ready-title">Tu es prêt(e) !</div>
+        <div class="ready-sub">Ton profil est configuré. Commence par les leçons recommandées pour débloquer tes premiers badges.</div>
+        <div class="checklist">
+          <div class="check-item"><div class="check-icon">✓</div><span class="check-text"><strong>Compte créé</strong> — email confirmé</span></div>
+          <div class="check-item"><div class="check-icon">✓</div><span class="check-text"><strong>Profil investisseur</strong> — <span id="readyProfileName">Prudent</span></span></div>
+          <div class="check-item"><div class="check-icon">✓</div><span class="check-text"><strong>500 coins</strong> offerts pour démarrer</span></div>
+          <div class="check-item"><div class="check-icon" style="background:rgba(0,255,136,.15);color:var(--g)">★</div><span class="check-text"><strong>Première mission</strong> débloquée</span></div>
+        </div>
+      </div>
+      <button class="btn-launch" id="launchBtn" onclick="launchApp()">
+        <div class="btn-spinner"></div>
+        <span class="btn-text">LANCER APEX INVEST →</span>
+      </button>
+    </div>
+
+  </div><!-- /card -->
+</div><!-- /shell -->
+
+<div class="ticker-bar"><div class="ticker-inner" id="tick"></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="auth-helper.js"></script>
+<script>
+var currentStep = 1;
+var TOTAL_STEPS = 6;
+var STEP_LABELS = ['Accueil','Objectif','Horizon','Budget','Profil','Prêt !'];
+var userData = { goal: null, horizon: 5, amount: 200, profileKey: null };
+var supaSession = null;
+
+// ── Boot ────────────────────────────────────────────
+(function init() {
+  buildProgress();
+  buildTicker();
+  updateHorizon(5);
+
+  // Fallback localStorage (mode local sans Supabase)
+  var lsSession = null;
+  try { lsSession = JSON.parse(localStorage.getItem('apex_session')||'null'); } catch(_) {}
+
+  if (!db || !db.auth) {
+    // Mode local : session depuis localStorage
+    if (!lsSession) { window.location.href = 'login.html'; return; }
+    supaSession = { user: lsSession };
+    var meta = lsSession;
+    var firstName = meta.full_name ? meta.full_name.split(' ')[0] : (meta.email||'').split('@')[0];
+    var el = document.getElementById('welcomeName');
+    if (el) el.textContent = firstName;
+    return;
+  }
+
+  db.auth.getSession().then(function(res) {
+    var session = res.data && res.data.session;
+    if (!session) {
+      // Fallback localStorage
+      if (lsSession) { supaSession = { user: lsSession }; return; }
+      redirect('/pages/login.html'); return;
+    }
+    supaSession = session;
+
+    getUserProfile(session.user.id).then(function(profile) {
+      if (profile && profile.diag_done) {
+        redirect('/app.html');
+        return;
+      }
+      var meta = session.user.user_metadata || {};
+      var name = (profile && profile.full_name)
+        ? profile.full_name.split(' ')[0]
+        : (meta.given_name || session.user.email.split('@')[0]);
+      document.getElementById('welcomeName').textContent = name.toUpperCase();
+      document.getElementById('avatarEl').textContent = name.charAt(0).toUpperCase();
+    });
+  });
+})();
+
+// ── Progress ────────────────────────────────────────
+function buildProgress() {
+  var dH = '', lH = '';
+  for (var i = 1; i <= TOTAL_STEPS; i++) {
+    dH += '<div class="step-dot ' + (i === 1 ? 'active' : '') + '" id="dot-' + i + '">' + i + '</div>';
+    if (i < TOTAL_STEPS) dH += '<div class="step-line" id="line-' + i + '"></div>';
+    lH += '<span class="step-lbl ' + (i === 1 ? 'active' : '') + '" id="lbl-' + i + '">' + STEP_LABELS[i-1] + '</span>';
+  }
+  document.getElementById('stepDots').innerHTML = dH;
+  document.getElementById('stepLabels').innerHTML = lH;
+}
+
+function updateProgress(step) {
+  for (var i = 1; i <= TOTAL_STEPS; i++) {
+    var dot = document.getElementById('dot-' + i);
+    var lbl = document.getElementById('lbl-' + i);
+    if (i < step) {
+      dot.className = 'step-dot done'; dot.textContent = '✓';
+      lbl.className = 'step-lbl done';
+    } else if (i === step) {
+      dot.className = 'step-dot active'; dot.textContent = i;
+      lbl.className = 'step-lbl active';
+    } else {
+      dot.className = 'step-dot'; dot.textContent = i;
+      lbl.className = 'step-lbl';
+    }
+    if (i < TOTAL_STEPS) {
+      var line = document.getElementById('line-' + i);
+      line.className = 'step-line' + (i < step ? ' done' : '');
+    }
+  }
+}
+
+// ── Navigation ──────────────────────────────────────
+function nextStep() { if (currentStep < TOTAL_STEPS) goTo(currentStep + 1); }
+function prevStep() { if (currentStep > 1) goTo(currentStep - 1); }
+
+function goTo(n) {
+  var cur = document.getElementById('panel-' + currentStep);
+  cur.classList.remove('active', 'slide');
+  currentStep = n;
+  var next = document.getElementById('panel-' + n);
+  next.classList.add('active', 'slide');
+  updateProgress(n);
+  if (n === 5) buildProfileResult();
+  if (n === 6) {
+    document.getElementById('mainCard').classList.add('glow');
+    setTimeout(function() {
+      var r = document.getElementById('ringFill');
+      if (r) r.classList.add('go');
+    }, 250);
+    saveOnboarding();
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── Step 2 ───────────────────────────────────────────
+function selectGoal(g) {
+  userData.goal = g;
+  ['epargne','liberte','retraite','apprendre'].forEach(function(k) {
+    var card = document.getElementById('gc-' + k);
+    var chk  = document.getElementById('chk-' + k);
+    if (k === g) {
+      card.classList.add('selected');
+      chk.textContent = '✓';
+    } else {
+      card.classList.remove('selected');
+      chk.textContent = '';
+    }
+  });
+  document.getElementById('btnGoal').disabled = false;
+}
+
+// ── Step 3 ───────────────────────────────────────────
+var HORIZON_DATA = [
+  { max:2,  label:'COURT TERME', color:'var(--r)', txt:'<strong>Horizon court terme (&lt; 3 ans)</strong> — Privilégie les fonds euros, livrets, obligations courtes. Évite les actions volatiles.' },
+  { max:7,  label:'MOYEN TERME', color:'var(--y)', txt:'<strong>Horizon moyen terme (3–10 ans)</strong> — Un mix équilibré actions / obligations est recommandé. Tu peux absorber quelques turbulences.' },
+  { max:15, label:'LONG TERME',  color:'var(--b)', txt:'<strong>Horizon long terme (10–20 ans)</strong> — Les actions peuvent représenter 60–80% du portefeuille. La durée atténue la volatilité.' },
+  { max:99, label:'TRÈS LONG',   color:'var(--g)', txt:'<strong>Horizon très long terme (20+ ans)</strong> — Actions mondiales en majorité. L\'effet des intérêts composés est maximal sur cette durée.' },
+];
+
+function updateHorizon(v) {
+  userData.horizon = parseInt(v, 10);
+  document.getElementById('horizonVal').textContent = v;
+  var h = HORIZON_DATA[0];
+  for (var i = 0; i < HORIZON_DATA.length; i++) {
+    if (v <= HORIZON_DATA[i].max) { h = HORIZON_DATA[i]; break; }
+  }
+  var cat = document.getElementById('horizonCat');
+  cat.textContent = h.label;
+  cat.style.color = h.color;
+  document.getElementById('horizonDescTxt').innerHTML = h.txt;
+  var pct = ((v - 1) / 29) * 100;
+  document.getElementById('horizonSlider').style.background =
+    'linear-gradient(90deg, ' + h.color + ' ' + pct + '%, var(--ln2) ' + pct + '%)';
+}
+
+// ── Step 4 ───────────────────────────────────────────
+function setAmount(v) {
+  userData.amount = v;
+  document.getElementById('amountInput').value = v;
+  var vals = [50, 100, 200, 500, 1000];
+  document.querySelectorAll('.chip').forEach(function(c, i) {
+    c.classList.toggle('active', vals[i] === v);
+  });
+}
+function updateAmount(v) {
+  userData.amount = parseFloat(v) || 0;
+  document.querySelectorAll('.chip').forEach(function(c) { c.classList.remove('active'); });
+}
+
+// ── Step 5 — Profiles ────────────────────────────────
+var PROFILES = {
+  prudent: {
+    name: 'PRUDENT', icon: '🛡️', color: 'var(--b)',
+    tagline: "Tu privilégies la sécurité du capital. Rendements modérés, risque maîtrisé.",
+    alloc: [ {n:'Obligations',pct:50,c:'#4D9EFF'}, {n:'Actions',pct:25,c:'#00FF88'}, {n:'Fonds euros',pct:20,c:'#A259FF'}, {n:'Or',pct:5,c:'#FFB020'} ],
+    traits: [ {icon:'📊',name:'Risque',val:'Faible'}, {icon:'⏱',name:'Horizon',val:'< 5 ans'}, {icon:'💰',name:'Rendement',val:'3–5%'} ]
+  },
+  equilibre: {
+    name: 'ÉQUILIBRÉ', icon: '⚖️', color: 'var(--y)',
+    tagline: "Tu cherches un bon équilibre entre performance et sécurité.",
+    alloc: [ {n:'Actions',pct:50,c:'#00FF88'}, {n:'Obligations',pct:30,c:'#4D9EFF'}, {n:'Immobilier',pct:15,c:'#FFB020'}, {n:'Or',pct:5,c:'#A259FF'} ],
+    traits: [ {icon:'📊',name:'Risque',val:'Moyen'}, {icon:'⏱',name:'Horizon',val:'5–10 ans'}, {icon:'💰',name:'Rendement',val:'6–8%'} ]
+  },
+  dynamique: {
+    name: 'DYNAMIQUE', icon: '🚀', color: 'var(--g)',
+    tagline: "Tu acceptes la volatilité pour viser des rendements supérieurs.",
+    alloc: [ {n:'Actions',pct:70,c:'#00FF88'}, {n:'ETF thématiques',pct:15,c:'#A259FF'}, {n:'Obligations',pct:10,c:'#4D9EFF'}, {n:'Cash',pct:5,c:'#5A5A7A'} ],
+    traits: [ {icon:'📊',name:'Risque',val:'Élevé'}, {icon:'⏱',name:'Horizon',val:'10+ ans'}, {icon:'💰',name:'Rendement',val:'8–12%'} ]
+  },
+  offensif: {
+    name: 'OFFENSIF', icon: '⚡', color: 'var(--r)',
+    tagline: "Performance maximale. Tu connais les marchés et gères activement.",
+    alloc: [ {n:'Actions',pct:80,c:'#00FF88'}, {n:'Cryptos',pct:10,c:'#A259FF'}, {n:'ETF levered',pct:7,c:'#FF3B5C'}, {n:'Cash',pct:3,c:'#5A5A7A'} ],
+    traits: [ {icon:'📊',name:'Risque',val:'Très élevé'}, {icon:'⏱',name:'Horizon',val:'15+ ans'}, {icon:'💰',name:'Rendement',val:'10–20%'} ]
+  }
+};
+
+function computeProfile() {
+  var score = 0;
+  var h = userData.horizon;
+  var g = userData.goal;
+  var a = userData.amount;
+  if (h >= 20) score += 3; else if (h >= 10) score += 2; else if (h >= 5) score += 1;
+  if (g === 'liberte') score += 2; else if (g === 'apprendre' || g === 'retraite') score += 1;
+  if (a >= 500) score += 1;
+  var keys = ['prudent','equilibre','dynamique','offensif'];
+  return PROFILES[keys[Math.min(3, Math.floor(score / 2))]];
+}
+
+function buildProfileResult() {
+  var p = computeProfile();
+  userData.profileKey = p.name;
+
+  document.getElementById('profileIcon').textContent = p.icon;
+  document.getElementById('profileBadge').style.borderColor = p.color;
+  document.getElementById('profileBadge').style.background = p.color.replace('var(--','').replace(')','') + '18';
+  document.getElementById('profileBadge').style.cssText += ';border-color:' + p.color + ';background:' + p.color.replace(')', '') + '18)';
+
+  // Safer way to apply the color
+  var badge = document.getElementById('profileBadge');
+  badge.setAttribute('style', badge.getAttribute('style') || '');
+
+  document.getElementById('profileName').textContent = p.name;
+  document.getElementById('profileName').style.color = p.color;
+  document.getElementById('profileTagline').textContent = p.tagline;
+
+  // Badge ring color via dynamic style
+  var ringStyle = document.getElementById('dynamicRingStyle');
+  if (!ringStyle) { ringStyle = document.createElement('style'); ringStyle.id = 'dynamicRingStyle'; document.head.appendChild(ringStyle); }
+  ringStyle.textContent = '.badge-ring { border-color: ' + p.color + ' !important; opacity: .25; }';
+
+  var readyName = p.name.charAt(0) + p.name.slice(1).toLowerCase().replace('é','é').replace('î','î');
+  document.getElementById('readyProfileName').textContent = readyName;
+
+  var xp = 100 + userData.horizon * 2 + (userData.amount >= 200 ? 50 : 0);
+  document.getElementById('xpAwarded').textContent = '+' + xp;
+
+  var allocEl = document.getElementById('allocItems');
+  allocEl.innerHTML = p.alloc.map(function(a) {
+    return '<div class="alloc-item">' +
+      '<div class="alloc-row">' +
+        '<span class="alloc-label">' + a.n + '</span>' +
+        '<span class="alloc-pct" style="color:' + a.c + '">' + a.pct + '%</span>' +
+      '</div>' +
+      '<div class="alloc-bar-bg"><div class="alloc-bar-fill" data-w="' + a.pct + '" style="background:' + a.c + ';width:0%"></div></div>' +
+    '</div>';
+  }).join('');
+
+  setTimeout(function() {
+    document.querySelectorAll('.alloc-bar-fill').forEach(function(b) {
+      b.style.width = b.getAttribute('data-w') + '%';
+    });
+  }, 120);
+
+  var traitsEl = document.getElementById('traitsRow');
+  traitsEl.innerHTML = p.traits.map(function(t) {
+    return '<div class="trait-box">' +
+      '<span class="trait-icon">' + t.icon + '</span>' +
+      '<div class="trait-name">' + t.name + '</div>' +
+      '<div class="trait-val">' + t.val + '</div>' +
+    '</div>';
+  }).join('');
+}
+
+// ── Save to Supabase ─────────────────────────────────
+function saveOnboarding() {
+  if (!supaSession) return;
+  var p = computeProfile();
+  var xp = 100 + userData.horizon * 2 + (userData.amount >= 200 ? 50 : 0);
+  db.from('profiles').update({
+    diag_done: true,
+    diag_profile: p.name,
+    xp: xp,
+    updated_at: new Date().toISOString()
+  }).eq('id', supaSession.user.id);
+}
+
+// ── Launch ───────────────────────────────────────────
+function launchApp() {
+  var btn = document.getElementById('launchBtn');
+  btn.classList.add('loading'); btn.disabled = true;
+  setTimeout(function() { window.location.href = 'academy.html'; }, 1200);
+}
+
+// ── Ticker ───────────────────────────────────────────
+function buildTicker() {
+  var items = [
+    {n:'MSCI World',p:'485.20',up:true},{n:'CAC 40',p:'7 820',up:true},
+    {n:'Apple',p:'182.30',up:false},{n:'Bitcoin',p:'67 400',up:true},
+    {n:'Or',p:'2 340',up:true},{n:'Nvidia',p:'875',up:true},
+    {n:'Tesla',p:'172',up:false},{n:'LVMH',p:'672',up:true},
+    {n:'S&P 500',p:'5 240',up:true},{n:'OAT 10a',p:'100.2',up:false}
+  ];
+  var all = items.concat(items).concat(items).concat(items);
+  document.getElementById('tick').innerHTML = all.map(function(i) {
+    return '<span class="ti">' + i.n + ' <span class="' + (i.up ? 'up' : 'dn') + '">' + (i.up ? '▲' : '▼') + ' ' + i.p + '</span></span>';
+  }).join('');
+}
+</script>
+</body>
+</html>
