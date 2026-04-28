@@ -1747,7 +1747,7 @@ table.assets th.clickable:hover{color:var(--y);}
         </div>
         <div class="mb-actions">
           <button class="btn-g" id="mbStartBtn" style="font-size:.78rem;padding:.5rem 1.1rem"></button>
-          <button class="btn-ghost" id="mbDetailBtn" style="font-size:.78rem;padding:.5rem 1.1rem">📋 Voir les leçons</button>
+          <button class="btn-ghost" id="mbDetailBtn" style="font-size:.78rem;padding:.5rem 1.1rem" data-i18n="mbViewLessons">📋 Voir les leçons</button>
         </div>
       </div>
     </div>
@@ -1767,7 +1767,7 @@ table.assets th.clickable:hover{color:var(--y);}
               <span class="mpt-pnl" id="mptPnl">—</span>
               <span class="mpt-arrow">↗</span>
             </button>
-            <button class="mkt-order-fab" onclick="openOrderPanel()">Passer un ordre</button>
+            <button class="mkt-order-fab" onclick="openOrderPanel()" data-i18n="orderPlaceOrder">Passer un ordre</button>
           </div>
         </div>
         <div class="asset-wrap">
@@ -1779,7 +1779,7 @@ table.assets th.clickable:hover{color:var(--y);}
                   <span id="catThLabel" onclick="toggleCatDd()">Cat.</span>
                   <span class="cat-th-arrow" onclick="toggleCatDd()">▾</span>
                   <div class="cat-dropdown" id="catDropdown">
-                    <div class="cat-opt active" onclick="filterCatDd(this,'Tous')">Toutes</div>
+                    <div class="cat-opt active" onclick="filterCatDd(this,'Tous')" data-i18n="catAll">Toutes</div>
                     <div class="cat-opt" onclick="filterCatDd(this,'ETF')" style="color:#FFCD0D">ETF</div>
                     <div class="cat-opt" onclick="filterCatDd(this,'ETF Thém.')" style="color:#E040FB">ETF Thém.</div>
                     <div class="cat-opt" onclick="filterCatDd(this,'Indice')" style="color:#4D9EFF">Indice</div>
@@ -1896,7 +1896,7 @@ table.assets th.clickable:hover{color:var(--y);}
   <div class="port-modal-ov" id="orderModalOv" onclick="if(event.target===this)closeOrderModal()">
     <div class="port-modal" style="max-width:420px;padding:0;overflow:hidden;border-color:rgba(78,194,218,.25);">
       <div style="display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.2rem;border-bottom:1px solid var(--ln2);">
-        <span style="font-family:'Bungee';font-size:.85rem;letter-spacing:.08em;color:var(--y)">Passer un ordre</span>
+        <span style="font-family:'Bungee';font-size:.85rem;letter-spacing:.08em;color:var(--y)" data-i18n="orderPlaceOrder">Passer un ordre</span>
         <button class="pm-close" style="position:static" onclick="closeOrderModal()">✕</button>
       </div>
       <div style="overflow-y:auto;max-height:78vh;">
@@ -1911,7 +1911,7 @@ table.assets th.clickable:hover{color:var(--y);}
               <div class="oai-dropdown" id="oaiDropdown"></div>
             </div>
             <div class="wallet-row">
-              <span>En portefeuille</span>
+              <span data-i18n="orderInPortfolio">En portefeuille</span>
               <span class="wr-coins"><span id="opWallet">—</span></span>
             </div>
             <div class="order-tabs" style="display:none">
@@ -1941,8 +1941,8 @@ table.assets th.clickable:hover{color:var(--y);}
               <div class="os-row total"><span data-i18n="orderTotal">Total</span><span id="osTotal">—</span></div>
             </div>
             <div style="display:flex;gap:.6rem;">
-              <button class="order-btn buy-btn" style="flex:1" onclick="setOrderSide('buy');executeOrder()">ACHETER</button>
-              <button class="order-btn sell-btn" style="flex:1" onclick="setOrderSide('sell');executeOrder()">VENDRE</button>
+              <button class="order-btn buy-btn" style="flex:1" onclick="setOrderSide('buy');executeOrder()" data-i18n="orderBuyBtn">ACHETER</button>
+              <button class="order-btn sell-btn" style="flex:1" onclick="setOrderSide('sell');executeOrder()" data-i18n="orderSellBtn">VENDRE</button>
             </div>
           </div>
         </div>
@@ -1989,7 +1989,7 @@ table.assets th.clickable:hover{color:var(--y);}
       <div class="info-pop-icon" id="infoPopIcon"></div>
       <div class="info-pop-title" id="infoPopTitle"></div>
       <div class="info-pop-body" id="infoPopBody"></div>
-      <button class="info-pop-close" onclick="closeInfoPop()">Compris</button>
+      <button class="info-pop-close" onclick="closeInfoPop()" data-i18n="infopopClose">Compris</button>
     </div>
   </div>
 
@@ -2000,8 +2000,8 @@ table.assets th.clickable:hover{color:var(--y);}
     <div class="sav-modal">
 
       <div class="sav-tabs">
-        <button class="sav-tab active" id="savTabOverview" onclick="switchSavTab('overview')">Vue d'ensemble</button>
-        <button class="sav-tab" id="savTabPrec" onclick="switchSavTab('prec')">Épargne</button>
+        <button class="sav-tab active" id="savTabOverview" onclick="switchSavTab('overview')" data-i18n="savTabOverview">Vue d'ensemble</button>
+        <button class="sav-tab" id="savTabPrec" onclick="switchSavTab('prec')" data-i18n="savTabSavings">Épargne</button>
       </div>
 
       <!-- Panel : Vue d'ensemble -->
@@ -2014,13 +2014,13 @@ table.assets th.clickable:hover{color:var(--y);}
         </div>
 
         <div class="sav-row" onclick="showInfoPop('val')" style="cursor:pointer">
-          <div><div class="sav-row-lbl">Valeur actuelle</div><div class="sav-row-val" style="color:#7EC8E3" id="savInvesti">—</div></div>
-          <span style="font-size:.6rem;color:var(--muted)">Prix du marché</span>
+          <div><div class="sav-row-lbl" data-i18n="savValActuelle">Valeur actuelle</div><div class="sav-row-val" style="color:#7EC8E3" id="savInvesti">—</div></div>
+          <span style="font-size:.6rem;color:var(--muted)" data-i18n="savPrixMarche">Prix du marché</span>
         </div>
         <div id="savEnvOverview"></div>
         <div class="sav-row" style="background:rgba(255,234,0,.07);border-color:#FFE400;box-shadow:0 0 14px rgba(255,234,0,.25);">
-          <div><div class="sav-row-lbl">Patrimoine</div><div class="sav-row-val" style="color:var(--y)" id="savPatrimoine">—</div></div>
-          <span style="font-size:.6rem;color:var(--muted)">Total</span>
+          <div><div class="sav-row-lbl" data-i18n="savPatrimoineLbl">Patrimoine</div><div class="sav-row-val" style="color:var(--y)" id="savPatrimoine">—</div></div>
+          <span style="font-size:.6rem;color:var(--muted)" data-i18n="savTotalLbl">Total</span>
         </div>
       </div>
 
@@ -2044,8 +2044,8 @@ table.assets th.clickable:hover{color:var(--y);}
             <button class="env-pct-go" onclick="fillGlobalPctCustom()">→</button>
           </div>
           <div class="sav-btn-row">
-            <button class="sav-btn sav-btn-dep" onclick="depositGlobal()">Déposer</button>
-            <button class="sav-btn sav-btn-ret" onclick="withdrawGlobal()">Retirer</button>
+            <button class="sav-btn sav-btn-dep" onclick="depositGlobal()" data-i18n="savDeposit">Déposer</button>
+            <button class="sav-btn sav-btn-ret" onclick="withdrawGlobal()" data-i18n="savWithdraw">Retirer</button>
           </div>
           <div class="env-msg" id="envGlobalMsg"></div>
         </div>
@@ -2056,11 +2056,11 @@ table.assets th.clickable:hover{color:var(--y);}
 
       <!-- Page enfant : Nouvelle enveloppe (slide depuis droite) -->
       <div class="sav-child-page" id="envChildPage">
-        <button class="sav-child-back" onclick="closeEnvChild()">← Retour</button>
-        <div class="sav-title" style="font-size:.9rem;margin-bottom:1rem">Nouvelle enveloppe</div>
+        <button class="sav-child-back" onclick="closeEnvChild()" data-i18n="savBack">← Retour</button>
+        <div class="sav-title" style="font-size:.9rem;margin-bottom:1rem" data-i18n="savNewEnv">Nouvelle enveloppe</div>
         <div class="env-icon-row" id="envIconRow"></div>
         <input class="env-add-inp" id="envNameInp" type="text" maxlength="20" placeholder="Nom (ex : Voyage, Auto…)">
-        <button class="env-add-confirm" onclick="confirmAddEnv()">Créer</button>
+        <button class="env-add-confirm" onclick="confirmAddEnv()" data-i18n="savCreateEnv">Créer</button>
       </div>
     </div>
     </div>
@@ -2098,7 +2098,7 @@ table.assets th.clickable:hover{color:var(--y);}
         <button class="jf-btn" onclick="filterJournal('event',this)" data-i18n="jfEvents">Événements</button>
         <button class="jf-btn" onclick="filterJournal('mission',this)" data-i18n="jfMissions">Missions</button>
         <button class="jf-btn" onclick="filterJournal('lesson',this)">Leçons</button>
-        <button class="jf-btn" onclick="filterJournal('save',this)">Épargne</button>
+        <button class="jf-btn" onclick="filterJournal('save',this)" data-i18n="jfSave">Épargne</button>
       </div>
       <div id="journalList"></div>
     </div>
@@ -2382,18 +2382,18 @@ table.assets th.clickable:hover{color:var(--y);}
 <div class="low-nudge" id="lowNudge">
   <div class="low-nudge-icon">📉</div>
   <div class="low-nudge-body">
-    <div class="low-nudge-title">Ton solde est presque vide !</div>
-    <div class="low-nudge-sub">Complète des leçons pour continuer à investir.</div>
-    <button class="low-nudge-btn" onclick="closeAndGoLesson()">▶ Reprendre ma leçon</button>
+    <div class="low-nudge-title" data-i18n="lowNudgeTitle">Ton solde est presque vide !</div>
+    <div class="low-nudge-sub" data-i18n="lowNudgeSub">Complète des leçons pour continuer à investir.</div>
+    <button class="low-nudge-btn" onclick="closeAndGoLesson()" data-i18n="lowNudgeBtn">▶ Reprendre ma leçon</button>
   </div>
   <button class="low-nudge-close" onclick="closeLowNudge()">✕</button>
 </div>
 <div class="invest-nudge" id="investNudge">
   <div class="invest-nudge-icon">💰</div>
   <div class="invest-nudge-body">
-    <div class="invest-nudge-title">Il est temps d'investir, non ?</div>
-    <div class="invest-nudge-sub" id="investNudgeSub">Tu as <strong id="investNudgeAmt"></strong> <span id="investNudgeCoin"></span> disponibles.</div>
-    <button onclick="closeInvestNudge();switchTab('market')" style="margin-top:.5rem;padding:.35rem .85rem;background:var(--g);color:#000;font-family:'Bungee';font-size:.65rem;letter-spacing:.06em;border:none;border-radius:6px;cursor:pointer">Salle des marchés →</button>
+    <div class="invest-nudge-title" data-i18n="nudgeInvestTitle">Il est temps d'investir, non ?</div>
+    <div class="invest-nudge-sub" id="investNudgeSub">Tu as <strong id="investNudgeAmt"></strong> <span id="investNudgeCoin"></span> <span data-i18n="nudgeInvestSub">disponibles.</span></div>
+    <button onclick="closeInvestNudge();switchTab('market')" style="margin-top:.5rem;padding:.35rem .85rem;background:var(--g);color:#000;font-family:'Bungee';font-size:.65rem;letter-spacing:.06em;border:none;border-radius:6px;cursor:pointer" data-i18n="nudgeInvestBtn">Salle des marchés →</button>
   </div>
   <button class="invest-nudge-close" onclick="closeInvestNudge()">✕</button>
 </div>
@@ -4729,7 +4729,7 @@ function updateOpPosition(){
 function updateWalletUI(){
   const _wa=el('tbWalletAmt');if(_wa)_wa.textContent=fmt(S.coins);
   updateOpPosition();
-  const ob=el('ofBal');if(ob)ob.innerHTML='Dispo : '+_TC+fmt(S.coins);
+  const ob=el('ofBal');if(ob)ob.innerHTML=_T('orderAvail')+' : '+_TC+fmt(S.coins);
   if(S.coins>=NUDGE_THRESHOLD&&!nudgeShown){showInvestNudge();}
   if(S.coins<NUDGE_THRESHOLD){nudgeShown=false;}
   if(S.coins<=LOW_THRESHOLD&&!lowNudgeShown){showLowNudge();}
@@ -4965,8 +4965,8 @@ function buildSidebarProfile(){
   if(!S.diagDone||!S.diagProfile){
     return `<div class="sp-no-profil">
       <div style="font-size:2.5rem;margin-bottom:.6rem">🧩</div>
-      <div>Ton profil investisseur n'est pas encore défini.</div>
-      <button class="sp-diag-btn" onclick="switchTab('market')">Faire le diagnostic →</button>
+      <div>${_T('spNoProfile')}</div>
+      <button class="sp-diag-btn" onclick="switchTab('market')">${_T('spDiagLink')}</button>
     </div>`;
   }
   const p=PROFILES[S.diagProfile];
@@ -5099,6 +5099,52 @@ const TRACK_DESC={
   'Gérer son argent au quotidien':"Budget, épargne, credit scoring : les bases incontournables pour une santé financière solide.",
   'Aller plus loin':"Backtesting, construction de portefeuille systématique et ressources avancées.",
 };
+const TRACK_DESC_EN={
+  'Ton argent bosse (ou pas)':"Understand the difference between assets and liabilities — and how to make your money work while you sleep.",
+  'Psychologie : ton pire ennemi':"The cognitive biases that ruin investors. Know yourself before attacking the markets.",
+  'Vocabulaire de base':"The essential investment terms explained without jargon — speak the same language as the pros.",
+  "Passer à l'action":"Stop theorizing. Here are the first concrete steps to start investing now.",
+  'Immobilier : mythe ou réalité ?':"Rental, REITs, leverage: everything nobody tells you about real-estate investing.",
+  "Crypto : ce qu'il faut vraiment savoir":"Bitcoin, Ethereum, blockchain: invest in crypto without getting burned.",
+  'ETF : le game changer':"The secret weapon of the best portfolios. Simple, diversified, high-performing — and accessible to all.",
+  'Fiscalité : garde ton argent':"PEA, life insurance, CTO: optimize your taxes to keep the maximum of your gains.",
+  'Analyser une action':"Read a balance sheet, value a company, spot undervalued stocks before others do.",
+  'Macro & Marchés':"Inflation, rates, economic cycles: understand the big picture to anticipate markets.",
+  'Options & Dérivés':"Calls, puts, leverage: master derivative instruments to amplify your strategies.",
+  'Factor Investing':"Value, momentum, quality: invest with the factors that outperform over the long term.",
+  'Analyse Technique Avancée':"Chart patterns, indicators, price action: read markets like a professional trader.",
+  'Risk Management Institutionnel':"VaR, stress tests, correlations: manage risk like the big investment funds.",
+  'Finance de Marché Avancée':"Pricing models, arbitrage, quant strategies to go beyond retail investing.",
+  'Préparation CFA/AMF':"Practice on the key concepts of CFA and AMF certifications. Theory and practice.",
+  'Retraite & Long terme':"PERP, retirement savings, long-term strategy: build your financial freedom over time.",
+  'Stratégies avancées':"Combine the tools learned to build robust and profitable investment strategies.",
+  'Niveau Expert':"Quantitative analysis, financial programming, and institutional-level strategies.",
+  'Gérer son argent au quotidien':"Budgeting, savings, credit scoring: the indispensable basics for solid financial health.",
+  'Aller plus loin':"Backtesting, systematic portfolio construction, and advanced resources.",
+};
+const TRACK_DESC_ES={
+  'Ton argent bosse (ou pas)':"Comprende la diferencia entre activos y pasivos — y cómo hacer trabajar tu dinero mientras duermes.",
+  'Psychologie : ton pire ennemi':"Los sesgos cognitivos que arruinan a los inversores. Conócete antes de atacar los mercados.",
+  'Vocabulaire de base':"Los términos esenciales de inversión explicados sin jerga — habla el mismo idioma que los pros.",
+  "Passer à l'action":"Deja la teoría. Aquí están los primeros pasos concretos para empezar a invertir ahora.",
+  'Immobilier : mythe ou réalité ?':"Alquiler, SOCIMIs, apalancamiento: todo lo que nadie te cuenta sobre la inversión inmobiliaria.",
+  "Crypto : ce qu'il faut vraiment savoir":"Bitcoin, Ethereum, blockchain: invierte en cripto sin quemarte los dedos.",
+  'ETF : le game changer':"El arma secreta de las mejores carteras. Simple, diversificado, rentable — y accesible para todos.",
+  'Fiscalité : garde ton argent':"PEA, seguro de vida, CTO: optimiza tus impuestos para conservar el máximo de tus ganancias.",
+  'Analyser une action':"Lee un balance, valora una empresa, detecta acciones infravaloradas antes que los demás.",
+  'Macro & Marchés':"Inflación, tipos, ciclos económicos: entiende el panorama general para anticipar los mercados.",
+  'Options & Dérivés':"Calls, puts, apalancamiento: domina los derivados para amplificar tus estrategias.",
+  'Factor Investing':"Valor, momentum, calidad: invierte con los factores que superan al mercado a largo plazo.",
+  'Analyse Technique Avancée':"Figuras chartistas, indicadores, price action: lee los mercados como un trader profesional.",
+  'Risk Management Institutionnel':"VaR, stress tests, correlaciones: gestiona el riesgo como los grandes fondos de inversión.",
+  'Finance de Marché Avancée':"Modelos de pricing, arbitraje, estrategias quant para ir más allá del retail.",
+  'Préparation CFA/AMF':"Entrénate con los conceptos clave de las certificaciones CFA y AMF. Teoría y práctica.",
+  'Retraite & Long terme':"PERP, ahorro para la jubilación, estrategia a largo plazo: construye tu libertad financiera.",
+  'Stratégies avancées':"Combina las herramientas aprendidas para construir estrategias de inversión robustas y rentables.",
+  'Niveau Expert':"Análisis cuantitativo, programación financiera y estrategias de nivel institucional.",
+  'Gérer son argent au quotidien':"Presupuesto, ahorro, credit scoring: las bases indispensables para una salud financiera sólida.",
+  'Aller plus loin':"Backtesting, construcción sistemática de carteras y recursos avanzados.",
+};
 
 function openTrackDrawer(idx){
   const tracks=LESSONS[S.level]||[];
@@ -5107,17 +5153,18 @@ function openTrackDrawer(idx){
   const pct=track.lessons.length?Math.round(doneTr/track.lessons.length*100):0;
   const emo=track.track.match(/^\S+/)?.[0]||'📚';
   const name=track.track.replace(/^\S+\s/,'');
-  const desc=TRACK_DESC[name]||'Explore les leçons de cette thématique pour progresser dans ton parcours.';
+  const _tdMap=_lang==='en'?TRACK_DESC_EN:_lang==='es'?TRACK_DESC_ES:TRACK_DESC;
+  const desc=_tdMap[name]||TRACK_DESC[name]||(_lang==='en'?'Explore the lessons in this topic to progress on your path.':_lang==='es'?'Explora las lecciones de este tema para avanzar en tu recorrido.':'Explore les leçons de cette thématique pour progresser dans ton parcours.');
   const firstUnlocked=track.lessons.find(l=>!S.done.has(l.id));
   // Remplir le mini-banner
   el('mbEmo').textContent=emo;
   el('mbTitle').textContent=name;
   el('mbDesc').textContent=desc;
   el('mbProgFill').style.width=pct+'%';
-  el('mbProgLbl').textContent=doneTr+' / '+track.lessons.length+' leçons';
+  el('mbProgLbl').textContent=doneTr+' / '+track.lessons.length+' '+_T('mbLessons');
   const btn=el('mbStartBtn');
   if(firstUnlocked){
-    btn.textContent=doneTr>0?'Continuer →':'Commencer →';
+    btn.textContent=doneTr>0?_T('mbContinue'):_T('mbStart');
     btn.disabled=false;
     btn.onclick=()=>{closeMb();openLesson(firstUnlocked.id);};
   } else {
@@ -5129,7 +5176,7 @@ function openTrackDrawer(idx){
     });
     if(targetIdx===-1)targetIdx=allTracks.findIndex(t=>t.lessons.length>0&&t.lessons.every(l=>!S.done.has(l.id)));
     if(targetIdx!==-1){
-      const nName=allTracks[targetIdx].track.replace(/^\S+\s/,'');
+      const nName=trTrackName(allTracks[targetIdx].track).replace(/^\S+\s/,'');
       btn.textContent='→ '+nName;btn.disabled=false;
       btn.onclick=()=>{closeMb();openTrackDrawer(targetIdx);};
     } else {
@@ -5137,10 +5184,10 @@ function openTrackDrawer(idx){
       const currentIdx=levels.indexOf(S.level);
       const nextLevel=currentIdx!==-1&&currentIdx<levels.length-1?levels[currentIdx+1]:null;
       if(nextLevel && LESSONS[nextLevel] && LESSONS[nextLevel].length>0){
-        btn.textContent='Niveau suivant →';btn.disabled=false;
+        btn.textContent=_T('mbNextLevel');btn.disabled=false;
         btn.onclick=()=>{closeMb();boot(nextLevel);};
       } else {
-        btn.textContent='✓ Tout terminé';btn.disabled=true;
+        btn.textContent=_T('mbAllDone');btn.disabled=true;
       }
     }
   }
@@ -5149,7 +5196,7 @@ function openTrackDrawer(idx){
   el('mbColEmo').textContent=emo;
   el('mbColTitle').textContent=name;
   el('mbColFill').style.width=pct+'%';
-  el('mbColLbl').textContent=doneTr+'/'+track.lessons.length;
+  el('mbColLbl').textContent=doneTr+'/'+track.lessons.length+' '+_T('mbLessons');
   const mb=el('miniBanner');
   if(mb){
     mb.style.display='block';
@@ -5181,7 +5228,9 @@ function openTrackDetail(idx){
   const rawTrackStr=trTrackName(track.track);
   const emo=rawTrackStr.match(/^\S+/)?.[0]||'📚';
   const name=rawTrackStr.replace(/^\S+\s/,'');
-  const desc=TRACK_DESC[track.track.replace(/^\S+\s/,'')]||'Explore les leçons de cette thématique pour progresser dans ton parcours.';
+  const _tdMap2=_lang==='en'?TRACK_DESC_EN:_lang==='es'?TRACK_DESC_ES:TRACK_DESC;
+  const _tdName2=track.track.replace(/^\S+\s/,'');
+  const desc=_tdMap2[_tdName2]||TRACK_DESC[_tdName2]||(_lang==='en'?'Explore the lessons in this topic.':_lang==='es'?'Explora las lecciones de este tema.':'Explore les leçons de cette thématique.');
   const lessonsHtml=track.lessons.map(l=>{
     const isDone=S.done.has(l.id);
     const tl=trLesson(l);
@@ -5295,22 +5344,22 @@ function openLesson(id){
     }
   });
   const hasMore=moreBlocks.length>0;
-  const blocks=hookBlocks+(hasMore?`<div class="voir-plus-wrap"><div class="voir-plus-content">${moreBlocks}</div><button class="voir-plus-btn" onclick="toggleVoirPlus(this)">Voir plus ▾</button></div>`:'');
+  const blocks=hookBlocks+(hasMore?`<div class="voir-plus-wrap"><div class="voir-plus-content">${moreBlocks}</div><button class="voir-plus-btn" onclick="toggleVoirPlus(this)">${_T('lessonSeeMore')}</button></div>`:'');
   const q=lesson.quiz;
   const doneAlready=S.done.has(lesson.id);
   el('learnMain').innerHTML=`
     <div style="padding:1.5rem 2rem 4rem;max-width:760px;margin:0 auto;width:100%">
-      <button class="btn-ghost" onclick="showLessonMap()" style="margin-bottom:1rem;padding:.4rem .9rem;font-size:.72rem">← Carte</button>
+      <button class="btn-ghost" onclick="showLessonMap()" style="margin-bottom:1rem;padding:.4rem .9rem;font-size:.72rem">${_T('lessonBack')}</button>
       <div class="lh-title">${lesson.e} ${lesson.n.split(' : ')[0]}</div>
       <div class="lh-meta">
-        ${doneAlready?'<span style="color:var(--g)">✓ Déjà complétée</span>':''}
+        ${doneAlready?`<span style="color:var(--g)">${_T('lessonAlreadyDone')}</span>`:''}
       </div>
       <div style="margin:1.2rem 0">${blocks}</div>
       <div class="quiz-card">
         <div class="quiz-head">
           <span class="quiz-lbl">🧠 Quiz</span>
           <div class="quiz-head-right">
-            <button class="quiz-help-btn" onclick="toggleHelp('${lesson.tag}')" title="Aide calculs">💡 Aide</button>
+            <button class="quiz-help-btn" onclick="toggleHelp('${lesson.tag}')" title="${_T('lessonQuizHelp')}">💡 ${_T('lessonQuizHelp')}</button>
             <button class="quiz-calc-btn" onclick="toggleCalc()" title="Calculatrice">🧮</button>
           </div>
         </div>
@@ -5347,12 +5396,12 @@ function openLesson(id){
         </div>
         <div class="quiz-expl" id="quizExpl">${q.expl}</div>
         <button class="quiz-cta" id="quizCta" onclick="completeLesson('${lesson.id}')">
-          ${_TC} Récupérer mes ${coins} Tacoins →
+          ${_TC} ${_T('lessonCollectCoins')} ${coins} ${_T('lessonCollectEnd')}
         </button>
       </div>
       <div class="complete-card" id="completeCard">
         <div class="cc-emo">🎉</div>
-        <div class="cc-title">Leçon terminée !</div>
+        <div class="cc-title">${_T('lessonDone')}</div>
         <div class="cc-sub">"${lesson.n}"</div>
         <div class="cc-reward">+${coins} ${_TC}</div>
         <div class="cc-btns" id="ccBtns"></div>
@@ -5426,17 +5475,17 @@ function completeLesson(id){
     const nextAll=all.filter(l=>!S.done.has(l.id));
     let btns='';
     if(nextAll.length>0){
-      btns+=`<button class="btn-g" onclick="openLesson('${nextAll[0].id}')">Leçon suivante →</button>`;
+      btns+=`<button class="btn-g" onclick="openLesson('${nextAll[0].id}')">${_T('mbContinue')}</button>`;
     } else {
       const levels=['Débutant','Intermédiaire','Avancé','Expert'];
       const currentIdx=levels.indexOf(S.level);
       const nextLevel=currentIdx!==-1&&currentIdx<levels.length-1?levels[currentIdx+1]:null;
       if(nextLevel && LESSONS[nextLevel] && LESSONS[nextLevel].flatMap(t=>t.lessons).length>0){
-        btns+=`<button class="btn-g" onclick="boot('${nextLevel}')">Niveau suivant →</button>`;
+        btns+=`<button class="btn-g" onclick="boot('${nextLevel}')">${_T('mbNextLevel')}</button>`;
       }
     }
-    btns+=`<button class="btn-ghost" onclick="switchTab('market')">📊 Investir</button>`;
-    btns+=`<button class="btn-ghost" onclick="showLessonMap()">↩ Carte</button>`;
+    btns+=`<button class="btn-ghost" onclick="switchTab('market')">📊 ${_T('bnMarket')}</button>`;
+    btns+=`<button class="btn-ghost" onclick="showLessonMap()">↩ ${_T('lessonBack').replace('← ','')}</button>`;
     el('ccBtns').innerHTML=btns;
   }
   buildLearnSidebar();checkMissions();saveState();
@@ -5777,7 +5826,7 @@ function setOrderSide(side){
   if(bp)bp.classList.toggle('active',side==='buy');
   if(sp)sp.classList.toggle('active',side==='sell');
   const btn=el('orderBtn');
-  if(btn){btn.textContent=side==='buy'?'ACHETER':'VENDRE';btn.className='order-btn '+(side==='buy'?'buy-btn':'sell-btn');}
+  if(btn){btn.textContent=side==='buy'?_T('orderBuyBtn'):_T('orderSellBtn');btn.className='order-btn '+(side==='buy'?'buy-btn':'sell-btn');}
   updateOrderSummary();
 }
 function setOrderType(type){
@@ -5917,7 +5966,7 @@ function openPortfolioModal(){
   if(!pmList||!pmSummary)return;
   if(!active.length){
     pmSummary.innerHTML='';
-    pmList.innerHTML='<div class="pm-empty">Aucune position ouverte pour le moment.</div>';
+    pmList.innerHTML=`<div class="pm-empty">${_T('pmNoPos')}</div>`;
   } else {
     pmList.innerHTML=active.map(a=>{
       const pos=S.positions[a.id],p=S.prices[a.id],val=pos.qty*p,pnl=(p-pos.avgPrice)*pos.qty;
@@ -5928,7 +5977,7 @@ function openPortfolioModal(){
         <span class="pm-emo">${a.emoji}</span>
         <div class="pm-info">
           <div class="pm-name">${a.name}</div>
-          <div class="pm-sub">${pos.qty.toFixed(4)} u. · PRU ${fmtP(pos.avgPrice)}</div>
+          <div class="pm-sub">${pos.qty.toFixed(4)} u. · ${_T('pmPRULabel')} ${fmtP(pos.avgPrice)}</div>
         </div>
         <div class="pm-right">
           <div class="pm-val">${fmt(val)} ${_TC}</div>
@@ -5942,10 +5991,10 @@ function openPortfolioModal(){
     const alignTxt=el('alignPct')?el('alignPct').textContent:'—';
     const alignW=el('alignFill')?el('alignFill').style.width:'0%';
     pmSummary.innerHTML=`
-      <div class="pm-sc" onclick="showInfoPop('cost')"><div class="pm-sl">Montant investi</div><div class="pm-sv" style="color:var(--y)">${fmt(totalCost)}</div></div>
-      <div class="pm-sc" onclick="showInfoPop('val')"><div class="pm-sl">Valeur actuelle</div><div class="pm-sv" style="color:var(--y)">${fmt(totalVal)}</div></div>
-      <div class="pm-sc pm-sc-full pm-sc-pnl" onclick="showInfoPop('pnl')"><div class="pm-sl">PnL total</div><div style="display:flex;align-items:baseline;gap:.6rem"><div class="pm-sv" style="color:${totalPnl>=0?'var(--g)':'var(--r)'};font-size:1.2rem">${totalPnl>=0?'+':''}${fmt(totalPnl)}</div><span style="font-size:.72rem;color:${totalPnl>=0?'var(--g)':'var(--r)'};opacity:.8">${totalPnl>=0?'+':''}${pct.toFixed(1)}%</span></div></div>
-      <div class="pm-sc pm-sc-full pm-sc-align" onclick="closePortfolioModal();openRebalanceModal()" style="cursor:pointer"><div class="pm-sl">Alignement profil <span style="font-size:.5rem;opacity:.5;margin-left:.3rem">↗ Rééquilibrer</span></div><div class="pm-align-wrap"><div class="pm-align-bar"><div class="pm-align-fill" style="width:${alignW}"></div></div><span class="pm-sv" style="color:var(--y)">${alignTxt}</span></div></div>`;
+      <div class="pm-sc" onclick="showInfoPop('cost')"><div class="pm-sl">${_T('pmInvested')}</div><div class="pm-sv" style="color:var(--y)">${fmt(totalCost)}</div></div>
+      <div class="pm-sc" onclick="showInfoPop('val')"><div class="pm-sl">${_T('pmCurrentVal')}</div><div class="pm-sv" style="color:var(--y)">${fmt(totalVal)}</div></div>
+      <div class="pm-sc pm-sc-full pm-sc-pnl" onclick="showInfoPop('pnl')"><div class="pm-sl">${_T('pmPnl')}</div><div style="display:flex;align-items:baseline;gap:.6rem"><div class="pm-sv" style="color:${totalPnl>=0?'var(--g)':'var(--r)'};font-size:1.2rem">${totalPnl>=0?'+':''}${fmt(totalPnl)}</div><span style="font-size:.72rem;color:${totalPnl>=0?'var(--g)':'var(--r)'};opacity:.8">${totalPnl>=0?'+':''}${pct.toFixed(1)}%</span></div></div>
+      <div class="pm-sc pm-sc-full pm-sc-align" onclick="closePortfolioModal();openRebalanceModal()" style="cursor:pointer"><div class="pm-sl">${_T('pmAlignProfile')} <span style="font-size:.5rem;opacity:.5;margin-left:.3rem">↗ ${_T('pmRebalance')}</span></div><div class="pm-align-wrap"><div class="pm-align-bar"><div class="pm-align-fill" style="width:${alignW}"></div></div><span class="pm-sv" style="color:var(--y)">${alignTxt}</span></div></div>`;
   }
   el('portModalOv').classList.add('show');
 }
@@ -5959,7 +6008,7 @@ function openAssetDetail(assetId){
   const pct=(p-pos.avgPrice)/pos.avgPrice*100;
   const entries=S.journal.filter(j=>j.asset===a.name);
   const typeColor={buy:'var(--g)',sell:'var(--r)',save:'#50C878'};
-  const typeLabel={buy:'Achat','buy-limit':'Achat limite',sell:'Vente','sell-limit':'Vente limite'};
+  const typeLabel={buy:_T('typeBuy'),'buy-limit':_T('typeBuyLimit'),sell:_T('typeSell'),'sell-limit':_T('typeSellLimit')};
   const entriesHtml=entries.length
     ?entries.map(j=>`
       <div class="port-child-entry">
@@ -5970,7 +6019,7 @@ function openAssetDetail(assetId){
         </div>
         <div class="port-child-date">${j.date||''}<br>${j.ts||''}</div>
       </div>`).join('')
-    :`<div style="font-size:.7rem;color:var(--muted);font-style:italic;padding:.5rem 0">Aucune activité enregistrée.</div>`;
+    :`<div style="font-size:.7rem;color:var(--muted);font-style:italic;padding:.5rem 0">${_T('pmNoActivity')}</div>`;
   el('portChildContent').innerHTML=`
     <div class="port-child-hdr">
       <span class="port-child-emo">${a.emoji}</span>
@@ -5982,11 +6031,11 @@ function openAssetDetail(assetId){
     </div>
     <div style="display:flex;gap:.6rem;margin-bottom:.5rem">
       <div onclick="showInfoPop('qty')" style="flex:1;background:var(--bg2);border-radius:8px;padding:.5rem .7rem;cursor:pointer;transition:.15s" onmouseover="this.style.borderColor='var(--ln2)'" onmouseout="this.style.borderColor='transparent'">
-        <div style="font-size:.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Quantité ℹ</div>
+        <div style="font-size:.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">${_T('assetQty')}</div>
         <div style="font-size:.82rem;font-weight:700;color:var(--txt);font-family:'JetBrains Mono',monospace">${pos.qty.toFixed(4)} u.</div>
       </div>
       <div onclick="showInfoPop('pru')" style="flex:1;background:var(--bg2);border-radius:8px;padding:.5rem .7rem;cursor:pointer;transition:.15s" onmouseover="this.style.borderColor='var(--ln2)'" onmouseout="this.style.borderColor='transparent'">
-        <div style="font-size:.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">PRU ℹ</div>
+        <div style="font-size:.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">${_T('assetPRU')}</div>
         <div style="font-size:.82rem;font-weight:700;color:var(--txt);font-family:'JetBrains Mono',monospace">${fmtP(pos.avgPrice)} ${_TC}</div>
       </div>
     </div>
@@ -6054,7 +6103,7 @@ function openSavingsModal(){
     ovDiv.innerHTML=(S.envelopes||[]).map(e=>`
       <div class="sav-row">
         <div><div class="sav-row-lbl">${e.icon} ${e.name}</div><div class="sav-row-val" style="color:#7EC8E3">${fmt(e.amount)}</div></div>
-        <span style="font-size:.6rem;color:var(--muted)">Épargne</span>
+        <span style="font-size:.6rem;color:var(--muted)">${_T('savSavingsLbl')}</span>
       </div>`).join('');
   }
   renderSavPie(S.coins,totalVal,envTotal);
@@ -6062,16 +6111,38 @@ function openSavingsModal(){
   el('savModalOv').classList.add('show');
 }
 function closeSavingsModal(){el('savModalOv').classList.remove('show');}
-const INFO_CARDS={
-  cost:{icon:'💸',title:'Tacoins investis',body:"Montant total de Tacoins que tu as réellement dépensé pour acheter tes actifs (coût d'acquisition). C'est la base de calcul de ta plus-value."},
-  _cost:{icon:'💰',title:'Montant investi',body:"Somme totale de Tacoins dépensés pour acheter tes actifs. Calculé sur la base du prix d'achat multiplié par les quantités détenues."},
-  val:{icon:'📈',title:'Valeur actuelle / Investi',body:"Ce que valent tes actifs aujourd'hui, calculé au prix du marché en temps réel. Cette valeur fluctue à chaque tick de marché."},
-  pnl:{icon:'📊',title:'PnL — Profit & Loss',body:"Différence entre la valeur actuelle de ton portefeuille et ce que tu as réellement dépensé. Positif = tu es en plus-value. Négatif = tu es en moins-value."},
-  disp:{icon:'🪙',title:'Disponible',body:"Tes Tacoins libres, non investis et non mis de côté. Ce sont les fonds que tu peux utiliser immédiatement pour investir ou déposer en épargne."},
-  prec:{icon:'🛡️',title:'Épargne de précaution',body:"Réserve mise de côté pour les imprévus. Elle ne génère pas de rendement mais protège ton portefeuille en cas de coup dur."},
-  qty:{icon:'📦',title:'Quantité',body:"Nombre d'unités que tu détiens de cet actif. Par exemple, 54.12 unités de MSCI World ETF signifie que tu possèdes 54.12 parts de ce fonds. La valeur totale = quantité × prix actuel."},
-  pru:{icon:'📐',title:'PRU — Prix de Revient Unitaire',body:"Prix moyen auquel tu as acheté cet actif, en tenant compte de tous tes achats successifs. Si tu achètes 1 unité à 100 🪙 puis 1 autre à 120 🪙, ton PRU est 110 🪙. C'est le seuil à partir duquel tu es en plus-value."},
-};
+function getInfoCards(){
+  if(_lang==='en') return {
+    cost:{icon:'💸',title:'Tacoins invested',body:"Total Tacoins you actually spent buying your assets (acquisition cost). This is the base for calculating your profit/loss."},
+    _cost:{icon:'💰',title:'Invested amount',body:"Total Tacoins spent buying your assets. Calculated based on the purchase price multiplied by quantities held."},
+    val:{icon:'📈',title:'Current value / Invested',body:"What your assets are worth today, calculated at the real-time market price. This value fluctuates with every market tick."},
+    pnl:{icon:'📊',title:'PnL — Profit & Loss',body:"Difference between your portfolio's current value and what you actually spent. Positive = you're in profit. Negative = you're at a loss."},
+    disp:{icon:'🪙',title:'Available',body:"Your free Tacoins, not invested and not set aside. These are the funds you can use immediately to invest or deposit into savings."},
+    prec:{icon:'🛡️',title:'Savings',body:"Reserve set aside for unexpected events. It generates no return but protects your portfolio in tough times."},
+    qty:{icon:'📦',title:'Quantity',body:"Number of units you hold of this asset. For example, 54.12 units of MSCI World ETF means you own 54.12 shares. Total value = quantity × current price."},
+    pru:{icon:'📐',title:'Avg. Price — Average Cost',body:"Average price at which you bought this asset, accounting for all successive purchases. If you buy 1 unit at 100 🪙 then another at 120 🪙, your avg. price is 110 🪙. That's the threshold above which you're in profit."},
+  };
+  if(_lang==='es') return {
+    cost:{icon:'💸',title:'Tacoins invertidos',body:"Total de Tacoins que realmente gastaste comprando tus activos (coste de adquisición). Es la base para calcular tu ganancia/pérdida."},
+    _cost:{icon:'💰',title:'Monto invertido',body:"Total de Tacoins gastados comprando tus activos. Calculado en base al precio de compra multiplicado por las cantidades mantenidas."},
+    val:{icon:'📈',title:'Valor actual / Invertido',body:"Lo que valen tus activos hoy, calculado al precio de mercado en tiempo real. Este valor fluctúa con cada tick del mercado."},
+    pnl:{icon:'📊',title:'PnL — Ganancia y Pérdida',body:"Diferencia entre el valor actual de tu cartera y lo que realmente gastaste. Positivo = estás en ganancias. Negativo = estás en pérdidas."},
+    disp:{icon:'🪙',title:'Disponible',body:"Tus Tacoins libres, no invertidos y no apartados. Son los fondos que puedes usar inmediatamente para invertir o depositar en ahorro."},
+    prec:{icon:'🛡️',title:'Ahorro',body:"Reserva apartada para imprevistos. No genera rentabilidad pero protege tu cartera en momentos difíciles."},
+    qty:{icon:'📦',title:'Cantidad',body:"Número de unidades que posees de este activo. Por ejemplo, 54.12 unidades de ETF MSCI World significa que posees 54.12 participaciones. Valor total = cantidad × precio actual."},
+    pru:{icon:'📐',title:'Precio Medio',body:"Precio promedio al que compraste este activo, teniendo en cuenta todas tus compras sucesivas. Si compras 1 unidad a 100 🪙 y otra a 120 🪙, tu precio medio es 110 🪙. Es el umbral a partir del cual estás en ganancias."},
+  };
+  return {
+    cost:{icon:'💸',title:'Tacoins investis',body:"Montant total de Tacoins que tu as réellement dépensé pour acheter tes actifs (coût d'acquisition). C'est la base de calcul de ta plus-value."},
+    _cost:{icon:'💰',title:'Montant investi',body:"Somme totale de Tacoins dépensés pour acheter tes actifs. Calculé sur la base du prix d'achat multiplié par les quantités détenues."},
+    val:{icon:'📈',title:'Valeur actuelle / Investi',body:"Ce que valent tes actifs aujourd'hui, calculé au prix du marché en temps réel. Cette valeur fluctue à chaque tick de marché."},
+    pnl:{icon:'📊',title:'PnL — Profit & Loss',body:"Différence entre la valeur actuelle de ton portefeuille et ce que tu as réellement dépensé. Positif = tu es en plus-value. Négatif = tu es en moins-value."},
+    disp:{icon:'🪙',title:'Disponible',body:"Tes Tacoins libres, non investis et non mis de côté. Ce sont les fonds que tu peux utiliser immédiatement pour investir ou déposer en épargne."},
+    prec:{icon:'🛡️',title:'Épargne de précaution',body:"Réserve mise de côté pour les imprévus. Elle ne génère pas de rendement mais protège ton portefeuille en cas de coup dur."},
+    qty:{icon:'📦',title:'Quantité',body:"Nombre d'unités que tu détiens de cet actif. Par exemple, 54.12 unités de MSCI World ETF signifie que tu possèdes 54.12 parts de ce fonds. La valeur totale = quantité × prix actuel."},
+    pru:{icon:'📐',title:'PRU — Prix de Revient Unitaire',body:"Prix moyen auquel tu as acheté cet actif, en tenant compte de tous tes achats successifs. Si tu achètes 1 unité à 100 🪙 puis 1 autre à 120 🪙, ton PRU est 110 🪙. C'est le seuil à partir duquel tu es en plus-value."},
+  };
+}
 function renderSavPie(coins,investi,precaution){
   const svg=document.getElementById('savPie');
   const legend=document.getElementById('savPieLegend');
@@ -6079,9 +6150,9 @@ function renderSavPie(coins,investi,precaution){
   const total=coins+investi+precaution;
   if(total<=0){svg.innerHTML='';legend.innerHTML='';return;}
   const slices=[
-    {label:'Disponible',val:coins,color:'#7EC8E3',key:'disp'},
-    {label:'Investi',val:investi,color:'#FFCD0D',key:'val'},
-    {label:'Épargne',val:precaution,color:'#50C878',key:'prec'},
+    {label:_T('savAvail'),val:coins,color:'#7EC8E3',key:'disp'},
+    {label:_T('savInvestedLbl'),val:investi,color:'#FFCD0D',key:'val'},
+    {label:_T('savSavingsLbl'),val:precaution,color:'#50C878',key:'prec'},
   ].filter(s=>s.val>0);
   const cx=55,cy=55,r=48,inner=28;
   let angle=-Math.PI/2;
@@ -6110,7 +6181,7 @@ function renderSavPie(coins,investi,precaution){
     </div>`).join('');
 }
 function showInfoPop(key){
-  const d=INFO_CARDS[key];if(!d)return;
+  const d=getInfoCards()[key];if(!d)return;
   el('infoPopIcon').textContent=d.icon;
   el('infoPopTitle').textContent=d.title;
   el('infoPopBody').textContent=d.body;
@@ -6151,9 +6222,9 @@ function renderEnvList(){
   // Populate dropdown
   const sel=el('envSelector');if(!sel)return;
   const prev=sel.value;
-  sel.innerHTML=`<option value="" disabled hidden>— Choisir une enveloppe —</option>`
-    +`<option value="new">＋ Nouvelle enveloppe</option>`
-    +(S.envelopes||[]).map(e=>`<option value="${e.id}">${e.icon} ${e.name}</option>`).join('');
+  sel.innerHTML=`<option value="" disabled hidden>${_T('savSelectEnv')}</option>`
+    +`<option value="new">${_T('savNewEnvOpt')}</option>`
+    +(S.envelopes||[]).map(e=>`<option value="${e.id}">${e.icon} ${e.id==='prec'?_T('envPrec'):e.name}</option>`).join('');
   // Restore selection si encore valide, sinon placeholder
   if(prev&&prev!==''&&sel.querySelector(`option[value="${prev}"]`)){sel.value=prev;}
   else{sel.value='';}
@@ -6184,11 +6255,11 @@ function renderEnvDetail(){
   detail.innerHTML=`
     <div class="env-detail">
       <div class="env-detail-hdr">
-        <span class="env-detail-name">${env.icon} ${env.name}</span>
+        <span class="env-detail-name">${env.icon} ${env.id==='prec'?_T('envPrec'):env.name}</span>
         <button class="env-detail-del" onclick="deleteEnv('${env.id}')" title="Supprimer enveloppe">🗑</button>
       </div>
       <div class="env-detail-amount">${fmt(env.amount)} Tacoins</div>
-      ${env.amount>0?`<div style="font-size:.6rem;color:var(--muted);margin-top:.2rem">Mis de côté dans cette enveloppe</div>`:''}
+      ${env.amount>0?`<div style="font-size:.6rem;color:var(--muted);margin-top:.2rem">${_T('envAside')}</div>`:''}
     </div>`;
 }
 function onEnvSelect(val){
@@ -6212,7 +6283,7 @@ function _flashEnvSelect(){
   w.addEventListener('animationend',()=>w.classList.remove('flash-error'),{once:true});
 }
 function depositGlobal(){
-  if(!_selectedEnvId||_selectedEnvId==='new'){_flashEnvSelect();el('envGlobalMsg').style.color='var(--r)';el('envGlobalMsg').textContent='Sélectionne une enveloppe.';return;}
+  if(!_selectedEnvId||_selectedEnvId==='new'){_flashEnvSelect();el('envGlobalMsg').style.color='var(--r)';el('envGlobalMsg').textContent=_T('envSelectMsg');return;}
   const env=(S.envelopes||[]).find(e=>e.id===_selectedEnvId);if(!env)return;
   const n=Math.floor(Number(el('envGlobalInput').value));
   const msg=el('envGlobalMsg');
@@ -6225,7 +6296,7 @@ function depositGlobal(){
   el('envGlobalMsg').style.color='var(--g)';el('envGlobalMsg').textContent=`+${fmt(n)} déposés dans ${env.name} ✓`;
 }
 function withdrawGlobal(){
-  if(!_selectedEnvId||_selectedEnvId==='new'){_flashEnvSelect();el('envGlobalMsg').style.color='var(--r)';el('envGlobalMsg').textContent='Sélectionne une enveloppe.';return;}
+  if(!_selectedEnvId||_selectedEnvId==='new'){_flashEnvSelect();el('envGlobalMsg').style.color='var(--r)';el('envGlobalMsg').textContent=_T('envSelectMsg');return;}
   const env=(S.envelopes||[]).find(e=>e.id===_selectedEnvId);if(!env)return;
   const n=Math.floor(Number(el('envGlobalInput').value));
   const msg=el('envGlobalMsg');
@@ -6639,7 +6710,7 @@ function _renderRebList(){
   }).join('');
   const listEl=el('rebList');if(listEl)listEl.innerHTML=rows;
   const btn=el('rebBtnAll');
-  if(btn){btn.disabled=!anyAction;btn.textContent=anyAction?'Rééquilibrer automatiquement':'Portefeuille déjà équilibré';}
+  if(btn){btn.disabled=!anyAction;btn.textContent=anyAction?_T('rebBtn'):(_lang==='en'?'Portfolio already balanced':_lang==='es'?'Cartera ya equilibrada':'Portefeuille déjà équilibré');}
 }
 function openRebalanceModal(){
   if(!S.diagProfile)return;
@@ -6792,8 +6863,8 @@ function renderDiagStep(){
         </div>`).join('')}
     </div>
     <div class="dq-nav">
-      ${S.diagStep>0?'<button class="btn-ghost" onclick="diagBack()">← Retour</button>':''}
-      <button class="btn-g" id="dqNext" onclick="diagNext()" disabled>Suivant →</button>
+      ${S.diagStep>0?`<button class="btn-ghost" onclick="diagBack()">${_T('diagBack')}</button>`:''}
+      <button class="btn-g" id="dqNext" onclick="diagNext()" disabled>${_T('diagNext')}</button>
     </div>`;
   if(S.diagAnswers[q.id]){
     const idx=q.opts.findIndex(o=>o.k===S.diagAnswers[q.id]);
@@ -6816,19 +6887,19 @@ function computeDiag(){
   const p=PROFILES[S.diagProfile];
   // Loading screen
   const steps=[
-    {label:'Analyse de ton profil de risque…',pct:18},
-    {label:'Calcul de ton horizon d\'investissement…',pct:36},
-    {label:'Évaluation de ta tolérance aux pertes…',pct:54},
-    {label:'Comparaison avec 10 000 profils…',pct:72},
-    {label:'Génération de ton allocation…',pct:90},
-    {label:'Profil prêt !',pct:100}
+    {label:_T('diagStep1'),pct:18},
+    {label:_T('diagStep2'),pct:36},
+    {label:_T('diagStep3'),pct:54},
+    {label:_T('diagStep4'),pct:72},
+    {label:_T('diagStep5'),pct:90},
+    {label:_T('diagStep6'),pct:100}
   ];
   el('diagBody').innerHTML=`
     <div class="diag-loading">
       <div class="diag-loading-icon">🔍</div>
-      <div class="diag-loading-title">ANALYSE EN COURS</div>
+      <div class="diag-loading-title">${_T('diagAnalyzing')}</div>
       <div class="diag-loading-bar-wrap"><div class="diag-loading-bar" id="diagLoadBar"></div></div>
-      <div class="diag-loading-label" id="diagLoadLabel">Initialisation…</div>
+      <div class="diag-loading-label" id="diagLoadLabel">${_T('diagInit')}</div>
     </div>`;
   el('diagProgFill').style.width='90%';
   let i=0;
@@ -6849,14 +6920,14 @@ function showDiagResult(p){
   el('diagBody').innerHTML=`
     <div style="text-align:center;padding:2rem 1rem">
       <div style="font-size:3rem;margin-bottom:.7rem">${p.emoji}</div>
-      <div style="font-family:'Bungee';font-size:2rem;color:${p.color};letter-spacing:.06em">${p.name}</div>
-      <div style="font-size:.8rem;color:var(--soft);margin:1rem 0;line-height:1.7">${p.advice}</div>
+      <div style="font-family:'Bungee';font-size:2rem;color:${p.color};letter-spacing:.06em">${tr(PROFILE_I18N.name,p.name)}</div>
+      <div style="font-size:.8rem;color:var(--soft);margin:1rem 0;line-height:1.7">${_T('profAdvice_'+S.diagProfile)}</div>
       ${p.alloc.map(a=>`<div style="display:flex;gap:.6rem;align-items:center;margin:.3rem 0;font-size:.78rem">
         <span style="width:8px;height:8px;border-radius:50%;background:${a.color};flex-shrink:0"></span>
         <span style="flex:1;color:var(--soft)">${a.name}</span>
         <span style="color:${a.color};font-weight:700">${a.pct}%</span>
       </div>`).join('')}
-      <button class="btn-g" onclick="closeDiag();showAllocPanel();refreshSidebarProfile();" style="margin-top:1.2rem;width:100%">Appliquer mon profil →</button>
+      <button class="btn-g" onclick="closeDiag();showAllocPanel();refreshSidebarProfile();" style="margin-top:1.2rem;width:100%">${_T('diagApply')}</button>
     </div>`;
   el('diagProgFill').style.width='100%';
 }
@@ -7053,7 +7124,7 @@ function toggleVoirPlus(btn){
   const content=btn.previousElementSibling;
   const open=content.classList.toggle('open');
   btn.classList.toggle('open',open);
-  btn.textContent=open?'Voir moins ▴':'Voir plus ▾';
+  btn.textContent=open?_T('lessonSeeLess'):_T('lessonSeeMore');
 }
 function toggleHelp(tag){
   const p=el('quizHelpPanel');if(!p)return;
@@ -7600,8 +7671,8 @@ function renderProfilPage(){
 
 
       <div class="prof-card-name" style="color:${p.color}">${p.name}</div>
-      <div class="prof-card-badge" style="color:${p.color};border-color:${p.color}">${i===0?'Ultra Conservateur':i===1?'Conservateur':i===2?'Modéré':i===3?'Dynamique':'Offensif'}</div>
-      <div class="prof-card-advice" style="border-color:${p.color}">${p.advice}</div>
+      <div class="prof-card-badge" style="color:${p.color};border-color:${p.color}">${_T('profBadge'+i)}</div>
+      <div class="prof-card-advice" style="border-color:${p.color}">${_T('profAdvice_'+key)}</div>
       <div style="display:flex;align-items:center;gap:.8rem;width:100%;margin-top:.4rem">${_pie}<div style="display:flex;flex-direction:column;flex:1">${legend}</div></div>
     </div>`;
   }).join('');
@@ -8124,11 +8195,24 @@ function toggleSimpleMode(){
   }
 }
 /* ══ TUTORIEL MARCHÉ — PHASE 1 : 3 grandes cartes centrées ══ */
-const MKT_TUTO_STEPS=[
-  {icon:'👀',title:'Bienvenue dans la Salle des Marchés',body:'Ici tu simules de vrais investissements avec des <span class="tuto-highlight">Tacoins</span>. Zéro risque réel — c\'est fait pour apprendre.<br><br>Les prix changent en direct, comme sur de vrais marchés financiers.',hint:'',btn:'C\'est parti',target:null},
-  {icon:'📈',title:'Les actifs : ce que tu peux acheter',body:'Chaque ligne = un actif (ETF, action, crypto, or). Le prix change en direct. La colonne <span class="tuto-highlight">24h</span> montre si l\'actif est en hausse (vert) ou en baisse (rouge) depuis hier.<br><br>Clique sur une ligne pour voir son graphique détaillé.',hint:'',btn:'J\'ai compris',target:null},
-  {icon:'🪙',title:'Premier achat : utilise tes Tacoins',body:'Tu as <span class="tuto-highlight">500 Tacoins</span> pour investir. Sélectionne un actif dans la liste, entre un montant dans le panneau d\'ordre, et clique <span class="tuto-highlight">ACHETER</span>.<br><br>Ensuite je te montre où trouver les infos clés.',hint:'',btn:'Je suis prêt',target:null},
-];
+function getMktTutoSteps(){
+  if(_lang==='en') return [
+    {icon:'👀',title:'Welcome to the Market Room',body:'Here you simulate real investments with <span class="tuto-highlight">Tacoins</span>. Zero real risk — it\'s designed for learning.<br><br>Prices change live, just like real financial markets.',hint:'',btn:'Let\'s go',target:null},
+    {icon:'📈',title:'Assets: what you can buy',body:'Each row = an asset (ETF, stock, crypto, gold). The price changes live. The <span class="tuto-highlight">24h</span> column shows whether the asset is up (green) or down (red) since yesterday.<br><br>Click a row to see its detailed chart.',hint:'',btn:'Got it',target:null},
+    {icon:'🪙',title:'First buy: use your Tacoins',body:'You have <span class="tuto-highlight">500 Tacoins</span> to invest. Select an asset from the list, enter an amount in the order panel, and click <span class="tuto-highlight">BUY</span>.<br><br>Then I\'ll show you where to find the key info.',hint:'',btn:'I\'m ready',target:null},
+  ];
+  if(_lang==='es') return [
+    {icon:'👀',title:'Bienvenido a la Sala de Mercados',body:'Aquí simulas inversiones reales con <span class="tuto-highlight">Tacoins</span>. Cero riesgo real — está diseñado para aprender.<br><br>Los precios cambian en directo, como en los mercados financieros reales.',hint:'',btn:'¡Vamos!',target:null},
+    {icon:'📈',title:'Activos: lo que puedes comprar',body:'Cada fila = un activo (ETF, acción, cripto, oro). El precio cambia en directo. La columna <span class="tuto-highlight">24h</span> muestra si el activo sube (verde) o baja (rojo) desde ayer.<br><br>Haz clic en una fila para ver su gráfico detallado.',hint:'',btn:'Entendido',target:null},
+    {icon:'🪙',title:'Primera compra: usa tus Tacoins',body:'Tienes <span class="tuto-highlight">500 Tacoins</span> para invertir. Selecciona un activo de la lista, introduce una cantidad en el panel de órdenes y haz clic en <span class="tuto-highlight">COMPRAR</span>.<br><br>Luego te mostraré dónde encontrar la información clave.',hint:'',btn:'Estoy listo',target:null},
+  ];
+  return [
+    {icon:'👀',title:'Bienvenue dans la Salle des Marchés',body:'Ici tu simules de vrais investissements avec des <span class="tuto-highlight">Tacoins</span>. Zéro risque réel — c\'est fait pour apprendre.<br><br>Les prix changent en direct, comme sur de vrais marchés financiers.',hint:'',btn:'C\'est parti',target:null},
+    {icon:'📈',title:'Les actifs : ce que tu peux acheter',body:'Chaque ligne = un actif (ETF, action, crypto, or). Le prix change en direct. La colonne <span class="tuto-highlight">24h</span> montre si l\'actif est en hausse (vert) ou en baisse (rouge) depuis hier.<br><br>Clique sur une ligne pour voir son graphique détaillé.',hint:'',btn:'J\'ai compris',target:null},
+    {icon:'🪙',title:'Premier achat : utilise tes Tacoins',body:'Tu as <span class="tuto-highlight">500 Tacoins</span> pour investir. Sélectionne un actif dans la liste, entre un montant dans le panneau d\'ordre, et clique <span class="tuto-highlight">ACHETER</span>.<br><br>Ensuite je te montre où trouver les infos clés.',hint:'',btn:'Je suis prêt',target:null},
+  ];
+}
+const MKT_TUTO_STEPS=null;
 let _mktTutoIdx=0;
 
 function _mktTuVisible(el){
@@ -8194,20 +8278,21 @@ function closeMktTutorial(){
   setTimeout(showMktMini, 400);
 }
 /* ══ TUTORIEL MARCHÉ — PHASE 2 : mini tooltips interactifs avec spotlight ══ */
-const MKT_MINI_STEPS=[
-  {
-    label:'Astuce interactive',
-    title:'Le graphique',
-    hint:'Change la période en cliquant sur <strong style="color:var(--y)">1J</strong>, <strong style="color:var(--y)">1S</strong> ou <strong style="color:var(--y)">1M</strong> pour voir l\'historique du prix sur différentes durées.',
-    target:'.chart-wrap'
-  },
-  {
-    label:'À toi de jouer !',
-    title:'Passe ton premier ordre',
-    hint:'Entre un montant et clique sur <strong style="color:var(--y)">ACHETER</strong> pour simuler ton premier investissement.',
-    target:'.order-panel'
-  },
-];
+function getMktMiniSteps(){
+  if(_lang==='en') return [
+    {label:'Interactive tip',title:'The chart',hint:'Change the period by clicking <strong style="color:var(--y)">1D</strong>, <strong style="color:var(--y)">1W</strong> or <strong style="color:var(--y)">1M</strong> to see the price history over different timeframes.',target:'.chart-wrap'},
+    {label:'Your turn!',title:'Place your first order',hint:'Enter an amount and click <strong style="color:var(--y)">BUY</strong> to simulate your first investment.',target:'.order-panel'},
+  ];
+  if(_lang==='es') return [
+    {label:'Consejo interactivo',title:'El gráfico',hint:'Cambia el período haciendo clic en <strong style="color:var(--y)">1D</strong>, <strong style="color:var(--y)">1S</strong> o <strong style="color:var(--y)">1M</strong> para ver el historial de precios en diferentes duraciones.',target:'.chart-wrap'},
+    {label:'¡Tu turno!',title:'Realiza tu primera orden',hint:'Introduce una cantidad y haz clic en <strong style="color:var(--y)">COMPRAR</strong> para simular tu primera inversión.',target:'.order-panel'},
+  ];
+  return [
+    {label:'Astuce interactive',title:'Le graphique',hint:'Change la période en cliquant sur <strong style="color:var(--y)">1J</strong>, <strong style="color:var(--y)">1S</strong> ou <strong style="color:var(--y)">1M</strong> pour voir l\'historique du prix sur différentes durées.',target:'.chart-wrap'},
+    {label:'À toi de jouer !',title:'Passe ton premier ordre',hint:'Entre un montant et clique sur <strong style="color:var(--y)">ACHETER</strong> pour simuler ton premier investissement.',target:'.order-panel'},
+  ];
+}
+const MKT_MINI_STEPS=null;
 let _mktMiniIdx=0;
 function showMktMini(){
   _mktMiniIdx=0;
@@ -8220,17 +8305,19 @@ function closeMktMini(){
 }
 function mktMiniNext(){
   _mktMiniIdx++;
-  if(_mktMiniIdx>=MKT_MINI_STEPS.length){closeMktMini();return;}
+  const _ms=getMktMiniSteps();
+  if(_mktMiniIdx>=_ms.length){closeMktMini();return;}
   renderMktMiniStep();
 }
 function renderMktMiniStep(){
-  const s=MKT_MINI_STEPS[_mktMiniIdx];
+  const _ms=getMktMiniSteps();
+  const s=_ms[_mktMiniIdx];
   el('mktMiniLabel').textContent=s.label;
   el('mktMiniTitle').textContent=s.title;
   el('mktMiniHint').innerHTML=s.hint;
-  el('mktMiniStepNum').textContent=`${_mktMiniIdx+1} / ${MKT_MINI_STEPS.length}`;
+  el('mktMiniStepNum').textContent=`${_mktMiniIdx+1} / ${_ms.length}`;
   const nextBtn=el('mktMiniNextBtn');
-  nextBtn.textContent=_mktMiniIdx===MKT_MINI_STEPS.length-1?'Terminer':'Suivant →';
+  nextBtn.textContent=_mktMiniIdx===_ms.length-1?(_lang==='en'?'Done':_lang==='es'?'Terminar':'Terminer'):_T('diagNext');
   if(s.target){
     const tgt=document.querySelector(s.target);
     if(tgt)tgt.scrollIntoView({block:'nearest',behavior:'smooth'});
@@ -8268,7 +8355,7 @@ function _mktMiniSpotlight(targetSel){
 function mktTutoNext(){
   _clearMktAttention();
   _mktTutoIdx++;
-  if(_mktTutoIdx>=MKT_TUTO_STEPS.length){closeMktTutorial();return;}
+  if(_mktTutoIdx>=getMktTutoSteps().length){closeMktTutorial();return;}
   const card=el('mktTutoCard');
   card.style.animation='none';
   requestAnimationFrame(()=>{card.style.animation='';renderMktTutoStep();});
@@ -8282,8 +8369,9 @@ function mktTutoPrev(){
   requestAnimationFrame(()=>{card.style.animation='';renderMktTutoStep();});
 }
 function renderMktTutoStep(){
-  const s=MKT_TUTO_STEPS[_mktTutoIdx];
-  const total=MKT_TUTO_STEPS.length,n=_mktTutoIdx+1;
+  const _steps=getMktTutoSteps();
+  const s=_steps[_mktTutoIdx];
+  const total=_steps.length,n=_mktTutoIdx+1;
   el('mktTutoIcon').innerHTML=s.icon;
   el('mktTutoTitle').textContent=s.title;
   el('mktTutoBody').innerHTML=s.body;
@@ -8295,7 +8383,7 @@ function renderMktTutoStep(){
   // Back button
   const back=el('mktTutoBackBtn');
   if(back)back.style.display=_mktTutoIdx>0?'':'none';
-  el('mktTutoDots').innerHTML=MKT_TUTO_STEPS.map((_,i)=>`<div class="tuto-dot${i===_mktTutoIdx?' active':i<_mktTutoIdx?' done':''}"></div>`).join('');
+  el('mktTutoDots').innerHTML=_steps.map((_,i)=>`<div class="tuto-dot${i===_mktTutoIdx?' active':i<_mktTutoIdx?' done':''}"></div>`).join('');
   // Scroll target into view then spotlight
   if(s.target){
     const tgt=document.querySelector(s.target);
@@ -8309,14 +8397,33 @@ function renderMktTutoStep(){
 }
 
 /* ══ TUTORIEL 5 ÉTAPES ══ */
-const TUTO_STEPS=[
-{icon:'🚀',title:'Bienvenue sur TACTIC !',body:'Tu vas apprendre à investir en simulant avec de vrais marchés — sans risquer un centime réel. En 5 étapes, je t\'explique comment ça marche.'},
-  {icon:'📚',title:'Apprendre',body:'L\'onglet <span class="tuto-highlight">Apprendre</span> contient des leçons classées par thème. Complète-les pour gagner des <span class="tuto-highlight">Tacoins</span> et débloquer de nouvelles notions.'},
-  {icon:'📈',title:'La Salle des Marchés',body:'Dans <span class="tuto-highlight">Marchés</span>, tu peux acheter et vendre des actifs (ETF, actions, obligations, or…) avec tes Tacoins. Observe les cours en temps réel et entraîne-toi à passer des ordres.'},
-  {icon:'🎯',title:'Missions',body:'Chaque jour, 3 <span class="tuto-highlight">missions du jour</span> se renouvellent. Des missions permanentes sont aussi disponibles. Complète-les pour gagner des Tacoins bonus !'},
-  {icon:'🤖',title:'Ton coach : le robot TACT',body:'<span class="tuto-highlight">TACT</span> est ton assistant personnel intégré à la plateforme.<br><br>Il répond à toutes tes questions sur l\'investissement, t\'explique les concepts, analyse tes choix et te guide pas à pas.<br><br>Retrouve-le à tout moment en appuyant sur le bouton 🤖 en bas de l\'écran.'},
-  {icon:'🏆',title:'C\'est parti !',body:'Ton <span class="tuto-highlight">profil investisseur</span> se construit au fil du temps. Connecte-toi chaque jour pour maintenir ton <span class="tuto-highlight">streak 🔥</span> et progresse vers le niveau Expert !'},
-];
+function getTutoSteps(){
+  if(_lang==='en') return [
+    {icon:'🚀',title:'Welcome to TACTIC!',body:'You\'ll learn to invest by simulating with real markets — without risking a single real cent. In 5 steps, I\'ll explain how it works.'},
+    {icon:'📚',title:'Learn',body:'The <span class="tuto-highlight">Learn</span> tab contains lessons organized by topic. Complete them to earn <span class="tuto-highlight">Tacoins</span> and unlock new concepts.'},
+    {icon:'📈',title:'The Market Room',body:'In <span class="tuto-highlight">Markets</span>, you can buy and sell assets (ETFs, stocks, bonds, gold…) with your Tacoins. Watch prices in real time and practice placing orders.'},
+    {icon:'🎯',title:'Missions',body:'Every day, 3 <span class="tuto-highlight">daily missions</span> refresh. Permanent missions are also available. Complete them to earn bonus Tacoins!'},
+    {icon:'🤖',title:'Your coach: the TACT robot',body:'<span class="tuto-highlight">TACT</span> is your personal assistant built into the platform.<br><br>It answers all your investing questions, explains concepts, analyzes your choices, and guides you step by step.<br><br>Find it anytime by pressing the 🤖 button at the bottom of the screen.'},
+    {icon:'🏆',title:'Let\'s go!',body:'Your <span class="tuto-highlight">investor profile</span> builds over time. Log in every day to keep your <span class="tuto-highlight">streak 🔥</span> and progress toward Expert level!'},
+  ];
+  if(_lang==='es') return [
+    {icon:'🚀',title:'¡Bienvenido a TACTIC!',body:'Aprenderás a invertir simulando con mercados reales — sin arriesgar ni un céntimo real. En 5 pasos, te explico cómo funciona.'},
+    {icon:'📚',title:'Aprender',body:'La pestaña <span class="tuto-highlight">Aprender</span> contiene lecciones organizadas por tema. Complétalas para ganar <span class="tuto-highlight">Tacoins</span> y desbloquear nuevos conceptos.'},
+    {icon:'📈',title:'La Sala de Mercados',body:'En <span class="tuto-highlight">Mercados</span>, puedes comprar y vender activos (ETFs, acciones, bonos, oro…) con tus Tacoins. Observa los precios en tiempo real y practica realizando órdenes.'},
+    {icon:'🎯',title:'Misiones',body:'Cada día, 3 <span class="tuto-highlight">misiones del día</span> se renuevan. También hay misiones permanentes disponibles. ¡Complétalas para ganar Tacoins extra!'},
+    {icon:'🤖',title:'Tu coach: el robot TACT',body:'<span class="tuto-highlight">TACT</span> es tu asistente personal integrado en la plataforma.<br><br>Responde todas tus preguntas sobre inversión, explica conceptos, analiza tus decisiones y te guía paso a paso.<br><br>Encuéntralo en cualquier momento presionando el botón 🤖 en la parte inferior de la pantalla.'},
+    {icon:'🏆',title:'¡Empezamos!',body:'Tu <span class="tuto-highlight">perfil de inversor</span> se construye con el tiempo. Inicia sesión cada día para mantener tu <span class="tuto-highlight">racha 🔥</span> y progresar hacia el nivel Experto.'},
+  ];
+  return [
+    {icon:'🚀',title:'Bienvenue sur TACTIC !',body:'Tu vas apprendre à investir en simulant avec de vrais marchés — sans risquer un centime réel. En 5 étapes, je t\'explique comment ça marche.'},
+    {icon:'📚',title:'Apprendre',body:'L\'onglet <span class="tuto-highlight">Apprendre</span> contient des leçons classées par thème. Complète-les pour gagner des <span class="tuto-highlight">Tacoins</span> et débloquer de nouvelles notions.'},
+    {icon:'📈',title:'La Salle des Marchés',body:'Dans <span class="tuto-highlight">Marchés</span>, tu peux acheter et vendre des actifs (ETF, actions, obligations, or…) avec tes Tacoins. Observe les cours en temps réel et entraîne-toi à passer des ordres.'},
+    {icon:'🎯',title:'Missions',body:'Chaque jour, 3 <span class="tuto-highlight">missions du jour</span> se renouvellent. Des missions permanentes sont aussi disponibles. Complète-les pour gagner des Tacoins bonus !'},
+    {icon:'🤖',title:'Ton coach : le robot TACT',body:'<span class="tuto-highlight">TACT</span> est ton assistant personnel intégré à la plateforme.<br><br>Il répond à toutes tes questions sur l\'investissement, t\'explique les concepts, analyse tes choix et te guide pas à pas.<br><br>Retrouve-le à tout moment en appuyant sur le bouton 🤖 en bas de l\'écran.'},
+    {icon:'🏆',title:'C\'est parti !',body:'Ton <span class="tuto-highlight">profil investisseur</span> se construit au fil du temps. Connecte-toi chaque jour pour maintenir ton <span class="tuto-highlight">streak 🔥</span> et progresse vers le niveau Expert !'},
+  ];
+}
+const TUTO_STEPS=null;
 let _tutoIdx=0;
 function showTutorial(){
   _tutoIdx=0;
@@ -8331,22 +8438,21 @@ function closeTutorial(){
 }
 function tutoNext(){
   _tutoIdx++;
-  if(_tutoIdx>=TUTO_STEPS.length){closeTutorial();return;}
-  // re-trigger animation
+  const _ts=getTutoSteps();
+  if(_tutoIdx>=_ts.length){closeTutorial();return;}
   const card=el('tutoCard');
   card.style.animation='none';
   requestAnimationFrame(()=>{card.style.animation='';renderTutoStep();});
 }
 function renderTutoStep(){
-  const s=TUTO_STEPS[_tutoIdx];
+  const _ts=getTutoSteps();
+  const s=_ts[_tutoIdx];
   el('tutoIcon').innerHTML=s.icon;
   el('tutoTitle').textContent=s.title;
   el('tutoBody').innerHTML=s.body;
   const btn=el('tutoNextBtn');
-  btn.textContent=_tutoIdx===TUTO_STEPS.length-1?'C\'est parti ! 🚀':'Suivant →';
-  // dots
-  el('tutoDots').innerHTML=TUTO_STEPS.map((_,i)=>`<div class="tuto-dot${i===_tutoIdx?' active':i<_tutoIdx?' done':''}"></div>`).join('');
-  // spotlight TACT fab sur la carte robot TACT
+  btn.textContent=_tutoIdx===_ts.length-1?(_lang==='en'?'Let\'s go! 🚀':_lang==='es'?'¡Vamos! 🚀':'C\'est parti ! 🚀'):_T('diagNext');
+  el('tutoDots').innerHTML=_ts.map((_,i)=>`<div class="tuto-dot${i===_tutoIdx?' active':i<_tutoIdx?' done':''}"></div>`).join('');
   const fab=el('chatbotFab');
   if(fab){fab.classList.toggle('tuto-spotlight',s.title.includes('TACT'));}
 }
@@ -8533,7 +8639,7 @@ const TRANSLATIONS = {
     orderTitle:'Passer un ordre', orderAvail:'Disponible', orderBuy:'▲ ACHETER', orderSell:'▼ VENDRE',
     orderSelect:'Sélectionne un actif', orderAmount:'Montant (Tacoins)', orderMarket:'Au marché',
     orderLimit:'Ordre limite', orderLimitPrice:'Prix limite cible', orderUnitPrice:'Prix unitaire',
-    orderQty:'Quantité', orderFees:'Frais (0.1%)', orderTotal:'Total', orderBuyBtn:'ACHETER',
+    orderQty:'Quantité', orderFees:'Frais (0.1%)', orderTotal:'Total', orderBuyBtn:'ACHETER', orderSellBtn:'VENDRE',
     // Marché — portfolio
     limitTitle:'Ordres limites en attente', limitEmpty:'Aucun ordre limite', portfolioTitle:'Portefeuille',
     rebTitle:'Rééquilibrage du portefeuille', rebCashLbl:'Réserve de cash',
@@ -8574,6 +8680,42 @@ const TRANSLATIONS = {
     jMission:'Mission accomplie', jMissionDay:'Mission du jour', jMissionPerm:'Mission permanente',
     jDblClick:'Double-cliquer pour voir le détail',
     portDetails:'Détail des positions', portBack:'← Retour',
+    mbViewLessons:'📋 Voir les leçons', orderInPortfolio:'En portefeuille',
+    savTabOverview:"Vue d'ensemble", savTabSavings:'Épargne',
+    savValActuelle:'Valeur actuelle', savPrixMarche:'Prix du marché',
+    savPatrimoineLbl:'Patrimoine', savTotalLbl:'Total', savSavingsLbl:'Épargne',
+    savDeposit:'Déposer', savWithdraw:'Retirer',
+    savSelectEnv:'— Choisir une enveloppe —', savNewEnvOpt:'＋ Nouvelle enveloppe',
+    savNewEnv:'Nouvelle enveloppe', savCreateEnv:'Créer', savBack:'← Retour',
+    jfSave:'Épargne', infopopClose:'Compris', orderPlaceOrder:'Passer un ordre',
+    lessonBack:'← Carte', lessonAlreadyDone:'✓ Déjà complétée',
+    lessonSeeMore:'Voir plus ▾', lessonSeeLess:'Voir moins ▴',
+    lessonCollectCoins:'Récupérer mes', lessonCollectEnd:'Tacoins →',
+    lessonDone:'Leçon terminée !', lessonQuizHelp:'Aide',
+    pmNoPos:'Aucune position ouverte pour le moment.', pmNoActivity:'Aucune activité enregistrée.',
+    pmInvested:'Montant investi', pmCurrentVal:'Valeur actuelle',
+    pmPnl:'PnL total', pmAlignProfile:'Alignement profil', pmRebalance:'Rééquilibrer',
+    pmQty:'Quantité', pmPRULabel:'PRU',
+    savAvail:'Disponible', savInvestedLbl:'Investi',
+    mbContinue:'Continuer →', mbStart:'Commencer →',
+    mbNextLevel:'Niveau suivant →', mbAllDone:'✓ Tout terminé', mbLessons:'leçons',
+    spNoProfile:"Ton profil investisseur n'est pas encore défini.", spDiagLink:'Faire le diagnostic →',
+    diagBack:'← Retour', diagNext:'Suivant →',
+    diagAnalyzing:'ANALYSE EN COURS', diagInit:'Initialisation…', diagApply:'Appliquer mon profil →',
+    diagStep1:'Analyse de ton profil de risque…', diagStep2:"Calcul de ton horizon d'investissement…",
+    diagStep3:'Évaluation de ta tolérance aux pertes…', diagStep4:'Comparaison avec 10 000 profils…',
+    diagStep5:'Génération de ton allocation…', diagStep6:'Profil prêt !',
+    profBadge0:'Ultra Conservateur', profBadge1:'Conservateur', profBadge2:'Modéré', profBadge3:'Dynamique', profBadge4:'Offensif',
+    profAdvice_ultraConservateur:"Priorité à la protection du capital. Commence par l'OAT 10 ans puis alloue progressivement en ETF Monde.",
+    profAdvice_conservateur:'Équilibre prudent. Obligataire comme socle, actions mondiales pour la croissance.',
+    profAdvice_modere:'Portefeuille 55/25/10/10. Rééquilibre annuellement. Si actions > 65%, revends et rachète des obligations.',
+    profAdvice_dynamique:"Croissance long terme. Actions en cœur. Bitcoin max 5% en bonus si tu le maîtrises.",
+    profAdvice_offensif:'Profil offensif. Mesure ton Sharpe trimestriellement. Rééquilibre discipliné indispensable.',
+    typeBuy:'Achat', typeBuyLimit:'Achat limite', typeSell:'Vente', typeSellLimit:'Vente limite',
+    catAll:'Toutes', assetQty:'Quantité ℹ', assetPRU:'PRU ℹ', envPrec:'Précaution',
+    envAside:'Mis de côté dans cette enveloppe', envSelectMsg:'Sélectionne une enveloppe.',
+    lowNudgeTitle:'Ton solde est presque vide !', lowNudgeSub:'Complète des leçons pour continuer à investir.', lowNudgeBtn:'▶ Reprendre ma leçon',
+    nudgeInvestTitle:"Il est temps d'investir, non ?", nudgeInvestSub:'disponibles.', nudgeInvestBtn:'Salle des marchés →',
   },
   en: {
     tabLearn:'YOUR PATH', tabMarket:'MARKET ROOM', tabMissions:"TODAY'S MISSIONS",
@@ -8584,7 +8726,7 @@ const TRANSLATIONS = {
     orderTitle:'Place an order', orderAvail:'Available', orderBuy:'▲ BUY', orderSell:'▼ SELL',
     orderSelect:'Select an asset', orderAmount:'Amount (Tacoins)', orderMarket:'Market order',
     orderLimit:'Limit order', orderLimitPrice:'Target limit price', orderUnitPrice:'Unit price',
-    orderQty:'Quantity', orderFees:'Fees (0.1%)', orderTotal:'Total', orderBuyBtn:'BUY',
+    orderQty:'Quantity', orderFees:'Fees (0.1%)', orderTotal:'Total', orderBuyBtn:'BUY', orderSellBtn:'SELL',
     limitTitle:'Pending limit orders', limitEmpty:'No limit orders', portfolioTitle:'Portfolio',
     rebTitle:'Portfolio rebalancing', rebCashLbl:'Cash reserve',
     rebCashUnit:'% of portfolio', rebHint:'Reserved cash will not be invested during rebalancing.',
@@ -8619,6 +8761,42 @@ const TRANSLATIONS = {
     jMission:'Mission complete', jMissionDay:'Daily mission', jMissionPerm:'Permanent mission',
     jDblClick:'Double-click to see details',
     portDetails:'Position details', portBack:'← Back',
+    mbViewLessons:'📋 View lessons', orderInPortfolio:'In portfolio',
+    savTabOverview:'Overview', savTabSavings:'Savings',
+    savValActuelle:'Current value', savPrixMarche:'Market price',
+    savPatrimoineLbl:'Net worth', savTotalLbl:'Total', savSavingsLbl:'Savings',
+    savDeposit:'Deposit', savWithdraw:'Withdraw',
+    savSelectEnv:'— Select an envelope —', savNewEnvOpt:'＋ New envelope',
+    savNewEnv:'New envelope', savCreateEnv:'Create', savBack:'← Back',
+    jfSave:'Savings', infopopClose:'Got it', orderPlaceOrder:'Place an order',
+    lessonBack:'← Map', lessonAlreadyDone:'✓ Already completed',
+    lessonSeeMore:'See more ▾', lessonSeeLess:'See less ▴',
+    lessonCollectCoins:'Collect', lessonCollectEnd:'Tacoins →',
+    lessonDone:'Lesson complete!', lessonQuizHelp:'Help',
+    pmNoPos:'No open positions yet.', pmNoActivity:'No recorded activity.',
+    pmInvested:'Invested amount', pmCurrentVal:'Current value',
+    pmPnl:'Total PnL', pmAlignProfile:'Profile alignment', pmRebalance:'Rebalance',
+    pmQty:'Quantity', pmPRULabel:'Avg. price',
+    savAvail:'Available', savInvestedLbl:'Invested',
+    mbContinue:'Continue →', mbStart:'Start →',
+    mbNextLevel:'Next level →', mbAllDone:'✓ All done', mbLessons:'lessons',
+    spNoProfile:'Your investor profile is not yet defined.', spDiagLink:'Take the diagnostic →',
+    diagBack:'← Back', diagNext:'Next →',
+    diagAnalyzing:'ANALYZING', diagInit:'Initializing…', diagApply:'Apply my profile →',
+    diagStep1:'Analyzing your risk profile…', diagStep2:'Calculating your investment horizon…',
+    diagStep3:'Evaluating your loss tolerance…', diagStep4:'Comparing with 10,000 profiles…',
+    diagStep5:'Generating your allocation…', diagStep6:'Profile ready!',
+    profBadge0:'Ultra Conservative', profBadge1:'Conservative', profBadge2:'Moderate', profBadge3:'Dynamic', profBadge4:'Offensive',
+    profAdvice_ultraConservateur:'Priority: capital protection. Start with the 10-year government bond, then gradually allocate to World ETF.',
+    profAdvice_conservateur:'Cautious balance. Bonds as core, global equities for growth.',
+    profAdvice_modere:'55/25/10/10 portfolio. Rebalance annually. If equities > 65%, sell and buy bonds.',
+    profAdvice_dynamique:'Long-term growth. Equities at the core. Bitcoin max 5% as a bonus if you master it.',
+    profAdvice_offensif:'Offensive profile. Measure your Sharpe quarterly. Disciplined rebalancing is essential.',
+    typeBuy:'Buy', typeBuyLimit:'Limit buy', typeSell:'Sale', typeSellLimit:'Limit sale',
+    catAll:'All', assetQty:'Quantity ℹ', assetPRU:'Avg. price ℹ', envPrec:'Caution',
+    envAside:'Set aside in this envelope', envSelectMsg:'Select an envelope.',
+    lowNudgeTitle:'Your balance is almost empty!', lowNudgeSub:'Complete lessons to keep investing.', lowNudgeBtn:'▶ Resume my lesson',
+    nudgeInvestTitle:'Time to invest, right?', nudgeInvestSub:'available.', nudgeInvestBtn:'Market room →',
   },
   es: {
     tabLearn:'TU RUTA', tabMarket:'SALA DE MERCADOS', tabMissions:'MISIONES DEL DÍA',
@@ -8629,7 +8807,7 @@ const TRANSLATIONS = {
     orderTitle:'Realizar orden', orderAvail:'Disponible', orderBuy:'▲ COMPRAR', orderSell:'▼ VENDER',
     orderSelect:'Selecciona un activo', orderAmount:'Cantidad (Tacoins)', orderMarket:'Orden de mercado',
     orderLimit:'Orden límite', orderLimitPrice:'Precio límite objetivo', orderUnitPrice:'Precio unitario',
-    orderQty:'Cantidad', orderFees:'Comisión (0.1%)', orderTotal:'Total', orderBuyBtn:'COMPRAR',
+    orderQty:'Cantidad', orderFees:'Comisión (0.1%)', orderTotal:'Total', orderBuyBtn:'COMPRAR', orderSellBtn:'VENDER',
     limitTitle:'Órdenes límite pendientes', limitEmpty:'Sin órdenes límite', portfolioTitle:'Cartera',
     rebTitle:'Reequilibrio de cartera', rebCashLbl:'Reserva de efectivo',
     rebCashUnit:'% de la cartera', rebHint:'El efectivo reservado no se invertirá durante el reequilibrio.',
@@ -8664,6 +8842,42 @@ const TRANSLATIONS = {
     jMission:'Misión completada', jMissionDay:'Misión del día', jMissionPerm:'Misión permanente',
     jDblClick:'Doble clic para ver detalles',
     portDetails:'Detalle de posiciones', portBack:'← Volver',
+    mbViewLessons:'📋 Ver lecciones', orderInPortfolio:'En cartera',
+    savTabOverview:'Resumen', savTabSavings:'Ahorro',
+    savValActuelle:'Valor actual', savPrixMarche:'Precio de mercado',
+    savPatrimoineLbl:'Patrimonio', savTotalLbl:'Total', savSavingsLbl:'Ahorro',
+    savDeposit:'Depositar', savWithdraw:'Retirar',
+    savSelectEnv:'— Seleccionar cuenta —', savNewEnvOpt:'＋ Nueva cuenta',
+    savNewEnv:'Nueva cuenta', savCreateEnv:'Crear', savBack:'← Volver',
+    jfSave:'Ahorro', infopopClose:'Entendido', orderPlaceOrder:'Realizar orden',
+    lessonBack:'← Mapa', lessonAlreadyDone:'✓ Ya completada',
+    lessonSeeMore:'Ver más ▾', lessonSeeLess:'Ver menos ▴',
+    lessonCollectCoins:'Recibir', lessonCollectEnd:'Tacoins →',
+    lessonDone:'¡Lección completada!', lessonQuizHelp:'Ayuda',
+    pmNoPos:'Sin posiciones abiertas aún.', pmNoActivity:'Sin actividad registrada.',
+    pmInvested:'Monto invertido', pmCurrentVal:'Valor actual',
+    pmPnl:'PnL total', pmAlignProfile:'Alineación de perfil', pmRebalance:'Reequilibrar',
+    pmQty:'Cantidad', pmPRULabel:'Precio medio',
+    savAvail:'Disponible', savInvestedLbl:'Invertido',
+    mbContinue:'Continuar →', mbStart:'Comenzar →',
+    mbNextLevel:'Siguiente nivel →', mbAllDone:'✓ Todo completado', mbLessons:'lecciones',
+    spNoProfile:'Tu perfil de inversor aún no está definido.', spDiagLink:'Hacer el diagnóstico →',
+    diagBack:'← Volver', diagNext:'Siguiente →',
+    diagAnalyzing:'ANALIZANDO', diagInit:'Inicializando…', diagApply:'Aplicar mi perfil →',
+    diagStep1:'Analizando tu perfil de riesgo…', diagStep2:'Calculando tu horizonte de inversión…',
+    diagStep3:'Evaluando tu tolerancia a las pérdidas…', diagStep4:'Comparando con 10.000 perfiles…',
+    diagStep5:'Generando tu asignación…', diagStep6:'¡Perfil listo!',
+    profBadge0:'Ultra Conservador', profBadge1:'Conservador', profBadge2:'Moderado', profBadge3:'Dinámico', profBadge4:'Ofensivo',
+    profAdvice_ultraConservateur:'Prioridad: protección del capital. Empieza con el bono soberano a 10 años y asigna progresivamente al ETF Mundial.',
+    profAdvice_conservateur:'Equilibrio prudente. Renta fija como base, acciones globales para el crecimiento.',
+    profAdvice_modere:'Cartera 55/25/10/10. Reequilibra anualmente. Si acciones > 65%, vende y compra bonos.',
+    profAdvice_dynamique:'Crecimiento a largo plazo. Acciones en el centro. Bitcoin máx 5% como bonus si lo dominas.',
+    profAdvice_offensif:'Perfil ofensivo. Mide tu Sharpe trimestralmente. Reequilibrio disciplinado indispensable.',
+    typeBuy:'Compra', typeBuyLimit:'Compra límite', typeSell:'Venta', typeSellLimit:'Venta límite',
+    catAll:'Todas', assetQty:'Cantidad ℹ', assetPRU:'Precio medio ℹ', envPrec:'Precaución',
+    envAside:'Apartado en esta cuenta', envSelectMsg:'Selecciona una cuenta.',
+    lowNudgeTitle:'¡Tu saldo está casi vacío!', lowNudgeSub:'Completa lecciones para seguir invirtiendo.', lowNudgeBtn:'▶ Retomar mi lección',
+    nudgeInvestTitle:'¿Es hora de invertir, no?', nudgeInvestSub:'disponibles.', nudgeInvestBtn:'Sala de mercados →',
   }
 };
 
@@ -8677,6 +8891,7 @@ const PROFILE_I18N = {
     'Gardien du Capital':      {en:'Capital Guardian',    es:'Guardián del Capital'},
     'Investisseur Prudent':    {en:'Cautious Investor',   es:'Inversor Prudente'},
     'Investisseur Équilibré':  {en:'Balanced Investor',   es:'Inversor Equilibrado'},
+    'Stratège Équilibré':      {en:'Balanced Strategist', es:'Estratega Equilibrado'},
     'Investisseur Dynamique':  {en:'Dynamic Investor',    es:'Inversor Dinámico'},
     "Chasseur d'Alpha":        {en:'Alpha Hunter',        es:'Cazador de Alpha'},
   },
