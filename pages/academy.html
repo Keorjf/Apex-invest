@@ -2567,6 +2567,36 @@ const EVENTS=[
   }
 ];
 
+const EVENT_I18N={
+  fedrate:{en:{title:'🏦 FED raises rates +0.25%',desc:'The Federal Reserve raises its benchmark rates. Bonds under pressure, tech retreating.'},es:{title:'🏦 FED sube tipos +0.25%',desc:'La Reserva Federal sube sus tipos directores. Bonos bajo presión, tecnológicas en retroceso.'}},
+  gdp:{en:{title:'📈 US GDP +3.2% — Bullish surprise',desc:'American growth above expectations. Stock markets rebound.'},es:{title:'📈 PIB EEUU +3.2% — Sorpresa alcista',desc:'Crecimiento americano por encima de expectativas. Los mercados rebotan.'}},
+  cpi:{en:{title:'💥 CPI Inflation +8.5% — Inflationary shock',desc:'Inflation beats forecasts. Central banks under pressure to act.'},es:{title:'💥 Inflación IPC +8.5% — Choque inflacionario',desc:'La inflación supera las previsiones. Los bancos centrales bajo presión.'}},
+  bce:{en:{title:'✅ ECB holds rates steady',desc:'The European Central Bank surprises by keeping its rates unchanged. Relief.'},es:{title:'✅ BCE mantiene tipos estables',desc:'El Banco Central Europeo sorprende manteniendo sus tipos sin cambios. Alivio.'}},
+  petrol:{en:{title:'🛢️ Oil +15% — Energy shock',desc:'Geopolitical tensions send oil prices soaring. Impact on global inflation.'},es:{title:'🛢️ Petróleo +15% — Choque energético',desc:'Tensiones geopolíticas disparan el precio del barril. Impacto en la inflación mundial.'}},
+  ai:{en:{title:'🤖 AI Breakthrough — Revolutionary announcement',desc:'A major advance in artificial intelligence boosts tech stocks.'},es:{title:'🤖 Avance IA — Anuncio revolucionario',desc:'Un gran avance en inteligencia artificial impulsa las acciones tecnológicas.'}},
+  bankcrash:{en:{title:'🏦 Systemic bank failure',desc:'A major bank files for bankruptcy. Contagion and flight to safe havens.'},es:{title:'🏦 Quiebra bancaria sistémica',desc:'Un gran banco quiebra. Contagio y huida hacia activos refugio.'}},
+  china:{en:{title:'🇨🇳 Massive Chinese stimulus plan',desc:'Beijing announces a historic stimulus. Emerging markets and luxury stocks surge.'},es:{title:'🇨🇳 Masivo plan de estímulo chino',desc:'Pekín anuncia un estímulo histórico. Mercados emergentes y lujo en fuerte alza.'}},
+  crypto_reg:{en:{title:'⚠️ Global crypto regulation',desc:'G20 announces a strict regulatory framework on crypto-currencies. Bitcoin falls.'},es:{title:'⚠️ Regulación cripto mundial',desc:'El G20 anuncia un marco regulatorio estricto sobre criptomonedas. Bitcoin cae.'}},
+  recess:{en:{title:'📊 Technical recession confirmed',desc:'2 consecutive quarters of negative growth. Widespread downward revisions.'},es:{title:'📊 Recesión técnica confirmada',desc:'2 trimestres consecutivos de crecimiento negativo. Revisiones generalizadas a la baja.'}},
+  fed_cut:{en:{title:'🏦 FED cuts rates — Dovish surprise',desc:'The Federal Reserve cuts rates by 0.5%. Market in euphoria, tech on fire.'},es:{title:'🏦 FED baja tipos — Sorpresa dovish',desc:'La Reserva Federal recorta tipos 0,5%. Mercado en euforia, tecnológicas en llamas.'}},
+  chom_usa:{en:{title:'💼 US Unemployment — Historic low',desc:'Unemployment rate at 3.2%, lowest in 50 years. Consumer spending up.'},es:{title:'💼 Desempleo EEUU — Mínimo histórico',desc:'Tasa de paro al 3,2%, nivel más bajo en 50 años. Consumo en alza.'}},
+  crypto_etf:{en:{title:'🪙 US Bitcoin Spot ETF approved',desc:'SEC approves the first Bitcoin spot ETFs. Massive institutional adoption.'},es:{title:'🪙 ETF Bitcoin Spot EEUU aprobado',desc:'La SEC aprueba los primeros ETF Bitcoin spot. Adopción institucional masiva.'}},
+  war:{en:{title:'⚔️ Major geopolitical conflict',desc:'War in Eastern Europe. Energy and grain shortages. Markets in panic.'},es:{title:'⚔️ Conflicto geopolítico mayor',desc:'Guerra en Europa del Este. Escasez de energía y cereales. Mercados en pánico.'}},
+  nvidia_earnings:{en:{title:'🖥️ Nvidia — Record earnings, explosive guidance',desc:'Quarterly results 3× expectations. Nvidia revolutionizes generative AI.'},es:{title:'🖥️ Nvidia — Resultados récord, guía explosiva',desc:'Resultados trimestrales 3× las expectativas. Nvidia revoluciona la IA generativa.'}},
+  immob_crash:{en:{title:'🏢 Real estate crisis — Cascade of defaults',desc:'Wave of bankruptcies in the real estate sector. Banks exposed, REITs under pressure.'},es:{title:'🏢 Crisis inmobiliaria — Quiebras en cascada',desc:'Oleada de quiebras en el sector inmobiliario. Bancos expuestos, fondos inmobiliarios bajo presión.'}},
+  deflation:{en:{title:'❄️ Deflation — Deflationary price spiral',desc:'Prices fall for 3 consecutive months. Risk of a Japanese-style deflationary spiral.'},es:{title:'❄️ Deflación — Espiral deflacionaria',desc:'Los precios caen 3 meses consecutivos. Riesgo de espiral deflacionaria a la japonesa.'}},
+  em_crisis:{en:{title:'🌏 Emerging market crisis',desc:'Emerging currencies collapse. Capital flees to developed economies.'},es:{title:'🌏 Crisis de mercados emergentes',desc:'Las divisas emergentes se desploman. Los capitales huyen hacia economías desarrolladas.'}},
+  apple_product:{en:{title:'🍎 Apple — Revolutionary keynote',desc:'Tim Cook unveils a breakthrough product. Apple Vision Pro 2: spatial revolution.'},es:{title:'🍎 Apple — Keynote revolucionario',desc:'Tim Cook presenta un producto disruptivo. Apple Vision Pro 2: revolución espacial.'}},
+  cyber_attack:{en:{title:'🔐 Massive cyberattack — Critical infrastructure',desc:'Coordinated attack on global banking systems. Partial paralysis.'},es:{title:'🔐 Ciberataque masivo — Infraestructuras críticas',desc:'Ataque coordinado a los sistemas bancarios mundiales. Parálisis parcial.'}},
+  ecb_hike:{en:{title:'🇪🇺 ECB aggressive hike +0.5%',desc:'Christine Lagarde surprises markets with a 50 basis point hike.'},es:{title:'🇪🇺 BCE sube tipos agresivamente +0,5%',desc:'Christine Lagarde sorprende a los mercados con una subida de 50 puntos básicos.'}},
+  sovereign_debt:{en:{title:'🇺🇸 US debt crisis',desc:'Congress blocks the debt ceiling increase. Risk of US default.'},es:{title:'🇺🇸 Crisis de la deuda americana',desc:'El Congreso bloquea el aumento del techo de deuda. Riesgo de impago de EEUU.'}},
+  green_energy:{en:{title:'🌱 Renewable energy act — Billions in subsidies',desc:'Historic $500B plan for the global energy transition.'},es:{title:'🌱 Ley de energías renovables — Miles de millones en subsidios',desc:'Plan histórico de 500.000M$ para la transición energética mundial.'}},
+  stagflation:{en:{title:'📉 Stagflation — Zero growth + High inflation',desc:'The worst of both worlds: stagnant economy and persistent inflation.'},es:{title:'📉 Estanflación — Crecimiento nulo + Inflación elevada',desc:'Lo peor de ambos mundos: economía estancada e inflación persistente.'}},
+  mega_merger:{en:{title:'🤝 Mega merger — Microsoft acquires a major',desc:'Surprise acquisition at $200B. Consolidation of the global tech sector.'},es:{title:'🤝 Gran fusión — Microsoft adquiere una major',desc:'Adquisición sorpresa a 200.000M$. Consolidación del sector tecnológico mundial.'}},
+  pandemic:{en:{title:'🦠 New pandemic declared — WHO global alert',desc:'A new virulent variant. Border closures, possible lockdowns.'},es:{title:'🦠 Nueva pandemia declarada — Alerta mundial OMS',desc:'Un nuevo variante virulento. Cierres de fronteras, posibles confinamientos.'}},
+};
+function _trEv(ev){if(_lang==='fr'||!ev)return ev;const i=EVENT_I18N[ev.id]?.[_lang];return i?{...ev,title:i.title,desc:i.desc}:ev;}
+
 /* ═══════════════════════════════════
    DIAGNOSTIC PROFILES
 ═══════════════════════════════════ */
@@ -6385,9 +6415,10 @@ function withdrawPrecaution(){withdrawEnv('prec');}
 /* -- Son news éco : auto-déverrouillé, indépendant -- */
 function _showEvBanner(ev){
   const banner=el('evBanner');if(!banner)return;
+  const tev=_trEv(ev);
   el('evImpact').textContent=ev.impact==='good'?'📈':'📉';
-  el('evTitle').textContent=ev.title;
-  el('evDesc').textContent=ev.desc;
+  el('evTitle').textContent=tev.title;
+  el('evDesc').textContent=tev.desc;
   banner.classList.remove('ui-locked');
   banner.classList.add('show');
   clearTimeout(banner._autoHide);
@@ -6409,19 +6440,19 @@ function closeEvBanner(){const b=el('evBanner');if(!b)return;b.classList.remove(
 function openDebriefFromBanner(e){if(e.target.classList.contains('ev-close'))return;openDebrief();}
 function showPriceContext(){
   if(S.lastEvent){
-    // Re-affiche l'événement le plus récent avec son impact sur l'actif sélectionné
-    const ev=S.lastEvent;
+    const ev=S.lastEvent;const tev=_trEv(ev);
     const assetId=S.selectedAsset;
     const delta=ev.effects&&ev.effects[assetId];
-    let extraDesc=ev.desc;
+    let extraDesc=tev.desc;
     if(delta!==undefined){
       const pct=Math.round(Math.abs(delta)*100);
-      const dir=delta>0?'hausse':'baisse';
-      extraDesc=ev.desc+` (Impact sur cet actif : ${dir} ~${pct}%)`;
+      const dir=delta>0?(_lang==='en'?'up':_lang==='es'?'subida':'hausse'):(_lang==='en'?'down':_lang==='es'?'bajada':'baisse');
+      const impactLbl=_lang==='en'?`Impact on this asset: ${dir} ~${pct}%`:_lang==='es'?`Impacto en este activo: ${dir} ~${pct}%`:`Impact sur cet actif : ${dir} ~${pct}%`;
+      extraDesc=tev.desc+` (${impactLbl})`;
     }
-    _showInfoToast(ev.impact==='good'?'📈':'📉',ev.title,extraDesc,14000);
+    _showInfoToast(ev.impact==='good'?'📈':'📉',tev.title,extraDesc,14000);
   } else {
-    _showInfoToast('〰️','Fluctuation normale du marché','Pas d\'événement récent. Les prix fluctuent selon l\'offre et la demande en temps réel.',8000);
+    _showInfoToast('〰️',_T('evNoEventTitle'),_T('evNoEventSub'),8000);
   }
 }
 
@@ -6925,7 +6956,7 @@ function showDiagResult(p){
       <div style="font-size:.8rem;color:var(--soft);margin:1rem 0;line-height:1.7">${_T('profAdvice_'+S.diagProfile)}</div>
       ${p.alloc.map(a=>`<div style="display:flex;gap:.6rem;align-items:center;margin:.3rem 0;font-size:.78rem">
         <span style="width:8px;height:8px;border-radius:50%;background:${a.color};flex-shrink:0"></span>
-        <span style="flex:1;color:var(--soft)">${a.name}</span>
+        <span style="flex:1;color:var(--soft)">${tr(PROFILE_I18N.alloc,a.name)}</span>
         <span style="color:${a.color};font-weight:700">${a.pct}%</span>
       </div>`).join('')}
       <button class="btn-g" onclick="closeDiag();showAllocPanel();refreshSidebarProfile();" style="margin-top:1.2rem;width:100%">${_T('diagApply')}</button>
@@ -7649,7 +7680,7 @@ function renderProfilPage(){
         const xi1=cx+inner*Math.cos(angle),yi1=cy+inner*Math.sin(angle);
         const xi2=cx+inner*Math.cos(angle+sweep),yi2=cy+inner*Math.sin(angle+sweep);
         const large=sweep>Math.PI?1:0;
-        const safeName=a.name.replace(/'/g,'').replace(/"/g,'');
+        const _taN=tr(PROFILE_I18N.alloc,a.name);const safeName=_taN.replace(/'/g,'').replace(/"/g,'');
         paths+=`<path d="M${xi1},${yi1} L${x1},${y1} A${r},${r} 0 ${large} 1 ${x2},${y2} L${xi2},${yi2} A${inner},${inner} 0 ${large} 0 ${xi1},${yi1} Z"
           fill="${color}" opacity=".85" style="cursor:pointer;transition:opacity .15s,transform .15s;transform-origin:54px 54px"
           onmouseover="this.setAttribute('opacity','1');this.style.transform='scale(1.07)';document.getElementById('${lblId}').innerHTML='<tspan x=\\'54\\' dy=\\'-6\\'>${safeName}</tspan><tspan x=\\'54\\' dy=\\'13\\' style=\\'font-weight:bold\\'>${a.pct}%</tspan>'"
@@ -7662,7 +7693,7 @@ function renderProfilPage(){
       const color=CARD_PALETTE[idx%CARD_PALETTE.length];
       return `<div style="display:flex;align-items:center;gap:.45rem;padding:.18rem 0">
         <span style="width:7px;height:7px;border-radius:50%;background:${color};flex-shrink:0"></span>
-        <span style="flex:1;font-size:.65rem;color:rgba(255,255,255,.75)">${a.name}</span>
+        <span style="flex:1;font-size:.65rem;color:rgba(255,255,255,.75)">${tr(PROFILE_I18N.alloc,a.name)}</span>
         <span style="font-size:.68rem;font-weight:700;color:${color};font-family:'JetBrains Mono',monospace">${a.pct}%</span>
       </div>`;}).join('');
     const cls=i===_profIdx?'active':i<_profIdx?'prev':'next';
@@ -7671,7 +7702,7 @@ function renderProfilPage(){
       onmousedown="profMouseDown(event)">
 
 
-      <div class="prof-card-name" style="color:${p.color}">${p.name}</div>
+      <div class="prof-card-name" style="color:${p.color}">${tr(PROFILE_I18N.name,p.name)}</div>
       <div class="prof-card-badge" style="color:${p.color};border-color:${p.color}">${_T('profBadge'+i)}</div>
       <div class="prof-card-advice" style="border-color:${p.color}">${_T('profAdvice_'+key)}</div>
       <div style="display:flex;align-items:center;gap:.8rem;width:100%;margin-top:.4rem">${_pie}<div style="display:flex;flex-direction:column;flex:1">${legend}</div></div>
@@ -8724,6 +8755,7 @@ const TRANSLATIONS = {
     bannerDailyComplete:'Mission du jour complétée !', bannerPermReady:'Mission accomplie ! 🎁', bannerCollect:'Collecte ta récompense',
     bannerTacoins:'Tacoins récupérés !', bannerReward:'Récompense récupérée !',
     misPermTitle:'Missions permanentes',
+    evNoEventTitle:'Fluctuation normale du marché', evNoEventSub:"Pas d'événement récent. Les prix fluctuent selon l'offre et la demande en temps réel.",
   },
   en: {
     tabLearn:'YOUR PATH', tabMarket:'MARKET ROOM', tabMissions:"TODAY'S MISSIONS",
@@ -8813,6 +8845,7 @@ const TRANSLATIONS = {
     bannerDailyComplete:'Daily mission done!', bannerPermReady:'Mission complete! 🎁', bannerCollect:'Claim your reward',
     bannerTacoins:'Tacoins claimed!', bannerReward:'Reward claimed!',
     misPermTitle:'Permanent missions',
+    evNoEventTitle:'Normal market fluctuation', evNoEventSub:'No recent event. Prices fluctuate based on supply and demand in real time.',
   },
   es: {
     tabLearn:'TU RUTA', tabMarket:'SALA DE MERCADOS', tabMissions:'MISIONES DEL DÍA',
@@ -8902,6 +8935,7 @@ const TRANSLATIONS = {
     bannerDailyComplete:'¡Misión diaria completada!', bannerPermReady:'¡Misión lograda! 🎁', bannerCollect:'Recoge tu recompensa',
     bannerTacoins:'¡Tacoins reclamados!', bannerReward:'¡Recompensa reclamada!',
     misPermTitle:'Misiones permanentes',
+    evNoEventTitle:'Fluctuación normal del mercado', evNoEventSub:'Sin evento reciente. Los precios fluctúan según la oferta y la demanda en tiempo real.',
   }
 };
 
