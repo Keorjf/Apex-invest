@@ -4668,6 +4668,7 @@ function recoverPositionsFromJournal(){
 function boot(level){
   S.level=level;
   closeMb();
+  const _ap=el('allocPanel');if(_ap)_ap.style.display='none';
   loadState();
   ASSETS.forEach(a=>{
     S.prices[a.id]=a.base;S.history[a.id]=[a.base];S.sessionOpen[a.id]=a.base;
@@ -5383,16 +5384,19 @@ function openLesson(id){
   let hookBlocks='';
   let moreBlocks='';
   lesson.blocks.forEach(b=>{
+    const _tipLbl=_lang==='en'?'Pro Tip':_lang==='es'?'Consejo Pro':'Astuce Pro';
+    const _trapLbl=_lang==='en'?'Pitfall':_lang==='es'?'Error a evitar':'Piège à éviter';
+    const _realLbl=_lang==='en'?'Real example':_lang==='es'?'Ejemplo real':'Exemple réel';
     if(b.type==='hook'){
-      hookBlocks+=`<div class="block b-hook"><span class="emo">${b.emo}</span><p>${b.text}</p></div>`;
+      hookBlocks+=`<div class="block b-hook"><p>${b.text}</p></div>`;
     } else if(b.type==='content'){
       moreBlocks+=`<div class="block b-content"><p>${b.text}</p></div>`;
     } else if(b.type==='tip'){
-      moreBlocks+=`<div class="block b-tip"><span class="b-tip-icon">💡</span><div><div class="b-tip-lbl">Astuce Pro</div><div class="b-tip-txt">${b.text}</div></div></div>`;
+      moreBlocks+=`<div class="block b-tip"><div><div class="b-tip-lbl">${_tipLbl}</div><div class="b-tip-txt">${b.text}</div></div></div>`;
     } else if(b.type==='trap'){
-      moreBlocks+=`<div class="block b-trap"><div class="b-trap-lbl">⚠️ Piège à éviter</div><p>${b.text}</p></div>`;
+      moreBlocks+=`<div class="block b-trap"><div class="b-trap-lbl">${_trapLbl}</div><p>${b.text}</p></div>`;
     } else if(b.type==='real'){
-      moreBlocks+=`<div class="block b-real"><div class="b-real-head"><span class="b-real-dot"></span>Exemple réel · ${b.title}</div><div class="b-real-body"><p>${b.text}</p></div></div>`;
+      moreBlocks+=`<div class="block b-real"><div class="b-real-head"><span class="b-real-dot"></span>${_realLbl} · ${b.title}</div><div class="b-real-body"><p>${b.text}</p></div></div>`;
     } else if(b.type==='info'){
       moreBlocks+=`<div class="block b-content"><p>${b.text}</p></div>`;
     }
@@ -5411,9 +5415,9 @@ function openLesson(id){
       <div style="margin:1.2rem 0">${blocks}</div>
       <div class="quiz-card">
         <div class="quiz-head">
-          <span class="quiz-lbl">🧠 Quiz</span>
+          <span class="quiz-lbl">Quiz</span>
           <div class="quiz-head-right">
-            <button class="quiz-help-btn" onclick="toggleHelp('${lesson.tag}')" title="${_T('lessonQuizHelp')}">💡 ${_T('lessonQuizHelp')}</button>
+            <button class="quiz-help-btn" onclick="toggleHelp('${lesson.tag}')" title="${_T('lessonQuizHelp')}">${_T('lessonQuizHelp')}</button>
             <button class="quiz-calc-btn" onclick="toggleCalc()" title="Calculatrice">🧮</button>
           </div>
         </div>
