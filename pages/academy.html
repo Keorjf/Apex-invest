@@ -1979,7 +1979,7 @@ table.assets th.clickable:hover{color:var(--y);}
       <div class="info-pop-title" id="evDetailTitle"></div>
       <div style="font-size:.68rem;color:var(--muted);margin:.3rem 0 .7rem;text-align:center" id="evDetailMeta"></div>
       <div class="info-pop-body" id="evDetailBody"></div>
-      <button class="info-pop-close" onclick="closeEvDetail()">Fermer</button>
+      <button class="info-pop-close" onclick="closeEvDetail()" data-i18n="evDetailClose">Fermer</button>
     </div>
   </div>
 
@@ -2097,7 +2097,7 @@ table.assets th.clickable:hover{color:var(--y);}
         <button class="jf-btn" onclick="filterJournal('limit',this)" data-i18n="jfLimit">Ordres limites</button>
         <button class="jf-btn" onclick="filterJournal('event',this)" data-i18n="jfEvents">Événements</button>
         <button class="jf-btn" onclick="filterJournal('mission',this)" data-i18n="jfMissions">Missions</button>
-        <button class="jf-btn" onclick="filterJournal('lesson',this)">Leçons</button>
+        <button class="jf-btn" onclick="filterJournal('lesson',this)" data-i18n="jfLesson">Leçons</button>
         <button class="jf-btn" onclick="filterJournal('save',this)" data-i18n="jfSave">Épargne</button>
       </div>
       <div id="journalList"></div>
@@ -5497,7 +5497,7 @@ function completeLesson(id){
   if(coins>0)addCoins(coins,el('quizCta'));
   addXP(xpGain);
   addJournal({type:'lesson',emoji:lesson.e,asset:_T('jLesson'),
-    note:`"${lesson.n}"${coins>0?' — +'+coins+' 🪙':''}`});
+    note:`"${lesson.n}"${coins>0?' — +'+coins+' 🪙':''}`, lessonId:lesson.id});
   const card=el('completeCard');
   if(card){
     card.classList.add('show');
@@ -6222,12 +6222,14 @@ function showEvDetail(idx){
   const filter=el('journalList')?.dataset.filter||'all';
   const items=filter==='all'?S.journal:S.journal.filter(j=>j.type===filter);
   const j=items[idx];if(!j)return;
-  const isHaussier=j.note&&j.note.includes('Haussier');
-  const isBaissier=j.note&&j.note.includes('Baissier');
-  el('evDetailIcon').textContent=isHaussier?'📈':isBaissier?'📉':'📰';
-  el('evDetailTitle').textContent=j.asset||'Événement';
+  const isBull=j.evImpact==='good'||(j.note&&(j.note.includes('Haussier')||j.note.includes('Bullish')));
+  const isBear=j.evImpact==='bad'||(j.note&&(j.note.includes('Baissier')||j.note.includes('Bearish')));
+  el('evDetailIcon').textContent=isBull?'📈':isBear?'📉':'📰';
+  const trTitle=j.evId&&_lang!=='fr'?(EVENT_I18N[j.evId]?.[_lang]?.title||j.asset):j.asset;
+  el('evDetailTitle').textContent=trTitle||_T('jEvent');
   el('evDetailMeta').textContent=(j.date||'')+' · '+(j.ts||'');
-  el('evDetailBody').textContent=j.note||'';
+  const trNote=_jDisplayNote(j);
+  el('evDetailBody').textContent=trNote||'';
   el('evDetailOv').classList.add('show');
 }
 function closeEvDetail(){el('evDetailOv').classList.remove('show');}
@@ -6431,8 +6433,9 @@ function triggerEvent(){
     if(S.prices[id]!==undefined){S.prices[id]*=(1+delta);S.history[id].push(S.prices[id]);}
   });
   refreshMarketUI();
-  const sentiment=ev.impact==='good'?'📈 Haussier':'📉 Baissier';
-  addJournal({type:'event',emoji:'🌐',asset:ev.title.replace(/^\p{Emoji}\s*/u,''),note:`${sentiment} — ${ev.desc}`});
+  const tev=_trEv(ev);
+  const sentiment=_T(ev.impact==='good'?'jBullish':'jBearish');
+  addJournal({type:'event',emoji:'🌐',asset:tev.title.replace(/^\p{Emoji}\s*/u,''),note:`${sentiment} — ${tev.desc}`, evId:ev.id, evImpact:ev.impact});
   renderJournal();
   if(S.activeTab==='market')_showEvBanner(ev);
 }
@@ -7251,6 +7254,33 @@ function addJournal(entry){
   S.journal.unshift({...entry,ts:now.toLocaleTimeString('fr-FR'),date:now.toLocaleDateString('fr-FR')});
   if(S.journal.length>200)S.journal.pop();
 }
+function _trJournalMission(name){
+  const m=[...DAILY_MISSION_POOL,...PERM_MISSION_POOL].find(x=>x.name===name);
+  return m?.i18n?.[_lang]?.name||name;
+}
+function _jDisplayAsset(j){
+  if(j.type==='event'){
+    if(j.evId&&_lang!=='fr'){const t=EVENT_I18N[j.evId]?.[_lang]?.title;return t?t.replace(/^\p{Emoji}\s*/u,''):j.asset;}
+    return j.asset||'';
+  }
+  if(j.type==='mission')return _trJournalMission(j.asset||'');
+  return j.asset||'';
+}
+function _jDisplayNote(j){
+  if(j.type==='event'&&j.evId&&_lang!=='fr'){
+    const desc=EVENT_I18N[j.evId]?.[_lang]?.desc;
+    if(desc){
+      const good=j.evImpact==='good'||(j.note&&(j.note.includes('Haussier')||j.note.includes('Bullish')||j.note.includes('bullish')));
+      return _T(good?'jBullish':'jBearish')+' — '+desc;
+    }
+  }
+  return j.note||'';
+}
+function openLessonFromJournal(lessonId){
+  if(!lessonId)return;
+  switchTab('learn');
+  setTimeout(()=>openLesson(lessonId),300);
+}
 function renderJournal(){
   const e=el('journalList');if(!e)return;
   const filter=e.dataset.filter||'all';
@@ -7268,14 +7298,19 @@ function renderJournal(){
     const jDay=j.date||today;
     if(jDay!==lastDay){lastDay=jDay;sep=`<div class="j-day-sep">${dayLabel(jDay)}</div>`;}
     const idx=items.indexOf(j);
-    const dblclick=j.type==='event'?`ondblclick="showEvDetail(${idx})" style="cursor:pointer" title="${_T('jDblClick')}"`:'';
+    const isEvt=j.type==='event';
+    const isLsn=j.type==='lesson'&&j.lessonId;
+    const dblclick=isEvt?`ondblclick="showEvDetail(${idx})" style="cursor:pointer" title="${_T('jDblClick')}"`
+      :isLsn?`ondblclick="openLessonFromJournal('${j.lessonId}')" style="cursor:pointer" title="${_T('jDblClickLesson')}"` :'';
+    const displayAsset=_jDisplayAsset(j);
+    const displayNote=_jDisplayNote(j);
     return sep+`<div class="j-entry j-${j.type}" ${dblclick}>
       <div class="je-head">
         <span class="je-side ${j.type}">${icons[j.type]||'•'}</span>
-        <span class="je-asset">${j.asset||''}</span>
+        <span class="je-asset">${displayAsset}</span>
         <span class="je-time">${j.ts||''}</span>
       </div>
-      <div class="je-details">${(j.note||'').replace(/🪙/g,_mkCoin(14))}</div>
+      <div class="je-details">${displayNote.replace(/🪙/g,_mkCoin(14))}</div>
     </div>`;
   }).join('');
 }
@@ -8756,6 +8791,8 @@ const TRANSLATIONS = {
     bannerTacoins:'Tacoins récupérés !', bannerReward:'Récompense récupérée !',
     misPermTitle:'Missions permanentes',
     evNoEventTitle:'Fluctuation normale du marché', evNoEventSub:"Pas d'événement récent. Les prix fluctuent selon l'offre et la demande en temps réel.",
+    jfLesson:'Leçons', evDetailClose:'Fermer', jDblClickLesson:'Double-cliquer pour ouvrir la leçon', jEvent:'Événement',
+    jBullish:'📈 Haussier', jBearish:'📉 Baissier',
   },
   en: {
     tabLearn:'YOUR PATH', tabMarket:'MARKET ROOM', tabMissions:"TODAY'S MISSIONS",
@@ -8846,6 +8883,8 @@ const TRANSLATIONS = {
     bannerTacoins:'Tacoins claimed!', bannerReward:'Reward claimed!',
     misPermTitle:'Permanent missions',
     evNoEventTitle:'Normal market fluctuation', evNoEventSub:'No recent event. Prices fluctuate based on supply and demand in real time.',
+    jfLesson:'Lessons', evDetailClose:'Close', jDblClickLesson:'Double-click to open lesson', jEvent:'Event',
+    jBullish:'📈 Bullish', jBearish:'📉 Bearish',
   },
   es: {
     tabLearn:'TU RUTA', tabMarket:'SALA DE MERCADOS', tabMissions:'MISIONES DEL DÍA',
@@ -8936,6 +8975,8 @@ const TRANSLATIONS = {
     bannerTacoins:'¡Tacoins reclamados!', bannerReward:'¡Recompensa reclamada!',
     misPermTitle:'Misiones permanentes',
     evNoEventTitle:'Fluctuación normal del mercado', evNoEventSub:'Sin evento reciente. Los precios fluctúan según la oferta y la demanda en tiempo real.',
+    jfLesson:'Lecciones', evDetailClose:'Cerrar', jDblClickLesson:'Doble clic para abrir la lección', jEvent:'Evento',
+    jBullish:'📈 Alcista', jBearish:'📉 Bajista',
   }
 };
 
