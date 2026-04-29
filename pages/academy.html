@@ -2076,7 +2076,7 @@ table.assets th.clickable:hover{color:var(--y);}
         <div id="dailyMissions"></div>
       </div>
       <div class="mis-section">
-        <div class="mis-sec-title">Missions permanentes</div>
+        <div class="mis-sec-title" data-i18n="misPermTitle">Missions permanentes</div>
         <div id="permMissions"></div>
       </div>
       <div class="mis-section" id="completedSection" style="display:none">
@@ -4794,7 +4794,7 @@ function closeAndGoLesson(){
 }
 function updateXPUI(){}
 function updateStreakUI(){
-  const sd=el('tbStreakDays');if(sd)sd.textContent=S.streak+'j';
+  const sd=el('tbStreakDays');if(sd)sd.textContent=S.streak+_T('streakDaySuffix');
   const st=el('tbStreak');if(st)st.style.display=S.streak>0?'flex':'none';
   refreshWeekDots(el('streakDotRow'),false);
   // Met à jour tous les autres affichages de dots streak dans la page
@@ -5158,7 +5158,7 @@ function openTrackDrawer(idx){
   const firstUnlocked=track.lessons.find(l=>!S.done.has(l.id));
   // Remplir le mini-banner
   el('mbEmo').textContent=emo;
-  el('mbTitle').textContent=name;
+  el('mbTitle').textContent=trTrackName(track.track).replace(/^\S+\s/,'');
   el('mbDesc').textContent=desc;
   el('mbProgFill').style.width=pct+'%';
   el('mbProgLbl').textContent=doneTr+' / '+track.lessons.length+' '+_T('mbLessons');
@@ -5194,7 +5194,7 @@ function openTrackDrawer(idx){
   el('mbDetailBtn').onclick=()=>{closeMb();openTrackDetail(idx);};
   // Barre réduite
   el('mbColEmo').textContent=emo;
-  el('mbColTitle').textContent=name;
+  el('mbColTitle').textContent=trTrackName(track.track).replace(/^\S+\s/,'');
   el('mbColFill').style.width=pct+'%';
   el('mbColLbl').textContent=doneTr+'/'+track.lessons.length+' '+_T('mbLessons');
   const mb=el('miniBanner');
@@ -6688,9 +6688,9 @@ function _renderRebList(){
     if(needBuy||needSell)anyAction=true;
     const idx=p.alloc.indexOf(slot);
     const actionHtml=aligned
-      ?`<span class="reb-action ok">✓ Aligné</span>`
-      :needBuy?`<button class="reb-action buy reb-action-btn" onclick="executeRebalanceSlot(${idx})">▲ Acheter ${fmt(Math.abs(diff))} ${_TC}</button>`
-      :needSell?`<button class="reb-action sell reb-action-btn" onclick="executeRebalanceSlot(${idx})">▼ Vendre ${fmt(Math.abs(diff))} ${_TC}</button>`
+      ?`<span class="reb-action ok">${_T('rebAligned')}</span>`
+      :needBuy?`<button class="reb-action buy reb-action-btn" onclick="executeRebalanceSlot(${idx})">${_T('rebBuyBtn')} ${fmt(Math.abs(diff))} ${_TC}</button>`
+      :needSell?`<button class="reb-action sell reb-action-btn" onclick="executeRebalanceSlot(${idx})">${_T('rebSellBtn')} ${fmt(Math.abs(diff))} ${_TC}</button>`
       :`<span class="reb-action ok">≈ OK</span>`;
     const targetPct=investable>0?targetVal/totalPortfolio*100:0;
     const barPct=Math.min(100,curPct/Math.max(targetPct,0.1)*100);
@@ -6705,7 +6705,7 @@ function _renderRebList(){
         <div class="reb-bar-cur" style="width:${barPct}%;background:${slot.color}"></div>
         <div class="reb-bar-target" style="left:${targetLeft}%"></div>
       </div>
-      <div class="reb-pcts"><span>${curPct.toFixed(1)}% actuel</span><span>cible ${(targetVal/totalPortfolio*100).toFixed(1)}%</span></div>
+      <div class="reb-pcts"><span>${curPct.toFixed(1)}% ${_T('rebActuel')}</span><span>${_T('rebCible')} ${(targetVal/totalPortfolio*100).toFixed(1)}%</span></div>
     </div>`;
   }).join('');
   const listEl=el('rebList');if(listEl)listEl.innerHTML=rows;
@@ -6720,12 +6720,12 @@ function openRebalanceModal(){
   const scoreColor=score>=70?'var(--g)':score>=40?'var(--y)':'var(--r)';
   el('rebScore').innerHTML=`
     <div style="flex:1">
-      <div class="reb-score-lbl">Score d'alignement actuel</div>
+      <div class="reb-score-lbl">${_T('rebScoreLbl')}</div>
       <div class="reb-score-val" style="color:${scoreColor}">${score.toFixed(0)}%</div>
     </div>
     <div style="text-align:right">
-      <div class="reb-score-lbl">Profil</div>
-      <div style="font-size:.85rem;font-weight:700;color:var(--soft)">${p.emoji} ${p.name}</div>
+      <div class="reb-score-lbl">${_T('rebProfLbl')}</div>
+      <div style="font-size:.85rem;font-weight:700;color:var(--soft)">${p.emoji} ${tr(PROFILE_I18N.name,p.name)}</div>
     </div>`;
   el('rebSub').textContent='';
   const cashInp=el('rebCashPct');if(cashInp&&cashInp.value==='')cashInp.value='0';
@@ -6823,11 +6823,12 @@ function executeRebalance(){
   });
 
   if(ops>0){
-    showToast('buy','⚖️','Rééquilibrage effectué',`${ops} opération${ops>1?'s':''} exécutée${ops>1?'s':''}`);
+    const _rebSub=_lang==='en'?`${ops} operation${ops>1?'s':''} executed`:_lang==='es'?`${ops} operación${ops>1?'es':''} ejecutada`:(`${ops} opération${ops>1?'s':''} exécutée${ops>1?'s':''}`);
+    showToast('buy','⚖️',_T('rebDoneTitle'),_rebSub);
     updateWalletUI();renderPositions();updateAlignScore();saveState();
     openRebalanceModal();
   }else{
-    showToast('buy','✓','Déjà équilibré','Aucune opération nécessaire.');
+    showToast('buy','✓',_T('rebAlreadyTitle'),_T('rebAlreadySub'));
   }
 }
 function closeAllocModal(){
@@ -7052,11 +7053,11 @@ function checkMissions(){
       if(c.key.startsWith('d_')){
         const dm=c.mission;
         S.missions[c.key]='ready';
-        showMissionBanner(dm?dm.icon:'🎯','Mission du jour complétée !',dm?dm.name:'Mission débloquée',dm?dm.reward:0);
+        showMissionBanner(dm?dm.icon:'🎯',_T('bannerDailyComplete'),dm?(dm.i18n?.[_lang]?.name||dm.name):_T('bannerDailyComplete'),dm?dm.reward:0);
       } else {
         S.missions[c.key]='ready';
         const m=c.mission;
-        if(m)showMissionBanner(m.icon,'Mission accomplie ! 🎁',m.name+' — Collecte ta récompense',0);
+        if(m)showMissionBanner(m.icon,_T('bannerPermReady'),(m.i18n?.[_lang]?.name||m.name)+' — '+_T('bannerCollect'),0);
       }
     }
   });
@@ -7201,12 +7202,12 @@ function claimMission(key,reward,btnEl){
     if(key.startsWith('d_')){
       const dId=key.replace(/^d_/,'');
       const dm=(S._dailyPick||[]).find(x=>x.id===dId);
-      showMissionBanner(dm?dm.icon:'🪙','Tacoins récupérés !',dm?dm.name:'Mission du jour',reward);
+      showMissionBanner(dm?dm.icon:'🪙',_T('bannerTacoins'),dm?(dm.i18n?.[_lang]?.name||dm.name):_T('jMissionDay'),reward);
       addJournal({type:'mission',emoji:dm?dm.icon:'🪙',asset:dm?dm.name:_T('jMissionDay'),note:`${_T('jMission')} · +${reward} 🪙`});
     } else {
       const mId=key.replace(/^p_/,'');
       const m=PERM_MISSION_POOL.find(x=>x.id===mId);
-      showMissionBanner(m?m.icon:'🏆','Récompense récupérée !',m?m.name:'Mission permanente',reward);
+      showMissionBanner(m?m.icon:'🏆',_T('bannerReward'),m?(m.i18n?.[_lang]?.name||m.name):_T('jMissionPerm'),reward);
       addJournal({type:'mission',emoji:m?m.icon:'🏆',asset:m?m.name:_T('jMissionPerm'),note:`${_T('jMission')} · +${reward} 🪙`});
     }
     saveState();
@@ -7824,7 +7825,7 @@ function refreshWeekDots(wrap,animate){
   const todayStr=new Date().toISOString().split('T')[0];
   const weekDates=_weekDates();
   const loginSet=new Set(S.loginDates||[]);
-  const labels=['L','M','M','J','V','S','D'];
+  const labels=_lang==='en'?['M','T','W','T','F','S','S']:_lang==='es'?['L','M','X','J','V','S','D']:['L','M','M','J','V','S','D'];
   wrap.innerHTML='';
   weekDates.forEach((ds,i)=>{
     const d=document.createElement('div');
@@ -7844,9 +7845,8 @@ function showStreakAnim(days){
   const ov=el('streakAnimOv');if(!ov)return;
   el('streakAnimCount').textContent=days;
   // Texte personnalisé
-  el('streakAnimSub').textContent=days===1
-    ? 'Premier jour — bonne décision de revenir !'
-    : `Wow, tu t'es entraîné pendant ${days} jours d'affilée. Continue comme ça !`;
+  el('streakAnimSub').textContent=days===1?_T('streakSub1'):_T('streakSubN').replace('{n}',days);
+  if(el('streakAnimLabel'))el('streakAnimLabel').textContent=_T('streakLabel');
   // Reward tacoins selon streak
   const reward=days>=7?100:days>=3?50:20;
   el('streakCoinsReward').textContent='';
@@ -8716,6 +8716,14 @@ const TRANSLATIONS = {
     envAside:'Mis de côté dans cette enveloppe', envSelectMsg:'Sélectionne une enveloppe.',
     lowNudgeTitle:'Ton solde est presque vide !', lowNudgeSub:'Complète des leçons pour continuer à investir.', lowNudgeBtn:'▶ Reprendre ma leçon',
     nudgeInvestTitle:"Il est temps d'investir, non ?", nudgeInvestSub:'disponibles.', nudgeInvestBtn:'Salle des marchés →',
+    streakLabel:'JOUR DE STREAK', streakSub1:'Premier jour — bonne décision de revenir !', streakSubN:"Wow, tu t'es entraîné {n} jours d'affilée. Continue comme ça !", streakDaySuffix:'j',
+    rebScoreLbl:"Score d'alignement actuel", rebProfLbl:'Profil',
+    rebActuel:'actuel', rebCible:'cible',
+    rebAligned:'✓ Aligné', rebBuyBtn:'▲ Acheter', rebSellBtn:'▼ Vendre',
+    rebDoneTitle:'Rééquilibrage effectué', rebAlreadyTitle:'Déjà équilibré', rebAlreadySub:'Aucune opération nécessaire.',
+    bannerDailyComplete:'Mission du jour complétée !', bannerPermReady:'Mission accomplie ! 🎁', bannerCollect:'Collecte ta récompense',
+    bannerTacoins:'Tacoins récupérés !', bannerReward:'Récompense récupérée !',
+    misPermTitle:'Missions permanentes',
   },
   en: {
     tabLearn:'YOUR PATH', tabMarket:'MARKET ROOM', tabMissions:"TODAY'S MISSIONS",
@@ -8797,6 +8805,14 @@ const TRANSLATIONS = {
     envAside:'Set aside in this envelope', envSelectMsg:'Select an envelope.',
     lowNudgeTitle:'Your balance is almost empty!', lowNudgeSub:'Complete lessons to keep investing.', lowNudgeBtn:'▶ Resume my lesson',
     nudgeInvestTitle:'Time to invest, right?', nudgeInvestSub:'available.', nudgeInvestBtn:'Market room →',
+    streakLabel:'DAY STREAK', streakSub1:'First day back — great call!', streakSubN:'Wow, you trained {n} days in a row. Keep it up!', streakDaySuffix:'d',
+    rebScoreLbl:'Current alignment score', rebProfLbl:'Profile',
+    rebActuel:'current', rebCible:'target',
+    rebAligned:'✓ Aligned', rebBuyBtn:'▲ Buy', rebSellBtn:'▼ Sell',
+    rebDoneTitle:'Rebalance done', rebAlreadyTitle:'Already balanced', rebAlreadySub:'No action needed.',
+    bannerDailyComplete:'Daily mission done!', bannerPermReady:'Mission complete! 🎁', bannerCollect:'Claim your reward',
+    bannerTacoins:'Tacoins claimed!', bannerReward:'Reward claimed!',
+    misPermTitle:'Permanent missions',
   },
   es: {
     tabLearn:'TU RUTA', tabMarket:'SALA DE MERCADOS', tabMissions:'MISIONES DEL DÍA',
@@ -8878,6 +8894,14 @@ const TRANSLATIONS = {
     envAside:'Apartado en esta cuenta', envSelectMsg:'Selecciona una cuenta.',
     lowNudgeTitle:'¡Tu saldo está casi vacío!', lowNudgeSub:'Completa lecciones para seguir invirtiendo.', lowNudgeBtn:'▶ Retomar mi lección',
     nudgeInvestTitle:'¿Es hora de invertir, no?', nudgeInvestSub:'disponibles.', nudgeInvestBtn:'Sala de mercados →',
+    streakLabel:'DÍA DE RACHA', streakSub1:'¡Primer día — buena decisión volver!', streakSubN:'Wow, llevas {n} días seguidos. ¡Sigue así!', streakDaySuffix:'d',
+    rebScoreLbl:'Puntuación de alineación actual', rebProfLbl:'Perfil',
+    rebActuel:'actual', rebCible:'objetivo',
+    rebAligned:'✓ Alineado', rebBuyBtn:'▲ Comprar', rebSellBtn:'▼ Vender',
+    rebDoneTitle:'Reequilibrio realizado', rebAlreadyTitle:'Ya equilibrado', rebAlreadySub:'No se necesita ninguna operación.',
+    bannerDailyComplete:'¡Misión diaria completada!', bannerPermReady:'¡Misión lograda! 🎁', bannerCollect:'Recoge tu recompensa',
+    bannerTacoins:'¡Tacoins reclamados!', bannerReward:'¡Recompensa reclamada!',
+    misPermTitle:'Misiones permanentes',
   }
 };
 
@@ -9071,7 +9095,7 @@ function deleteAccount(){
   <div class="streak-anim-box">
     <span class="streak-anim-fire">🔥</span>
     <div class="streak-anim-count" id="streakAnimCount">1</div>
-    <div class="streak-anim-label">JOUR DE STREAK</div>
+    <div class="streak-anim-label" id="streakAnimLabel" data-i18n="streakLabel">JOUR DE STREAK</div>
     <div class="streak-anim-sub" id="streakAnimSub"></div>
     <div class="streak-days-row" id="streakDotRow"></div>
     <div class="streak-coins-reward" id="streakCoinsReward"></div>
