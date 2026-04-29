@@ -2596,6 +2596,8 @@ const EVENT_I18N={
   pandemic:{en:{title:'🦠 New pandemic declared — WHO global alert',desc:'A new virulent variant. Border closures, possible lockdowns.'},es:{title:'🦠 Nueva pandemia declarada — Alerta mundial OMS',desc:'Un nuevo variante virulento. Cierres de fronteras, posibles confinamientos.'}},
 };
 function _trEv(ev){if(_lang==='fr'||!ev)return ev;const i=EVENT_I18N[ev.id]?.[_lang];return i?{...ev,title:i.title,desc:i.desc}:ev;}
+function _stripEmojiPrefix(s){return (s||'').replace(/^[\u{2600}-\u{27FF}\u{1F000}-\u{1FFFF}]+\s*/u,'');}
+const _FR_EV_TITLE_MAP=(()=>{const m={};EVENTS.forEach(e=>{m[e.title]=e.id;m[_stripEmojiPrefix(e.title)]=e.id;m[e.title.replace(/^\p{Emoji}\s*/u,'')]=e.id;});return m;})();
 
 /* ═══════════════════════════════════
    DIAGNOSTIC PROFILES
@@ -6225,7 +6227,8 @@ function showEvDetail(idx){
   const isBull=j.evImpact==='good'||(j.note&&(j.note.includes('Haussier')||j.note.includes('Bullish')));
   const isBear=j.evImpact==='bad'||(j.note&&(j.note.includes('Baissier')||j.note.includes('Bearish')));
   el('evDetailIcon').textContent=isBull?'📈':isBear?'📉':'📰';
-  const trTitle=j.evId&&_lang!=='fr'?(EVENT_I18N[j.evId]?.[_lang]?.title||j.asset):j.asset;
+  const _evId=_resolveEvId(j);
+  const trTitle=_evId&&_lang!=='fr'?(EVENT_I18N[_evId]?.[_lang]?.title||j.asset):j.asset;
   el('evDetailTitle').textContent=trTitle||_T('jEvent');
   el('evDetailMeta').textContent=(j.date||'')+' · '+(j.ts||'');
   const trNote=_jDisplayNote(j);
@@ -7258,20 +7261,27 @@ function _trJournalMission(name){
   const m=[...DAILY_MISSION_POOL,...PERM_MISSION_POOL].find(x=>x.name===name);
   return m?.i18n?.[_lang]?.name||name;
 }
+function _resolveEvId(j){return j.evId||_FR_EV_TITLE_MAP[j.asset]||_FR_EV_TITLE_MAP[_stripEmojiPrefix(j.asset)];}
 function _jDisplayAsset(j){
   if(j.type==='event'){
-    if(j.evId&&_lang!=='fr'){const t=EVENT_I18N[j.evId]?.[_lang]?.title;return t?t.replace(/^\p{Emoji}\s*/u,''):j.asset;}
+    if(_lang!=='fr'){
+      const evId=_resolveEvId(j);
+      if(evId){const t=EVENT_I18N[evId]?.[_lang]?.title;if(t)return t.replace(/^\p{Emoji}\s*/u,'');}
+    }
     return j.asset||'';
   }
   if(j.type==='mission')return _trJournalMission(j.asset||'');
   return j.asset||'';
 }
 function _jDisplayNote(j){
-  if(j.type==='event'&&j.evId&&_lang!=='fr'){
-    const desc=EVENT_I18N[j.evId]?.[_lang]?.desc;
-    if(desc){
-      const good=j.evImpact==='good'||(j.note&&(j.note.includes('Haussier')||j.note.includes('Bullish')||j.note.includes('bullish')));
-      return _T(good?'jBullish':'jBearish')+' — '+desc;
+  if(j.type==='event'&&_lang!=='fr'){
+    const evId=_resolveEvId(j);
+    if(evId){
+      const desc=EVENT_I18N[evId]?.[_lang]?.desc;
+      if(desc){
+        const good=j.evImpact==='good'||(j.note&&(j.note.includes('Haussier')||j.note.includes('Bullish')||j.note.includes('bullish')));
+        return _T(good?'jBullish':'jBearish')+' — '+desc;
+      }
     }
   }
   return j.note||'';
