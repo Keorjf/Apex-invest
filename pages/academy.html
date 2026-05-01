@@ -5357,7 +5357,6 @@ function openTrackDetail(idx){
     const isDone=S.done.has(l.id);
     const tl=trLesson(l);
     return `<div class="lc${isDone?' done':''}" onclick="openLesson('${l.id}')">
-      ${isDone?'<div class="lc-check">✓</div>':''}
       <span class="lc-e">${tl.e}</span>
       <div class="lc-n">${shortLessonTitle(tl.n)}</div>
     </div>`;
