@@ -1848,6 +1848,11 @@ table.assets th.clickable:hover{color:var(--y);}
                   <button class="dtb" id="dtb_tline" onclick="setDrawTool('tline')" title="Tendance">╱</button>
                   <button class="dtb" id="dtb_ray" onclick="setDrawTool('ray')" title="Rayon">→</button>
                   <div class="dtb-sep"></div>
+                  <button class="dtb" id="dtb_arrow_up" onclick="setDrawTool('arrow_up')" title="Signal Achat" style="color:#4CAF50;font-size:.75rem">▲</button>
+                  <button class="dtb" id="dtb_arrow_down" onclick="setDrawTool('arrow_down')" title="Signal Vente" style="color:#FF3B5C;font-size:.75rem">▼</button>
+                  <div class="dtb-sep"></div>
+                  <button class="dtb" id="dtb_fib" onclick="setDrawTool('fib')" title="Fibonacci" style="font-size:.78rem;font-style:italic;">φ</button>
+                  <div class="dtb-sep"></div>
                   <button class="dtb" id="dtb_erase" onclick="setDrawTool('erase')" title="Effacer">✕</button>
                   <button class="dtb" onclick="_clearAllDrawings();el('drawToolbar').classList.remove('open')" title="Tout effacer" style="font-size:.7rem">🗑</button>
                 </div>
@@ -5785,17 +5790,53 @@ function _redrawAnnotations(){
       }
       ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(ex2,ey2);ctx.stroke();
       ctx.beginPath();ctx.arc(x1,y1,3,0,Math.PI*2);ctx.fillStyle=d.color;ctx.fill();
+    } else if(d.type==='arrow_up'||d.type==='arrow_down'){
+      const x=_xFracToX(d.xFrac,l),y=_priceToY(d.price,l);
+      const up=d.type==='arrow_up';
+      const clr=up?'#4CAF50':'#FF3B5C';
+      const ay=up?y+2:y-2,tip=up?y-16:y+16;
+      ctx.fillStyle=clr;
+      ctx.beginPath();
+      if(up){ctx.moveTo(x,tip);ctx.lineTo(x-7,ay);ctx.lineTo(x+7,ay);}
+      else{ctx.moveTo(x,tip);ctx.lineTo(x-7,ay);ctx.lineTo(x+7,ay);}
+      ctx.closePath();ctx.fill();
+      ctx.fillStyle='rgba(255,255,255,.85)';
+      ctx.font="bold 7px 'JetBrains Mono',monospace";ctx.textAlign='center';
+      ctx.fillText(up?'B':'S',x,up?y+12:y-6);
+    } else if(d.type==='fib'){
+      const FIB=[{r:0,lbl:'0%',c:'#FF3B5C'},{r:.236,lbl:'23.6%',c:'#FF9800'},{r:.382,lbl:'38.2%',c:'#FFCD0D'},{r:.5,lbl:'50%',c:'#4EC2DA'},{r:.618,lbl:'61.8%',c:'#76FF03'},{r:.786,lbl:'78.6%',c:'#A78BFA'},{r:1,lbl:'100%',c:'#FF3B5C'}];
+      const pRange=d.p1.price-d.p2.price;
+      ctx.lineWidth=1;ctx.font="8px 'JetBrains Mono',monospace";ctx.textAlign='left';
+      FIB.forEach(f=>{
+        const price=d.p1.price-f.r*pRange;
+        const y=_priceToY(price,l);
+        ctx.strokeStyle=f.c+'99';ctx.setLineDash([3,3]);
+        ctx.beginPath();ctx.moveTo(l.pad.l,y);ctx.lineTo(l.W-l.pad.r,y);ctx.stroke();
+        ctx.fillStyle=f.c;ctx.fillText(f.lbl+' '+fmtP(price),l.pad.l+4,y-2);
+      });
     }
     ctx.restore();
   });
   // draw in-progress drag
   if(_drawDrag&&_drawTool!=='none'&&_drawTool!=='erase'){
     const l2=_chartLayout();if(!l2)return;
-    ctx.save();ctx.strokeStyle='rgba(78,194,218,.7)';ctx.lineWidth=1.5;ctx.setLineDash([4,3]);
-    if(_drawTool==='hline'){
-      const y=_drawDrag.curY;ctx.beginPath();ctx.moveTo(l2.pad.l,y);ctx.lineTo(l2.W-l2.pad.r,y);ctx.stroke();
+    ctx.save();
+    if(_drawTool==='fib'){
+      const FIB=[{r:0,c:'#FF3B5C'},{r:.236,c:'#FF9800'},{r:.382,c:'#FFCD0D'},{r:.5,c:'#4EC2DA'},{r:.618,c:'#76FF03'},{r:.786,c:'#A78BFA'},{r:1,c:'#FF3B5C'}];
+      const p1=_yToPrice(_drawDrag.startY,l2),p2=_yToPrice(_drawDrag.curY,l2);
+      const pRange=p1-p2;ctx.lineWidth=1;
+      FIB.forEach(f=>{
+        const y=_priceToY(p1-f.r*pRange,l2);
+        ctx.strokeStyle=f.c+'70';ctx.setLineDash([3,3]);
+        ctx.beginPath();ctx.moveTo(l2.pad.l,y);ctx.lineTo(l2.W-l2.pad.r,y);ctx.stroke();
+      });
     } else {
-      ctx.beginPath();ctx.moveTo(_drawDrag.startX,_drawDrag.startY);ctx.lineTo(_drawDrag.curX,_drawDrag.curY);ctx.stroke();
+      ctx.strokeStyle='rgba(78,194,218,.7)';ctx.lineWidth=1.5;ctx.setLineDash([4,3]);
+      if(_drawTool==='hline'){
+        const y=_drawDrag.curY;ctx.beginPath();ctx.moveTo(l2.pad.l,y);ctx.lineTo(l2.W-l2.pad.r,y);ctx.stroke();
+      } else {
+        ctx.beginPath();ctx.moveTo(_drawDrag.startX,_drawDrag.startY);ctx.lineTo(_drawDrag.curX,_drawDrag.curY);ctx.stroke();
+      }
     }
     ctx.restore();
   }
@@ -5816,8 +5857,11 @@ function _initDrawCanvas(){
     if(_drawTool==='none')return;
     e.preventDefault();e.stopPropagation();
     const pos=_dcMousePos(e,dc);
-    if(_drawTool==='erase'){
-      _eraseNear(pos.x,pos.y);return;
+    if(_drawTool==='erase'){_eraseNear(pos.x,pos.y);return;}
+    if(_drawTool==='arrow_up'||_drawTool==='arrow_down'){
+      const l=_chartLayout();if(!l)return;
+      _drawingsForAsset().push({type:_drawTool,xFrac:_xToFrac(pos.x,l),price:_yToPrice(pos.y,l)});
+      saveState();_redrawAnnotations();return;
     }
     _drawDrag={startX:pos.x,startY:pos.y,curX:pos.x,curY:pos.y};
   }
@@ -5846,6 +5890,13 @@ function _initDrawCanvas(){
             color});
           _drawColorIdx++;
         }
+      } else if(_drawTool==='fib'){
+        const dy=Math.abs(_drawDrag.curY-_drawDrag.startY);
+        if(dy>8){
+          drawings.push({type:'fib',
+            p1:{price:_yToPrice(_drawDrag.startY,l)},
+            p2:{price:_yToPrice(_drawDrag.curY,l)}});
+        }
       }
       saveState();
     }
@@ -5872,6 +5923,13 @@ function _eraseNear(px,py){
       const len2=(x2-x1)**2+(y2-y1)**2||1;
       const t=Math.max(0,Math.min(1,((px-x1)*(x2-x1)+(py-y1)*(y2-y1))/len2));
       return Math.hypot(px-(x1+t*(x2-x1)),py-(y1+t*(y2-y1)))<THRESH;
+    }
+    if(d.type==='arrow_up'||d.type==='arrow_down'){
+      return Math.hypot(_xFracToX(d.xFrac,l)-px,_priceToY(d.price,l)-py)<THRESH*1.5;
+    }
+    if(d.type==='fib'){
+      const pRange=d.p1.price-d.p2.price;
+      return [0,.236,.382,.5,.618,.786,1].some(r=>Math.abs(_priceToY(d.p1.price-r*pRange,l)-py)<THRESH);
     }
     return false;
   });
