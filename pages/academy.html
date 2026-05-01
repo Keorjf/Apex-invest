@@ -7288,6 +7288,15 @@ function _trJournalMission(name){
   return m?.i18n?.[_lang]?.name||name;
 }
 function _resolveEvId(j){return j.evId||_FR_EV_TITLE_MAP[j.asset]||_FR_EV_TITLE_MAP[_stripEmojiPrefix(j.asset)];}
+let _jTapTs={};
+function _jTap(key,type,idx,lessonId){
+  const now=Date.now();
+  if(_jTapTs[key]&&now-_jTapTs[key]<400){
+    delete _jTapTs[key];
+    if(type==='ev')showEvDetail(idx);
+    else openLessonFromJournal(lessonId,idx);
+  }else{_jTapTs[key]=now;}
+}
 function _jDisplayAsset(j){
   if(j.type==='event'){
     if(_lang!=='fr'){
@@ -7361,8 +7370,9 @@ function renderJournal(){
     const idx=items.indexOf(j);
     const isEvt=j.type==='event';
     const isLsn=j.type==='lesson'&&j.lessonId;
-    const dblclick=isEvt?`ondblclick="showEvDetail(${idx})" style="cursor:pointer" title="${_T('jDblClick')}"`
-      :isLsn?`ondblclick="openLessonFromJournal('${j.lessonId}',${S.journal.indexOf(j)})" style="cursor:pointer" title="${_T('jDblClickLesson')}"` :'';
+    const jIdx=S.journal.indexOf(j);
+    const dblclick=isEvt?`onclick="_jTap('ev${idx}','ev',${idx})" style="cursor:pointer" title="${_T('jDblClick')}"`
+      :isLsn?`onclick="_jTap('ls${jIdx}','ls',${jIdx},'${j.lessonId}')" style="cursor:pointer" title="${_T('jDblClickLesson')}"` :'';
     const displayAsset=_jDisplayAsset(j);
     const displayNote=_jDisplayNote(j);
     return sep+`<div class="j-entry j-${j.type}" ${dblclick}>
