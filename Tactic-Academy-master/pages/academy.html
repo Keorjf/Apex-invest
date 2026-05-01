@@ -5489,8 +5489,8 @@ function openLesson(id){
           <button class="hl-fmt-btn" id="hlBoldBtn" onclick="setHlFormat('bold')" title="Gras">B</button>
           <button class="hl-fmt-btn" id="hlUnderBtn" onclick="setHlFormat('under')" title="Souligné"><u>U</u></button>
           <div class="hl-sep"></div>
-          <button class="hl-erase" id="hlEraseBtn" onclick="toggleHlErase()" title="Effacer" style="width:1.55rem;height:1.55rem;padding:0;display:flex;align-items:center;justify-content:center;">✕</button>
           <button class="hl-fmt-btn" id="hlUndoBtn" onclick="hlUndo('${lesson.id}')" title="Annuler la dernière annotation" style="font-size:.75rem">↩</button>
+          <button class="hl-fmt-btn" onclick="clearAllHl('${lesson.id}')" title="Effacer toutes les annotations" style="color:rgba(255,80,80,.7);font-size:.75rem">✕</button>
         </div>
       </div>
       <div class="lsn-blocks" id="lsnBlocks" onmouseup="onLsnMouseUp(event,'${lesson.id}')">${blocks}</div>
@@ -5563,7 +5563,7 @@ function hlUndo(lessonId){
   saveState();
   const containers=[el('lsnBlocks'),el('quizQ')].filter(Boolean);
   for(const c of containers){
-    const all=[...c.querySelectorAll('.hl,strong,u')];
+    const all=[...c.querySelectorAll('[data-ann]')];
     const target=all.slice().reverse().find(s=>s.textContent===last.text);
     if(target){
       const p=target.parentNode;if(!p)break;
@@ -5571,6 +5571,18 @@ function hlUndo(lessonId){
       p.removeChild(target);p.normalize();break;
     }
   }
+}
+
+function clearAllHl(lessonId){
+  if(S.highlights)S.highlights[lessonId]=[];
+  saveState();
+  [el('lsnBlocks'),el('quizQ')].filter(Boolean).forEach(c=>{
+    [...c.querySelectorAll('[data-ann]')].forEach(s=>{
+      const p=s.parentNode;if(!p)return;
+      while(s.firstChild)p.insertBefore(s.firstChild,s);
+      p.removeChild(s);p.normalize();
+    });
+  });
 }
 
 function _syncHlToolbar(){
@@ -5639,6 +5651,7 @@ function onLsnMouseUp(e,lessonId){
       node=document.createElement('u');
     }
     if(!node)return;
+    node.dataset.ann='1';
     range.surroundContents(node);
     node.addEventListener('click',()=>{if(window._hlErase)_removeHighlight(node,lessonId);});
     sel.removeAllRanges();
@@ -5698,7 +5711,7 @@ function _applyOneHighlight(container,text,color,ctx,fmt){
       if(color){el2=document.createElement('span');el2.className='hl hl-'+color;}
       else if(fmt==='bold'){el2=document.createElement('strong');}
       else if(fmt==='under'){el2=document.createElement('u');}
-      if(el2)range.surroundContents(el2);
+      if(el2){el2.dataset.ann='1';range.surroundContents(el2);}
     }catch(err){}
     break;
   }
