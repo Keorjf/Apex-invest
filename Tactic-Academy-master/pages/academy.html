@@ -1864,19 +1864,19 @@ table.assets th.clickable:hover{color:var(--y);}
               <div class="draw-toolbar" id="drawToolbar">
                 <button class="dtb-toggle-btn" id="dtbToggle" onclick="toggleDrawToolbar()" title="Outils de dessin">✏</button>
                 <div class="dtb-panel" id="dtbPanel">
-                  <button class="dtb-row on" id="dtb_none" onclick="setDrawTool('none')"><span class="dtb-row-ic">↖</span>Curseur</button>
+                  <button class="dtb-row on" id="dtb_none" onclick="setDrawTool('none')"><span class="dtb-row-ic">↖</span><span data-i18n="dtbCursor">Curseur</span></button>
                   <div class="dtb-sep"></div>
-                  <button class="dtb-row" id="dtb_hline" onclick="setDrawTool('hline')"><span class="dtb-row-ic">─</span>Ligne horizontale</button>
-                  <button class="dtb-row" id="dtb_tline" onclick="setDrawTool('tline')"><span class="dtb-row-ic">╱</span>Ligne de tendance</button>
-                  <button class="dtb-row" id="dtb_ray" onclick="setDrawTool('ray')"><span class="dtb-row-ic">→</span>Rayon</button>
+                  <button class="dtb-row" id="dtb_hline" onclick="setDrawTool('hline')"><span class="dtb-row-ic">─</span><span data-i18n="dtbHline">Ligne horizontale</span></button>
+                  <button class="dtb-row" id="dtb_tline" onclick="setDrawTool('tline')"><span class="dtb-row-ic">╱</span><span data-i18n="dtbTline">Ligne de tendance</span></button>
+                  <button class="dtb-row" id="dtb_ray" onclick="setDrawTool('ray')"><span class="dtb-row-ic">→</span><span data-i18n="dtbRay">Rayon</span></button>
                   <div class="dtb-sep"></div>
-                  <button class="dtb-row" id="dtb_arrow_up" onclick="setDrawTool('arrow_up')"><span class="dtb-row-ic" style="color:#4CAF50">▲</span>Signal Achat</button>
-                  <button class="dtb-row" id="dtb_arrow_down" onclick="setDrawTool('arrow_down')"><span class="dtb-row-ic" style="color:#FF3B5C">▼</span>Signal Vente</button>
+                  <button class="dtb-row" id="dtb_arrow_up" onclick="setDrawTool('arrow_up')"><span class="dtb-row-ic" style="color:#4CAF50">▲</span><span data-i18n="dtbBuy">Signal Achat</span></button>
+                  <button class="dtb-row" id="dtb_arrow_down" onclick="setDrawTool('arrow_down')"><span class="dtb-row-ic" style="color:#FF3B5C">▼</span><span data-i18n="dtbSell">Signal Vente</span></button>
                   <div class="dtb-sep"></div>
-                  <button class="dtb-row" id="dtb_fib" onclick="setDrawTool('fib')"><span class="dtb-row-ic" style="font-style:italic">φ</span>Fibonacci</button>
+                  <button class="dtb-row" id="dtb_fib" onclick="setDrawTool('fib')"><span class="dtb-row-ic" style="font-style:italic">φ</span><span data-i18n="dtbFib">Fibonacci</span></button>
                   <div class="dtb-sep"></div>
-                  <button class="dtb-row" id="dtb_erase" onclick="setDrawTool('erase')"><span class="dtb-row-ic">✕</span>Effacer</button>
-                  <button class="dtb-row" onclick="_clearAllDrawings();el('drawToolbar').classList.remove('open')"><span class="dtb-row-ic" style="font-size:.75rem">🗑</span>Tout effacer</button>
+                  <button class="dtb-row" id="dtb_erase" onclick="setDrawTool('erase')"><span class="dtb-row-ic">✕</span><span data-i18n="dtbErase">Effacer</span></button>
+                  <button class="dtb-row" onclick="_clearAllDrawings();el('drawToolbar').classList.remove('open')"><span class="dtb-row-ic" style="font-size:.75rem">🗑</span><span data-i18n="dtbClear">Tout effacer</span></button>
                 </div>
               </div>
             </div>
@@ -9277,6 +9277,8 @@ const TRANSLATIONS = {
     evNoEventTitle:'Fluctuation normale du marché', evNoEventSub:"Pas d'événement récent. Les prix fluctuent selon l'offre et la demande en temps réel.",
     jfLesson:'Leçons', evDetailClose:'Fermer', jDblClickLesson:'Double-cliquer pour ouvrir la leçon', jEvent:'Événement',
     jBullish:'📈 Haussier', jBearish:'📉 Baissier',
+    dtbCursor:'Curseur', dtbHline:'Ligne horizontale', dtbTline:'Ligne de tendance', dtbRay:'Rayon',
+    dtbBuy:'Signal Achat', dtbSell:'Signal Vente', dtbFib:'Fibonacci', dtbErase:'Effacer', dtbClear:'Tout effacer',
   },
   en: {
     tabLearn:'YOUR PATH', tabMarket:'MARKET ROOM', tabMissions:"TODAY'S MISSIONS",
@@ -9369,6 +9371,8 @@ const TRANSLATIONS = {
     evNoEventTitle:'Normal market fluctuation', evNoEventSub:'No recent event. Prices fluctuate based on supply and demand in real time.',
     jfLesson:'Lessons', evDetailClose:'Close', jDblClickLesson:'Double-click to open lesson', jEvent:'Event',
     jBullish:'📈 Bullish', jBearish:'📉 Bearish',
+    dtbCursor:'Cursor', dtbHline:'Horizontal line', dtbTline:'Trend line', dtbRay:'Ray',
+    dtbBuy:'Buy signal', dtbSell:'Sell signal', dtbFib:'Fibonacci', dtbErase:'Erase', dtbClear:'Clear all',
   },
   es: {
     tabLearn:'TU RUTA', tabMarket:'SALA DE MERCADOS', tabMissions:'MISIONES DEL DÍA',
@@ -9461,6 +9465,8 @@ const TRANSLATIONS = {
     evNoEventTitle:'Fluctuación normal del mercado', evNoEventSub:'Sin evento reciente. Los precios fluctúan según la oferta y la demanda en tiempo real.',
     jfLesson:'Lecciones', evDetailClose:'Cerrar', jDblClickLesson:'Doble clic para abrir la lección', jEvent:'Evento',
     jBullish:'📈 Alcista', jBearish:'📉 Bajista',
+    dtbCursor:'Cursor', dtbHline:'Línea horizontal', dtbTline:'Línea de tendencia', dtbRay:'Rayo',
+    dtbBuy:'Señal Compra', dtbSell:'Señal Venta', dtbFib:'Fibonacci', dtbErase:'Borrar', dtbClear:'Borrar todo',
   }
 };
 
