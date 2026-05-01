@@ -5561,15 +5561,16 @@ function hlUndo(lessonId){
   if(!S.highlights||!S.highlights[lessonId]||!S.highlights[lessonId].length)return;
   const last=S.highlights[lessonId].pop();
   saveState();
-  const containers=[el('lsnBlocks'),el('quizQ')].filter(Boolean);
-  for(const c of containers){
-    const all=[...c.querySelectorAll('[data-ann]')];
-    const target=all.slice().reverse().find(s=>s.textContent===last.text);
-    if(target){
-      const p=target.parentNode;if(!p)break;
-      while(target.firstChild)p.insertBefore(target.firstChild,target);
-      p.removeChild(target);p.normalize();break;
-    }
+  // Find by annId (most reliable) or fall back to last [data-ann] in DOM
+  let target=last.annId?document.querySelector(`[data-ann-id="${last.annId}"]`):null;
+  if(!target){
+    const all=[...document.querySelectorAll('[data-ann]')];
+    target=all[all.length-1]||null;
+  }
+  if(target){
+    const p=target.parentNode;if(!p)return;
+    while(target.firstChild)p.insertBefore(target.firstChild,target);
+    p.removeChild(target);p.normalize();
   }
 }
 
@@ -5651,12 +5652,15 @@ function onLsnMouseUp(e,lessonId){
       node=document.createElement('u');
     }
     if(!node)return;
+    if(!window._annId)window._annId=Date.now();
+    const annId=++window._annId;
     node.dataset.ann='1';
+    node.dataset.annId=annId;
     range.surroundContents(node);
     node.addEventListener('click',()=>{if(window._hlErase)_removeHighlight(node,lessonId);});
     sel.removeAllRanges();
     if(!S.highlights[lessonId])S.highlights[lessonId]=[];
-    const entry={text:selectedText,ctx:contextBefore};
+    const entry={text:selectedText,ctx:contextBefore,annId};
     if(window._hlColor)entry.color=window._hlColor;
     else entry.fmt=window._hlFormat;
     S.highlights[lessonId].push(entry);
@@ -5684,7 +5688,7 @@ function _applyHighlights(lessonId){
   const blk=el('lsnBlocks');if(!blk)return;
   const list=(S.highlights[lessonId]||[]).slice(); // copy to avoid mutation issues
   list.forEach(h=>{
-    _applyOneHighlight(blk,h.text,h.color||null,h.ctx||'',h.fmt||null);
+    _applyOneHighlight(blk,h.text,h.color||null,h.ctx||'',h.fmt||null,h.annId||null);
   });
   // Attach erase click handlers to all hl spans
   blk.querySelectorAll('.hl').forEach(span=>{
@@ -5694,7 +5698,7 @@ function _applyHighlights(lessonId){
   });
 }
 
-function _applyOneHighlight(container,text,color,ctx,fmt){
+function _applyOneHighlight(container,text,color,ctx,fmt,annId){
   if(!text)return;
   const walker=document.createTreeWalker(container,NodeFilter.SHOW_TEXT,null,false);
   let node;
@@ -5711,7 +5715,7 @@ function _applyOneHighlight(container,text,color,ctx,fmt){
       if(color){el2=document.createElement('span');el2.className='hl hl-'+color;}
       else if(fmt==='bold'){el2=document.createElement('strong');}
       else if(fmt==='under'){el2=document.createElement('u');}
-      if(el2){el2.dataset.ann='1';range.surroundContents(el2);}
+      if(el2){el2.dataset.ann='1';if(annId)el2.dataset.annId=annId;range.surroundContents(el2);}
     }catch(err){}
     break;
   }
