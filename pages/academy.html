@@ -401,10 +401,10 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 .hl-p{background:rgba(255,59,92,.25);color:inherit;}
 .hl-bold{font-weight:700;}
 .hl-under{text-decoration:underline;}
-.hl-wrap{position:relative;display:inline-block;margin-bottom:.85rem;}
-.hl-toggle-btn{background:transparent;border:1px solid var(--ln);border-radius:6px;width:1.8rem;height:1.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.45);font-size:.95rem;transition:.15s;}
-.hl-toggle-btn:hover,.hl-wrap.open .hl-toggle-btn{color:var(--g);border-color:rgba(78,194,218,.4);background:rgba(78,194,218,.07);}
-.hl-panel{position:absolute;top:calc(100% + .35rem);left:0;display:none;align-items:center;gap:.28rem;background:rgba(8,18,36,.97);backdrop-filter:blur(10px);border:1px solid rgba(78,194,218,.18);border-radius:9px;padding:.3rem .5rem;z-index:50;box-shadow:0 8px 24px rgba(0,0,0,.4);animation:dtbIn .13s ease;white-space:nowrap;}
+.hl-wrap{position:fixed;right:1.1rem;top:44%;transform:translateY(-50%);z-index:200;display:flex;flex-direction:column;align-items:center;}
+.hl-toggle-btn{background:rgba(13,26,46,.9);border:1px solid var(--ln);border-radius:10px;width:2.2rem;height:2.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.5);font-size:1rem;transition:.15s;box-shadow:0 4px 14px rgba(0,0,0,.35);}
+.hl-toggle-btn:hover,.hl-wrap.open .hl-toggle-btn{color:var(--g);border-color:rgba(78,194,218,.45);background:rgba(13,32,51,.95);}
+.hl-panel{position:absolute;right:calc(100% + .55rem);top:50%;transform:translateY(-50%);display:none;flex-direction:column;align-items:center;gap:.22rem;background:rgba(8,18,36,.97);backdrop-filter:blur(10px);border:1px solid rgba(78,194,218,.18);border-radius:10px;padding:.4rem .38rem;z-index:200;box-shadow:0 8px 28px rgba(0,0,0,.5);animation:dtbIn .13s ease;}
 .hl-wrap.open .hl-panel{display:flex;}
 .hl-dot{width:16px;height:16px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .18s;flex-shrink:0;}
 .hl-dot:hover{transform:scale(1.15);}
@@ -417,7 +417,7 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 .hl-fmt-btn.active{background:rgba(78,194,218,.2);color:var(--g);border-color:rgba(78,194,218,.4);}
 .hl-erase{background:none;border:1px solid var(--ln2);border-radius:5px;font-size:.7rem;padding:.1rem .4rem;cursor:pointer;color:var(--muted);transition:all .18s;line-height:1.4;}
 .hl-erase:hover,.hl-erase.active{border-color:rgba(255,59,92,.5);color:var(--r);}
-.hl-sep{width:1px;height:14px;background:var(--ln2);margin:0 .15rem;}
+.hl-sep{width:1.4rem;height:1px;background:var(--ln2);margin:.06rem 0;}
 .lsn-blocks,.quiz-q{cursor:text;}
 .lsn-blocks.hl-erase-mode .hl,.lsn-blocks.hl-erase-mode strong,.lsn-blocks.hl-erase-mode u,
 .quiz-q.hl-erase-mode .hl,.quiz-q.hl-erase-mode strong,.quiz-q.hl-erase-mode u{cursor:pointer;}
@@ -5489,7 +5489,8 @@ function openLesson(id){
           <button class="hl-fmt-btn" id="hlBoldBtn" onclick="setHlFormat('bold')" title="Gras">B</button>
           <button class="hl-fmt-btn" id="hlUnderBtn" onclick="setHlFormat('under')" title="Souligné"><u>U</u></button>
           <div class="hl-sep"></div>
-          <button class="hl-erase" id="hlEraseBtn" onclick="toggleHlErase()" title="Effacer">✕</button>
+          <button class="hl-erase" id="hlEraseBtn" onclick="toggleHlErase()" title="Effacer" style="width:1.55rem;height:1.55rem;padding:0;display:flex;align-items:center;justify-content:center;">✕</button>
+          <button class="hl-fmt-btn" id="hlUndoBtn" onclick="hlUndo('${lesson.id}')" title="Annuler la dernière annotation" style="font-size:.75rem">↩</button>
         </div>
       </div>
       <div class="lsn-blocks" id="lsnBlocks" onmouseup="onLsnMouseUp(event,'${lesson.id}')">${blocks}</div>
@@ -5554,6 +5555,22 @@ function openLesson(id){
 
 function toggleHlPanel(){
   const w=el('hlWrap');if(w)w.classList.toggle('open');
+}
+
+function hlUndo(lessonId){
+  if(!S.highlights||!S.highlights[lessonId]||!S.highlights[lessonId].length)return;
+  const last=S.highlights[lessonId].pop();
+  saveState();
+  const containers=[el('lsnBlocks'),el('quizQ')].filter(Boolean);
+  for(const c of containers){
+    const all=[...c.querySelectorAll('.hl,strong,u')];
+    const target=all.slice().reverse().find(s=>s.textContent===last.text);
+    if(target){
+      const p=target.parentNode;if(!p)break;
+      while(target.firstChild)p.insertBefore(target.firstChild,target);
+      p.removeChild(target);p.normalize();break;
+    }
+  }
 }
 
 function _syncHlToolbar(){
