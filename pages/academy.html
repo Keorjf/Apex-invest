@@ -736,7 +736,12 @@ table.assets th.clickable:hover{color:var(--y);}
 #mainChart{display:block;width:100%;height:100%;}
 #drawCanvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
 #drawCanvas.active-tool{pointer-events:all;cursor:crosshair;}
-.draw-toolbar{position:absolute;top:.45rem;right:.5rem;display:flex;flex-direction:column;gap:.28rem;z-index:10;background:rgba(13,32,51,.85);backdrop-filter:blur(6px);border:1px solid rgba(78,194,218,.2);border-radius:9px;padding:.35rem .28rem;}
+.draw-toolbar{position:absolute;top:.45rem;right:.5rem;z-index:10;display:flex;flex-direction:column;align-items:flex-end;gap:.25rem;}
+.dtb-toggle-btn{background:rgba(13,32,51,.85);backdrop-filter:blur(6px);border:1px solid rgba(78,194,218,.2);border-radius:8px;width:2rem;height:2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.5);font-size:.95rem;transition:.15s;line-height:1;}
+.dtb-toggle-btn:hover,.draw-toolbar.open .dtb-toggle-btn{color:var(--g);border-color:rgba(78,194,218,.5);background:rgba(13,32,51,.95);}
+.dtb-panel{display:none;flex-direction:column;gap:.28rem;background:rgba(13,32,51,.88);backdrop-filter:blur(6px);border:1px solid rgba(78,194,218,.2);border-radius:9px;padding:.35rem .28rem;animation:dtbIn .15s ease;}
+.draw-toolbar.open .dtb-panel{display:flex;}
+@keyframes dtbIn{from{opacity:0;transform:translateY(-5px);}to{opacity:1;transform:none;}}
 .dtb{background:none;border:none;width:2rem;height:2rem;border-radius:6px;cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.45);transition:.15s;line-height:1;font-family:monospace;}
 .dtb:hover{background:rgba(78,194,218,.12);color:#fff;}
 .dtb.on{background:rgba(78,194,218,.2);color:var(--g);border:1px solid rgba(78,194,218,.35);}
@@ -1838,14 +1843,17 @@ table.assets th.clickable:hover{color:var(--y);}
   <canvas id="mainChart" style="display:block;width:100%;height:100%;"></canvas>
   <canvas id="drawCanvas"></canvas>
   <div class="draw-toolbar" id="drawToolbar">
-    <button class="dtb on" id="dtb_none" onclick="setDrawTool('none')" title="Select">↖</button>
-    <div class="dtb-sep"></div>
-    <button class="dtb" id="dtb_hline" onclick="setDrawTool('hline')" title="Horizontal line">─</button>
-    <button class="dtb" id="dtb_tline" onclick="setDrawTool('tline')" title="Trend line">╱</button>
-    <button class="dtb" id="dtb_ray" onclick="setDrawTool('ray')" title="Ray">→</button>
-    <div class="dtb-sep"></div>
-    <button class="dtb" id="dtb_erase" onclick="setDrawTool('erase')" title="Erase">✕</button>
-    <button class="dtb" onclick="_clearAllDrawings()" title="Clear all" style="font-size:.7rem">🗑</button>
+    <button class="dtb-toggle-btn" id="dtbToggle" onclick="toggleDrawToolbar()" title="Outils de dessin">✏</button>
+    <div class="dtb-panel" id="dtbPanel">
+      <button class="dtb on" id="dtb_none" onclick="setDrawTool('none')" title="Curseur">↖</button>
+      <div class="dtb-sep"></div>
+      <button class="dtb" id="dtb_hline" onclick="setDrawTool('hline')" title="Ligne horizontale">─</button>
+      <button class="dtb" id="dtb_tline" onclick="setDrawTool('tline')" title="Tendance">╱</button>
+      <button class="dtb" id="dtb_ray" onclick="setDrawTool('ray')" title="Rayon">→</button>
+      <div class="dtb-sep"></div>
+      <button class="dtb" id="dtb_erase" onclick="setDrawTool('erase')" title="Effacer">✕</button>
+      <button class="dtb" onclick="_clearAllDrawings();el('drawToolbar').classList.remove('open')" title="Tout effacer" style="font-size:.7rem">🗑</button>
+    </div>
   </div>
 </div>
         </div>
@@ -5705,12 +5713,16 @@ let _drawColors=['#4EC2DA','#FFCD0D','#FF3B5C','#A78BFA','#76FF03','#FF9800'];
 let _drawColorIdx=0;
 let _drawDrag=null; // {startX,startY,curX,curY}
 
+function toggleDrawToolbar(){
+  const tb=el('drawToolbar');if(tb)tb.classList.toggle('open');
+}
 function setDrawTool(tool){
   _drawTool=tool;
   document.querySelectorAll('.dtb[id^="dtb_"]').forEach(b=>b.classList.remove('on'));
   const btn=el('dtb_'+tool);if(btn)btn.classList.add('on');
   const dc=el('drawCanvas');if(!dc)return;
   dc.classList.toggle('active-tool',tool!=='none');
+  const tb=el('drawToolbar');if(tb)tb.classList.remove('open');
 }
 
 function _drawingsForAsset(){
