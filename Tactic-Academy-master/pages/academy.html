@@ -1095,7 +1095,7 @@ table.assets th.clickable:hover{color:var(--y);}
 .j-filter .jf-btn{flex-shrink:0;}
 .jf-btn{font-size:.65rem;padding:.28rem .7rem;border-radius:100px;border:1px solid var(--ln);background:transparent;color:var(--muted);cursor:pointer;transition:.15s;}
 .jf-btn.active{background:var(--gd);border-color:rgba(255,205,13,.3);color:var(--g);}
-.j-entry{background:var(--bg2);border:1px solid var(--ln);border-left:3px solid var(--ln);border-radius:8px;padding:.9rem 1.1rem;margin-bottom:.6rem;transition:border-color .18s;}
+.j-entry{background:var(--bg2);border:1px solid var(--ln);border-left:3px solid var(--ln);border-radius:8px;padding:.9rem 1.1rem;margin-bottom:.6rem;transition:border-color .18s;touch-action:manipulation;}
 .j-entry:hover{border-color:var(--ln2);}
 .j-entry.j-buy{border-left-color:#FFCD0D!important;}
 .j-entry.j-sell{border-left-color:#FF3B5C!important;}
@@ -7361,8 +7361,12 @@ function renderJournal(){
     const idx=items.indexOf(j);
     const isEvt=j.type==='event';
     const isLsn=j.type==='lesson'&&j.lessonId;
-    const dblclick=isEvt?`ondblclick="showEvDetail(${idx})" style="cursor:pointer" title="${_T('jDblClick')}"`
-      :isLsn?`ondblclick="openLessonFromJournal('${j.lessonId}',${S.journal.indexOf(j)})" style="cursor:pointer" title="${_T('jDblClickLesson')}"` :'';
+    const jIdx=S.journal.indexOf(j);
+    const dblclick=isEvt
+      ?`onclick="showEvDetail(${idx})" style="cursor:pointer"`
+      :isLsn
+      ?`onclick="openLessonFromJournal('${j.lessonId}',${jIdx})" style="cursor:pointer"`
+      :'';
     const displayAsset=_jDisplayAsset(j);
     const displayNote=_jDisplayNote(j);
     return sep+`<div class="j-entry j-${j.type}" ${dblclick}>
