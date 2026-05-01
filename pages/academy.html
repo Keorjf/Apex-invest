@@ -6909,39 +6909,106 @@ function showPriceContext(){
 
 /* ══ COL TIP ══ */
 const COL_TIPS={
-  actif:{ico:'📦',title:'C\'est quoi un actif ?',body:`Un <strong>actif financier</strong> est quelque chose que tu peux acheter dans l'espoir qu'il prenne de la valeur ou génère des revenus.<br><br>
-    Exemples : une action Apple, un ETF MSCI World, de l'Or, du Bitcoin, une obligation d'État.<br><br>
-    Chaque actif a ses propres <strong>caractéristiques de risque et de rendement</strong>. Un actif volatile peut rapporter beaucoup mais aussi beaucoup perdre.
-    <div class="col-tip-tag">🏗️ Base de tout portefeuille</div>`},
-  prix:{ico:'💰',title:'Le prix, comment ça marche ?',body:`Le <strong>prix d'un actif</strong> reflète ce que les acheteurs et vendeurs acceptent d'échanger à un instant T.<br><br>
-    Il est déterminé par <strong>l'offre et la demande</strong> : si plus de gens veulent acheter que vendre → prix monte. Inverse → prix baisse.<br><br>
-    Des facteurs l'influencent : résultats d'entreprise, taux d'intérêt, inflation, événements géopolitiques, sentiment de marché.
-    <div class="col-tip-formula">Prix = Offre ↔ Demande</div>
-    <div class="col-tip-tag">📊 Surveiller le prix en contexte</div>`},
-  '24h':{ico:'⏱️',title:'La variation 24h, pourquoi c\'est utile ?',body:`La <strong>variation sur 24h</strong> montre la performance de l'actif depuis hier à la même heure.<br><br>
-    ✅ <strong>Positif</strong> = l'actif a monté (acheteurs dominants)<br>
-    ❌ <strong>Négatif</strong> = l'actif a baissé (vendeurs dominants)<br><br>
-    Attention : une variation de +3% sur 24h ne signifie pas que l'actif est bon à long terme. C'est un indicateur <strong>court terme</strong> — à ne pas utiliser seul pour décider.
-    <div class="col-tip-formula">(Prix actuel − Prix hier) ÷ Prix hier × 100</div>
-    <div class="col-tip-tag">⚠️ Court terme uniquement</div>`},
-  spark:{ico:'📈',title:'Le graphique 7 jours (Spark)',body:`Le <strong>sparkline</strong> est un mini-graphique qui résume l'évolution du prix sur les 7 derniers jours.<br><br>
-    Il te donne une vue rapide de la <strong>tendance récente</strong> sans avoir à cliquer sur le graphe complet :<br><br>
-    📈 Ligne qui monte = tendance haussière sur la semaine<br>
-    📉 Ligne qui descend = tendance baissière<br>
-    〰️ Ligne plate = actif stable, peu volatile<br><br>
-    Utile pour comparer plusieurs actifs d'un coup d'œil.
-    <div class="col-tip-tag">🔭 Tendance de court-moyen terme</div>`},
-  cap:{ico:'🏛️',title:'La capitalisation, c\'est quoi ?',body:`La <strong>capitalisation boursière</strong> (ou "cap") mesure la valeur totale d'un actif sur le marché.<br><br>
-    Pour une action :<br>
-    <div class="col-tip-formula">Cap = Prix × Nombre total d'actions</div>
-    Pour une crypto :<br>
-    <div class="col-tip-formula">Cap = Prix × Tokens en circulation</div><br>
-    Une <strong>grande cap</strong> (Apple, MSCI World) = actif stable, liquide, moins risqué.<br>
-    Une <strong>petite cap</strong> = actif plus volatile, plus risqué mais potentiel plus élevé.
-    <div class="col-tip-tag">📏 Indicateur de taille et de risque</div>`}
+  fr:{
+    actif:{ico:'📦',title:'C\'est quoi un actif ?',body:`Un <strong>actif financier</strong> est quelque chose que tu peux acheter dans l'espoir qu'il prenne de la valeur ou génère des revenus.<br><br>
+      Exemples : une action Apple, un ETF MSCI World, de l'Or, du Bitcoin, une obligation d'État.<br><br>
+      Chaque actif a ses propres <strong>caractéristiques de risque et de rendement</strong>. Un actif volatile peut rapporter beaucoup mais aussi beaucoup perdre.
+      <div class="col-tip-tag">🏗️ Base de tout portefeuille</div>`},
+    prix:{ico:'💰',title:'Le prix, comment ça marche ?',body:`Le <strong>prix d'un actif</strong> reflète ce que les acheteurs et vendeurs acceptent d'échanger à un instant T.<br><br>
+      Il est déterminé par <strong>l'offre et la demande</strong> : si plus de gens veulent acheter que vendre → prix monte. Inverse → prix baisse.<br><br>
+      Des facteurs l'influencent : résultats d'entreprise, taux d'intérêt, inflation, événements géopolitiques, sentiment de marché.
+      <div class="col-tip-formula">Prix = Offre ↔ Demande</div>
+      <div class="col-tip-tag">📊 Surveiller le prix en contexte</div>`},
+    '24h':{ico:'⏱️',title:'La variation 24h, pourquoi c\'est utile ?',body:`La <strong>variation sur 24h</strong> montre la performance de l'actif depuis hier à la même heure.<br><br>
+      ✅ <strong>Positif</strong> = l'actif a monté (acheteurs dominants)<br>
+      ❌ <strong>Négatif</strong> = l'actif a baissé (vendeurs dominants)<br><br>
+      Attention : une variation de +3% sur 24h ne signifie pas que l'actif est bon à long terme. C'est un indicateur <strong>court terme</strong> — à ne pas utiliser seul pour décider.
+      <div class="col-tip-formula">(Prix actuel − Prix hier) ÷ Prix hier × 100</div>
+      <div class="col-tip-tag">⚠️ Court terme uniquement</div>`},
+    spark:{ico:'📈',title:'Le graphique 7 jours (Spark)',body:`Le <strong>sparkline</strong> est un mini-graphique qui résume l'évolution du prix sur les 7 derniers jours.<br><br>
+      Il te donne une vue rapide de la <strong>tendance récente</strong> sans avoir à cliquer sur le graphe complet :<br><br>
+      📈 Ligne qui monte = tendance haussière sur la semaine<br>
+      📉 Ligne qui descend = tendance baissière<br>
+      〰️ Ligne plate = actif stable, peu volatile<br><br>
+      Utile pour comparer plusieurs actifs d'un coup d'œil.
+      <div class="col-tip-tag">🔭 Tendance de court-moyen terme</div>`},
+    cap:{ico:'🏛️',title:'La capitalisation, c\'est quoi ?',body:`La <strong>capitalisation boursière</strong> (ou "cap") mesure la valeur totale d'un actif sur le marché.<br><br>
+      Pour une action :<br>
+      <div class="col-tip-formula">Cap = Prix × Nombre total d'actions</div>
+      Pour une crypto :<br>
+      <div class="col-tip-formula">Cap = Prix × Tokens en circulation</div><br>
+      Une <strong>grande cap</strong> (Apple, MSCI World) = actif stable, liquide, moins risqué.<br>
+      Une <strong>petite cap</strong> = actif plus volatile, plus risqué mais potentiel plus élevé.
+      <div class="col-tip-tag">📏 Indicateur de taille et de risque</div>`}
+  },
+  en:{
+    actif:{ico:'📦',title:'What is an asset?',body:`A <strong>financial asset</strong> is something you can buy hoping it will gain value or generate income.<br><br>
+      Examples: an Apple share, an MSCI World ETF, Gold, Bitcoin, a government bond.<br><br>
+      Each asset has its own <strong>risk and return characteristics</strong>. A volatile asset can earn a lot — but also lose a lot.
+      <div class="col-tip-tag">🏗️ The foundation of any portfolio</div>`},
+    prix:{ico:'💰',title:'How does the price work?',body:`The <strong>price of an asset</strong> reflects what buyers and sellers agree to exchange at a given moment.<br><br>
+      It is driven by <strong>supply and demand</strong>: if more people want to buy than sell → price goes up. The reverse → price falls.<br><br>
+      Key factors: company earnings, interest rates, inflation, geopolitical events, market sentiment.
+      <div class="col-tip-formula">Price = Supply ↔ Demand</div>
+      <div class="col-tip-tag">📊 Always read price in context</div>`},
+    '24h':{ico:'⏱️',title:'Why is the 24h change useful?',body:`The <strong>24h change</strong> shows how the asset has performed since the same time yesterday.<br><br>
+      ✅ <strong>Positive</strong> = asset rose (buyers dominant)<br>
+      ❌ <strong>Negative</strong> = asset fell (sellers dominant)<br><br>
+      Warning: a +3% 24h change does not mean the asset is a good long-term pick. It is a <strong>short-term</strong> indicator — never use it alone to make decisions.
+      <div class="col-tip-formula">(Current price − Yesterday's price) ÷ Yesterday's price × 100</div>
+      <div class="col-tip-tag">⚠️ Short-term only</div>`},
+    spark:{ico:'📈',title:'The 7-day chart (Spark)',body:`The <strong>sparkline</strong> is a mini-chart summarising price movement over the last 7 days.<br><br>
+      It gives you a quick view of the <strong>recent trend</strong> without having to open the full chart:<br><br>
+      📈 Rising line = bullish trend over the week<br>
+      📉 Falling line = bearish trend<br>
+      〰️ Flat line = stable, low-volatility asset<br><br>
+      Useful for comparing multiple assets at a glance.
+      <div class="col-tip-tag">🔭 Short-to-medium term trend</div>`},
+    cap:{ico:'🏛️',title:'What is market cap?',body:`The <strong>market capitalisation</strong> ("cap") measures the total market value of an asset.<br><br>
+      For a stock:<br>
+      <div class="col-tip-formula">Cap = Price × Total shares outstanding</div>
+      For a crypto:<br>
+      <div class="col-tip-formula">Cap = Price × Circulating supply</div><br>
+      A <strong>large cap</strong> (Apple, MSCI World) = stable, liquid, lower risk.<br>
+      A <strong>small cap</strong> = more volatile, higher risk but higher potential upside.
+      <div class="col-tip-tag">📏 Size and risk indicator</div>`}
+  },
+  es:{
+    actif:{ico:'📦',title:'¿Qué es un activo?',body:`Un <strong>activo financiero</strong> es algo que puedes comprar esperando que aumente de valor o genere ingresos.<br><br>
+      Ejemplos: una acción de Apple, un ETF MSCI World, Oro, Bitcoin, un bono del Estado.<br><br>
+      Cada activo tiene sus propias <strong>características de riesgo y rentabilidad</strong>. Un activo volátil puede ganar mucho, pero también perder mucho.
+      <div class="col-tip-tag">🏗️ Base de toda cartera</div>`},
+    prix:{ico:'💰',title:'¿Cómo funciona el precio?',body:`El <strong>precio de un activo</strong> refleja lo que compradores y vendedores aceptan intercambiar en un momento dado.<br><br>
+      Lo determina la <strong>oferta y la demanda</strong>: si hay más compradores que vendedores → precio sube. Al revés → precio baja.<br><br>
+      Factores clave: resultados empresariales, tasas de interés, inflación, eventos geopolíticos, sentimiento del mercado.
+      <div class="col-tip-formula">Precio = Oferta ↔ Demanda</div>
+      <div class="col-tip-tag">📊 Leer el precio en contexto</div>`},
+    '24h':{ico:'⏱️',title:'¿Por qué es útil la variación 24h?',body:`La <strong>variación en 24h</strong> muestra el rendimiento del activo desde la misma hora de ayer.<br><br>
+      ✅ <strong>Positivo</strong> = el activo subió (compradores dominantes)<br>
+      ❌ <strong>Negativo</strong> = el activo bajó (vendedores dominantes)<br><br>
+      Atención: un +3% en 24h no significa que el activo sea bueno a largo plazo. Es un indicador de <strong>corto plazo</strong> — no lo uses solo para decidir.
+      <div class="col-tip-formula">(Precio actual − Precio ayer) ÷ Precio ayer × 100</div>
+      <div class="col-tip-tag">⚠️ Solo corto plazo</div>`},
+    spark:{ico:'📈',title:'El gráfico de 7 días (Spark)',body:`El <strong>sparkline</strong> es un mini-gráfico que resume la evolución del precio en los últimos 7 días.<br><br>
+      Te da una vista rápida de la <strong>tendencia reciente</strong> sin abrir el gráfico completo:<br><br>
+      📈 Línea ascendente = tendencia alcista en la semana<br>
+      📉 Línea descendente = tendencia bajista<br>
+      〰️ Línea plana = activo estable, poco volátil<br><br>
+      Útil para comparar varios activos de un vistazo.
+      <div class="col-tip-tag">🔭 Tendencia de corto-medio plazo</div>`},
+    cap:{ico:'🏛️',title:'¿Qué es la capitalización?',body:`La <strong>capitalización bursátil</strong> ("cap") mide el valor total de mercado de un activo.<br><br>
+      Para una acción:<br>
+      <div class="col-tip-formula">Cap = Precio × Total de acciones en circulación</div>
+      Para una cripto:<br>
+      <div class="col-tip-formula">Cap = Precio × Oferta en circulación</div><br>
+      Una <strong>gran cap</strong> (Apple, MSCI World) = estable, líquida, menor riesgo.<br>
+      Una <strong>pequeña cap</strong> = más volátil, mayor riesgo pero mayor potencial.
+      <div class="col-tip-tag">📏 Indicador de tamaño y riesgo</div>`}
+  }
 };
 function showColTip(key){
-  const d=COL_TIPS[key];if(!d)return;
+  const tips=(COL_TIPS[_lang]||COL_TIPS.fr);
+  const d=tips[key];if(!d)return;
   el('colTipIco').textContent=d.ico;
   el('colTipTitle').textContent=d.title;
   el('colTipBody').innerHTML=d.body;
