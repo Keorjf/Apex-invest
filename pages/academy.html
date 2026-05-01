@@ -394,6 +394,26 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 .b-trap-lbl{font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--r);margin-bottom:.3rem;display:flex;align-items:center;gap:.3rem;}
 .b-trap p{font-size:.8rem;line-height:1.65;color:var(--soft);font-family:'JetBrains Mono','Courier New',monospace;}
 
+/* HIGHLIGHTS */
+.hl{border-radius:2px;padding:0 1px;}
+.hl-y{background:rgba(255,205,13,.35);color:inherit;}
+.hl-g{background:rgba(118,255,3,.25);color:inherit;}
+.hl-p{background:rgba(255,59,92,.25);color:inherit;}
+.hl-toolbar{display:flex;align-items:center;gap:.4rem;background:var(--bg1);border:1px solid var(--ln2);border-radius:100px;padding:.3rem .6rem;margin-bottom:1rem;width:fit-content;}
+.hl-dot{width:16px;height:16px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .18s;flex-shrink:0;}
+.hl-dot:hover{transform:scale(1.15);}
+.hl-dot.active{border-color:rgba(255,255,255,.7);box-shadow:0 0 0 2px rgba(255,255,255,.2);}
+.hl-dot-y{background:rgba(255,205,13,.8);}
+.hl-dot-g{background:rgba(118,255,3,.7);}
+.hl-dot-p{background:rgba(255,59,92,.7);}
+.hl-erase{background:none;border:1px solid var(--ln2);border-radius:5px;font-size:.7rem;padding:.1rem .4rem;cursor:pointer;color:var(--muted);transition:all .18s;line-height:1.4;}
+.hl-erase:hover,.hl-erase.active{border-color:rgba(255,59,92,.5);color:var(--r);}
+.hl-sep{width:1px;height:14px;background:var(--ln2);margin:0 .15rem;}
+.lsn-blocks{cursor:text;}
+.lsn-blocks.hl-mode-y,.lsn-blocks.hl-mode-g,.lsn-blocks.hl-mode-p{cursor:text;}
+.lsn-blocks.hl-erase-mode .hl{cursor:pointer;}
+.lsn-blocks.hl-erase-mode .hl:hover{opacity:.6;text-decoration:line-through;}
+
 /* QUIZ */
 .quiz-card{background:var(--bg2);border:1px solid rgba(255,205,13,.2);border-radius:9px;overflow:visible;margin-top:1.4rem;position:relative;}
 .quiz-head{display:flex;align-items:center;justify-content:space-between;padding:.7rem 1.1rem;background:rgba(255,205,13,.08);border-bottom:1px solid var(--ln);}
@@ -4555,6 +4575,7 @@ let S = {
   profitSells:0, consecProfits:0, alignScore:0,
   activePerm:[],
   uiLevel:0,
+  highlights:{},
 };
 
 /* ══ UTILS ══ */
@@ -4584,6 +4605,7 @@ function saveState(){
     journal:S.journal.slice(-200),limitOrders:S.limitOrders,
     positions:S.positions,
     precaution:S.precaution>0?S.precaution:0,securite:S.securite>0?S.securite:0,envelopes:S.envelopes||[],
+    highlights:S.highlights||{},
   }));}catch(e){}
 }
 function loadState(){
@@ -4616,6 +4638,7 @@ function loadState(){
     if(s.precaution)S.precaution=s.precaution;
     if(s.securite)S.securite=s.securite;
     if(s.envelopes&&s.envelopes.length)S.envelopes=s.envelopes;
+    if(s.highlights)S.highlights=s.highlights;
     const today=new Date().toDateString();
     // Reset missions du jour si nouveau jour
     if(s.dailyDate&&s.dailyDate!==today){
@@ -5445,7 +5468,15 @@ function openLesson(id){
       <div class="lh-meta">
         ${doneAlready?`<span style="color:var(--g)">${_T('lessonAlreadyDone')}</span>`:''}
       </div>
-      <div style="margin:1.2rem 0">${blocks}</div>
+      <div class="hl-toolbar" id="hlToolbar">
+        <span style="font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding-right:.2rem">Surligner</span>
+        <div class="hl-dot hl-dot-y" title="Jaune" onclick="setHlColor('y')"></div>
+        <div class="hl-dot hl-dot-g" title="Vert" onclick="setHlColor('g')"></div>
+        <div class="hl-dot hl-dot-p" title="Rose" onclick="setHlColor('p')"></div>
+        <div class="hl-sep"></div>
+        <button class="hl-erase" id="hlEraseBtn" onclick="toggleHlErase()" title="Effacer">✕</button>
+      </div>
+      <div class="lsn-blocks" id="lsnBlocks" onmouseup="onLsnMouseUp(event,'${lesson.id}')">${blocks}</div>
       <div class="quiz-card">
         <div class="quiz-head">
           <span class="quiz-lbl">Quiz</span>
@@ -5498,6 +5529,135 @@ function openLesson(id){
         <div class="cc-btns" id="ccBtns"></div>
       </div>
     </div>`;
+  _applyHighlights(lesson.id);
+  window._hlColor=window._hlColor||null;
+  window._hlErase=false;
+  _syncHlToolbar();
+}
+
+function _syncHlToolbar(){
+  document.querySelectorAll('.hl-dot').forEach(d=>{
+    const c=d.classList.contains('hl-dot-y')?'y':d.classList.contains('hl-dot-g')?'g':'p';
+    d.classList.toggle('active',window._hlColor===c&&!window._hlErase);
+  });
+  const eb=el('hlEraseBtn');if(eb)eb.classList.toggle('active',!!window._hlErase);
+  const blk=el('lsnBlocks');if(!blk)return;
+  blk.classList.remove('hl-mode-y','hl-mode-g','hl-mode-p','hl-erase-mode');
+  if(window._hlErase)blk.classList.add('hl-erase-mode');
+  else if(window._hlColor)blk.classList.add('hl-mode-'+window._hlColor);
+}
+
+function setHlColor(c){
+  window._hlErase=false;
+  window._hlColor=(window._hlColor===c)?null:c;
+  _syncHlToolbar();
+}
+
+function toggleHlErase(){
+  window._hlErase=!window._hlErase;
+  if(window._hlErase)window._hlColor=null;
+  _syncHlToolbar();
+}
+
+function onLsnMouseUp(e,lessonId){
+  const blk=el('lsnBlocks');if(!blk)return;
+  // Erase mode: clicking a highlight span removes it
+  if(window._hlErase){
+    const t=e.target;
+    if(t&&t.classList&&t.classList.contains('hl')){
+      _removeHighlight(t,lessonId);
+    }
+    return;
+  }
+  if(!window._hlColor)return;
+  const sel=window.getSelection();
+  if(!sel||sel.isCollapsed||!sel.rangeCount)return;
+  const range=sel.getRangeAt(0);
+  // Only highlight within the lesson blocks container
+  if(!blk.contains(range.commonAncestorContainer))return;
+  const selectedText=sel.toString().trim();
+  if(!selectedText)return;
+  // Get context (20 chars before selection start) for disambiguation
+  let contextBefore='';
+  try{
+    const preRange=range.cloneRange();
+    preRange.collapse(true);
+    preRange.setStart(blk,0);
+    contextBefore=(preRange.toString()||'').slice(-20);
+  }catch(err){}
+  try{
+    const span=document.createElement('span');
+    span.className='hl hl-'+window._hlColor;
+    range.surroundContents(span);
+    // Attach remove handler
+    span.addEventListener('click',function(){
+      if(window._hlErase)_removeHighlight(span,lessonId);
+    });
+    sel.removeAllRanges();
+    // Save highlight
+    if(!S.highlights[lessonId])S.highlights[lessonId]=[];
+    S.highlights[lessonId].push({text:selectedText,color:window._hlColor,ctx:contextBefore});
+    saveState();
+  }catch(err){
+    sel.removeAllRanges();
+  }
+}
+
+function _removeHighlight(span,lessonId){
+  const text=span.textContent;
+  const parent=span.parentNode;
+  if(!parent)return;
+  // Replace span with its text content
+  while(span.firstChild)parent.insertBefore(span.firstChild,span);
+  parent.removeChild(span);
+  parent.normalize();
+  // Remove from saved state (remove first matching entry)
+  if(S.highlights[lessonId]){
+    const idx=S.highlights[lessonId].findIndex(h=>h.text===text);
+    if(idx!==-1)S.highlights[lessonId].splice(idx,1);
+    saveState();
+  }
+}
+
+function _applyHighlights(lessonId){
+  const blk=el('lsnBlocks');if(!blk)return;
+  const list=(S.highlights[lessonId]||[]).slice(); // copy to avoid mutation issues
+  list.forEach(h=>{
+    _applyOneHighlight(blk,h.text,h.color,h.ctx||'');
+  });
+  // Attach erase click handlers to all hl spans
+  blk.querySelectorAll('.hl').forEach(span=>{
+    span.addEventListener('click',function(){
+      if(window._hlErase)_removeHighlight(span,lessonId);
+    });
+  });
+}
+
+function _applyOneHighlight(container,text,color,ctx){
+  if(!text)return;
+  const walker=document.createTreeWalker(container,NodeFilter.SHOW_TEXT,null,false);
+  let node;
+  while((node=walker.nextNode())){
+    const val=node.nodeValue;
+    // Try context-aware match first
+    let idx=-1;
+    if(ctx){
+      const combined=ctx+text;
+      const ci=val.indexOf(combined);
+      if(ci!==-1){idx=ci+ctx.length;}
+    }
+    if(idx===-1)idx=val.indexOf(text);
+    if(idx===-1)continue;
+    try{
+      const range=document.createRange();
+      range.setStart(node,idx);
+      range.setEnd(node,idx+text.length);
+      const span=document.createElement('span');
+      span.className='hl hl-'+color;
+      range.surroundContents(span);
+    }catch(err){}
+    break; // only apply once per saved entry
+  }
 }
 
 function _spawnCorrectSparks(btn){
