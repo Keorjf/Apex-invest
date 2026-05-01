@@ -4722,6 +4722,7 @@ function spSwitchLevel(lvl,optEl){
   optEl.classList.add('sp-lvl-active');
   const lbl=el('spLvlLabel');if(lbl)lbl.textContent=lvl;
   closeMb();
+  closeSidebar();
   boot(lvl);
 }
 function switchLevel(lvl, optEl){
