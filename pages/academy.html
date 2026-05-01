@@ -1095,7 +1095,7 @@ table.assets th.clickable:hover{color:var(--y);}
 .j-filter .jf-btn{flex-shrink:0;}
 .jf-btn{font-size:.65rem;padding:.28rem .7rem;border-radius:100px;border:1px solid var(--ln);background:transparent;color:var(--muted);cursor:pointer;transition:.15s;}
 .jf-btn.active{background:var(--gd);border-color:rgba(255,205,13,.3);color:var(--g);}
-.j-entry{background:var(--bg2);border:1px solid var(--ln);border-left:3px solid var(--ln);border-radius:8px;padding:.9rem 1.1rem;margin-bottom:.6rem;transition:border-color .18s;}
+.j-entry{background:var(--bg2);border:1px solid var(--ln);border-left:3px solid var(--ln);border-radius:8px;padding:.9rem 1.1rem;margin-bottom:.6rem;transition:border-color .18s;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none;}
 .j-entry:hover{border-color:var(--ln2);}
 .j-entry.j-buy{border-left-color:#FFCD0D!important;}
 .j-entry.j-sell{border-left-color:#FF3B5C!important;}
@@ -7289,9 +7289,10 @@ function _trJournalMission(name){
 }
 function _resolveEvId(j){return j.evId||_FR_EV_TITLE_MAP[j.asset]||_FR_EV_TITLE_MAP[_stripEmojiPrefix(j.asset)];}
 let _jTapTs={};
-function _jTap(key,type,idx,lessonId){
+function _jTap(key,type,idx,lessonId,e){
+  if(e&&e.cancelable)e.preventDefault();
   const now=Date.now();
-  if(_jTapTs[key]&&now-_jTapTs[key]<400){
+  if(_jTapTs[key]&&now-_jTapTs[key]<500){
     delete _jTapTs[key];
     if(type==='ev')showEvDetail(idx);
     else openLessonFromJournal(lessonId,idx);
@@ -7371,8 +7372,11 @@ function renderJournal(){
     const isEvt=j.type==='event';
     const isLsn=j.type==='lesson'&&j.lessonId;
     const jIdx=S.journal.indexOf(j);
-    const dblclick=isEvt?`onclick="_jTap('ev${idx}','ev',${idx})" style="cursor:pointer" title="${_T('jDblClick')}"`
-      :isLsn?`onclick="_jTap('ls${jIdx}','ls',${jIdx},'${j.lessonId}')" style="cursor:pointer" title="${_T('jDblClickLesson')}"` :'';
+    const dblclick=isEvt
+      ?`onclick="_jTap('ev${idx}','ev',${idx},null,event)" ontouchend="_jTap('ev${idx}','ev',${idx},null,event)" style="cursor:pointer" title="${_T('jDblClick')}"`
+      :isLsn
+      ?`onclick="_jTap('ls${jIdx}','ls',${jIdx},'${j.lessonId}',event)" ontouchend="_jTap('ls${jIdx}','ls',${jIdx},'${j.lessonId}',event)" style="cursor:pointer" title="${_T('jDblClickLesson')}"`
+      :'';
     const displayAsset=_jDisplayAsset(j);
     const displayNote=_jDisplayNote(j);
     return sep+`<div class="j-entry j-${j.type}" ${dblclick}>
