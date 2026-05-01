@@ -736,16 +736,16 @@ table.assets th.clickable:hover{color:var(--y);}
 #mainChart{display:block;width:100%;height:100%;}
 #drawCanvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
 #drawCanvas.active-tool{pointer-events:all;cursor:crosshair;}
-.draw-toolbar{position:absolute;top:.45rem;right:.5rem;z-index:10;display:flex;flex-direction:column;align-items:flex-end;gap:.25rem;}
-.dtb-toggle-btn{background:rgba(13,32,51,.85);backdrop-filter:blur(6px);border:1px solid rgba(78,194,218,.2);border-radius:8px;width:2rem;height:2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.5);font-size:.95rem;transition:.15s;line-height:1;}
-.dtb-toggle-btn:hover,.draw-toolbar.open .dtb-toggle-btn{color:var(--g);border-color:rgba(78,194,218,.5);background:rgba(13,32,51,.95);}
-.dtb-panel{display:none;flex-direction:column;gap:.28rem;background:rgba(13,32,51,.88);backdrop-filter:blur(6px);border:1px solid rgba(78,194,218,.2);border-radius:9px;padding:.35rem .28rem;animation:dtbIn .15s ease;}
+.draw-toolbar{position:relative;display:flex;align-items:center;}
+.dtb-toggle-btn{background:transparent;border:1px solid var(--ln);border-radius:4px;width:1.85rem;height:1.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.45);font-size:.9rem;transition:.15s;line-height:1;margin-left:.3rem;}
+.dtb-toggle-btn:hover,.draw-toolbar.open .dtb-toggle-btn{color:var(--g);border-color:rgba(78,194,218,.45);background:rgba(78,194,218,.07);}
+.dtb-panel{position:absolute;top:calc(100% + .4rem);right:0;display:none;flex-direction:row;align-items:center;gap:.2rem;background:rgba(10,22,42,.95);backdrop-filter:blur(8px);border:1px solid rgba(78,194,218,.2);border-radius:8px;padding:.28rem .32rem;animation:dtbIn .14s ease;z-index:20;white-space:nowrap;}
 .draw-toolbar.open .dtb-panel{display:flex;}
-@keyframes dtbIn{from{opacity:0;transform:translateY(-5px);}to{opacity:1;transform:none;}}
-.dtb{background:none;border:none;width:2rem;height:2rem;border-radius:6px;cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.45);transition:.15s;line-height:1;font-family:monospace;}
+@keyframes dtbIn{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:none;}}
+.dtb{background:none;border:none;width:1.85rem;height:1.85rem;border-radius:5px;cursor:pointer;font-size:.82rem;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.45);transition:.15s;line-height:1;font-family:monospace;}
 .dtb:hover{background:rgba(78,194,218,.12);color:#fff;}
 .dtb.on{background:rgba(78,194,218,.2);color:var(--g);border:1px solid rgba(78,194,218,.35);}
-.dtb-sep{height:1px;background:rgba(255,255,255,.08);margin:.05rem .15rem;}
+.dtb-sep{width:1px;height:1.2rem;background:rgba(255,255,255,.12);margin:0 .1rem;}
 
 /* EVENT BANNER */
 .ev-banner{
@@ -1833,28 +1833,30 @@ table.assets th.clickable:hover{color:var(--y);}
               <div class="ch-chg" id="chChg">—</div>
               <div class="ch-pnl-day" id="chPnlDay"></div>
             </div>
-            <div class="ch-tfs">
-              <button class="tf active" onclick="setTF(this,'1J')">1J</button>
-              <button class="tf" onclick="setTF(this,'1S')">1S</button>
-              <button class="tf" onclick="setTF(this,'1M')">1M</button>
+            <div style="display:flex;align-items:center;gap:.35rem;">
+              <div class="ch-tfs">
+                <button class="tf active" onclick="setTF(this,'1J')">1J</button>
+                <button class="tf" onclick="setTF(this,'1S')">1S</button>
+                <button class="tf" onclick="setTF(this,'1M')">1M</button>
+              </div>
+              <div class="draw-toolbar" id="drawToolbar">
+                <button class="dtb-toggle-btn" id="dtbToggle" onclick="toggleDrawToolbar()" title="Outils de dessin">✏</button>
+                <div class="dtb-panel" id="dtbPanel">
+                  <button class="dtb on" id="dtb_none" onclick="setDrawTool('none')" title="Curseur">↖</button>
+                  <div class="dtb-sep"></div>
+                  <button class="dtb" id="dtb_hline" onclick="setDrawTool('hline')" title="Ligne horizontale">─</button>
+                  <button class="dtb" id="dtb_tline" onclick="setDrawTool('tline')" title="Tendance">╱</button>
+                  <button class="dtb" id="dtb_ray" onclick="setDrawTool('ray')" title="Rayon">→</button>
+                  <div class="dtb-sep"></div>
+                  <button class="dtb" id="dtb_erase" onclick="setDrawTool('erase')" title="Effacer">✕</button>
+                  <button class="dtb" onclick="_clearAllDrawings();el('drawToolbar').classList.remove('open')" title="Tout effacer" style="font-size:.7rem">🗑</button>
+                </div>
+              </div>
             </div>
           </div>
           <div class="chart-wrap">
   <canvas id="mainChart" style="display:block;width:100%;height:100%;"></canvas>
   <canvas id="drawCanvas"></canvas>
-  <div class="draw-toolbar" id="drawToolbar">
-    <button class="dtb-toggle-btn" id="dtbToggle" onclick="toggleDrawToolbar()" title="Outils de dessin">✏</button>
-    <div class="dtb-panel" id="dtbPanel">
-      <button class="dtb on" id="dtb_none" onclick="setDrawTool('none')" title="Curseur">↖</button>
-      <div class="dtb-sep"></div>
-      <button class="dtb" id="dtb_hline" onclick="setDrawTool('hline')" title="Ligne horizontale">─</button>
-      <button class="dtb" id="dtb_tline" onclick="setDrawTool('tline')" title="Tendance">╱</button>
-      <button class="dtb" id="dtb_ray" onclick="setDrawTool('ray')" title="Rayon">→</button>
-      <div class="dtb-sep"></div>
-      <button class="dtb" id="dtb_erase" onclick="setDrawTool('erase')" title="Effacer">✕</button>
-      <button class="dtb" onclick="_clearAllDrawings();el('drawToolbar').classList.remove('open')" title="Tout effacer" style="font-size:.7rem">🗑</button>
-    </div>
-  </div>
 </div>
         </div>
         <div id="etItems" style="display:none"></div>
