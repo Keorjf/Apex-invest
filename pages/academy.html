@@ -734,6 +734,13 @@ table.assets th.clickable:hover{color:var(--y);}
 .tf.active{background:var(--gd);border-color:rgba(255,205,13,.3);color:var(--g);}
 .chart-wrap{flex:1;position:relative;background:var(--bg1);border:1px solid var(--ln);border-radius:7px;overflow:hidden;}
 #mainChart{display:block;width:100%;height:100%;}
+#drawCanvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
+#drawCanvas.active-tool{pointer-events:all;cursor:crosshair;}
+.draw-toolbar{position:absolute;top:.45rem;right:.5rem;display:flex;flex-direction:column;gap:.28rem;z-index:10;background:rgba(13,32,51,.85);backdrop-filter:blur(6px);border:1px solid rgba(78,194,218,.2);border-radius:9px;padding:.35rem .28rem;}
+.dtb{background:none;border:none;width:2rem;height:2rem;border-radius:6px;cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.45);transition:.15s;line-height:1;font-family:monospace;}
+.dtb:hover{background:rgba(78,194,218,.12);color:#fff;}
+.dtb.on{background:rgba(78,194,218,.2);color:var(--g);border:1px solid rgba(78,194,218,.35);}
+.dtb-sep{height:1px;background:rgba(255,255,255,.08);margin:.05rem .15rem;}
 
 /* EVENT BANNER */
 .ev-banner{
@@ -1828,8 +1835,19 @@ table.assets th.clickable:hover{color:var(--y);}
             </div>
           </div>
           <div class="chart-wrap">
-            <canvas id="mainChart" onclick="showPriceContext()" ontouchstart="showPriceContext()" style="cursor:crosshair"></canvas>
-          </div>
+  <canvas id="mainChart" style="display:block;width:100%;height:100%;"></canvas>
+  <canvas id="drawCanvas"></canvas>
+  <div class="draw-toolbar" id="drawToolbar">
+    <button class="dtb on" id="dtb_none" onclick="setDrawTool('none')" title="Select">↖</button>
+    <div class="dtb-sep"></div>
+    <button class="dtb" id="dtb_hline" onclick="setDrawTool('hline')" title="Horizontal line">─</button>
+    <button class="dtb" id="dtb_tline" onclick="setDrawTool('tline')" title="Trend line">╱</button>
+    <button class="dtb" id="dtb_ray" onclick="setDrawTool('ray')" title="Ray">→</button>
+    <div class="dtb-sep"></div>
+    <button class="dtb" id="dtb_erase" onclick="setDrawTool('erase')" title="Erase">✕</button>
+    <button class="dtb" onclick="_clearAllDrawings()" title="Clear all" style="font-size:.7rem">🗑</button>
+  </div>
+</div>
         </div>
         <div id="etItems" style="display:none"></div>
       </div>
@@ -4514,7 +4532,7 @@ let S = {
   positions:{}, limitOrders:[],
   selectedAsset:'msci', orderSide:'buy', limitMode:false,
   currentTF:'1J', lastEvent:null,
-  diagDone:false, diagProfile:null, diagAnswers:{}, diagStep:0,
+  diagDone:false, diagProfile:null, diagAnswers:{}, diagStep:0, drawings:{},
   journal:[], missions:{}, streak:0, lastPlay:null, loginDates:[],
   survivedCrash:false, totalLessons:0, totalBuys:0,
   crisisSurvived:0, limitExecuted:0, limitPlaced:0, debriefRead:0,
@@ -5681,6 +5699,171 @@ function drawSparkline(cid,data){
 }
 
 /* ══ MAIN CHART ══ */
+/* ══ CHART DRAWING TOOLS ══ */
+let _drawTool='none';
+let _drawColors=['#4EC2DA','#FFCD0D','#FF3B5C','#A78BFA','#76FF03','#FF9800'];
+let _drawColorIdx=0;
+let _drawDrag=null; // {startX,startY,curX,curY}
+
+function setDrawTool(tool){
+  _drawTool=tool;
+  document.querySelectorAll('.dtb[id^="dtb_"]').forEach(b=>b.classList.remove('on'));
+  const btn=el('dtb_'+tool);if(btn)btn.classList.add('on');
+  const dc=el('drawCanvas');if(!dc)return;
+  dc.classList.toggle('active-tool',tool!=='none');
+}
+
+function _drawingsForAsset(){
+  if(!S.drawings)S.drawings={};
+  if(!S.drawings[S.selectedAsset])S.drawings[S.selectedAsset]=[];
+  return S.drawings[S.selectedAsset];
+}
+
+function _clearAllDrawings(){
+  if(S.drawings)S.drawings[S.selectedAsset]=[];
+  _redrawAnnotations();saveState();
+}
+
+function _chartLayout(){
+  const canvas=el('mainChart');if(!canvas)return null;
+  const dpr=window.devicePixelRatio||1;
+  const W=canvas.offsetWidth||600,H=canvas.offsetHeight||220;
+  const hist=S.history[S.selectedAsset]||[];
+  const data=S.currentTF==='1J'?hist.slice(-80):S.currentTF==='1S'?hist.slice(-160):hist;
+  if(data.length<2)return null;
+  const min=Math.min(...data)*0.999,max=Math.max(...data)*1.001,range=max-min||1;
+  const pad={t:20,b:36,l:68,r:16};
+  const iW=W-pad.l-pad.r,iH=H-pad.t-pad.b;
+  return {W,H,pad,iW,iH,min,max,range,dpr};
+}
+
+function _priceToY(price,l){return l.pad.t+(1-(price-l.min)/l.range)*l.iH;}
+function _yToPrice(y,l){return l.max-(y-l.pad.t)/l.iH*l.range;}
+function _xFracToX(f,l){return l.pad.l+f*l.iW;}
+function _xToFrac(x,l){return Math.max(0,Math.min(1,(x-l.pad.l)/l.iW));}
+
+function _redrawAnnotations(){
+  const dc=el('drawCanvas');if(!dc)return;
+  const l=_chartLayout();if(!l)return;
+  const dpr=l.dpr;
+  dc.width=l.W*dpr;dc.height=l.H*dpr;
+  const ctx=dc.getContext('2d');ctx.scale(dpr,dpr);
+  ctx.clearRect(0,0,l.W,l.H);
+  const drawings=_drawingsForAsset();
+  drawings.forEach(d=>{
+    ctx.save();
+    ctx.strokeStyle=d.color||'#4EC2DA';
+    ctx.lineWidth=1.5;
+    ctx.setLineDash([]);
+    if(d.type==='hline'){
+      const y=_priceToY(d.price,l);
+      ctx.beginPath();ctx.moveTo(l.pad.l,y);ctx.lineTo(l.W-l.pad.r,y);ctx.stroke();
+      ctx.fillStyle=d.color||'#4EC2DA';
+      ctx.font="9px 'JetBrains Mono',monospace";ctx.textAlign='right';
+      ctx.fillText(fmtP(d.price),l.pad.l-4,y-3);
+    } else if(d.type==='tline'||d.type==='ray'){
+      const x1=_xFracToX(d.p1.xFrac,l),y1=_priceToY(d.p1.price,l);
+      const x2=_xFracToX(d.p2.xFrac,l),y2=_priceToY(d.p2.price,l);
+      let ex2=x2,ey2=y2;
+      if(d.type==='ray'&&x2!==x1){
+        const slope=(y2-y1)/(x2-x1);
+        ex2=l.W-l.pad.r;ey2=y1+slope*(ex2-x1);
+      }
+      ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(ex2,ey2);ctx.stroke();
+      ctx.beginPath();ctx.arc(x1,y1,3,0,Math.PI*2);ctx.fillStyle=d.color;ctx.fill();
+    }
+    ctx.restore();
+  });
+  // draw in-progress drag
+  if(_drawDrag&&_drawTool!=='none'&&_drawTool!=='erase'){
+    const l2=_chartLayout();if(!l2)return;
+    ctx.save();ctx.strokeStyle='rgba(78,194,218,.7)';ctx.lineWidth=1.5;ctx.setLineDash([4,3]);
+    if(_drawTool==='hline'){
+      const y=_drawDrag.curY;ctx.beginPath();ctx.moveTo(l2.pad.l,y);ctx.lineTo(l2.W-l2.pad.r,y);ctx.stroke();
+    } else {
+      ctx.beginPath();ctx.moveTo(_drawDrag.startX,_drawDrag.startY);ctx.lineTo(_drawDrag.curX,_drawDrag.curY);ctx.stroke();
+    }
+    ctx.restore();
+  }
+}
+
+function _dcMousePos(e,dc){
+  const r=dc.getBoundingClientRect();
+  const cx=e.touches?e.touches[0].clientX:e.clientX;
+  const cy=e.touches?e.touches[0].clientY:e.clientY;
+  return {x:cx-r.left,y:cy-r.top};
+}
+
+function _initDrawCanvas(){
+  const dc=el('drawCanvas');if(!dc||dc._drawInit)return;
+  dc._drawInit=true;
+
+  function onDown(e){
+    if(_drawTool==='none')return;
+    e.preventDefault();e.stopPropagation();
+    const pos=_dcMousePos(e,dc);
+    if(_drawTool==='erase'){
+      _eraseNear(pos.x,pos.y);return;
+    }
+    _drawDrag={startX:pos.x,startY:pos.y,curX:pos.x,curY:pos.y};
+  }
+  function onMove(e){
+    if(!_drawDrag)return;
+    e.preventDefault();
+    const pos=_dcMousePos(e,dc);
+    _drawDrag.curX=pos.x;_drawDrag.curY=pos.y;
+    _redrawAnnotations();
+  }
+  function onUp(e){
+    if(!_drawDrag)return;
+    const l=_chartLayout();
+    if(l){
+      const color=_drawColors[_drawColorIdx%_drawColors.length];
+      const drawings=_drawingsForAsset();
+      if(_drawTool==='hline'){
+        drawings.push({type:'hline',price:_yToPrice(_drawDrag.startY,l),color});
+        _drawColorIdx++;
+      } else if(_drawTool==='tline'||_drawTool==='ray'){
+        const dx=Math.abs(_drawDrag.curX-_drawDrag.startX),dy=Math.abs(_drawDrag.curY-_drawDrag.startY);
+        if(dx>5||dy>5){
+          drawings.push({type:_drawTool,
+            p1:{xFrac:_xToFrac(_drawDrag.startX,l),price:_yToPrice(_drawDrag.startY,l)},
+            p2:{xFrac:_xToFrac(_drawDrag.curX,l),price:_yToPrice(_drawDrag.curY,l)},
+            color});
+          _drawColorIdx++;
+        }
+      }
+      saveState();
+    }
+    _drawDrag=null;
+    _redrawAnnotations();
+  }
+  dc.addEventListener('mousedown',onDown);
+  dc.addEventListener('mousemove',onMove);
+  dc.addEventListener('mouseup',onUp);
+  dc.addEventListener('touchstart',onDown,{passive:false});
+  dc.addEventListener('touchmove',onMove,{passive:false});
+  dc.addEventListener('touchend',onUp);
+}
+
+function _eraseNear(px,py){
+  const l=_chartLayout();if(!l)return;
+  const drawings=_drawingsForAsset();
+  const THRESH=12;
+  const idx=drawings.findIndex(d=>{
+    if(d.type==='hline'){return Math.abs(_priceToY(d.price,l)-py)<THRESH;}
+    if(d.type==='tline'||d.type==='ray'){
+      const x1=_xFracToX(d.p1.xFrac,l),y1=_priceToY(d.p1.price,l);
+      const x2=_xFracToX(d.p2.xFrac,l),y2=_priceToY(d.p2.price,l);
+      const len2=(x2-x1)**2+(y2-y1)**2||1;
+      const t=Math.max(0,Math.min(1,((px-x1)*(x2-x1)+(py-y1)*(y2-y1))/len2));
+      return Math.hypot(px-(x1+t*(x2-x1)),py-(y1+t*(y2-y1)))<THRESH;
+    }
+    return false;
+  });
+  if(idx!==-1){drawings.splice(idx,1);_redrawAnnotations();saveState();}
+}
+
 function drawMainChart(){
   const a=ASSETS.find(x=>x.id===S.selectedAsset);if(!a)return;
   const canvas=el('mainChart');if(!canvas)return;
@@ -5744,6 +5927,8 @@ function drawMainChart(){
   ctx.fillStyle=color;ctx.fill();ctx.restore();
   ctx.beginPath();ctx.arc(last.x,last.y,4.5,0,Math.PI*2);
   ctx.strokeStyle='rgba(0,0,0,0.5)';ctx.lineWidth=1.5;ctx.stroke();
+  _initDrawCanvas();
+  _redrawAnnotations();
 }
 function setTF(btn,tf){
   document.querySelectorAll('.tf').forEach(b=>b.classList.remove('active'));
@@ -5783,7 +5968,7 @@ function selectAsset(id){
   const nm=el('oaiNm'),pr=el('oaiPr');
   if(nm)nm.textContent=a.emoji+' '+a.name;
   if(pr)pr.textContent=fmtP(S.prices[id]);
-  updateOrderSummary();updateChartHeader();updateOpPosition();
+  updateOrderSummary();updateChartHeader();updateOpPosition();_redrawAnnotations();
 }
 function closeInfoToast(){
   const t=document.getElementById('infoToast');
