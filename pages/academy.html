@@ -4688,7 +4688,6 @@ function boot(level){
   setTimeout(closeMb, 100);
   buildMarketTable();selectAsset('msci');
   startMarketSim();startClock();renderMissions();renderLimitQueue();initFabDrag();
-  if(S.diagDone&&S.diagProfile)showAllocPanel();
   localStorage.setItem('prec_migration_v2','done');
   // Migration v3 : initialiser enveloppes depuis S.precaution
   if(!localStorage.getItem('env_migration_v1')){
