@@ -399,20 +399,29 @@ input{font-family:'JetBrains Mono','Courier New',monospace;}
 .hl-y{background:rgba(255,205,13,.35);color:inherit;}
 .hl-g{background:rgba(118,255,3,.25);color:inherit;}
 .hl-p{background:rgba(255,59,92,.25);color:inherit;}
-.hl-toolbar{display:flex;align-items:center;gap:.4rem;background:var(--bg1);border:1px solid var(--ln2);border-radius:100px;padding:.3rem .6rem;margin-bottom:1rem;width:fit-content;}
+.hl-bold{font-weight:700;}
+.hl-under{text-decoration:underline;}
+.hl-wrap{position:relative;display:inline-block;margin-bottom:.85rem;}
+.hl-toggle-btn{background:transparent;border:1px solid var(--ln);border-radius:6px;width:1.8rem;height:1.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.45);font-size:.95rem;transition:.15s;}
+.hl-toggle-btn:hover,.hl-wrap.open .hl-toggle-btn{color:var(--g);border-color:rgba(78,194,218,.4);background:rgba(78,194,218,.07);}
+.hl-panel{position:absolute;top:calc(100% + .35rem);left:0;display:none;align-items:center;gap:.28rem;background:rgba(8,18,36,.97);backdrop-filter:blur(10px);border:1px solid rgba(78,194,218,.18);border-radius:9px;padding:.3rem .5rem;z-index:50;box-shadow:0 8px 24px rgba(0,0,0,.4);animation:dtbIn .13s ease;white-space:nowrap;}
+.hl-wrap.open .hl-panel{display:flex;}
 .hl-dot{width:16px;height:16px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .18s;flex-shrink:0;}
 .hl-dot:hover{transform:scale(1.15);}
 .hl-dot.active{border-color:rgba(255,255,255,.7);box-shadow:0 0 0 2px rgba(255,255,255,.2);}
 .hl-dot-y{background:rgba(255,205,13,.8);}
 .hl-dot-g{background:rgba(118,255,3,.7);}
 .hl-dot-p{background:rgba(255,59,92,.7);}
+.hl-fmt-btn{background:none;border:1px solid var(--ln2);border-radius:5px;width:1.55rem;height:1.55rem;cursor:pointer;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.55);font-size:.8rem;font-weight:700;transition:.15s;font-family:Georgia,serif;}
+.hl-fmt-btn:hover{background:rgba(78,194,218,.1);color:#fff;border-color:rgba(78,194,218,.3);}
+.hl-fmt-btn.active{background:rgba(78,194,218,.2);color:var(--g);border-color:rgba(78,194,218,.4);}
 .hl-erase{background:none;border:1px solid var(--ln2);border-radius:5px;font-size:.7rem;padding:.1rem .4rem;cursor:pointer;color:var(--muted);transition:all .18s;line-height:1.4;}
 .hl-erase:hover,.hl-erase.active{border-color:rgba(255,59,92,.5);color:var(--r);}
 .hl-sep{width:1px;height:14px;background:var(--ln2);margin:0 .15rem;}
-.lsn-blocks{cursor:text;}
-.lsn-blocks.hl-mode-y,.lsn-blocks.hl-mode-g,.lsn-blocks.hl-mode-p{cursor:text;}
-.lsn-blocks.hl-erase-mode .hl{cursor:pointer;}
-.lsn-blocks.hl-erase-mode .hl:hover{opacity:.6;text-decoration:line-through;}
+.lsn-blocks,.quiz-q{cursor:text;}
+.lsn-blocks.hl-erase-mode .hl,.lsn-blocks.hl-erase-mode strong,.lsn-blocks.hl-erase-mode u,
+.quiz-q.hl-erase-mode .hl,.quiz-q.hl-erase-mode strong,.quiz-q.hl-erase-mode u{cursor:pointer;}
+.lsn-blocks.hl-erase-mode .hl:hover,.quiz-q.hl-erase-mode .hl:hover{opacity:.6;text-decoration:line-through;}
 
 /* QUIZ */
 .quiz-card{background:var(--bg2);border:1px solid rgba(255,205,13,.2);border-radius:9px;overflow:visible;margin-top:1.4rem;position:relative;}
@@ -5470,13 +5479,18 @@ function openLesson(id){
       <div class="lh-meta">
         ${doneAlready?`<span style="color:var(--g)">${_T('lessonAlreadyDone')}</span>`:''}
       </div>
-      <div class="hl-toolbar" id="hlToolbar">
-        <span style="font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding-right:.2rem">Surligner</span>
-        <div class="hl-dot hl-dot-y" title="Jaune" onclick="setHlColor('y')"></div>
-        <div class="hl-dot hl-dot-g" title="Vert" onclick="setHlColor('g')"></div>
-        <div class="hl-dot hl-dot-p" title="Rose" onclick="setHlColor('p')"></div>
-        <div class="hl-sep"></div>
-        <button class="hl-erase" id="hlEraseBtn" onclick="toggleHlErase()" title="Effacer">✕</button>
+      <div class="hl-wrap" id="hlWrap">
+        <button class="hl-toggle-btn" onclick="toggleHlPanel()" title="Annoter">🖊</button>
+        <div class="hl-panel" id="hlToolbar">
+          <div class="hl-dot hl-dot-y" title="Surligner jaune" onclick="setHlColor('y')"></div>
+          <div class="hl-dot hl-dot-g" title="Surligner vert" onclick="setHlColor('g')"></div>
+          <div class="hl-dot hl-dot-p" title="Surligner rose" onclick="setHlColor('p')"></div>
+          <div class="hl-sep"></div>
+          <button class="hl-fmt-btn" id="hlBoldBtn" onclick="setHlFormat('bold')" title="Gras">B</button>
+          <button class="hl-fmt-btn" id="hlUnderBtn" onclick="setHlFormat('under')" title="Souligné"><u>U</u></button>
+          <div class="hl-sep"></div>
+          <button class="hl-erase" id="hlEraseBtn" onclick="toggleHlErase()" title="Effacer">✕</button>
+        </div>
       </div>
       <div class="lsn-blocks" id="lsnBlocks" onmouseup="onLsnMouseUp(event,'${lesson.id}')">${blocks}</div>
       <div class="quiz-card">
@@ -5512,7 +5526,7 @@ function openLesson(id){
             <button class="qc-btn eq" onclick="qcInput('=')">=</button>
           </div>
         </div>
-        <div class="quiz-q">${q.q}</div>
+        <div class="quiz-q" id="quizQ" onmouseup="onLsnMouseUp(event,'${lesson.id}')">${q.q}</div>
         <div class="quiz-opts">
           ${q.opts.map((o,i)=>`<button class="qo" id="qo${i}" onclick="answerQuiz(${i},${q.correct})" style="color:#fff;-webkit-text-fill-color:#fff">
             <span class="qo-k">${'ABCD'[i]}</span><span style="color:#fff;-webkit-text-fill-color:#fff;opacity:1">${o}</span>
@@ -5533,76 +5547,91 @@ function openLesson(id){
     </div>`;
   _applyHighlights(lesson.id);
   window._hlColor=window._hlColor||null;
+  window._hlFormat=window._hlFormat||null;
   window._hlErase=false;
   _syncHlToolbar();
+}
+
+function toggleHlPanel(){
+  const w=el('hlWrap');if(w)w.classList.toggle('open');
 }
 
 function _syncHlToolbar(){
   document.querySelectorAll('.hl-dot').forEach(d=>{
     const c=d.classList.contains('hl-dot-y')?'y':d.classList.contains('hl-dot-g')?'g':'p';
-    d.classList.toggle('active',window._hlColor===c&&!window._hlErase);
+    d.classList.toggle('active',window._hlColor===c&&!window._hlErase&&!window._hlFormat);
   });
   const eb=el('hlEraseBtn');if(eb)eb.classList.toggle('active',!!window._hlErase);
-  const blk=el('lsnBlocks');if(!blk)return;
-  blk.classList.remove('hl-mode-y','hl-mode-g','hl-mode-p','hl-erase-mode');
-  if(window._hlErase)blk.classList.add('hl-erase-mode');
-  else if(window._hlColor)blk.classList.add('hl-mode-'+window._hlColor);
+  const bb=el('hlBoldBtn');if(bb)bb.classList.toggle('active',window._hlFormat==='bold');
+  const ub=el('hlUnderBtn');if(ub)ub.classList.toggle('active',window._hlFormat==='under');
+  [el('lsnBlocks'),el('quizQ')].filter(Boolean).forEach(blk=>{
+    blk.classList.remove('hl-erase-mode');
+    if(window._hlErase)blk.classList.add('hl-erase-mode');
+  });
 }
 
 function setHlColor(c){
-  window._hlErase=false;
+  window._hlErase=false;window._hlFormat=null;
   window._hlColor=(window._hlColor===c)?null:c;
+  _syncHlToolbar();
+}
+
+function setHlFormat(fmt){
+  window._hlErase=false;window._hlColor=null;
+  window._hlFormat=(window._hlFormat===fmt)?null:fmt;
   _syncHlToolbar();
 }
 
 function toggleHlErase(){
   window._hlErase=!window._hlErase;
-  if(window._hlErase)window._hlColor=null;
+  if(window._hlErase){window._hlColor=null;window._hlFormat=null;}
   _syncHlToolbar();
 }
 
 function onLsnMouseUp(e,lessonId){
-  const blk=el('lsnBlocks');if(!blk)return;
-  // Erase mode: clicking a highlight span removes it
+  const containers=[el('lsnBlocks'),el('quizQ')].filter(Boolean);
   if(window._hlErase){
     const t=e.target;
-    if(t&&t.classList&&t.classList.contains('hl')){
+    if(t&&(t.classList?.contains('hl')||t.tagName==='STRONG'||t.tagName==='U'))
       _removeHighlight(t,lessonId);
-    }
     return;
   }
-  if(!window._hlColor)return;
+  if(!window._hlColor&&!window._hlFormat)return;
   const sel=window.getSelection();
   if(!sel||sel.isCollapsed||!sel.rangeCount)return;
   const range=sel.getRangeAt(0);
-  // Only highlight within the lesson blocks container
-  if(!blk.contains(range.commonAncestorContainer))return;
+  const container=containers.find(c=>c.contains(range.commonAncestorContainer));
+  if(!container)return;
   const selectedText=sel.toString().trim();
   if(!selectedText)return;
-  // Get context (20 chars before selection start) for disambiguation
   let contextBefore='';
   try{
     const preRange=range.cloneRange();
     preRange.collapse(true);
-    preRange.setStart(blk,0);
+    preRange.setStart(container,0);
     contextBefore=(preRange.toString()||'').slice(-20);
   }catch(err){}
   try{
-    const span=document.createElement('span');
-    span.className='hl hl-'+window._hlColor;
-    range.surroundContents(span);
-    // Attach remove handler
-    span.addEventListener('click',function(){
-      if(window._hlErase)_removeHighlight(span,lessonId);
-    });
+    let node;
+    if(window._hlColor){
+      node=document.createElement('span');
+      node.className='hl hl-'+window._hlColor;
+    } else if(window._hlFormat==='bold'){
+      node=document.createElement('strong');
+    } else if(window._hlFormat==='under'){
+      node=document.createElement('u');
+    }
+    if(!node)return;
+    range.surroundContents(node);
+    node.addEventListener('click',()=>{if(window._hlErase)_removeHighlight(node,lessonId);});
     sel.removeAllRanges();
-    // Save highlight
     if(!S.highlights[lessonId])S.highlights[lessonId]=[];
-    S.highlights[lessonId].push({text:selectedText,color:window._hlColor,ctx:contextBefore});
+    const entry={text:selectedText,ctx:contextBefore};
+    if(window._hlColor)entry.color=window._hlColor;
+    else entry.fmt=window._hlFormat;
+    S.highlights[lessonId].push(entry);
     saveState();
-  }catch(err){
-    sel.removeAllRanges();
-  }
+  }catch(err){sel.removeAllRanges();}
 }
 
 function _removeHighlight(span,lessonId){
@@ -5625,7 +5654,7 @@ function _applyHighlights(lessonId){
   const blk=el('lsnBlocks');if(!blk)return;
   const list=(S.highlights[lessonId]||[]).slice(); // copy to avoid mutation issues
   list.forEach(h=>{
-    _applyOneHighlight(blk,h.text,h.color,h.ctx||'');
+    _applyOneHighlight(blk,h.text,h.color||null,h.ctx||'',h.fmt||null);
   });
   // Attach erase click handlers to all hl spans
   blk.querySelectorAll('.hl').forEach(span=>{
@@ -5635,30 +5664,26 @@ function _applyHighlights(lessonId){
   });
 }
 
-function _applyOneHighlight(container,text,color,ctx){
+function _applyOneHighlight(container,text,color,ctx,fmt){
   if(!text)return;
   const walker=document.createTreeWalker(container,NodeFilter.SHOW_TEXT,null,false);
   let node;
   while((node=walker.nextNode())){
     const val=node.nodeValue;
-    // Try context-aware match first
     let idx=-1;
-    if(ctx){
-      const combined=ctx+text;
-      const ci=val.indexOf(combined);
-      if(ci!==-1){idx=ci+ctx.length;}
-    }
+    if(ctx){const ci=val.indexOf(ctx+text);if(ci!==-1)idx=ci+ctx.length;}
     if(idx===-1)idx=val.indexOf(text);
     if(idx===-1)continue;
     try{
       const range=document.createRange();
-      range.setStart(node,idx);
-      range.setEnd(node,idx+text.length);
-      const span=document.createElement('span');
-      span.className='hl hl-'+color;
-      range.surroundContents(span);
+      range.setStart(node,idx);range.setEnd(node,idx+text.length);
+      let el2;
+      if(color){el2=document.createElement('span');el2.className='hl hl-'+color;}
+      else if(fmt==='bold'){el2=document.createElement('strong');}
+      else if(fmt==='under'){el2=document.createElement('u');}
+      if(el2)range.surroundContents(el2);
     }catch(err){}
-    break; // only apply once per saved entry
+    break;
   }
 }
 
