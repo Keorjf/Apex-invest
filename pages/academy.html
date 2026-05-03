@@ -2009,9 +2009,10 @@ table.assets th.clickable:hover{color:var(--y);}
   <!-- ORDER MODAL -->
   <div class="port-modal-ov" id="orderModalOv" onclick="if(event.target===this)closeOrderModal()">
     <div class="port-modal" style="max-width:420px;padding:0;overflow:hidden;border-color:rgba(78,194,218,.25);">
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.2rem;border-bottom:1px solid var(--ln2);">
-        <span style="font-family:'Bungee';font-size:.85rem;letter-spacing:.08em;color:var(--y)" data-i18n="orderPlaceOrder">Passer un ordre</span>
-        <button class="pm-close" style="position:static" onclick="closeOrderModal()">✕</button>
+      <div style="display:flex;align-items:center;gap:.5rem;padding:.7rem .9rem;border-bottom:1px solid var(--ln2);">
+        <button class="ot-btn active" id="otMkt" onclick="setOrderType('market')" style="flex:1;padding:.5rem;font-size:.72rem;border-radius:7px" data-i18n="orderMarket">Au marché</button>
+        <button class="ot-btn"        id="otLmt" onclick="setOrderType('limit')"  style="flex:1;padding:.5rem;font-size:.72rem;border-radius:7px" data-i18n="orderLimit">Ordre limite</button>
+        <button class="pm-close" style="position:static;flex-shrink:0" onclick="closeOrderModal()">✕</button>
       </div>
       <div style="overflow-y:auto;max-height:78vh;">
         <div class="order-panel" style="border:none;background:transparent;border-left:none;">
@@ -2039,10 +2040,6 @@ table.assets th.clickable:hover{color:var(--y);}
               <button class="qpct" onclick="setPct(50)">50%</button>
               <button class="qpct" onclick="setPct(75)">75%</button>
               <button class="qpct" onclick="setPct(100)">MAX</button>
-            </div>
-            <div class="order-type-row">
-              <button class="ot-btn active" id="otMkt" onclick="setOrderType('market')" data-i18n="orderMarket">Au marché</button>
-              <button class="ot-btn"        id="otLmt" onclick="setOrderType('limit')" data-i18n="orderLimit">Ordre limite</button>
             </div>
             <div class="limit-price-row" id="limitPriceRow">
               <div class="of-lbl" data-i18n="orderLimitPrice">Prix limite cible</div>
