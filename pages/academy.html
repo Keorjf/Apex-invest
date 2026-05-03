@@ -2727,35 +2727,45 @@ const _FR_EV_TITLE_MAP=(()=>{const m={};EVENTS.forEach(e=>{m[e.title]=e.id;m[_st
    DIAGNOSTIC PROFILES
 ═══════════════════════════════════ */
 const DIAG_Q=[
-  {id:'age',cat:'Profil',emoji:'🧬',text:'Quel est ton âge ?',hint:'',opts:[
-    {k:'A',l:'18–25 ans',d:'',sc:{r:3,h:4,k:0}},
-    {k:'B',l:'26–35 ans',d:'',sc:{r:2,h:3,k:0}},
-    {k:'C',l:'36–50 ans',d:'',sc:{r:1,h:2,k:0}},
-    {k:'D',l:'51 ans et +',d:'',sc:{r:0,h:1,k:0}}
+  {id:'age',cat:'Profil',emoji:'🧬',text:'Quel est ton âge ?',hint:'',
+    i18n:{en:{cat:'Profile',text:'How old are you?',opts:['18–25 years','26–35 years','36–50 years','51 years and over']},es:{cat:'Perfil',text:'¿Cuántos años tienes?',opts:['18–25 años','26–35 años','36–50 años','51 años o más']}},
+    opts:[
+      {k:'A',l:'18–25 ans',d:'',sc:{r:3,h:4,k:0}},
+      {k:'B',l:'26–35 ans',d:'',sc:{r:2,h:3,k:0}},
+      {k:'C',l:'36–50 ans',d:'',sc:{r:1,h:2,k:0}},
+      {k:'D',l:'51 ans et +',d:'',sc:{r:0,h:1,k:0}}
   ]},
-  {id:'obj',cat:'Objectifs',emoji:'🎯',text:'Ton objectif principal ?',hint:'',opts:[
-    {k:'A',l:'Patrimoine long terme',d:'',sc:{r:3,h:3,k:0}},
-    {k:'B',l:'Préparer la retraite',d:'',sc:{r:2,h:2,k:0}},
-    {k:'C',l:'Revenus passifs',d:'',sc:{r:1,h:1,k:1}},
-    {k:'D',l:'Protéger de l\'inflation',d:'',sc:{r:0,h:1,k:0}}
+  {id:'obj',cat:'Objectifs',emoji:'🎯',text:'Ton objectif principal ?',hint:'',
+    i18n:{en:{cat:'Goals',text:'Your main goal?',opts:['Long-term wealth','Retirement planning','Passive income','Inflation hedge']},es:{cat:'Objetivos',text:'¿Tu objetivo principal?',opts:['Patrimonio a largo plazo','Preparar la jubilación','Rentas pasivas','Proteger de la inflación']}},
+    opts:[
+      {k:'A',l:'Patrimoine long terme',d:'',sc:{r:3,h:3,k:0}},
+      {k:'B',l:'Préparer la retraite',d:'',sc:{r:2,h:2,k:0}},
+      {k:'C',l:'Revenus passifs',d:'',sc:{r:1,h:1,k:1}},
+      {k:'D',l:'Protéger de l\'inflation',d:'',sc:{r:0,h:1,k:0}}
   ]},
-  {id:'crash',cat:'Psychologie',emoji:'📉',text:'Ton portefeuille perd -50%<br><span style="display:block;margin-top:.35rem">en 2 mois</span><span style="display:block;margin-top:.35rem">Tu fais quoi ?</span>',hint:'',opts:[
-    {k:'A',l:'J\'achète davantage',d:'',sc:{r:4,h:0,k:2}},
-    {k:'B',l:'Je ne fais rien',d:'',sc:{r:3,h:0,k:1}},
-    {k:'C',l:'Je vends une partie',d:'',sc:{r:1,h:0,k:0}},
-    {k:'D',l:'Je vends tout',d:'',sc:{r:0,h:0,k:0}}
+  {id:'crash',cat:'Psychologie',emoji:'📉',text:'Ton portefeuille perd -50%<br><span style="display:block;margin-top:.35rem">en 2 mois</span><span style="display:block;margin-top:.35rem">Tu fais quoi ?</span>',hint:'',
+    i18n:{en:{cat:'Psychology',text:'Your portfolio drops -50%<br><span style="display:block;margin-top:.35rem">in 2 months</span><span style="display:block;margin-top:.35rem">What do you do?</span>',opts:['I buy more','I do nothing','I sell part','I sell everything']},es:{cat:'Psicología',text:'Tu cartera cae -50%<br><span style="display:block;margin-top:.35rem">en 2 meses</span><span style="display:block;margin-top:.35rem">¿Qué haces?</span>',opts:['Compro más','No hago nada','Vendo una parte','Lo vendo todo']}},
+    opts:[
+      {k:'A',l:'J\'achète davantage',d:'',sc:{r:4,h:0,k:2}},
+      {k:'B',l:'Je ne fais rien',d:'',sc:{r:3,h:0,k:1}},
+      {k:'C',l:'Je vends une partie',d:'',sc:{r:1,h:0,k:0}},
+      {k:'D',l:'Je vends tout',d:'',sc:{r:0,h:0,k:0}}
   ]},
-  {id:'perte',cat:'Risque',emoji:'🛡️',text:'Perte max sur 1 an que tu acceptes ?',hint:'',opts:[
-    {k:'A',l:'Plus de -25%',d:'',sc:{r:4,h:0,k:0}},
-    {k:'B',l:'-15% à -25%',d:'',sc:{r:3,h:0,k:0}},
-    {k:'C',l:'-5% à -15%',d:'',sc:{r:1,h:0,k:0}},
-    {k:'D',l:'Moins de -5%',d:'',sc:{r:0,h:0,k:0}}
+  {id:'perte',cat:'Risque',emoji:'🛡️',text:'Perte max sur 1 an que tu acceptes ?',hint:'',
+    i18n:{en:{cat:'Risk',text:'Max loss over 1 year you accept?',opts:['More than -25%','-15% to -25%','-5% to -15%','Less than -5%']},es:{cat:'Riesgo',text:'¿Pérdida máxima en 1 año que aceptas?',opts:['Más del -25%','-15% a -25%','-5% a -15%','Menos del -5%']}},
+    opts:[
+      {k:'A',l:'Plus de -25%',d:'',sc:{r:4,h:0,k:0}},
+      {k:'B',l:'-15% à -25%',d:'',sc:{r:3,h:0,k:0}},
+      {k:'C',l:'-5% à -15%',d:'',sc:{r:1,h:0,k:0}},
+      {k:'D',l:'Moins de -5%',d:'',sc:{r:0,h:0,k:0}}
   ]},
-  {id:'kn',cat:'Connaissances',emoji:'📚',text:'Ton niveau en finance ?',hint:'',opts:[
-    {k:'A',l:'Expert',d:'',sc:{r:0,h:0,k:4}},
-    {k:'B',l:'Intermédiaire',d:'',sc:{r:0,h:0,k:2}},
-    {k:'C',l:'Débutant',d:'',sc:{r:0,h:0,k:1}},
-    {k:'D',l:'Novice',d:'',sc:{r:0,h:0,k:0}}
+  {id:'kn',cat:'Connaissances',emoji:'📚',text:'Ton niveau en finance ?',hint:'',
+    i18n:{en:{cat:'Knowledge',text:'Your finance level?',opts:['Expert','Intermediate','Beginner','Novice']},es:{cat:'Conocimientos',text:'¿Tu nivel en finanzas?',opts:['Experto','Intermedio','Principiante','Novato']}},
+    opts:[
+      {k:'A',l:'Expert',d:'',sc:{r:0,h:0,k:4}},
+      {k:'B',l:'Intermédiaire',d:'',sc:{r:0,h:0,k:2}},
+      {k:'C',l:'Débutant',d:'',sc:{r:0,h:0,k:1}},
+      {k:'D',l:'Novice',d:'',sc:{r:0,h:0,k:0}}
   ]},
 ];
 
@@ -7568,22 +7578,26 @@ function closeDiag(){el('diagOv').style.display='none';}
 function renderDiagStep(){
   if(S.diagStep>=DIAG_Q.length){computeDiag();return;}
   const q=DIAG_Q[S.diagStep];
+  const qi=q.i18n?.[_lang]||{};
   const pct=S.diagStep/DIAG_Q.length*100;
   el('diagProgFill').style.width=pct+'%';
   el('diagProgTxt').textContent='';
   const nav=el('diagNavSteps');
   if(nav){nav.innerHTML=DIAG_Q.map((dq,i)=>{
     const cls=i<S.diagStep?'done':i===S.diagStep?'active':'';
-    return `<span class="ov-nav-step ${cls}">${dq.emoji} ${dq.cat}</span>`;
+    const cat=(dq.i18n?.[_lang]||dq).cat;
+    return `<span class="ov-nav-step ${cls}">${dq.emoji} ${cat}</span>`;
   }).join('');};
+  const qText=qi.text||q.text;
+  const qHint=qi.hint||q.hint;
   el('diagBody').innerHTML=`
-    <div class="dq-q">${q.text}</div>
-    ${q.hint?`<div class="dq-hint">${q.hint}</div>`:''}
+    <div class="dq-q">${qText}</div>
+    ${qHint?`<div class="dq-hint">${qHint}</div>`:''}
     <div class="dq-opts">
       ${q.opts.map((o,i)=>`
         <div class="dq-opt" id="dls${i}" onclick="selectDiagOpt('${q.id}','${o.k}',this)">
           <span class="dq-key">${o.k}</span>
-          <div><div class="dq-ol">${o.l}</div><div class="dq-od">${o.d}</div></div>
+          <div><div class="dq-ol">${(qi.opts&&qi.opts[i])||o.l}</div><div class="dq-od">${o.d}</div></div>
         </div>`).join('')}
     </div>
     <div class="dq-nav">
