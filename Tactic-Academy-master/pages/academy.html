@@ -5867,7 +5867,7 @@ function completeLesson(id){
         btns+=`<button class="btn-g" onclick="boot('${nextLevel}')">${_T('mbNextLevel')}</button>`;
       }
     }
-    btns+=`<button class="btn-ghost" onclick="switchTab('market')">📊 ${_T('bnMarket')}</button>`;
+    btns+=`<button class="btn-ghost" onclick="switchTab('market')">${_T('bnMarket')}</button>`;
     btns+=`<button class="btn-ghost" onclick="showLessonMap()">↩ ${_T('lessonBack').replace('← ','')}</button>`;
     el('ccBtns').innerHTML=btns;
   }
