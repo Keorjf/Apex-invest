@@ -1166,6 +1166,17 @@ table.assets th.clickable:hover{color:var(--y);}
 }
 .je-annotation strong{color:var(--y);font-style:normal;}
 .j-empty{text-align:center;padding:3rem;color:var(--muted);font-size:.82rem;}
+.je-notes-btn{display:inline-flex;align-items:center;gap:.3rem;background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.28);border-radius:5px;padding:.2rem .55rem;font-size:.63rem;font-weight:700;color:rgba(167,139,250,.85);cursor:pointer;margin-top:.4rem;transition:.15s;font-family:'Nunito',sans-serif;line-height:1.4;}
+.je-notes-btn:hover{background:rgba(167,139,250,.22);color:#c4b5fd;}
+.notes-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:3500;align-items:center;justify-content:center;padding:1.5rem;}
+.notes-ov.show{display:flex;}
+.notes-pop{background:var(--bg1);border:1px solid rgba(167,139,250,.25);border-radius:14px;max-width:480px;width:100%;max-height:78vh;display:flex;flex-direction:column;overflow:hidden;}
+.notes-pop-head{display:flex;align-items:center;justify-content:space-between;padding:.85rem 1.15rem;border-bottom:1px solid var(--ln);}
+.notes-pop-title{font-family:'Bungee',sans-serif;font-size:.78rem;letter-spacing:.04em;color:#fff;}
+.notes-pop-close{background:rgba(255,255,255,.1);border:none;border-radius:50%;width:1.8rem;height:1.8rem;font-size:1.1rem;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.notes-pop-close:hover{background:rgba(255,255,255,.18);}
+.notes-pop-body{overflow-y:auto;padding:.9rem 1.15rem;display:flex;flex-direction:column;gap:.4rem;}
+.notes-item{border-radius:7px;padding:.5rem .8rem;font-size:.8rem;line-height:1.55;color:#F0FBFF;}
 .j-day-sep{font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:.5rem 0 .4rem;margin-top:.4rem;border-bottom:1px solid var(--ln);margin-bottom:.6rem;}
 
 /* MISSIONS TAB */
@@ -2082,6 +2093,17 @@ table.assets th.clickable:hover{color:var(--y);}
     <div class="lsn-detail-pop">
       <button class="lsn-detail-close-x" onclick="closeLsnDetail()">×</button>
       <div class="lsn-detail-body" id="lsnDetailBody"></div>
+    </div>
+  </div>
+
+  <!-- NOTES OVERLAY -->
+  <div class="notes-ov" id="notesOv" onclick="if(event.target===this)closeNotesOv()">
+    <div class="notes-pop">
+      <div class="notes-pop-head">
+        <span class="notes-pop-title" id="notesPopTitle">Notes</span>
+        <button class="notes-pop-close" onclick="closeNotesOv()">×</button>
+      </div>
+      <div class="notes-pop-body" id="notesPopBody"></div>
     </div>
   </div>
 
@@ -7952,6 +7974,22 @@ function _jDisplayNote(j){
 }
 function closeLsnDetail(){el('lsnDetailOv').classList.remove('show');}
 function _lsnReviewAndClose(id){closeLsnDetail();switchTab('learn');setTimeout(()=>openLesson(id),300);}
+function showLessonNotes(lessonId){
+  const notes=(S.highlights&&S.highlights[lessonId])||[];
+  if(!notes.length)return;
+  const allL=Object.values(LESSONS).flatMap(lvl=>lvl.flatMap(t=>t.lessons));
+  const lesson=allL.find(l=>l.id===lessonId);
+  el('notesPopTitle').textContent=lesson?shortLessonTitle(lesson.n):'Notes';
+  const cm={y:'#FFCD0D',g:'#4EC2DA',p:'#FF6B9D'};
+  el('notesPopBody').innerHTML=notes.map(n=>{
+    const bg=n.color?(cm[n.color]||'#fff')+'22':'rgba(255,255,255,.06)';
+    const bd=n.color?(cm[n.color]||'#fff')+'55':'rgba(255,255,255,.12)';
+    const sty=n.fmt==='bold'?'font-weight:700;':n.fmt==='under'?'text-decoration:underline;':'';
+    return `<div class="notes-item" style="background:${bg};border-left:3px solid ${bd};${sty}">${n.text}</div>`;
+  }).join('');
+  el('notesOv').classList.add('show');
+}
+function closeNotesOv(){el('notesOv').classList.remove('show');}
 function openLessonFromJournal(lessonId,jIdx){
   if(!lessonId)return;
   const allLessons=Object.values(LESSONS).flatMap(tracks=>tracks.flatMap(t=>t.lessons));
@@ -8007,6 +8045,8 @@ function renderJournal(){
       :'';
     const displayAsset=_jDisplayAsset(j);
     const displayNote=_jDisplayNote(j);
+    const hlCount=isLsn&&S.highlights&&S.highlights[j.lessonId]?S.highlights[j.lessonId].length:0;
+    const notesBtn=hlCount>0?`<button class="je-notes-btn" onclick="event.stopPropagation();showLessonNotes('${j.lessonId}')">✏ ${hlCount} note${hlCount>1?'s':''}</button>`:'';
     return sep+`<div class="j-entry j-${j.type}" ${dblclick}>
       <div class="je-head">
         <span class="je-side ${j.type}">${icons[j.type]||'•'}</span>
@@ -8014,6 +8054,7 @@ function renderJournal(){
         <span class="je-time">${j.ts||''}</span>
       </div>
       <div class="je-details">${displayNote.replace(/🪙/g,_mkCoin(14))}</div>
+      ${notesBtn}
     </div>`;
   }).join('');
 }
