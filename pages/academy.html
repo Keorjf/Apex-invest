@@ -820,8 +820,17 @@ table.assets th.clickable:hover{color:var(--y);}
 .op-side-pill.sell.active{border-color:rgba(255,59,92,.35);color:var(--r);background:rgba(255,59,92,.08);}
 .op-toggle-arrow{font-size:.7rem;color:var(--muted);transition:transform .25s;}
 .op-toggle-arrow.open{transform:rotate(180deg);}
-.op-body{overflow:hidden;max-height:0;transition:max-height .3s ease,padding .3s ease;padding:0 .8rem;}
-.op-body.open{max-height:400px;padding:.1rem .8rem .8rem;}
+.op-body{overflow:hidden;max-height:0;transition:max-height .35s ease,padding .35s ease;padding:0 .8rem;}
+.op-body.open{max-height:560px;padding:.1rem .8rem .8rem;}
+.sltp-row{margin:.35rem 0 .2rem;}
+.sltp-toggle{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--ln2);border-radius:6px;padding:.38rem .65rem;display:flex;justify-content:space-between;align-items:center;font-size:.68rem;color:var(--muted);cursor:pointer;transition:.15s;font-family:'Nunito',sans-serif;font-weight:700;letter-spacing:.02em;}
+.sltp-toggle:hover,.sltp-toggle.open{background:rgba(255,255,255,.07);color:var(--soft);}
+.sltp-body{display:none;grid-template-columns:1fr 1fr;gap:.45rem;padding:.4rem 0 .15rem;}
+.sltp-body.open{display:grid;}
+.sltp-lbl{font-size:.62rem;font-weight:700;margin-bottom:.22rem;}
+.sltp-lbl.sl{color:rgba(255,59,92,.8);}
+.sltp-lbl.tp{color:rgba(76,175,80,.8);}
+.sltp-hint{font-size:.58rem;color:var(--muted);margin-top:.18rem;}
 .op-title{display:none;}
 .wallet-row{display:flex;align-items:center;justify-content:space-between;padding:.4rem 0;margin-bottom:.5rem;font-size:.7rem;color:var(--muted);}
 .wr-coins{display:flex;align-items:center;gap:.28rem;font-weight:700;color:var(--y);font-family:'JetBrains Mono','Courier New',monospace;font-size:.77rem;}
@@ -2038,6 +2047,24 @@ table.assets th.clickable:hover{color:var(--y);}
             <div class="limit-price-row" id="limitPriceRow">
               <div class="of-lbl" data-i18n="orderLimitPrice">Prix limite cible</div>
               <input class="of-input" type="number" id="limitPrice" placeholder="ex: 490.00" step="0.01" oninput="updateOS()">
+            </div>
+            <div class="sltp-row">
+              <button class="sltp-toggle" id="sltpToggle" onclick="toggleSLTP()">
+                <span data-i18n="sltpLabel">Stop Loss / Take Profit</span>
+                <span id="sltpArrow">+</span>
+              </button>
+              <div class="sltp-body" id="sltpBody">
+                <div>
+                  <div class="sltp-lbl sl" data-i18n="sltpSL">Stop Loss</div>
+                  <input class="of-input" type="number" id="slInput" placeholder="—" step="0.01" style="border-color:rgba(255,59,92,.3);">
+                  <div class="sltp-hint" data-i18n="sltpSLHint">Vente auto si prix ↓</div>
+                </div>
+                <div>
+                  <div class="sltp-lbl tp" data-i18n="sltpTP">Take Profit</div>
+                  <input class="of-input" type="number" id="tpInput" placeholder="—" step="0.01" style="border-color:rgba(76,175,80,.3);">
+                  <div class="sltp-hint" data-i18n="sltpTPHint">Vente auto si prix ↑</div>
+                </div>
+              </div>
             </div>
             <div class="os">
               <div class="os-row"><span data-i18n="orderUnitPrice">Prix unitaire</span><span id="osPrice">—</span></div>
@@ -5930,7 +5957,7 @@ function startMarketSim(){
       S.prices[a.id]=p;S.history[a.id].push(p);
       if(S.history[a.id].length>220)S.history[a.id].shift();
     });
-    refreshMarketUI();checkLimitOrders();checkSurvivedCrash();
+    refreshMarketUI();checkLimitOrders();checkSLTP();checkSurvivedCrash();
   }
   window._mktSim=setInterval(tick,1500);refreshMarketUI();
 }
@@ -6501,6 +6528,12 @@ function setPct(pct){
   const inp=el('orderAmt');if(inp){inp.value=Math.floor(S.coins*pct/100);updateOrderSummary();}
 }
 function updateOS(){updateOrderSummary();}
+function toggleSLTP(){
+  const body=el('sltpBody'),tog=el('sltpToggle'),arr=el('sltpArrow');
+  const open=body.classList.toggle('open');
+  tog.classList.toggle('open',open);
+  if(arr)arr.textContent=open?'−':'+';
+}
 function updateOrderSummary(){
   const a=ASSETS.find(x=>x.id===S.selectedAsset);
   const inp=el('orderAmt');if(!a||!inp)return;
@@ -6534,6 +6567,9 @@ function executeOrder(){
     pos.avgPrice=(pos.qty*pos.avgPrice+qty*p)/(pos.qty+qty);pos.qty+=qty;
     S.totalBuys++;S.todayBuys=(S.todayBuys||0)+1;
     if(!S.todayAssets)S.todayAssets=[];if(!S.todayAssets.includes(a.id))S.todayAssets.push(a.id);
+    const _sl=parseFloat(el('slInput')?.value)||null;
+    const _tp=parseFloat(el('tpInput')?.value)||null;
+    if(_sl)pos.sl=_sl; if(_tp)pos.tp=_tp;
     addJournal({type:'buy',emoji:a.emoji,asset:a.name,
       note:`${_T('jBuy')} ${qty.toFixed(4)} × ${fmtP(p)} = ${amt.toFixed(0)} 🪙`});
     showToast('buy','▲',`Achat ${a.emoji} ${a.name}`,`${qty.toFixed(4)} u. · ${amt.toFixed(0)} 🪙`);
@@ -6543,6 +6579,7 @@ function executeOrder(){
     const sq=Math.min(qty,pos.qty);const proceeds=sq*p;const pnl=(p-pos.avgPrice)*sq;
     S.coins+=proceeds-fee;pos.qty-=sq;if(pos.qty<0.00001)pos.qty=0;
     if(pnl>0){S.profitSells++;S.consecProfits++;S.todayProfitSells=(S.todayProfitSells||0)+1;}else{S.consecProfits=0;}
+    if(pos.qty<=0){delete pos.sl;delete pos.tp;}
     addJournal({type:'sell',emoji:a.emoji,asset:a.name,
       note:`${_T('jSell')} ${sq.toFixed(4)} × ${fmtP(p)} — PnL: ${pnl>=0?'+':''}${pnl.toFixed(0)} 🪙`});
     showToast('sell','▼',`Vente ${a.emoji} ${a.name}`,`PnL: ${pnl>=0?'+':''}${pnl.toFixed(0)} 🪙`);
@@ -6576,6 +6613,28 @@ function checkLimitOrders(){
     triggered=true;return false;
   });
   if(triggered){updateWalletUI();renderPositions();renderLimitQueue();checkMissions();saveState();}
+}
+function checkSLTP(){
+  let triggered=false;
+  ASSETS.forEach(a=>{
+    const pos=S.positions[a.id];
+    if(!pos||pos.qty<=0)return;
+    const p=S.prices[a.id];
+    const hitSL=pos.sl&&p<=pos.sl;
+    const hitTP=pos.tp&&p>=pos.tp;
+    if(!hitSL&&!hitTP)return;
+    const type=hitSL?'sl':'tp';
+    const qty=pos.qty,fee=qty*p*0.001;
+    const proceeds=qty*p-fee;
+    const pnl=(p-pos.avgPrice)*qty;
+    S.coins+=proceeds;pos.qty=0;delete pos.sl;delete pos.tp;
+    if(pnl>0){S.profitSells++;S.consecProfits++;S.todayProfitSells=(S.todayProfitSells||0)+1;}else{S.consecProfits=0;}
+    const lbl=type==='sl'?'Stop Loss':'Take Profit';
+    addJournal({type:'sell',emoji:a.emoji,asset:a.name,note:`${lbl} @ ${fmtP(p)} — PnL: ${pnl>=0?'+':''}${pnl.toFixed(0)} 🪙`});
+    showToast(type==='sl'?'sell':'buy',type==='sl'?'🛑':'✅',`${lbl} — ${a.emoji} ${a.name}`,`PnL: ${pnl>=0?'+':''}${pnl.toFixed(0)} 🪙`);
+    triggered=true;
+  });
+  if(triggered){updateWalletUI();renderPositions();checkMissions();saveState();}
 }
 function renderLimitQueue(){
   const e=el('limitQueueList');if(!e)return;
@@ -9554,6 +9613,8 @@ const TRANSLATIONS = {
     dtbCursor:'Curseur', dtbHline:'Ligne horizontale', dtbTline:'Ligne de tendance', dtbRay:'Rayon',
     dtbBuy:'Signal Achat', dtbSell:'Signal Vente', dtbFib:'Fibonacci', dtbErase:'Effacer', dtbClear:'Tout effacer',
     indMa:'Moy. Mobile', indBb:'Bollinger', indRsi:'RSI 14', indMacd:'MACD', indClear:'Tout supprimer',
+    sltpLabel:'Stop Loss / Take Profit', sltpSL:'Stop Loss', sltpTP:'Take Profit',
+    sltpSLHint:'Vente auto si prix ↓', sltpTPHint:'Vente auto si prix ↑',
   },
   en: {
     tabLearn:'YOUR PATH', tabMarket:'MARKET ROOM', tabMissions:"TODAY'S MISSIONS",
@@ -9649,6 +9710,8 @@ const TRANSLATIONS = {
     dtbCursor:'Cursor', dtbHline:'Horizontal line', dtbTline:'Trend line', dtbRay:'Ray',
     dtbBuy:'Buy signal', dtbSell:'Sell signal', dtbFib:'Fibonacci', dtbErase:'Erase', dtbClear:'Clear all',
     indMa:'Moving Avg', indBb:'Bollinger', indRsi:'RSI 14', indMacd:'MACD', indClear:'Remove all',
+    sltpLabel:'Stop Loss / Take Profit', sltpSL:'Stop Loss', sltpTP:'Take Profit',
+    sltpSLHint:'Auto-sell if price ↓', sltpTPHint:'Auto-sell if price ↑',
   },
   es: {
     tabLearn:'TU RUTA', tabMarket:'SALA DE MERCADOS', tabMissions:'MISIONES DEL DÍA',
@@ -9744,6 +9807,8 @@ const TRANSLATIONS = {
     dtbCursor:'Cursor', dtbHline:'Línea horizontal', dtbTline:'Línea de tendencia', dtbRay:'Rayo',
     dtbBuy:'Señal Compra', dtbSell:'Señal Venta', dtbFib:'Fibonacci', dtbErase:'Borrar', dtbClear:'Borrar todo',
     indMa:'Media Móvil', indBb:'Bollinger', indRsi:'RSI 14', indMacd:'MACD', indClear:'Eliminar todo',
+    sltpLabel:'Stop Loss / Take Profit', sltpSL:'Stop Loss', sltpTP:'Take Profit',
+    sltpSLHint:'Venta auto si precio ↓', sltpTPHint:'Venta auto si precio ↑',
   }
 };
 
